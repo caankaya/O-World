@@ -1,11 +1,12 @@
 'use client';
+
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   dropDown,
   setCurrentWidth,
   togglerSideBar,
 } from '@/GlobalRedux/store/reducers/home';
-import SideBar from './SideBar';
+
 
 const NavBar = () => {
   const dispatch = useAppDispatch();

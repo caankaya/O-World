@@ -1,11 +1,14 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
 
 function WorldMap() {
   const chartRef = useRef(null);
   const [countryName, setCountryName] = useState<string>('');
+  const worldWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   useEffect(() => {
     const width = 800;
@@ -88,19 +91,17 @@ function WorldMap() {
   }, []);
 
   return (
-    <div ref={chartRef}>
-      <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
-        {countryName || 'Hover over a country'}
-      </h1>
-      <h2 className="text-center text-2xl font-bold">
-        {countryName || 'Hover over a country'}
-      </h2>
+    <div className={`items-center p-4 grid justify-center ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: worldWidth } : {}}>
+      <div ref={chartRef}>
+        <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
+          {countryName || 'Hover over a country'}
+        </h1>
+        <h2 className="text-center text-2xl font-bold">
+          {countryName || 'Hover over a country'}
+        </h2>
+      </div>
     </div>
   );
 }
 
 export default WorldMap;
-
-// <div className="p-4 z-[1]">
-
-// </div>
