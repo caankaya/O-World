@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'AlienFont';
+    src: url('../fonts/TheCalling.ttf') format('truetype');
+  }
+  
+  .alien-font {
+    font-family: 'AlienFont', sans-serif;
+  }
+
+  .shadow-neon {
+    text-shadow: 0 0 5px #0ff, 0 0 20px #0ff, 0 0 40px #0ff, 0 0 80px #0ff;
+  }
