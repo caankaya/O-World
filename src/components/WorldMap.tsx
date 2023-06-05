@@ -7,12 +7,14 @@ import { useAppDispatch } from '@/GlobalRedux/hooks';
 function WorldMap() {
   const chartRef = useRef(null);
   const dispatch = useAppDispatch();
-  localStorage.clear();
 
   useEffect(() => {
     const width = 800;
     const height = 800;
 
+    if (localStorage) {
+      localStorage.clear();
+    }
     const projection = d3
       .geoOrthographic()
       .scale(350)
@@ -97,4 +99,3 @@ function WorldMap() {
 }
 
 export default WorldMap;
-

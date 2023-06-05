@@ -1,12 +1,29 @@
+'use client';
+
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { togglerSideBar } from '@/GlobalRedux/store/reducers/home';
+import { useEffect, useRef } from 'react';
 
 function SideBar() {
+  const sideBarRef = useRef<HTMLElement>(null);
+  const dispatch = useAppDispatch();
+  const sideBar = useAppSelector((state) => state.home.sideBar);
 
+  useEffect(() => {
+    if (sideBarRef.current) {
+      if (sideBar) {
+        sideBarRef.current.classList.add('sm:translate-x-0');
+      } else {
+        sideBarRef.current.classList.remove('sm:translate-x-0');
+      }
+    }
+  }, [sideBar]);
 
   return (
     <div className="SideBar">
       <aside
         id="logo-sidebar"
-      
+        ref={sideBarRef}
         className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
@@ -68,7 +85,7 @@ function SideBar() {
       <button
         type="button"
         className="Button block bg-[#f0f] text-white ml-80"
-      
+        onClick={() => dispatch(togglerSideBar(!sideBar))}
       >
         Button
       </button>
