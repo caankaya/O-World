@@ -1,8 +1,12 @@
+
 function SideBar() {
+
+
   return (
     <div className="SideBar">
       <aside
         id="logo-sidebar"
+      
         className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
         aria-label="Sidebar"
       >
@@ -16,11 +20,7 @@ function SideBar() {
             <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
               O World
             </span>
-
           </a>
-            <button type="button" className="Button bg-[#fff] text-black ml-10">
-              Button
-            </button>
           <ul className="space-y-2 font-medium">
             <li>
               <a
@@ -65,6 +65,13 @@ function SideBar() {
           </ul>
         </div>
       </aside>
+      <button
+        type="button"
+        className="Button block bg-[#f0f] text-white ml-80"
+      
+      >
+        Button
+      </button>
     </div>
   );
 }
