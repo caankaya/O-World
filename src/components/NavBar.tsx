@@ -5,6 +5,7 @@ import {
   setCurrentWidth,
   togglerSideBar,
 } from '@/GlobalRedux/store/reducers/home';
+import SideBar from './SideBar';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const NavBar = () => {
   }
 
   return (
-    <header className="Header flex justify-end">
+    <header className={`Header flex ${isSideBarOpen && 'justify-end'}`}>
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between`}
         style={{ width: navBarWidth }}
