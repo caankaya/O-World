@@ -1,24 +1,22 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { togglerSideBar } from '@/GlobalRedux/store/reducers/home';
-import { useEffect, useRef } from 'react';
+import {  useAppSelector } from '@/GlobalRedux/hooks';
+
 
 function SideBar() {
-  const sideBarRef = useRef<HTMLElement>(null);
-  const divElement = useRef<HTMLElement>(null);
-  const dispatch = useAppDispatch();
   const sideBar = useAppSelector((state) => state.home.sideBar);
 
   return (
     <div className="SideBar">
       <aside
         id="logo-sidebar"
-        ref={sideBarRef}
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full"
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${sideBar && "sm:translate-x-0"}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div
+          className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
+       
+        >
           <a href="/world" className="flex items-center pl-2.5 mb-5">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
