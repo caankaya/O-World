@@ -6,25 +6,16 @@ import { useEffect, useRef } from 'react';
 
 function SideBar() {
   const sideBarRef = useRef<HTMLElement>(null);
+  const divElement = useRef<HTMLElement>(null);
   const dispatch = useAppDispatch();
   const sideBar = useAppSelector((state) => state.home.sideBar);
-
-  useEffect(() => {
-    if (sideBarRef.current) {
-      if (sideBar) {
-        sideBarRef.current.classList.add('sm:translate-x-0');
-      } else {
-        sideBarRef.current.classList.remove('sm:translate-x-0');
-      }
-    }
-  }, [sideBar]);
 
   return (
     <div className="SideBar">
       <aside
         id="logo-sidebar"
         ref={sideBarRef}
-        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+        className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full"
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
@@ -82,13 +73,6 @@ function SideBar() {
           </ul>
         </div>
       </aside>
-      <button
-        type="button"
-        className="Button block bg-[#f0f] text-white ml-80"
-        onClick={() => dispatch(togglerSideBar(!sideBar))}
-      >
-        Button
-      </button>
     </div>
   );
 }
