@@ -6,8 +6,8 @@ import WorldMap from '@/components/WorldMap';
 export default function Home() {
   return (
     <main className="min-h-screen m-auto">
-      <SideBar />
       <NavBar />
+      <SideBar />
       <WorldMap />
       <Footer />
     </main>

@@ -3,19 +3,20 @@ import { createAction, createReducer } from '@reduxjs/toolkit';
 interface HomeState {
   sideBar: boolean;
   dropDown: boolean;
-  navWidth: string
+  currentWidth: string
+
 }
 
 const initialState: HomeState = {
   sideBar: true,
   dropDown: false,
-  navWidth: "calc(100% - 256px)"
+  currentWidth: "calc(100% - 256px)",
 };
 
 // Actions
 export const togglerSideBar = createAction<boolean>('SideBar/toggle');
 export const dropDown = createAction<boolean>('Profil/dropDown');
-export const setNavWidth = createAction<string>('NavBar/setNavWidth');
+export const setCurrentWidth = createAction<string>('NavBar/setNavWidth');
 
 const homeReducer = createReducer(initialState, (builder) => {
   builder
@@ -25,8 +26,8 @@ const homeReducer = createReducer(initialState, (builder) => {
     .addCase(dropDown, (state) => {
       state.dropDown = !state.dropDown;
     })
-    .addCase(setNavWidth, (state, action) => {
-      state.navWidth = action.payload;
+    .addCase(setCurrentWidth, (state, action) => {
+      state.currentWidth = action.payload;
     });
 });
 

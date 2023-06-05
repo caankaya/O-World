@@ -1,15 +1,16 @@
 'use client';
-
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { dropDown, setNavWidth, togglerSideBar } from '@/GlobalRedux/store/reducers/home';
-import { useState } from 'react';
+import {
+  dropDown,
+  setCurrentWidth,
+  togglerSideBar,
+} from '@/GlobalRedux/store/reducers/home';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const navWidth = useAppSelector(state => state.home.navWidth)
-
+  const navBarWidth = useAppSelector((state) => state.home.currentWidth);
 
   function toggleDropdown() {
     dispatch(dropDown(!isDropDownMenuOpen));
@@ -17,13 +18,15 @@ const NavBar = () => {
 
   function toggleSideBar() {
     dispatch(togglerSideBar(!isSideBarOpen));
-    dispatch(setNavWidth(isSideBarOpen ? "100%" : "calc(100% - 256px)" ));
+    dispatch(setCurrentWidth(isSideBarOpen ? '100%' : 'calc(100% - 256px)'));
   }
 
   return (
-    <div className="Header flex justify-end">
-      <nav className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between`} style={{ width: navWidth }}>
-
+    <header className="Header flex justify-end">
+      <nav
+        className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between`}
+        style={{ width: navBarWidth }}
+      >
         <div className="flex mx-4">
           <button className="btn btn-square btn-ghost" onClick={toggleSideBar}>
             <img src="/ufo-svgrepo-com.svg" alt="ovni-icon" />
@@ -35,7 +38,9 @@ const NavBar = () => {
             placeholder="Search..."
             className="input input-bordered input-primary input-sm w-full max-w-sm"
           />
-          <button className="mx-4 btn btn-outline btn-primary btn-sm">OK</button>
+          <button className="mx-4 btn btn-outline btn-primary btn-sm">
+            OK
+          </button>
         </div>
         <div className="flex justify-center w-full">
           <p className="alien-font shadow-neon text-[22px] tracking-[0.5em]">
@@ -80,7 +85,7 @@ const NavBar = () => {
           </div>
         </div>
       </nav>
-    </div>
+    </header>
   );
 };
 
