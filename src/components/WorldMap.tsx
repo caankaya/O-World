@@ -1,20 +1,16 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
-import { useAppDispatch } from '@/GlobalRedux/hooks';
 
-function WorldMap() {
-  const chartRef = useRef(null);
-  const dispatch = useAppDispatch();
+function WorldTemperatureMap() {
+  const ref = useRef<SVGSVGElement>(null);
+  const [countryName, setCountryName] = useState<string>('');
 
   useEffect(() => {
-    const width = 800;
-    const height = 800;
+    const width = 800,
+      height = 800;
 
-    if (localStorage) {
-      localStorage.clear();
-    }
     const projection = d3
       .geoOrthographic()
       .scale(350)
@@ -24,78 +20,84 @@ function WorldMap() {
       .rotate([0, 0, 0]);
 
     const path = d3.geoPath().projection(projection);
+
     const svg = d3
-      .select(chartRef.current)
-      .append('svg')
-      .attr('id', 'world')
+      .select(ref.current)
       .attr('width', width)
       .attr('height', height);
 
+    // Append all meridians and parallels
     const graticule = d3.geoGraticule();
     svg
       .append('path')
-      .datum(graticule())
+      .datum(graticule)
       .attr('class', 'graticule')
       .attr('d', path);
 
-    d3.json('/world-countries.json').then((collection: any) => {
-      const countries = svg
-        .selectAll('path.country') // Sélectionner les balises <path> avec la classe 'country'
-        .data(collection.features)
+    d3.json('/world-countries.json').then(function (collection: any) {
+      svg
+        .selectAll('path')
+        .data(
+          collection.features.sort((a: any, b: any) =>
+            a.properties.name.localeCompare(b.properties.name)
+          )
+        )
         .enter()
-        .append('a') // Ajouter la balise <a> autour de chaque balise <path>
-        //.attr('href', (d: any) => `#`) // Définir l'attribut href pour le lien
-        .attr('href', (d: any) => `world/${d.id}`) // Définir l'attribut href pour le lien
+        .append('a')
+        .attr(
+          'xlink:href',
+          (d: any) => 'https://www.google.com/search?q=' + d.properties.name
+        )
         .append('path')
-        .attr('d', (d: any) => path(d))
+        .attr('d', (d: any) => path(d) as string)
         .attr('class', 'country')
         .attr('id', (d: any) => d.id)
-        .on('click', (event, d) => {
-          const clickedPath = d3.select(event.currentTarget);
-          const clickedPathD = clickedPath.attr('d');
-          localStorage.setItem('path', clickedPathD);
+        .attr('fill', 'white')
+        .on('mouseover', function (event: any, d: any) {
+          d3.select(this).style('fill', '#0ff');
+          setCountryName(d.properties.name); // Update the state here
+        })
+        .on('mouseout', function (event: any, d: any) {
+          d3.select(this).style('fill', '');
+          setCountryName(''); // Clear the state here
         });
-
-      d3.csv('/world-temperature.csv').then((data: any) => {
-        const quantile = d3
-          .scaleQuantile<number>()
-          .domain([
-            d3.min(data, (e: any) => parseFloat(e.temperature)!),
-            d3.max(data, (e: any) => parseFloat(e.temperature)!),
-          ])
-          .range(d3.range(60).map((d: any) => parseFloat(d)));
-
-        // LEGENDE INSERERE ICI LE CODE
-        data.forEach((e: any) => {
-          d3.select('#' + e.country).attr(
-            'class',
-            (d: any) => 'country temperature-' + quantile(+e.temperature)
-          );
-        });
-      });
     });
 
     const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
+
     const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
-    const drag = d3
+
+    var drag = d3
       .drag()
-      .subject(() => {
-        const r = projection.rotate();
+      .subject(function () {
+        var r = projection.rotate();
         return {
           x: lambda.invert(r[0]),
           y: phi.invert(r[1]),
         };
       })
-      .on('drag', (event) => {
+      .on('drag', function (event: any) {
         projection.rotate([lambda(event.x), phi(event.y)]);
-        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d: any) => path(d));
+
+        svg.selectAll('.graticule').datum(graticule).attr('d', path);
+
+        svg.selectAll('.country').attr('d', (d: any) => path(d) as string);
       });
 
     svg.call(drag as any);
   }, []);
 
-  return <div ref={chartRef} />;
+  return (
+    <div className="p-4 z-[1]">
+      <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
+        {countryName || 'Hover over a country'}
+      </h1>
+      <h2 className="text-center text-2xl font-bold">
+        {countryName || 'Hover over a country'}
+      </h2>
+      <svg className="world m-auto" ref={ref}></svg>
+    </div>
+  );
 }
 
-export default WorldMap;
+export default WorldTemperatureMap;
