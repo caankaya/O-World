@@ -41,23 +41,23 @@ const NavBar = () => {
             placeholder="Search..."
             className="alien-font input input-bordered input-primary input-sm w-full max-w-sm bg-transparent"
           />
-          <button className="mx-4 btn btn-outline btn-primary btn-sm">
+          <button className="alien-font mx-4 btn btn-outline btn-primary btn-sm">
             OK
           </button>
         </div>
-        <div className="flex justify-center w-full">
+        <div className="flex-auto w-full">
           <AnimatedText />
         </div>
         <div className="flex-none">
-          <div className="avatar m-2">
+          <div className="avatar online m-2">
             <div
-              className="w-10 rounded-full ring ring-primary cursor-pointer"
+              className="w-12 rounded-full cursor-pointer"
               onClick={() => {
                 toggleDropdown();
               }}
             >
               <img
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src="/alien-svgrepo-com.svg"
                 alt="profil-picture"
               />
             </div>
