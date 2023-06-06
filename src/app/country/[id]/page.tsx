@@ -41,6 +41,7 @@ function Country({ params }: CountryProps) {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}`
         );
+        console.log('data :', data);
         dispatch(setCountryData(data));
       } catch (error) {
         console.log('Data :', error);
@@ -51,23 +52,39 @@ function Country({ params }: CountryProps) {
   }, [params.id]);
 
   return (
-    <div className={`Country-${params.id}`}>
+    <React.Fragment>
       <NavBar />
       <SideBar category={category} />
-      <div
-        className={`Country-${params.id}-container`}
-        style={isSideBarOpen ? { width: currentWidth, float: 'right' } : {}}
-      >
-        {data && (
-          <React.Fragment key={data.name.common}>
-            <h1 className={`Country-${params.id}-title text-center text-5xl`}>
-              {data.name.common}
-            </h1>
-          </React.Fragment>
-        )}
+      <div className={`Country-${params.id} ml-5`}>
+        <div
+          className={`Country-${params.id}-container`}
+          style={isSideBarOpen ? { width: currentWidth, float: 'right' } : {}}
+        >
+          {data && (
+            <React.Fragment key={data.name.common}>
+              <h1
+                className={`Country-${params.id}-title text-4xl font-bold mb-1 text-primary`}
+              >
+                {data.name.common}
+              </h1>
+              <div className="card w-96 bg-base-100 shadow-xl">
+                <figure>
+                  <img src={data.flags.svg} alt={data.flags.alt} />
+                </figure>
+                <div className="card-body">
+                  <h2 className="card-title">{data.name.official}</h2>
+                  <p>Region : {data.region}</p>
+                  <p>Subregion : {data.subregion}</p>
+                  <p>Area : {data.area} km²</p>
+                  <p>Population : {data.population}</p>
+                </div>
+              </div>
+            </React.Fragment>
+          )}
+        </div>
       </div>
       <Footer />
-    </div>
+    </React.Fragment>
   );
 }
 
