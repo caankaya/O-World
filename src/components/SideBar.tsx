@@ -1,11 +1,13 @@
 'use client';
-
-import { SidebarProps } from '@/@types';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
-function SideBar({ countryData }: SidebarProps) {
+interface SideBarProps {
+  category: any;
+}
+
+function SideBar({ category }: SideBarProps) {
   const sideBar = useAppSelector((state) => state.home.sideBar);
-  console.log('countrData :', countryData);
+
   return (
     <div className="SideBar z-[1]">
       <aside
@@ -27,11 +29,11 @@ function SideBar({ countryData }: SidebarProps) {
             </span>
           </a>
           <ul className="space-y-2 font-medium">
-            {countryData &&
-              Object.entries(countryData).map(([key]) => (
+            {category &&
+              Object.entries(category).map(([key]) => (
                 <li key={key}>
                   <a
-                    href={`/country/${countryData.country.id}/category/${key}`}
+                    href={`/country/${category.country.id}/category/${key}`}
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <span className="flex-1 ml-3 whitespace-nowrap">

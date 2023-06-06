@@ -1,8 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { setCountryData } from '@/GlobalRedux/store/reducers/country';
+import {
+  setCountryCategory,
+  setCountryData,
+} from '@/GlobalRedux/store/reducers/country';
 
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
@@ -13,34 +16,56 @@ interface CountryProps {
   params: {
     id: string;
   };
-  searchParams: {
-    [key: string]: string | string[] | undefined;
-  };
 }
 
 function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
-  const countryData = useAppSelector((state) => state.country.data);
+  const currentWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const category = useAppSelector((state) => state.country.category);
+  const data = useAppSelector((state) => state.country.data);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchCategory = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}/category`
         );
-        dispatch(setCountryData(data));
+        dispatch(setCountryCategory(data));
       } catch (error) {
-        console.log('Axios:', error);
+        console.log('Category:', error);
       }
     };
-
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://localhost:3000/api/oworld/${params.id}`
+        );
+        dispatch(setCountryData(data));
+      } catch (error) {
+        console.log('Data :', error);
+      }
+    };
+    fetchCategory();
     fetchData();
   }, [params.id]);
 
   return (
     <div className={`Country-${params.id}`}>
       <NavBar />
-      <SideBar countryData={countryData} />
+      <SideBar category={category} />
+      <div
+        className={`Country-${params.id}-container`}
+        style={isSideBarOpen ? { width: currentWidth, float: 'right' } : {}}
+      >
+        {data && (
+          <React.Fragment key={data.name.common}>
+            <h1 className={`Country-${params.id}-title text-center text-5xl`}>
+              {data.name.common}
+            </h1>
+          </React.Fragment>
+        )}
+      </div>
       <Footer />
     </div>
   );

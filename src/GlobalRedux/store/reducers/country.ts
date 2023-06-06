@@ -1,20 +1,31 @@
-import { CountriesProps } from '../../../@types/index';
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '../../../@types/countryData';
 import { createReducer, createAction } from '@reduxjs/toolkit';
 
 interface CountryState {
-  data: CountriesProps[];
+  category: CountryCategories[];
+  data: CountriesDataProps | null;
 }
 
 const initialState: CountryState = {
-  data: [],
+  category: [],
+  data: null,
 };
-
-export const setCountryData = createAction<CountriesProps[]>('country/Data');
+export const setCountryCategory = createAction<CountryCategories[]>(
+  'country/categoryData'
+);
+export const setCountryData = createAction<CountriesDataProps>(
+  'country/countryData'
+);
 
 const countryReducer = createReducer(initialState, (builder) => {
-  builder.addCase(setCountryData, (state, action) => {
-    state.data = action.payload;
-  });
+  builder
+    .addCase(setCountryCategory, (state, action) => {
+      state.category = action.payload;
+    })
+    .addCase(setCountryData, (state, action) => {
+      state.data = action.payload;
+    });
 });
 
 export default countryReducer;
