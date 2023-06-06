@@ -1,6 +1,5 @@
 'use client';
-
-import {  useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppSelector } from '@/GlobalRedux/hooks';
 
 
 function SideBar() {
@@ -10,13 +9,12 @@ function SideBar() {
     <div className="SideBar z-[1]">
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${sideBar && "sm:translate-x-0"}`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${
+          sideBar && 'sm:translate-x-0'
+        }`}
         aria-label="Sidebar"
       >
-        <div
-          className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800"
-       
-        >
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <a href="/world" className="flex items-center pl-2.5 mb-5">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
