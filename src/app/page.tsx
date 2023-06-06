@@ -1,5 +1,4 @@
 import Footer from '@/components/Footer';
-import LoginModal from '@/components/LoginModal';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
@@ -10,7 +9,6 @@ export default function Home() {
     <main className="min-h-screen m-auto">
       <NavBar />
       <SideBar />
-      <LoginModal />
       <WorldMap />
       <Footer />
       <StarsCanvas />
