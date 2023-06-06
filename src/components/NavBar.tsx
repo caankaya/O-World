@@ -4,16 +4,24 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   dropDown,
   setCurrentWidth,
+  togglerLoginModal,
+  togglerRegisterModal,
   togglerSideBar,
 } from '@/GlobalRedux/store/reducers/home';
 import AnimatedText from '../utils/motion';
 
+import LoginModal from './LoginModal';
+import RegisterModal from './RegisterModal';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const navBarWidth = useAppSelector((state) => state.home.currentWidth);
+  const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
+  const isRegisterModalOpen = useAppSelector(
+    (state) => state.home.registerModal
+  );
 
   function toggleDropdown() {
     dispatch(dropDown(!isDropDownMenuOpen));
@@ -22,6 +30,14 @@ const NavBar = () => {
   function toggleSideBar() {
     dispatch(togglerSideBar(!isSideBarOpen));
     dispatch(setCurrentWidth(isSideBarOpen ? '100%' : 'calc(100% - 256px)'));
+  }
+
+  function toggleLoginModal() {
+    dispatch(togglerLoginModal(!isLoginModalOpen));
+  }
+
+  function toggleRegisterModal() {
+    dispatch(togglerRegisterModal(!isRegisterModalOpen));
   }
 
   return (
@@ -63,18 +79,21 @@ const NavBar = () => {
             </div>
             {isDropDownMenuOpen && (
               <div className="absolute right-0 w-48 mt-16 py-2 bg-neutral rounded-lg shadow-xl">
-                <a
-                  href="#"
+                <button
                   className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
+                  onClick={toggleLoginModal}
                 >
-                  Option 1
-                </a>
-                <a
-                  href="#"
+                  Login
+                </button>
+                <LoginModal />
+                <button
                   className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
+                  onClick={toggleRegisterModal}
                 >
-                  Option 2
-                </a>
+                  Register
+                </button>
+                <RegisterModal />
+
                 <a
                   href="#"
                   className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
