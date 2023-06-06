@@ -91,7 +91,7 @@ function WorldMap() {
   }, []);
 
   return (
-    <div className={`z-[0] items-center p-4 grid justify-center ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: worldWidth } : {}}>
+    <div className={`z-[1] items-center p-4 grid justify-center ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: worldWidth } : {}}>
       <div ref={chartRef}>
         <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
           {countryName || 'Hover over a country'}

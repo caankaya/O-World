@@ -9,9 +9,9 @@ const Footer = () => {
 
   return (
     <footer
-      className={`footer items-center p-4 bg-transparent text-neutral-content grid justify-between ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: footerWidth } : {}}
+      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: footerWidth } : {}}
     >
-      <div className="items-start grid-flow-col">
+      <div className="items-start grid-flow-col cursor-pointer">
         <p className="text-[16px]">About</p>
       </div>
 

@@ -39,7 +39,7 @@ const NavBar = () => {
           <input
             type="text"
             placeholder="Search..."
-            className="input input-bordered input-primary input-sm w-full max-w-sm"
+            className="alien-font input input-bordered input-primary input-sm w-full max-w-sm bg-transparent"
           />
           <button className="mx-4 btn btn-outline btn-primary btn-sm">
             OK
