@@ -63,5 +63,5 @@ export interface Car {
 }
 
 export interface SidebarProps {
-  countryData: CountriesProps[];
+  countryData: CountriesProps[] | any;
 }

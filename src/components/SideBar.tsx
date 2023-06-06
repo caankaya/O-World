@@ -5,8 +5,7 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 
 function SideBar({ countryData }: SidebarProps) {
   const sideBar = useAppSelector((state) => state.home.sideBar);
-  console.log('countryData :', countryData);
-
+  console.log('countrData :', countryData);
   return (
     <div className="SideBar z-[1]">
       <aside
@@ -32,10 +31,12 @@ function SideBar({ countryData }: SidebarProps) {
               Object.entries(countryData).map(([key]) => (
                 <li key={key}>
                   <a
-                    href="#"
+                    href={`/country/${countryData.country.id}/category/${key}`}
                     className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    <span className="flex-1 ml-3 whitespace-nowrap">{key}</span>
+                    <span className="flex-1 ml-3 whitespace-nowrap">
+                      {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
+                    </span>
                   </a>
                 </li>
               ))}
