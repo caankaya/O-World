@@ -22,7 +22,7 @@ function LoginModal() {
     <dialog open={isLoginModalOpen} className="modal z-[1]">
       <form
         method="dialog"
-        className="modal-box space-y-4 md:space-y-6 bg-primary-content/75"
+        className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
         action="#"
       >
         <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
