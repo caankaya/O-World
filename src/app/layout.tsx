@@ -1,0 +1,33 @@
+import Head from 'next/head'
+import { Inter } from 'next/font/google'
+import Providers from '@/GlobalRedux/store/provider'
+
+import '../styles/globals.css'
+import '../styles/alien-font.css'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'OWorld - Datas of Planet Earth',
+  description: 'Data of planet earth',
+
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </Head>
+      <body className={inter.className}>
+        <Providers>{children}</Providers>
+        </body>
+    </html>
+  )
+}
