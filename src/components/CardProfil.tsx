@@ -1,16 +1,8 @@
 import { motion } from 'framer-motion';
 import { fadeIn } from '../utils/motion';
-import PropTypes from 'prop-types';
+import CardProfilProps from '@/@types/CardsTypes';
 
-interface CardProfilProps {
-  id: number,
-  imgUrl: string,
-  title: string,
-  role: string,
-  index: number,
-  active: string,
-  handleClick: (id: string) => void,
-}
+
 
 const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, title, role, index, active, handleClick }) => (
   <motion.div
