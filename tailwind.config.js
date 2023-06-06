@@ -30,23 +30,28 @@ module.exports = {
 };
 
 /* Palette de couleur du theme "night" de daisyUI :
-primary : #7f5af0
-primary-focus : #5433FF
-primary-content : #ffffff
-secondary : #f4976c
-secondary-focus : #fb743e
-secondary-content : #ffffff
-accent : #37cdbe
-accent-focus : #2aa79b
-accent-content : #ffffff
-neutral : #3a3f4b
-neutral-focus : #28292d
-neutral-content : #a9a9a9
-base-100 : #ffffff
-base-200 : #f9fafb
-base-300 : #d1d5db
-base-content : #1f2937
-info : #2094f3
-success : #009485
-warning : #ff9900
-error : #ff5724 */
+primary : #3abff8
+primary-focus : #18b4f7
+primary-content : #182730
+secondary : #828df8
+secondary-focus : #606ff6
+secondary-content : #1e1e2f
+accent : #f471b5
+accent-focus : #f250a3
+accent-content : #301c26
+neutral : #1d282a
+neutral-focus : #273449
+neutral-content : #ced0d4
+base-100 : #0f1729
+base-200 : #05080f
+base-300 : #000000
+base-content : #c8cad0
+info : #0ca6e9
+info-content: #daecfb
+success : #2bd4bd
+success-content : #172b28
+warning : #f4c152
+warning-content : #312817
+error : #fb6f84
+error-content : #311c1e */
+
