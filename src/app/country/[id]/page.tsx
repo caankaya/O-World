@@ -1,11 +1,13 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { setCountryData } from '@/GlobalRedux/store/reducers/country';
+
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import axios from 'axios';
-import { useAppSelector } from '@/GlobalRedux/hooks';
 
 interface CountryProps {
   params: {
@@ -17,15 +19,18 @@ interface CountryProps {
 }
 
 function Country({ params }: CountryProps) {
+  const dispatch = useAppDispatch();
+  const countryData = useAppSelector((state) => state.country.data);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}/category`
         );
-        return data;
+        dispatch(setCountryData(data));
       } catch (error) {
-        console.log('Axios :', error);
+        console.log('Axios:', error);
       }
     };
 
@@ -35,7 +40,7 @@ function Country({ params }: CountryProps) {
   return (
     <div className={`Country-${params.id}`}>
       <NavBar />
-      <SideBar />
+      <SideBar countryData={countryData} />
       <Footer />
     </div>
   );

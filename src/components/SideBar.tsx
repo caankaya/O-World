@@ -1,9 +1,11 @@
 'use client';
+
+import { SidebarProps } from '@/@types';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
-
-function SideBar() {
+function SideBar({ countryData }: SidebarProps) {
   const sideBar = useAppSelector((state) => state.home.sideBar);
+  console.log('countryData :', countryData);
 
   return (
     <div className="SideBar z-[1]">
@@ -15,7 +17,7 @@ function SideBar() {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-          <a href="/world" className="flex items-center pl-2.5 mb-5">
+          <a href="/" className="flex items-center pl-2.5 mb-5">
             <img
               src="https://flowbite.com/docs/images/logo.svg"
               className="h-6 mr-3 sm:h-7"
@@ -26,46 +28,17 @@ function SideBar() {
             </span>
           </a>
           <ul className="space-y-2 font-medium">
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Catégorie 1
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Catégorie 2
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Catégorie 3
-                </span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <span className="flex-1 ml-3 whitespace-nowrap">
-                  Catégorie 4
-                </span>
-              </a>
-            </li>
+            {countryData &&
+              Object.entries(countryData).map(([key]) => (
+                <li key={key}>
+                  <a
+                    href="#"
+                    className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  >
+                    <span className="flex-1 ml-3 whitespace-nowrap">{key}</span>
+                  </a>
+                </li>
+              ))}
           </ul>
         </div>
       </aside>

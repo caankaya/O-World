@@ -1,24 +1,19 @@
 import { CountriesProps } from '../../../@types/index';
-import {
-  createReducer,
-  createAsyncThunk,
-  createAction,
-} from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createReducer, createAction } from '@reduxjs/toolkit';
 
 interface CountryState {
-  countries: CountriesProps[];
+  data: CountriesProps[];
 }
 
 const initialState: CountryState = {
-  countries: [],
+  data: [],
 };
 
 export const setCountryData = createAction<CountriesProps[]>('country/Data');
 
 const countryReducer = createReducer(initialState, (builder) => {
   builder.addCase(setCountryData, (state, action) => {
-    state.countries = action.payload;
+    state.data = action.payload;
   });
 });
 

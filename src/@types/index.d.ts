@@ -1,4 +1,4 @@
-export interface Root {
+export interface CountriesProps {
   flags: Flags;
   coatOfArms: CoatOfArms;
   name: Name;
@@ -60,4 +60,8 @@ export interface Maps {
 export interface Car {
   signs: string[];
   side: string;
+}
+
+export interface SidebarProps {
+  countryData: CountriesProps[];
 }
