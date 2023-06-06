@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
+import StarsCanvas from '@/components/Stars';
 import WorldMap from '@/components/WorldMap';
 
 export default function Home() {
@@ -10,6 +11,7 @@ export default function Home() {
       <SideBar />
       <WorldMap />
       <Footer />
+      <StarsCanvas />
     </main>
   );
 }

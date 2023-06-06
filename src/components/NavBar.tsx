@@ -6,6 +6,7 @@ import {
   setCurrentWidth,
   togglerSideBar,
 } from '@/GlobalRedux/store/reducers/home';
+import AnimatedText from '../utils/motion';
 
 
 const NavBar = () => {
@@ -45,9 +46,7 @@ const NavBar = () => {
           </button>
         </div>
         <div className="flex justify-center w-full">
-          <p className="alien-font shadow-neon text-[22px] tracking-[0.5em]">
-            texte anime extraterrestre
-          </p>
+          <AnimatedText />
         </div>
         <div className="flex-none">
           <div className="avatar m-2">
