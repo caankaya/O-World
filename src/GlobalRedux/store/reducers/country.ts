@@ -1,5 +1,9 @@
 import { CountriesProps } from '../../../@types/index';
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 interface CountryState {
@@ -10,8 +14,12 @@ const initialState: CountryState = {
   countries: [],
 };
 
+export const setCountryData = createAction<CountriesProps[]>('country/Data');
+
 const countryReducer = createReducer(initialState, (builder) => {
-  builder;
+  builder.addCase(setCountryData, (state, action) => {
+    state.countries = action.payload;
+  });
 });
 
 export default countryReducer;
