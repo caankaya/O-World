@@ -21,7 +21,7 @@ function RegisterModal() {
   }
 
   return (
-    <dialog open={isRegisterModalOpen} className="modal">
+    <dialog open={isRegisterModalOpen} className="modal z-[2]">
       <form
         method="dialog"
         className="modal-box space-y-4 md:space-y-6"

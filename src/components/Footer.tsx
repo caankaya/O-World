@@ -12,7 +12,7 @@ const Footer = () => {
       className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: footerWidth } : {}}
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <p className="text-[16px]">About</p>
+        <a href="/about" className="text-[16px]">About</a>
       </div>
 
       <div className="items-center grid-flow-col text-center">

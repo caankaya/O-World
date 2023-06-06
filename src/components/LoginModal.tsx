@@ -19,7 +19,7 @@ function LoginModal() {
   }
 
   return (
-    <dialog open={isLoginModalOpen} className="modal">
+    <dialog open={isLoginModalOpen} className="modal z-[2]">
       <form
         method="dialog"
         className="modal-box space-y-4 md:space-y-6"
