@@ -62,7 +62,7 @@ const NavBar = () => {
           </button>
         </div>
         <div className="flex-auto w-full">
-          <AnimatedText />
+          <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
         </div>
         <div className="flex-none">
           <div className="avatar online m-2">

@@ -15,7 +15,7 @@ const Footer = () => {
       style={isSideBarOpen ? { width: footerWidth } : {}}
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <p className="text-[16px]">About</p>
+        <a href="/about" className="text-[16px]">About</a>
       </div>
 
       <div className="items-center grid-flow-col text-center">
@@ -25,7 +25,7 @@ const Footer = () => {
       </div>
 
       <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <a className="cursor-pointer">
+        <a href="https://github.com/O-clock-Starship/projet-05-o-world-front" target="_blank" className="cursor-pointer">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 50 50"

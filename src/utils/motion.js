@@ -1,7 +1,7 @@
 import { motion, useAnimation } from "framer-motion"; // npm i framer-motion
 import { useEffect, useState } from "react";
 
-const text = "dolor sit amet consectetur adipisicing elit"; 
+const text = "dolor sit amet consectetur"; 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Nous créons une chaîne de caractères qui contient tous les caractères que nous voulons utiliser pour animer le texte.
 
 const TextLetter = ({ children }) => {
@@ -39,7 +39,7 @@ const TextLetter = ({ children }) => {
   );
 };
 
-const AnimatedText = () => { 
+const AnimatedText = ({ text }) => { 
   return (
     <div className="">
       {Array.from(text).map((letter, i) => (
@@ -52,3 +52,24 @@ const AnimatedText = () => {
 };
 
 export default AnimatedText;
+
+
+// Effet d'animation de fondu :
+export const fadeIn = (direction, type, delay, duration) => ({
+  hidden: {
+    x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
+    y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,
+    opacity: 0,
+  },
+  show: {
+    x: 0,
+    y: 0,
+    opacity: 1,
+    transition: {
+      type,
+      delay,
+      duration,
+      ease: 'easeOut',
+    },
+  },
+});

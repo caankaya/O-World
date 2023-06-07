@@ -1,9 +1,20 @@
-import React from 'react'
+import About from '@/components/About';
+import Footer from '@/components/Footer';
+import LoginModal from '@/components/LoginModal';
+import NavBar from '@/components/NavBar';
+import SideBar from '@/components/SideBar';
+import StarsCanvas from '@/components/Stars';
+import { Stars } from '@react-three/drei';
 
-const page = () => {
+export default function Page() {
   return (
-    <div>Page About</div>
-  )
+    <>
+      <NavBar />
+      <SideBar />
+      <LoginModal />
+      <About />
+      <StarsCanvas />
+      <Footer />
+    </>
+  );
 }
-
-export default page
