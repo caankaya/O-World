@@ -1,36 +1,30 @@
-import { CountriesProps } from '../../../@types/index';
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '../../../@types/countryData';
+import { createReducer, createAction } from '@reduxjs/toolkit';
 
 interface CountryState {
-  countries: CountriesProps[];
+  category: CountryCategories[];
+  data: CountriesDataProps | null;
 }
 
 const initialState: CountryState = {
-  countries: [],
+  category: [],
+  data: null,
 };
-
-export const fetchCountries = createAsyncThunk(
-  ' fetchCountries', // nom de l'action
-  async () => {
-    const response = await axios.get('http://localhost:3001/');
-    return response.data;
-  }
+export const setCountryCategory = createAction<CountryCategories[]>(
+  'country/categoryData'
+);
+export const setCountryData = createAction<CountriesDataProps>(
+  'country/countryData'
 );
 
 const countryReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchCountries.pending, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
+    .addCase(setCountryCategory, (state, action) => {
+      state.category = action.payload;
     })
-    .addCase(fetchCountries.fulfilled, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
-    })
-    .addCase(fetchCountries.rejected, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
+    .addCase(setCountryData, (state, action) => {
+      state.data = action.payload;
     });
 });
 
