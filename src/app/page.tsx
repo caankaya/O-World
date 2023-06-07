@@ -11,7 +11,7 @@ export default function Home() {
       <SideBar />
       <WorldMap />
       <Footer />
-      <StarsCanvas />
+      {/* <StarsCanvas /> */}
     </main>
   );
 }
