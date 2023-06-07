@@ -26,9 +26,7 @@ function RegisterModal() {
   return (
     <dialog
       open={isRegisterModalOpen}
-      className={`modal z-[1] p-4 flex items-center justify-center gap-16 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
+      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: RegisterModalWidth } : {}}
     >
       <form

@@ -24,9 +24,7 @@ function LoginModal() {
   return (
     <dialog
       open={isLoginModalOpen}
-      className={`modal z-[1] p-4 flex items-center justify-center gap-16 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
+      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: LoginModalWidth } : {}}
     >
       <form
