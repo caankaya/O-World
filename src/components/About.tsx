@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
 import CardProfil from './CardProfil';
+import AnimatedText from '@/utils/motion';
 
 const About = () => {
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);
@@ -40,7 +41,8 @@ const About = () => {
     <section className={`p-4 flex flex-col items-center justify-center  ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: aboutWidth } : {}}>
       <div className="container">
         <div className="xl:max-w-4xl mx-auto text-center">
-          <h1 className="mb-4 text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">TEAM</h1>
+          <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">TEAM</h1>
+          <AnimatedText text="TEAM" />
           <p className="text-lg md:text-xl text-white font-medium">Meet the aliens who made this possible</p>
         </div>
           <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
