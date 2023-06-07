@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+
 import CardProfil from './CardProfil';
 
-
 const About = () => {
+  const aboutWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [active, setActive] = useState('1');
   const infos = [
       {
@@ -34,8 +37,9 @@ const About = () => {
   ];
 
   return (
-    <section className="container px-4 mx-auto">
-        <div className="xl:max-w-4xl mb-12 mx-auto text-center">
+    <section className={`p-4 flex flex-col items-center justify-center  ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: aboutWidth } : {}}>
+      <div className="container">
+        <div className="xl:max-w-4xl mx-auto text-center">
           <h1 className="mb-4 text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">TEAM</h1>
           <p className="text-lg md:text-xl text-white font-medium">Meet the aliens who made this possible</p>
         </div>
@@ -50,6 +54,7 @@ const About = () => {
               />
             ))}
           </div>
+      </div>
     </section>
   );
 };

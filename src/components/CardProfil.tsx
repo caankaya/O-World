@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { fadeIn } from '../utils/motion';
-import CardProfilProps from '@/@types/CardsTypes';
-
+import CardProfilProps from '@/@types/cardsTypes';
 
 
 const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, title, role, index, active, handleClick }) => (
