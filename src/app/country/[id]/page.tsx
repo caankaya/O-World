@@ -41,7 +41,6 @@ function Country({ params }: CountryProps) {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}`
         );
-        console.log('data :', data);
         dispatch(setCountryData(data));
       } catch (error) {
         console.log('Data :', error);
@@ -54,7 +53,8 @@ function Country({ params }: CountryProps) {
   return (
     <React.Fragment>
       <NavBar />
-      <SideBar category={category} />
+      <SideBar category={category} data={data} />
+
       <div className={`Country-${params.id} ml-5`}>
         <div
           className={`Country-${params.id}-container`}

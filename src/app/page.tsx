@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="min-h-screen m-auto">
       <NavBar />
-      <SideBar />
+      <SideBar category={undefined} data={undefined} />
       <WorldMap />
       <Footer />
       <StarsCanvas />
