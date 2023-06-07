@@ -44,7 +44,7 @@ const NavBar = () => {
     <header className={`Header flex ${isSideBarOpen && 'justify-end'}`}>
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between`}
-        style={{ width: navBarWidth }}
+        style={isSideBarOpen ? { width: navBarWidth } : {}}
       >
         <div className="flex mx-4">
           <button className="btn btn-square btn-ghost" onClick={toggleSideBar}>

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   setCountryCategory,
@@ -11,6 +11,8 @@ import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import axios from 'axios';
+import { RingLoader } from 'react-spinners';
+import { openSideBar, setLoading } from '@/GlobalRedux/store/reducers/home';
 
 interface CountryProps {
   params: {
@@ -24,18 +26,23 @@ function Country({ params }: CountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const category = useAppSelector((state) => state.country.category);
   const data = useAppSelector((state) => state.country.data);
+  const loading = useAppSelector((state) => state.home.spinner);
+  const override = useAppSelector((state) => state.home.override);
 
   useEffect(() => {
     const fetchCategory = async () => {
+      dispatch(openSideBar(true));
       try {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}/category`
         );
         dispatch(setCountryCategory(data));
+        dispatch(setLoading(false));
       } catch (error) {
         console.log('Category:', error);
       }
     };
+
     const fetchData = async () => {
       try {
         const { data } = await axios.get(
@@ -60,6 +67,16 @@ function Country({ params }: CountryProps) {
           className={`Country-${params.id}-container`}
           style={isSideBarOpen ? { width: currentWidth, float: 'right' } : {}}
         >
+          {loading && (
+            <RingLoader
+              color={'#3abff8'}
+              loading={loading}
+              cssOverride={override}
+              size={150}
+              aria-label="Ring Loader"
+              data-testid="Loader"
+            />
+          )}
           {data && (
             <React.Fragment key={data.name.common}>
               <h1

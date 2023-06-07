@@ -18,7 +18,7 @@ function SideBar({ category, data }: SideBarProps) {
         }`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-primary-content">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="flex items-center pl-2.5 mb-5">
             <img
@@ -33,6 +33,7 @@ function SideBar({ category, data }: SideBarProps) {
           {/*Fin LOGO ET TITRE */}
 
           {/* Debut de catégories pour le monde */}
+
           {!category && !data && (
             <ul className="space-y-2 font-medium mt-10">
               <li className="mb-10">
@@ -49,6 +50,12 @@ function SideBar({ category, data }: SideBarProps) {
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
                 Categories
               </span>
+              <a
+                href={`/`}
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Home
+              </a>
               <a
                 href={`/`}
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -81,7 +88,7 @@ function SideBar({ category, data }: SideBarProps) {
               </a>
               <a
                 href={`/`}
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 gap-2"
               >
                 Population
               </a>
@@ -112,6 +119,14 @@ function SideBar({ category, data }: SideBarProps) {
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block mb-5">
                 Categories
               </span>
+              <li>
+                <a
+                  href={`/`}
+                  className="flex items-center ml-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                >
+                  Home
+                </a>
+              </li>
               {Object.entries(category).map(([key]) => (
                 <li key={key}>
                   <a

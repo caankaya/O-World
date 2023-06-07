@@ -1,5 +1,4 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
-import { create } from 'domain';
 
 interface HomeState {
   sideBar: boolean;
@@ -7,14 +6,24 @@ interface HomeState {
   currentWidth: string;
   loginModal: boolean;
   registerModal: boolean;
+  override: {
+    display: string;
+    margin: string;
+  };
+  spinner: boolean;
 }
 
 const initialState: HomeState = {
-  sideBar: true,
+  sideBar: false,
   dropDown: false,
   currentWidth: 'calc(100% - 256px)',
   loginModal: false,
   registerModal: false,
+  override: {
+    display: 'block',
+    margin: '20rem auto',
+  },
+  spinner: true,
 };
 
 // Actions
@@ -26,6 +35,11 @@ export const togglerRegisterModal = createAction<boolean>(
   'RegisterModal/toggle'
 );
 export const changeAuthModals = createAction<boolean>('AuthModals/change');
+export const changeStyle = createAction<{ display: string; margin: string }>(
+  'style/Change'
+);
+export const setLoading = createAction<boolean>('Loading/spinner');
+export const openSideBar = createAction<boolean>('SiderBar/open');
 
 const homeReducer = createReducer(initialState, (builder) => {
   builder
@@ -35,18 +49,27 @@ const homeReducer = createReducer(initialState, (builder) => {
     .addCase(dropDown, (state) => {
       state.dropDown = !state.dropDown;
     })
-    .addCase(setCurrentWidth, (state, action) => {
-      state.currentWidth = action.payload;
-    })
     .addCase(togglerLoginModal, (state) => {
       state.loginModal = !state.loginModal;
     })
     .addCase(togglerRegisterModal, (state) => {
       state.registerModal = !state.registerModal;
     })
+    .addCase(setCurrentWidth, (state, action) => {
+      state.currentWidth = action.payload;
+    })
     .addCase(changeAuthModals, (state) => {
       state.loginModal = !state.loginModal;
       state.registerModal = !state.registerModal;
+    })
+    .addCase(changeStyle, (state, action) => {
+      state.override = action.payload;
+    })
+    .addCase(setLoading, (state, action) => {
+      state.spinner = action.payload;
+    })
+    .addCase(openSideBar, (state, action) => {
+      state.sideBar = action.payload;
     });
 });
 
