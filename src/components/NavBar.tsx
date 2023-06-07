@@ -72,34 +72,26 @@ const NavBar = () => {
                 toggleDropdown();
               }}
             >
-              <img
-                src="/alien-svgrepo-com.svg"
-                alt="profil-picture"
-              />
+              <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
             </div>
             {isDropDownMenuOpen && (
-              <div className="absolute right-0 w-48 mt-16 py-2 bg-neutral rounded-lg shadow-xl">
-                <button
-                  className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
-                  onClick={toggleLoginModal}
-                >
-                  Login
-                </button>
-                <LoginModal />
-                <button
-                  className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
-                  onClick={toggleRegisterModal}
-                >
-                  Register
-                </button>
-                <RegisterModal />
-
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-primary hover:bg-indigo-500 hover:text-white"
-                >
-                  Option 3
-                </a>
+              <div className="absolute right-0 top-16">
+                <div className="bg-primary-content/50 shadow-xl flex flex-col rounded-lg">
+                  <button
+                    className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
+                    onClick={toggleLoginModal}
+                  >
+                    LOGIN
+                  </button>
+                  <LoginModal />
+                  <button
+                    className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
+                    onClick={toggleRegisterModal}
+                  >
+                    REGISTER
+                  </button>
+                  <RegisterModal />
+                </div>
               </div>
             )}
           </div>
