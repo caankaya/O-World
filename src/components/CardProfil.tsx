@@ -3,7 +3,7 @@ import { fadeIn } from '../utils/motion';
 import CardProfilProps from '@/@types/cardsTypes';
 
 
-const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, title, role, index, active, handleClick }) => (
+const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, activeImgUrl, title, role, index, active, handleClick }) => (
   <motion.div
     variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
     className={`relative ${
@@ -12,12 +12,12 @@ const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, title, role, index,
     onClick={() => handleClick(id.toString())}
   >
     <img
-      src={imgUrl}
+      src={active === id.toString() ? activeImgUrl : imgUrl}
       alt={title}
       className="absolute w-full h-full object-cover rounded-[24px]"
     />
     {active !== id.toString() ? (
-      <h3 className="font-semibold sm:text-[26px] text-[18px] text-white absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
+      <h3 className="font-semibold sm:text-[26px] text-[22px] text-black absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
         {title}
       </h3>
     ) : (
