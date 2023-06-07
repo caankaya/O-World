@@ -10,7 +10,7 @@ export default function Page() {
   return (
     <>
       <NavBar />
-      <SideBar />
+      <SideBar category={undefined} />
       <LoginModal />
       <About />
       <StarsCanvas />
