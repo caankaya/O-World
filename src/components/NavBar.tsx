@@ -41,9 +41,9 @@ const NavBar = () => {
   }
 
   return (
-    <header className={`Header flex ${isSideBarOpen && 'justify-end'}`}>
+    <header className={`Header flex ${isSideBarOpen ? 'justify-end' : 'w-full'}`}>
       <nav
-        className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between`}
+        className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
         style={{ width: navBarWidth }}
       >
         <div className="flex mx-4">
@@ -51,17 +51,7 @@ const NavBar = () => {
             <img src="/ufo-svgrepo-com.svg" alt="ovni-icon" />
           </button>
         </div>
-        <div className="flex-auto">
-          <input
-            type="text"
-            placeholder="Search..."
-            className="alien-font input input-bordered input-primary input-sm w-full max-w-sm bg-transparent"
-          />
-          <button className="alien-font mx-4 btn btn-outline btn-primary btn-sm">
-            OK
-          </button>
-        </div>
-        <div className="flex-auto w-full">
+        <div className="hidden md:block w-full text-center">
           <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
         </div>
         <div className="flex-none">

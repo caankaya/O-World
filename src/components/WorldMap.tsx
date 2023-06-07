@@ -93,11 +93,16 @@ function WorldMap() {
   return (
     <div className={`z-[1] items-center p-4 grid justify-center ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: worldWidth } : {}}>
       <div ref={chartRef}>
+        <input
+            type="text"
+            placeholder="Search..."
+            className="alien-font input input-bordered input-primary input-sm w-full max-w-sm bg-transparent"
+          />
         <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
-          {countryName || 'Hover over a country'}
+          {countryName || 'Click on a country'}
         </h1>
         <h2 className="text-center text-2xl font-bold">
-          {countryName || 'Hover over a country'}
+          {countryName || 'Click on a country'}
         </h2>
       </div>
     </div>
