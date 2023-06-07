@@ -1,7 +1,7 @@
 import { motion, useAnimation } from "framer-motion"; // npm i framer-motion
 import { useEffect, useState } from "react";
 
-const text = "dolor sit amet consectetur adipisicing elit"; 
+const text = "dolor sit amet consectetur"; 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Nous créons une chaîne de caractères qui contient tous les caractères que nous voulons utiliser pour animer le texte.
 
 const TextLetter = ({ children }) => {
@@ -39,7 +39,7 @@ const TextLetter = ({ children }) => {
   );
 };
 
-const AnimatedText = () => { 
+const AnimatedText = ({ text }) => { 
   return (
     <div className="">
       {Array.from(text).map((letter, i) => (
