@@ -3,12 +3,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import countryReducer from './reducers/country';
 import worldReducer from './reducers/world';
 import homeReducer from './reducers/home';
+import userReducer from './reducers/user';
 
 const store = configureStore({
   reducer: {
     world: worldReducer,
     country: countryReducer,
     home: homeReducer,
+    user: userReducer,
   },
 });
 

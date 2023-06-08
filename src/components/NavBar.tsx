@@ -81,6 +81,9 @@ const NavBar = () => {
                     REGISTER
                   </button>
                   <RegisterModal />
+                  <button className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg">
+                    <a href="/profile">PROFILE</a>
+                  </button>
                 </div>
               </div>
             )}

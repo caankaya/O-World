@@ -7,6 +7,9 @@ import {
 } from '@/GlobalRedux/store/reducers/home';
 
 function RegisterModal() {
+  const RegisterModalWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+
   const dispatch = useAppDispatch();
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
@@ -21,7 +24,11 @@ function RegisterModal() {
   }
 
   return (
-    <dialog open={isRegisterModalOpen} className="modal z-[1]">
+    <dialog
+      open={isRegisterModalOpen}
+      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+      style={isSideBarOpen ? { width: RegisterModalWidth } : {}}
+    >
       <form
         method="dialog"
         className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
@@ -60,6 +67,40 @@ function RegisterModal() {
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             placeholder="name@company.com"
             required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="countries"
+            className="block mb-2 text-sm font-medium text-white"
+          >
+            Country
+          </label>
+          <select
+            id="countries"
+            className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
+          >
+            <option selected>Choose countries</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="FR">France</option>
+            <option value="DE">Germany</option>
+          </select>
+        </div>
+        <div>
+          <label
+            htmlFor="date"
+            className="block mb-2 text-sm font-medium text-white"
+          >
+            Birth date
+          </label>
+          <input
+            type="date"
+            id="date"
+            className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
+            defaultValue=""
+            min="1920-01-01"
+            max=""
           />
         </div>
         <div>
