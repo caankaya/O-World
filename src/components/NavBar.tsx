@@ -63,7 +63,7 @@ const NavBar = () => {
           <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
         </div>
         <div className="flex-none">
-          <div className="avatar online m-2">
+          <div className={user ? `avatar m-2 online` : 'avatar m-2 offline'}>
             <div
               className="w-12 rounded-full cursor-pointer"
               onClick={() => {
