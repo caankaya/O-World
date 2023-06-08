@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import { DataRow } from '@/@types/statsAdmin';
 import axios from 'axios';
 
 function Admin() {
@@ -9,10 +10,10 @@ function Admin() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   // Définir l'état pour stocker les données récupérées
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<DataRow[]>([]);
 
   // Introduire de nouvelles variables d'état pour la pagination
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
   // Effectuer la requête API lors de la première montée du composant
@@ -46,7 +47,7 @@ function Admin() {
   const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
 
   // Gérer le changement de page
-  const handlePageChange = (pageNumber) => {
+  const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
 
@@ -121,14 +122,19 @@ function Admin() {
                       </button>
                     </li>
                     <li>
+                      {/* permet à l'utilisateur de revenir à la page précédente dans la pagination */}
+                      {/* si currentPage est supérieur à 1, il décrémente sa valeur de 1, sinon il la maintient à 1. Cela empêche de revenir avant la première page. */} 
+                      {/* désactive le bouton si currentPage est égal à 1, car dans ce cas, l'utilisateur est déjà sur la première page et ne doit pas pouvoir revenir en arrière. */} 
                       <button
                         className="px-3 py-1 mx-1 rounded border bg-neutral-focus"
-                        onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)}
+                        onClick={() => setCurrentPage(currentPage > 1 ? currentPage - 1 : 1)} 
                         disabled={currentPage === 1}
                       >
                         {"<"}
                       </button>
                     </li>
+                      {/* crée un tableau de la taille de totalPages */}
+                      {/* change la page actuelle en utilisant la fonction handlePageChange avec l'index en cours (i + 1) en tant que paramètre */} 
                     {[...Array(totalPages)].map((e, i) => (
                       <li key={i}>
                         <button
@@ -140,6 +146,9 @@ function Admin() {
                       </li>
                     ))}
                     <li>
+                      {/* permet à l'utilisateur d'avancer à la page suivante dans la pagination. */}
+                      {/* si currentPage est inférieur à totalPages, il incrémente sa valeur de 1, sinon il la maintient à totalPages. Cela empêche d'avancer après la dernière page. */} 
+                      {/* ésactive le bouton si currentPage est égal à totalPages, car dans ce cas, l'utilisateur est déjà sur la dernière page et ne doit pas pouvoir avancer davantage. */} 
                       <button
                         className="px-3 py-1 mx-1 rounded border bg-neutral-focus"
                         onClick={() => setCurrentPage(currentPage < totalPages ? currentPage + 1 : totalPages)}
