@@ -4,6 +4,7 @@ interface HomeState {
   sideBar: boolean;
   dropDown: boolean;
   currentWidth: string;
+  modalWidth: string;
   loginModal: boolean;
   registerModal: boolean;
   override: {
@@ -17,6 +18,7 @@ const initialState: HomeState = {
   sideBar: false,
   dropDown: false,
   currentWidth: 'calc(100% - 256px)',
+  modalWidth: 'calc(100% + 256px)',
   loginModal: false,
   registerModal: false,
   override: {
