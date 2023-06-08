@@ -8,13 +8,13 @@ import { Stars } from '@react-three/drei';
 
 export default function Page() {
   return (
-    <>
+    <div className="About">
       <NavBar />
-      <SideBar />
+      <SideBar category={undefined} data={undefined} />
       <LoginModal />
       <About />
       <StarsCanvas />
       <Footer />
-    </>
+    </div>
   );
 }

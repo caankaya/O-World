@@ -5,10 +5,12 @@ import {
   togglerLoginModal,
   changeAuthModals,
 } from '@/GlobalRedux/store/reducers/home';
+import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
   const dispatch = useAppDispatch();
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
+  const pseudo = useAppSelector((state) => state.user.pseudo);
 
   function toggleLoginModal() {
     dispatch(togglerLoginModal(!isLoginModalOpen));
@@ -18,12 +20,20 @@ function LoginModal() {
     dispatch(changeAuthModals(!isLoginModalOpen));
   }
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formInput = new FormData(form);
+    console.log('formInput :', formInput);
+    dispatch(login(formInput));
+  };
+
   return (
     <dialog open={isLoginModalOpen} className="modal z-[1]">
       <form
-        method="dialog"
+        method="post"
         className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
-        action="#"
+        onSubmit={handleSubmit}
       >
         <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Sign in to your account
@@ -68,7 +78,6 @@ function LoginModal() {
                 aria-describedby="remember"
                 type="checkbox"
                 className="w-4 h-4 border border-white rounded bg-white"
-                required
               />
             </div>
             <div className="ml-3 text-sm">
