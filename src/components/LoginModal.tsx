@@ -8,6 +8,9 @@ import {
 import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
+  const LoginModalWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+
   const dispatch = useAppDispatch();
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const pseudo = useAppSelector((state) => state.user.pseudo);
@@ -29,7 +32,11 @@ function LoginModal() {
   };
 
   return (
-    <dialog open={isLoginModalOpen} className="modal z-[1]">
+    <dialog
+      open={isLoginModalOpen}
+      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+      style={isSideBarOpen ? { width: LoginModalWidth } : {}}
+    >
       <form
         method="post"
         className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
