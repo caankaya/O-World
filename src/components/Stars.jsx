@@ -43,7 +43,7 @@ const Stars = (props) => { // Ceci est le composant principal qui génère les �
 
 const StarsCanvas = () => { // Ceci est le composant principal qui crée la scène 3D. Il utilise le composant Canvas de @react-three/fiber pour créer la scène, et le composant Stars pour créer le nuage de points.
   return (
-    <div className="w-full h-auto absolute inset-0 z-[-1]">
+    <div className="w-full bg-black h-auto absolute inset-0 z-[-1]">
       <Canvas camera={{ position: [0, 0, 1] }}>
         <Suspense fallback={null}>
           <Stars />
