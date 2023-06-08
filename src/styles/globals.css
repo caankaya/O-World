@@ -17,3 +17,6 @@ body{
   stroke-width: 0.5px;
   stroke-opacity: 0.5;
 }
+.offline.m-2::before {
+  background-color: red;
+}

@@ -146,14 +146,17 @@ function SideBar({ category, data }: SideBarProps) {
           {user && (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                User
+                Welcome{' '}
+                {pseudo &&
+                  pseudo.charAt(0).toUpperCase() +
+                    pseudo.slice(1).toLowerCase()}
               </span>
               <li>
                 <a
                   href={`/`}
                   className="flex items-center ml-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  Profil
+                  Profile
                 </a>
               </li>
             </ul>
