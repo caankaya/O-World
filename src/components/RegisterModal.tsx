@@ -148,7 +148,7 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="email"
+            htmlFor="register-email"
             className="block mb-2 text-sm font-medium text-white"
           >
             Email
@@ -156,7 +156,7 @@ function RegisterModal() {
           <input
             type="email"
             name="email"
-            id="email"
+            id="register-email"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             placeholder="name@company.com"
             required
@@ -206,7 +206,7 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="password"
+            htmlFor="register-password"
             className="block mb-2 text-sm font-medium text-white"
           >
             Password
@@ -217,7 +217,7 @@ function RegisterModal() {
           <input
             type="password"
             name="password"
-            id="password"
+            id="register-password"
             placeholder="••••••••"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             required
