@@ -10,8 +10,7 @@ export default function Page() {
   return (
     <>
       <NavBar />
-      <SideBar />
-      <LoginModal />
+      <SideBar category={undefined} data={undefined}  />
       <Admin />
       <Footer />
     </>
