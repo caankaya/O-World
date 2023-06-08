@@ -10,6 +10,7 @@ import {
   changeAuthModals,
 } from '@/GlobalRedux/store/reducers/home';
 import { log } from 'console';
+import { CountryIdentity } from '@/@types/countryIdentity';
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.currentWidth);
@@ -28,7 +29,7 @@ function RegisterModal() {
     dispatch(changeAuthModals(!isRegisterModalOpen));
   }
 
-  const [countries, setCountries] = useState([]);
+  const [countries, setCountries] = useState<CountryIdentity[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
