@@ -1,10 +1,15 @@
 'use client';
 
+import axios from 'axios';
+
+import { useEffect, useState } from 'react';
+
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   togglerRegisterModal,
   changeAuthModals,
 } from '@/GlobalRedux/store/reducers/home';
+import { log } from 'console';
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.currentWidth);
@@ -22,6 +27,30 @@ function RegisterModal() {
   function changeAuthModalsinForm() {
     dispatch(changeAuthModals(!isRegisterModalOpen));
   }
+
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/oworld', {
+          params: {
+            useView: true,
+          },
+          headers: {
+            accept: 'application/json',
+          },
+        });
+        setCountries(response.data);
+        // console.log(response.data);
+      } catch (error) {
+        console.log('Erreur lors de la récupération des données, error');
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  console.log(countries);
 
   return (
     <dialog
@@ -81,10 +110,11 @@ function RegisterModal() {
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
           >
             <option selected>Choose countries</option>
-            <option value="US">United States</option>
-            <option value="CA">Canada</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
+            {countries.map((country) => (
+              <option key={country.id} value={country.id}>
+                {country.name}
+              </option>
+            ))}
           </select>
         </div>
         <div>
