@@ -23,11 +23,7 @@ function SideBar({ category, data }: SideBarProps) {
         <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex flex-col justify-start items-center">
-            <img
-              src="/ooo.png"
-              className="h-20 mr-3"
-              alt="OWorld Logo"
-            />
+            <img src="/ooo.png" className="h-20 mr-3" alt="OWorld Logo" />
             <span className="self-center text-4xl font-semibold whitespace-nowrap">
               OWorld
             </span>
@@ -120,11 +116,7 @@ function SideBar({ category, data }: SideBarProps) {
           )}
           {category && (
             <ul>
-
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-
               <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-5">
-
                 Categories
               </span>
               <li>
