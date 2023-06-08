@@ -10,6 +10,7 @@ import { login } from '@/GlobalRedux/store/reducers/user';
 function LoginModal() {
   const LoginModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const user = useAppSelector((state) => state.user.isLogged);
 
   const dispatch = useAppDispatch();
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);

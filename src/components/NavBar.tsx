@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   dropDown,
   setCurrentWidth,
@@ -12,6 +13,7 @@ import AnimatedText from '../utils/motion';
 
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import React from 'react';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +21,7 @@ const NavBar = () => {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const navBarWidth = useAppSelector((state) => state.home.currentWidth);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
+  const user = useAppSelector((state) => state.user.isLogged);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
@@ -39,9 +42,14 @@ const NavBar = () => {
   function toggleRegisterModal() {
     dispatch(togglerRegisterModal(!isRegisterModalOpen));
   }
+  function handleLogout() {
+    dispatch(logout());
+  }
 
   return (
-    <header className={`Header flex ${isSideBarOpen ? 'justify-end' : 'w-full'}`}>
+    <header
+      className={`Header flex ${isSideBarOpen ? 'justify-end' : 'w-full'}`}
+    >
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
         style={{ width: navBarWidth }}
@@ -67,23 +75,43 @@ const NavBar = () => {
             {isDropDownMenuOpen && (
               <div className="absolute right-0 top-16">
                 <div className="bg-primary-content/50 shadow-xl flex flex-col rounded-lg">
-                  <button
-                    className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
-                    onClick={toggleLoginModal}
-                  >
-                    LOGIN
-                  </button>
-                  <LoginModal />
-                  <button
-                    className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
-                    onClick={toggleRegisterModal}
-                  >
-                    REGISTER
-                  </button>
-                  <RegisterModal />
-                  <button className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg">
-                    <a href="/profile">PROFILE</a>
-                  </button>
+                  {!user && (
+                    <ul>
+                      <li>
+                        <button
+                          className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
+                          onClick={toggleLoginModal}
+                        >
+                          LOGIN
+                        </button>
+                        <LoginModal />
+                      </li>
+                      <li>
+                        <button
+                          className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
+                          onClick={toggleRegisterModal}
+                        >
+                          REGISTER
+                        </button>
+                        <RegisterModal />
+                      </li>
+                    </ul>
+                  )}
+                  {user && (
+                    <ul>
+                      <li>
+                        <button className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg">
+                          <a href="/profile">PROFILE</a>
+                        </button>
+                        <button
+                          onClick={handleLogout}
+                          className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                        >
+                          LOGOUT
+                        </button>
+                      </li>
+                    </ul>
+                  )}
                 </div>
               </div>
             )}

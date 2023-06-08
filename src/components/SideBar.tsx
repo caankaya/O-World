@@ -9,6 +9,7 @@ interface SideBarProps {
 function SideBar({ category, data }: SideBarProps) {
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
+  const pseudo = useAppSelector((state) => state.user.pseudo);
 
   return (
     <div className="SideBar z-[1]">
@@ -34,7 +35,6 @@ function SideBar({ category, data }: SideBarProps) {
           {/*Fin LOGO ET TITRE */}
 
           {/* Debut de catégories pour le monde */}
-
           {!category && !data && (
             <ul className="space-y-2 font-medium mt-10 mb-10">
               <li className="mb-10">
@@ -117,7 +117,7 @@ function SideBar({ category, data }: SideBarProps) {
           )}
           {category && (
             <ul>
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block mb-5">
+              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Categories
               </span>
               <li>
@@ -145,7 +145,7 @@ function SideBar({ category, data }: SideBarProps) {
           {/* Fin de catégories pour un pays */}
           {/* Si Utilisateur est connecté */}
           {user && (
-            <ul>
+            <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 User
               </span>
