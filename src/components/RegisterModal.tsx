@@ -12,7 +12,7 @@ import {
 import { CountryIdentity } from '@/@types/countryIdentity';
 
 function RegisterModal() {
-  const RegisterModalWidth = useAppSelector((state) => state.home.currentWidth);
+  const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
