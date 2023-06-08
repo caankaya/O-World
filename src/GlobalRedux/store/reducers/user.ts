@@ -1,37 +1,43 @@
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
-import axios from 'axios';
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
+import axiosInstance from '../../../utils/axios';
 
 interface UserState {
   pseudo: string | null;
+  message: string;
+  isLogged: boolean;
 }
 
 const initialState: UserState = {
   pseudo: null,
+  isLogged: false,
+  message: '',
 };
 
 export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    const { data } = await axios.post('http://localhost:3000/login', obj);
-    console.log('data :', data);
-    return data;
+    const response = await axiosInstance.post('/api/log/in', obj);
+    console.log('data :', response);
+    return response;
   }
 );
 
+export const logout = createAction('user/logout');
+
 const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(login.pending, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
-    })
     .addCase(login.fulfilled, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
+      // state.pseudo = action.payload.user.username;
+      state.isLogged = true;
     })
-    .addCase(login.rejected, (state, action) => {
-      console.log('state :', state);
-      console.log('action :', action);
+    .addCase(logout, (state) => {
+      state.isLogged = false;
+      state.pseudo = null;
     });
 });
 

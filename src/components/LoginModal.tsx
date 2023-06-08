@@ -8,8 +8,9 @@ import {
 import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
-  const LoginModalWidth = useAppSelector((state) => state.home.currentWidth);
+  const LoginModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const user = useAppSelector((state) => state.user.isLogged);
 
   const dispatch = useAppDispatch();
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
@@ -27,7 +28,6 @@ function LoginModal() {
     event.preventDefault();
     const form = event.currentTarget;
     const formInput = new FormData(form);
-    console.log('formInput :', formInput);
     dispatch(login(formInput));
   };
 
@@ -62,10 +62,7 @@ function LoginModal() {
           />
         </div>
         <div>
-          <label
-            htmlFor="password"
-            className="block mb-2 text-sm font-medium text-white"
-          >
+          <label className="block mb-2 text-sm font-medium text-white">
             Password
           </label>
           <input
@@ -88,9 +85,7 @@ function LoginModal() {
               />
             </div>
             <div className="ml-3 text-sm">
-              <label htmlFor="remember" className="text-white">
-                Remember me
-              </label>
+              <label className="text-white">Remember me</label>
             </div>
           </div>
           <a
