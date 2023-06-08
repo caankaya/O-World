@@ -11,7 +11,6 @@ export default function Page() {
     <>
       <NavBar />
       <SideBar />
-      <LoginModal />
       <About />
       <StarsCanvas />
       <Footer />
