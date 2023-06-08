@@ -38,7 +38,7 @@ export default function Home() {
       )}
       {!loading && <WorldMap />}
       <Footer />
-      {/* <StarsCanvas /> */}
+      <StarsCanvas />
     </main>
   );
 }

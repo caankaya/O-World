@@ -51,7 +51,7 @@ const NavBar = () => {
       className={`Header flex ${isSideBarOpen ? 'justify-end' : 'w-full'}`}
     >
       <nav
-        className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
+        className={`navbar z-[1] bg-transparent flex items-center justify-between w-full`}
         style={{ width: navBarWidth }}
       >
         <div className="flex mx-4">
