@@ -23,11 +23,7 @@ function SideBar({ category, data }: SideBarProps) {
         <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex flex-col justify-start items-center">
-            <img
-              src="/ooo.png"
-              className="h-20 mr-3"
-              alt="OWorld Logo"
-            />
+            <img src="/ooo.png" className="h-20 mr-3" alt="OWorld Logo" />
             <span className="self-center text-4xl font-semibold whitespace-nowrap">
               OWorld
             </span>
