@@ -17,13 +17,13 @@ import React from 'react';
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.isLogged);
+  const navBarWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-  const navBarWidth = useAppSelector((state) => state.home.currentWidth);
 
   return (
     <header
@@ -37,7 +37,7 @@ const NavBar = () => {
           <button
             className="btn btn-square btn-ghost"
             onClick={() => {
-              dispatch(togglerSideBar(!isSideBarOpen));
+              dispatch(togglerSideBar(isSideBarOpen));
             }}
           >
             <img src="/ufo-svgrepo-com.svg" alt="ovni-icon" />
@@ -48,14 +48,14 @@ const NavBar = () => {
         </div>
         <div className="flex-none">
           <div className={user ? `avatar m-2 online` : 'avatar m-2 offline'}>
-            <div
+            <button
               className="w-12 rounded-full cursor-pointer"
               onClick={() => {
-                dispatch(togglerDropDown(!isDropDownMenuOpen));
+                dispatch(togglerDropDown(isDropDownMenuOpen));
               }}
             >
               <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
-            </div>
+            </button>
             {isDropDownMenuOpen && (
               <div className="absolute right-0 top-16">
                 <div className="bg-primary-content/50 shadow-xl flex flex-col rounded-lg">
@@ -65,7 +65,7 @@ const NavBar = () => {
                         <button
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
                           onClick={() => {
-                            dispatch(togglerLoginModal(!isLoginModalOpen));
+                            dispatch(togglerLoginModal(isLoginModalOpen));
                           }}
                         >
                           LOGIN
@@ -76,9 +76,7 @@ const NavBar = () => {
                         <button
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
                           onClick={() => {
-                            dispatch(
-                              togglerRegisterModal(!isRegisterModalOpen)
-                            );
+                            dispatch(togglerRegisterModal(isRegisterModalOpen));
                           }}
                         >
                           REGISTER
@@ -96,7 +94,8 @@ const NavBar = () => {
                         <button
                           onClick={() => {
                             dispatch(logout());
-                            dispatch(togglerDropDown(!isDropDownMenuOpen));
+                            dispatch(togglerDropDown(isDropDownMenuOpen));
+                            dispatch(togglerLoginModal(!isLoginModalOpen));
                           }}
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                         >

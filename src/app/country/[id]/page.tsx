@@ -75,6 +75,7 @@ function Country({ params }: CountryProps) {
         </div>
       </div>
       <RestCountriesInfos countryData={data} />
+
       <StarsCanvas />
       <Footer />
     </React.Fragment>

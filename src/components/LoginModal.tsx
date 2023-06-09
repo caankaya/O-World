@@ -109,7 +109,13 @@ function LoginModal() {
         </p>
       </form>
       <form method="dialog" className="modal-backdrop">
-        <button>close</button>
+        <button
+          onClick={() => {
+            dispatch(togglerLoginModal(isLoginModalOpen));
+          }}
+        >
+          close
+        </button>
       </form>
     </dialog>
   );

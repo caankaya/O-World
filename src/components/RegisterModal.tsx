@@ -7,7 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   togglerRegisterModal,
-  changeAuthModals,
   togglerLoginModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
