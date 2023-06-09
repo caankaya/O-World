@@ -133,6 +133,12 @@ function WorldMap() {
         projection.rotate([-centroid[0], -centroid[1]]);
         svg.selectAll('.graticule').datum(graticule()).attr('d', path);
         svg.selectAll('.country').attr('d', d => path(d));
+
+        // Mettre à jour le nom du pays dans les balises h1 et h2
+        setCountryName(matchedCountry.properties.name);
+      } else {
+        // Si aucun pays ne correspond à la recherche, réinitialiser le nom du pays
+        setCountryName(''); 
       }
     };
 
