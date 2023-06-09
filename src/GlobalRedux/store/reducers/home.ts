@@ -15,7 +15,7 @@ interface HomeState {
 }
 
 const initialState: HomeState = {
-  sideBar: false,
+  sideBar: true,
   dropDown: false,
   currentWidth: 'calc(100% - 256px)',
   modalWidth: 'calc(100% + 256px)',
@@ -23,7 +23,7 @@ const initialState: HomeState = {
   registerModal: false,
   override: {
     display: 'block',
-    margin: '20rem auto',
+    margin: '15rem auto',
   },
   spinner: true,
 };
@@ -41,7 +41,6 @@ export const changeStyle = createAction<{ display: string; margin: string }>(
   'style/Change'
 );
 export const setLoading = createAction<boolean>('Loading/spinner');
-export const openSideBar = createAction<boolean>('SiderBar/open');
 
 const homeReducer = createReducer(initialState, (builder) => {
   builder
@@ -69,9 +68,6 @@ const homeReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setLoading, (state, action) => {
       state.spinner = action.payload;
-    })
-    .addCase(openSideBar, (state, action) => {
-      state.sideBar = action.payload;
     });
 });
 

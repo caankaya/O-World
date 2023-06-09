@@ -12,7 +12,7 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
-import { openSideBar, setLoading } from '@/GlobalRedux/store/reducers/home';
+import { setLoading } from '@/GlobalRedux/store/reducers/home';
 
 interface CountryProps {
   params: {
@@ -31,7 +31,6 @@ function Country({ params }: CountryProps) {
 
   useEffect(() => {
     const fetchCategory = async () => {
-      dispatch(openSideBar(true));
       try {
         const { data } = await axios.get(
           `http://localhost:3000/api/oworld/${params.id}/category`
