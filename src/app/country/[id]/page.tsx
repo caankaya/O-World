@@ -10,9 +10,11 @@ import {
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
+import RestCountriesInfos from '@/components/RestCountriesInfos';
 import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
+import StarsCanvas from '@/components/Stars';
 
 interface CountryProps {
   params: {
@@ -62,10 +64,7 @@ function Country({ params }: CountryProps) {
       <SideBar category={category} data={data} />
 
       <div className={`Country-${params.id} ml-5`}>
-        <div
-          className={`Country-${params.id}-container`}
-          style={isSideBarOpen ? { width: currentWidth, float: 'right' } : {}}
-        >
+        <div className={`Country-${params.id}-container`} >
           {loading && (
             <RingLoader
               color={'#3abff8'}
@@ -76,29 +75,10 @@ function Country({ params }: CountryProps) {
               data-testid="Loader"
             />
           )}
-          {data && (
-            <React.Fragment key={data.name.common}>
-              <h1
-                className={`Country-${params.id}-title text-4xl font-bold mb-1 text-primary`}
-              >
-                {data.name.common}
-              </h1>
-              <div className="card w-96 bg-base-100 shadow-xl">
-                <figure>
-                  <img src={data.flags.svg} alt={data.flags.alt} />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{data.name.official}</h2>
-                  <p>Region : {data.region}</p>
-                  <p>Subregion : {data.subregion}</p>
-                  <p>Area : {data.area} km²</p>
-                  <p>Population : {data.population}</p>
-                </div>
-              </div>
-            </React.Fragment>
-          )}
+          <RestCountriesInfos />
         </div>
       </div>
+      <StarsCanvas />
       <Footer />
     </React.Fragment>
   );
