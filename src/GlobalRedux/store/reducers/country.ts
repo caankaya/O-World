@@ -11,6 +11,7 @@ const initialState: CountryState = {
   category: [],
   data: null,
 };
+
 export const setCountryCategory = createAction<CountryCategories[]>(
   'country/categoryData'
 );
