@@ -1,6 +1,8 @@
 import React from 'react';
 
-function DashboardStats() {
+function DashboardStats({ category, data }) {
+  console.log('category :', category);
+  console.log('data :', data);
   return (
     <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
       <div className="stats shadow">
@@ -22,7 +24,9 @@ function DashboardStats() {
               ></path>
             </svg>
           </div>
-          <div className="stat-title dark:text-slate-300">New Users</div>
+          <div className="stat-title dark:text-slate-300">
+            {data.population}
+          </div>
           <div className="stat-value dark:text-slate-300 text-primary">
             34.7k
           </div>

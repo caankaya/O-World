@@ -76,7 +76,7 @@ function Country({ params }: CountryProps) {
         </div>
       </div>
       {/* <RestCountriesInfos countryData={data} /> */}
-      <DetailCountry />
+      <DetailCountry category={category} data={data} />
 
       <StarsCanvas />
       <Footer />
