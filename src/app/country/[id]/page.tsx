@@ -15,6 +15,7 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
+import DetailCountry from '@/components/Country/DetailCountry';
 
 interface CountryProps {
   params: {
@@ -74,7 +75,8 @@ function Country({ params }: CountryProps) {
           )}
         </div>
       </div>
-      <RestCountriesInfos countryData={data} />
+      {/* <RestCountriesInfos countryData={data} /> */}
+      <DetailCountry />
 
       <StarsCanvas />
       <Footer />
