@@ -17,16 +17,33 @@ function UserFavorites() {
       try {
         const response = await axios.get(
           //TODO Dynamisation with userId when log persist
-          `http://localhost:3000/api/user/10`,
+          `http://localhost:3000/api/user/5`,
           {
             headers: {
               accept: 'application/json',
             },
           }
         );
-        // console.log(response.data[0].favorite_countries);
-        setFavoritesCountries(response.data[0].favorite_countries);
         // console.log(response.data);
+
+        //Transforming the format of data received from the API
+        const transformedData = response.data[0].favorite_countries.map(
+          (country) => {
+            const [fullName, cca3, dateTime] = country.split(', ');
+            const name = fullName.split(', ')[0];
+            const [date, time] = dateTime.split(' ');
+
+            return {
+              fullName,
+              name,
+              cca3,
+              date,
+              time,
+            };
+          }
+        );
+
+        setFavoritesCountries(transformedData);
       } catch (error) {
         console.log('Data recovery error', error);
       }
@@ -52,7 +69,7 @@ function UserFavorites() {
   }, []);
 
   console.log(favoritesCountries);
-  console.log(flags);
+  // console.log(flags);
 
   const handleViewCountries = () => {
     setIsViewAll(!isViewAll);
@@ -61,6 +78,11 @@ function UserFavorites() {
       return;
     }
     setDisplayedCountries(8);
+  };
+
+  const findFlagUrl = (flags, cca3) => {
+    const flagData = flags.find((flag) => flag.cca3 === cca3);
+    return flagData ? flagData.flags.png : '';
   };
 
   return (
@@ -91,23 +113,26 @@ function UserFavorites() {
       <div className="flow-root">
         <ul role="list" className="divide-y divide-primary">
           {favoritesCountries.slice(0, displayedCountries).map((country) => {
+            const flagUrl = findFlagUrl(flags, country.cca3);
             return (
               <li className="py-3 sm:py-4">
-                <div className="flex items-center space-x-4">
-                  <div className="flex-shrink-0">
-                    <img
-                      className="w-8 h-8 rounded-full"
-                      src=""
-                      alt="Country flag"
-                    />
+                <a href={`/country/${country.cca3}`}>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src={flagUrl}
+                        alt="Country flag"
+                      />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.name}</p>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.date}</p>
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-white">{country}</p>
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-white">mm/jj/yyyy</p>
-                  </div>
-                </div>
+                </a>
               </li>
             );
           })}
