@@ -6,17 +6,22 @@ import {
 import axiosInstance from '../../../utils/axios';
 
 interface UserState {
-  pseudo: string | null;
-  message: string;
+  isLoading: boolean;
   isLogged: boolean;
+  username: string | null;
+  message: string;
+  id: number | null;
 }
 
 const initialState: UserState = {
-  pseudo: null,
+  isLoading: false,
   isLogged: false,
+  username: null,
   message: '',
+  id: null,
 };
 
+// Actions asynchrones
 export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
@@ -27,17 +32,28 @@ export const login = createAsyncThunk(
   }
 );
 
+// Actions synchrones
 export const logout = createAction('user/logout');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
+    .addCase(login.pending, (state, action) => {
+      state.isLoading = true;
+    })
     .addCase(login.fulfilled, (state, action) => {
-      state.pseudo = action.payload.user.username;
+      state.isLoading = false;
       state.isLogged = true;
+      state.username = action.payload.user.username;
+      state.id = action.payload.user.id;
+      state.message = action.payload.message;
+    })
+    .addCase(login.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isLogged = false;
     })
     .addCase(logout, (state) => {
       state.isLogged = false;
-      state.pseudo = null;
+      state.username = null;
     });
 });
 
