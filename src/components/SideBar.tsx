@@ -120,11 +120,7 @@ function SideBar({ category, data }: SideBarProps) {
           )}
           {category && (
             <ul>
-
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-
               <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-5">
-
                 Categories
               </span>
               <li>
@@ -154,17 +150,14 @@ function SideBar({ category, data }: SideBarProps) {
           {user && (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                Welcome{' '}
-                {pseudo &&
-                  pseudo.charAt(0).toUpperCase() +
-                    pseudo.slice(1).toLowerCase()}
+                User
               </span>
               <li>
                 <a
                   href={`/`}
                   className="flex items-center ml-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  Profile
+                  Profil
                 </a>
               </li>
             </ul>

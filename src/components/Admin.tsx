@@ -14,7 +14,7 @@ function Admin() {
 
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 8;
 
   // Effectuer la requête API lors de la première montée du composant
   useEffect(() => {
