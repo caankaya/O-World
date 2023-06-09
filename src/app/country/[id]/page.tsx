@@ -16,6 +16,8 @@ import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
 import DetailCountry from '@/components/Country/DetailCountry';
+import { CountriesDataProps } from '@/@types/countryData';
+import { CountryCategories } from '@/@types/countryCategories';
 
 interface CountryProps {
   params: {
@@ -48,10 +50,12 @@ function Country({ params }: CountryProps) {
           `http://localhost:3000/api/oworld/${params.id}`
         );
         dispatch(setCountryData(data));
+        dispatch(setLoading(false));
       } catch (error) {
         console.log('Data :', error);
       }
     };
+
     fetchCategory();
     fetchData();
   }, [params.id]);

@@ -6,10 +6,12 @@ import Bilboards from '@/components/Country/Bilboards';
 import Circulary from '@/components/Country/Circulary';
 import DashboardStats from '@/components/Country/DashboardStats';
 
-function DetailCountry(
-  { category }: CountryCategories,
-  { data }: CountriesDataProps
-) {
+interface DetailCountryProps {
+  category: CountryCategories[];
+  data: CountriesDataProps | null;
+}
+
+function DetailCountry({ category, data }: DetailCountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const width = useAppSelector((state) => state.home.currentWidth);
 
@@ -19,9 +21,9 @@ function DetailCountry(
       style={isSideBarOpen ? { width: width, float: 'right' } : {}}
     >
       <DashboardStats category={category} data={data} />
-      <BarChart category={category} data={data} />
-      <Bilboards category={category} data={data} />
-      <Circulary category={category} data={data} />
+      <BarChart />
+      <Bilboards />
+      <Circulary />
     </div>
   );
 }
