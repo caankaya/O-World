@@ -1,6 +1,11 @@
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '@/@types/countryData';
 import React from 'react';
 
-function DashboardStats({ category, data }) {
+function DashboardStats(
+  { category }: CountryCategories,
+  { data }: CountriesDataProps
+) {
   console.log('category :', category);
   console.log('data :', data);
   return (
@@ -24,11 +29,9 @@ function DashboardStats({ category, data }) {
               ></path>
             </svg>
           </div>
-          <div className="stat-title dark:text-slate-300">
-            {data.population}
-          </div>
+          <div className="stat-title dark:text-slate-300">Populations</div>
           <div className="stat-value dark:text-slate-300 text-primary">
-            34.7k
+            {data.population}
           </div>
           <div className="stat-desc  font-bold text-green-700 dark:text-green-300">
             ↗︎ 2300 (22%)

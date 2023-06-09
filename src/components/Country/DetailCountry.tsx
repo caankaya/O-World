@@ -1,10 +1,15 @@
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import BarChart from '@/components/Country/BarChart';
 import Bilboards from '@/components/Country/Bilboards';
 import Circulary from '@/components/Country/Circulary';
 import DashboardStats from '@/components/Country/DashboardStats';
 
-function DetailCountry({ category, data }) {
+function DetailCountry(
+  { category }: CountryCategories,
+  { data }: CountriesDataProps
+) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const width = useAppSelector((state) => state.home.currentWidth);
 

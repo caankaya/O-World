@@ -1,10 +1,12 @@
 export interface CountryCategories {
-  country: Country;
-  population: Population[];
-  environnement: Environnement[];
-  education: Education[];
-  job: Job[];
-  economy: Economy[];
+  category: {
+    country: Country;
+    population: Population[];
+    environnement: Environnement[];
+    education: Education[];
+    job: Job[];
+    economy: Economy[];
+  };
 }
 
 export interface Country {
