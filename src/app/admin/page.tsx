@@ -12,6 +12,7 @@ export default function Page() {
       <NavBar />
       <SideBar category={undefined} data={undefined}  />
       <Admin />
+      <StarsCanvas />
       <Footer />
     </>
   );
