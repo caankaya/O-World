@@ -1,13 +1,17 @@
 'use client';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import axios from '@/utils/axios';
+import { useEffect, useState } from 'react';
 
-import UpdateProfile from './UpdateProfile';
-import UserFavorites from './UserFavorites';
 
-function Profile() {
+function RestCountriesInfos({countryData}: {countryData: any}) {
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+
+  if (!countryData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <section
@@ -22,23 +26,13 @@ function Profile() {
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
             </div>
             <div className="stat-title">Country</div>
-            <div className="stat-value text-primary">FRANCE</div>
-            <div className="stat-desc">French Republic</div>
-            <div className="stat-desc">Area: 551695 km2</div>
+            <div className="stat-value text-primary">{countryData.name.common}</div>
+            <div className="stat-desc">{countryData.name.official}</div>
+            <div className="stat-desc">Area: {countryData.area} km2</div>
         </div>
         <div className="stat">
           <div className="relative h-32">
-            <img src="https://flagcdn.com/fr.svg" alt="france" className="absolute w-full h-full object-cover" />
-          </div>
-        </div>
-        <div className="stat">
-          <div className="relative h-32 w-full">
-            <iframe
-                className="absolute w-full h-full"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10545095.45824776!2d-5.266387098248878!3d46.15124116025365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4e6163c32a7f1%3A0xcca21e0d1971db85!2sFrance!5e0!3m2!1sen!2sus!4v1631377242236!5m2!1sen!2sus"
-                loading="lazy"
-                title="Google Map of France"
-            ></iframe>
+            <img src={countryData.flags.svg} alt={countryData.flags.alt} className="absolute w-full h-full object-cover" />
           </div>
         </div>
       </div>   
@@ -46,16 +40,16 @@ function Profile() {
       <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">
             <div className="stat-title">Region</div>
-            <div className="stat-value text-primary">Europe</div>
+            <div className="stat-value text-primary">{countryData.region}</div>
         </div>
         <div className="stat">
             <div className="stat-title">Capital</div>
-            <div className="stat-value text-secondary">Paris</div>
+            <div className="stat-value text-secondary">{countryData.capital[0]}</div>
         </div>
         <div className="stat">
           <div className="stat-title">Coat Of Arms</div>
           <div className="relative h-32">
-            <img src="https://mainfacts.com/media/images/coats_of_arms/fr.svg" alt="france" className="absolute w-full h-full object-cover" />
+            <img src={countryData.coatOfArms.png} alt="france" className="absolute w-full h-full object-cover" />
           </div>
         </div>
       </div>  
@@ -63,25 +57,25 @@ function Profile() {
       <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">
           <div className="stat-title">Population</div>
-          <div className="stat-value">67 391 582</div>
+          <div className="stat-value">{countryData.population.toLocaleString()}</div>
         </div>
         <div className="stat">
           <div className="stat-title">Languages</div>
-          <div className="stat-value">French</div>
+          <div className="stat-value">{Object.values(countryData.languages)[0]}</div>
         </div>
         <div className="stat">
           <div className="stat-title">Currencies</div>
-          <div className="stat-value">€</div>
-          <div className="stat-desc">EURO</div>
+          <div className="stat-value">{Object.values(countryData.currencies)[0].symbol}</div>
+          <div className="stat-desc">{Object.values(countryData.currencies)[0].name}</div>
         </div>
         <div className="stat">
           <div className="stat-title">Side</div>
-          <div className="stat-value">Right</div>
-          <div className="stat-desc">Car sign: F</div>
+          <div className="stat-value">{countryData.car.side}</div>
+          <div className="stat-desc">Car sign: {countryData.car.signs}</div>
         </div>
       </div>
     </section>
   );
 }
 
-export default Profile;
+export default RestCountriesInfos;

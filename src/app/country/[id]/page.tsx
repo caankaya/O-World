@@ -1,5 +1,6 @@
 'use client';
 
+
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
@@ -12,7 +13,6 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import axios from 'axios';
-import { RingLoader } from 'react-spinners';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import StarsCanvas from '@/components/Stars';
 import { Dna } from 'react-loader-spinner';
@@ -22,6 +22,7 @@ interface CountryProps {
     id: string;
   };
 }
+
 
 function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
@@ -59,6 +60,7 @@ function Country({ params }: CountryProps) {
     fetchData();
   }, [params.id]);
 
+
   return (
     <React.Fragment>
       <NavBar />
@@ -78,7 +80,7 @@ function Country({ params }: CountryProps) {
           )}
         </div>
       </div>
-      <RestCountriesInfos />
+      <RestCountriesInfos countryData={data} />
       <StarsCanvas />
       <Footer />
     </React.Fragment>
