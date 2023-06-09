@@ -49,7 +49,7 @@ function RestCountriesInfos({countryData}: {countryData: any}) {
         <div className="stat">
           <div className="stat-title">Coat Of Arms</div>
           <div className="relative h-32">
-            <img src={countryData.coatOfArms.png} alt="france" className="absolute w-full h-full object-contain" />
+            <img src={countryData.coatOfArms.png} alt={countryData.name.common} className="absolute w-full h-full object-contain" />
           </div>
         </div>
       </div>  
