@@ -14,7 +14,7 @@ function Admin() {
 
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
 
   // Effectuer la requête API lors de la première montée du composant
   useEffect(() => {
@@ -57,7 +57,7 @@ function Admin() {
 
   return (
     <div
-      className={`p-4 flex ${isSideBarOpen ? 'float-right' : ''}`}
+      className={`p-4 flex flex-col items-center justify-start min-h-screen ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: AdminWidth } : {}}
     >
     <div className="container px-4 mx-auto w-full">
