@@ -32,7 +32,7 @@ function RestCountriesInfos({countryData}: {countryData: any}) {
         </div>
         <div className="stat">
           <div className="relative h-32">
-            <img src={countryData.flags.svg} alt={countryData.flags.alt} className="absolute w-full h-full object-cover" />
+            <img src={countryData.flags.svg} alt={countryData.flags.alt} className="absolute w-full h-full object-contain" />
           </div>
         </div>
       </div>   
@@ -49,7 +49,7 @@ function RestCountriesInfos({countryData}: {countryData: any}) {
         <div className="stat">
           <div className="stat-title">Coat Of Arms</div>
           <div className="relative h-32">
-            <img src={countryData.coatOfArms.png} alt="france" className="absolute w-full h-full object-cover" />
+            <img src={countryData.coatOfArms.png} alt="france" className="absolute w-full h-full object-contain" />
           </div>
         </div>
       </div>  
