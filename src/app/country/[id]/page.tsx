@@ -15,6 +15,7 @@ import axios from 'axios';
 import { RingLoader } from 'react-spinners';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import StarsCanvas from '@/components/Stars';
+import { Dna } from 'react-loader-spinner';
 
 interface CountryProps {
   params: {
@@ -66,18 +67,18 @@ function Country({ params }: CountryProps) {
       <div className={`Country-${params.id} ml-5`}>
         <div className={`Country-${params.id}-container`} >
           {loading && (
-            <RingLoader
-              color={'#3abff8'}
-              loading={loading}
-              cssOverride={override}
-              size={150}
-              aria-label="Ring Loader"
-              data-testid="Loader"
+            <Dna
+              visible={loading}
+              height="300"
+              width="300"
+              ariaLabel="dna-loading"
+              wrapperStyle={{ margin: '15rem auto' }}
+              wrapperClass="dna-wrapper"
             />
           )}
-          <RestCountriesInfos />
         </div>
       </div>
+      <RestCountriesInfos />
       <StarsCanvas />
       <Footer />
     </React.Fragment>

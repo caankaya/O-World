@@ -36,7 +36,6 @@ function Profile() {
             <iframe
                 className="absolute w-full h-full"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d10545095.45824776!2d-5.266387098248878!3d46.15124116025365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e4e6163c32a7f1%3A0xcca21e0d1971db85!2sFrance!5e0!3m2!1sen!2sus!4v1631377242236!5m2!1sen!2sus"
-                allowFullScreen=""
                 loading="lazy"
                 title="Google Map of France"
             ></iframe>
