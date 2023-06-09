@@ -56,7 +56,7 @@ const About = () => {
       }`}
       style={isSideBarOpen ? { width: aboutWidth } : {}}
     >
-      <div className="container">
+      <div className="container px-4 mx-auto w-full">
         <div className="xl:max-w-4xl mx-auto text-center">
           <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
             TEAM

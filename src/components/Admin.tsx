@@ -57,7 +57,7 @@ function Admin() {
 
   return (
     <div
-      className={`p-4 flex ${isSideBarOpen ? 'float-right' : ''}`}
+      className={`p-4 flex flex-col items-center justify-start min-h-screen ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: AdminWidth } : {}}
     >
     <div className="container px-4 mx-auto w-full">

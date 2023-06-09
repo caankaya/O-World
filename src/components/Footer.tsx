@@ -9,8 +9,8 @@ const Footer = () => {
 
   return (
     <footer
-      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between fixed bottom-0 ${
-        isSideBarOpen ? 'right-0' : ''
+      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 ${
+        isSideBarOpen ? 'float-right' : ''
       }`}
       style={isSideBarOpen ? { width: footerWidth } : {}}
     >

@@ -9,6 +9,7 @@ import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
 import WorldMap from '@/components/WorldMap';
 import { setLoading } from '@/GlobalRedux/store/reducers/home'; // Importez l'action appropriée pour définir l'état spinner
+import { Dna } from 'react-loader-spinner';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -31,13 +32,13 @@ export default function Home() {
           className="Loader m-auto"
           style={isSideBarOpen ? { width: 'calc(100% + 181px)' } : {}}
         >
-          <RingLoader
-            color={'#3abff8'}
-            loading={loading}
-            cssOverride={override}
-            size={150}
-            aria-label="Ring Loader"
-            data-testid="Loader"
+          <Dna
+            visible={loading}
+            height="300"
+            width="300"
+            ariaLabel="dna-loading"
+            wrapperStyle={{ margin: '15rem auto' }}
+            wrapperClass="dna-wrapper"
           />
         </div>
       )}
