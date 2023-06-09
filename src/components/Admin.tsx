@@ -5,12 +5,26 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 import { DataRow } from '@/@types/statsAdmin';
 import axios from 'axios';
 
+const fetchData = async (url, params) => {
+  try {
+    const response = await axios.get(url, {
+      params,
+      headers: { accept: 'application/json' },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erreur lors de la récupération des données', error);
+    return null;
+  }
+};
+
 function Admin() {
   const AdminWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   // Définir l'état pour stocker les données récupérées
   const [data, setData] = useState<DataRow[]>([]);
+  const [flag, setFlags] = useState<DataRow[]>([]);
 
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -18,25 +32,16 @@ function Admin() {
 
   // Effectuer la requête API lors de la première montée du composant
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/admin/stat', {
-          params: {
-            useView: true,
-          },
-          headers: {
-            accept: 'application/json',
-          },
-        });
-        // Mettre à jour l'état avec les données récupérées
-        setData(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des données', error);
-      }
+    const fetchAllData = async () => {
+      const [data, flags] = await Promise.all([
+        fetchData('http://localhost:3000/api/admin/stat', { useView: true }),
+        fetchData('http://localhost:3000/api/oworld/flags', {}),
+      ]);
+      setData(data || []);
+      setFlags(flags || []);
     };
 
-    fetchData();
+    fetchAllData();
   }, []);
 
   const total_users = data.reduce((sum, row) => sum + parseInt(row.user_count, 10), 0);
@@ -53,6 +58,11 @@ function Admin() {
 
   // Calculer le nombre total de pages
   const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  const findFlagUrl = (flags, countryIso3) => {
+    const flagData = flags.find(flag => flag.cca3 === countryIso3);
+    return flagData ? flagData.flags.png : '';
+  };
 
 
   return (
@@ -85,11 +95,15 @@ function Admin() {
               </thead>
               <tbody>
                 {/* Boucle sur les datas pour la page active et affichage de la liste des pays */}
-                  {currentData.map((row, index) => (
+                  {currentData.map((row, index) => {
+                    const flagUrl = findFlagUrl(flag, row.iso3);
+                    return (
                       <tr key={index} className="border-b border-neutral">
                       <td className="flex items-center px-6 font-medium">
                           <div className="flex px-4 py-3 items-center">
-                          <img className="w-8 h-8 mr-4 object-cover rounded-md" src="" alt="" />
+                            <div className="object-contain">
+                              <img className="w-8 h-8 mr-4 object-cover rounded-md" src={flagUrl} alt="" />
+                            </div>
                           <p className="text-md font-bold text-base-200">{row.country_origin}</p>
                           </div>
                       </td>
@@ -106,7 +120,8 @@ function Admin() {
                           <p className="text-sm text-base-200">{row.favorite_count}</p>
                       </td>
                       </tr>
-                  ))}
+                    );
+                  })}
                   </tbody>
               </table>
               <div className="py-4 flex justify-center items-center">
