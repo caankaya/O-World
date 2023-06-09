@@ -9,7 +9,7 @@ interface SideBarProps {
 function SideBar({ category, data }: SideBarProps) {
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
-  const pseudo = useAppSelector((state) => state.user.pseudo);
+  const username = useAppSelector((state) => state.user.username);
 
   return (
     <div className="SideBar z-[1]">
@@ -41,57 +41,24 @@ function SideBar({ category, data }: SideBarProps) {
                   WORLD
                 </span>
                 <a
-                  href={`/`}
+                  href={`/world`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                 >
                   World information
                 </a>
+                <a
+                  href={`/`}
+                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                >
+                  Home
+                </a>
+                <a
+                  href={`/about`}
+                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                >
+                  About
+                </a>
               </li>
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                Categories
-              </span>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Home
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Country
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Education
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Economy
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Environnement
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Job
-              </a>
-              <a
-                href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-              >
-                Population
-              </a>
             </ul>
           )}
           {/*Fin de catégories pour le monde */}
@@ -143,15 +110,17 @@ function SideBar({ category, data }: SideBarProps) {
           )}
           {/* Fin de catégories pour un pays */}
           {/* Si Utilisateur est connecté */}
-          {user && (
+          {user && username && (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                User
+                Hi{' '}
+                {username.charAt(0).toUpperCase() +
+                  username.slice(1).toLowerCase()}
               </span>
               <li>
                 <a
                   href={`/`}
-                  className="flex items-center ml-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center ml-3 p-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
                   Profil
                 </a>

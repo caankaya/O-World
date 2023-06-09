@@ -3,8 +3,7 @@
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
-  dropDown,
-  setCurrentWidth,
+  togglerDropDown,
   togglerLoginModal,
   togglerRegisterModal,
   togglerSideBar,
@@ -17,35 +16,14 @@ import React from 'react';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
-  const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const navBarWidth = useAppSelector((state) => state.home.currentWidth);
-  const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const user = useAppSelector((state) => state.user.isLogged);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
+  const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-
-  function toggleDropdown() {
-    dispatch(dropDown(!isDropDownMenuOpen));
-  }
-
-  function toggleSideBar() {
-    dispatch(togglerSideBar(!isSideBarOpen));
-    dispatch(setCurrentWidth(isSideBarOpen ? '100%' : 'calc(100% - 256px)'));
-  }
-
-  function toggleLoginModal() {
-    dispatch(togglerLoginModal(!isLoginModalOpen));
-  }
-
-  function toggleRegisterModal() {
-    dispatch(togglerRegisterModal(!isRegisterModalOpen));
-  }
-  function handleLogout() {
-    dispatch(logout());
-    toggleDropdown();
-  }
+  const navBarWidth = useAppSelector((state) => state.home.currentWidth);
 
   return (
     <header
@@ -53,10 +31,15 @@ const NavBar = () => {
     >
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
-        style={{ width: navBarWidth }}
+        style={isSideBarOpen ? { width: navBarWidth } : {}}
       >
         <div className="flex mx-4">
-          <button className="btn btn-square btn-ghost" onClick={toggleSideBar}>
+          <button
+            className="btn btn-square btn-ghost"
+            onClick={() => {
+              dispatch(togglerSideBar(!isSideBarOpen));
+            }}
+          >
             <img src="/ufo-svgrepo-com.svg" alt="ovni-icon" />
           </button>
         </div>
@@ -68,7 +51,7 @@ const NavBar = () => {
             <div
               className="w-12 rounded-full cursor-pointer"
               onClick={() => {
-                toggleDropdown();
+                dispatch(togglerDropDown(!isDropDownMenuOpen));
               }}
             >
               <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
@@ -81,7 +64,9 @@ const NavBar = () => {
                       <li>
                         <button
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
-                          onClick={toggleLoginModal}
+                          onClick={() => {
+                            dispatch(togglerLoginModal(!isLoginModalOpen));
+                          }}
                         >
                           LOGIN
                         </button>
@@ -90,7 +75,11 @@ const NavBar = () => {
                       <li>
                         <button
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
-                          onClick={toggleRegisterModal}
+                          onClick={() => {
+                            dispatch(
+                              togglerRegisterModal(!isRegisterModalOpen)
+                            );
+                          }}
                         >
                           REGISTER
                         </button>
@@ -105,7 +94,10 @@ const NavBar = () => {
                           <a href="/profile">PROFILE</a>
                         </button>
                         <button
-                          onClick={handleLogout}
+                          onClick={() => {
+                            dispatch(logout());
+                            dispatch(togglerDropDown(!isDropDownMenuOpen));
+                          }}
                           className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                         >
                           LOGOUT

@@ -3,25 +3,20 @@
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   togglerLoginModal,
-  changeAuthModals,
+  togglerRegisterModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
-  const LoginModalWidth = useAppSelector((state) => state.home.modalWidth);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-
   const dispatch = useAppDispatch();
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
+  const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
+  const isRegisterModalOpen = useAppSelector(
+    (state) => state.home.registerModal
+  );
 
-  function toggleLoginModal() {
-    dispatch(togglerLoginModal(!isLoginModalOpen));
-  }
-
-  function changeAuthModalsinForm() {
-    dispatch(changeAuthModals(!isLoginModalOpen));
-  }
-
+  // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -33,7 +28,7 @@ function LoginModal() {
     <dialog
       open={isLoginModalOpen}
       className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: LoginModalWidth } : {}}
+      style={isSideBarOpen ? { width: loginModalWidth } : {}}
     >
       <form
         method="post"
@@ -104,14 +99,17 @@ function LoginModal() {
           <a
             href="#"
             className="font-medium text-white hover:underline"
-            onClick={changeAuthModalsinForm}
+            onClick={() => {
+              dispatch(togglerLoginModal(!!isLoginModalOpen));
+              dispatch(togglerRegisterModal(isRegisterModalOpen));
+            }}
           >
             Sign up
           </a>
         </p>
       </form>
       <form method="dialog" className="modal-backdrop">
-        <button onClick={toggleLoginModal}>close</button>
+        <button>close</button>
       </form>
     </dialog>
   );

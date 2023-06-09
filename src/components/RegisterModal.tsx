@@ -8,12 +8,14 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   togglerRegisterModal,
   changeAuthModals,
+  togglerLoginModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLoginModalOpen = useAppSelector((state) => state.home.sideBar);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
@@ -21,11 +23,10 @@ function RegisterModal() {
   const dispatch = useAppDispatch();
 
   function toggleRegisterModal() {
-    dispatch(togglerRegisterModal(!isRegisterModalOpen));
+    dispatch(togglerRegisterModal(isRegisterModalOpen));
   }
-
-  function changeAuthModalsinForm() {
-    dispatch(changeAuthModals(!isRegisterModalOpen));
+  function toggleLoginModal() {
+    dispatch(togglerLoginModal(isLoginModalOpen));
   }
 
   // Retrieve the list of countries via API to dynamize the register form select
@@ -272,7 +273,10 @@ function RegisterModal() {
           <a
             href="#"
             className="font-medium text-white hover:underline"
-            onClick={changeAuthModalsinForm}
+            onClick={() => {
+              dispatch(togglerRegisterModal(!!isRegisterModalOpen));
+              toggleLoginModal();
+            }}
           >
             Login here
           </a>
