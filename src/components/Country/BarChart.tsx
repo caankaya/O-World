@@ -1,4 +1,12 @@
-function BarChart() {
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '@/@types/countryData';
+
+interface BarChartProps {
+  category: CountryCategories[];
+  data: CountriesDataProps | null;
+}
+
+function BarChart({ category, data }: BarChartProps) {
   return (
     <div className="BarChart">
       <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">

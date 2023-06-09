@@ -21,9 +21,9 @@ function DetailCountry({ category, data }: DetailCountryProps) {
       style={isSideBarOpen ? { width: width, float: 'right' } : {}}
     >
       <DashboardStats category={category} data={data} />
-      <BarChart />
-      <Bilboards />
-      <Circulary />
+      <BarChart category={category} data={data} />
+      <Bilboards category={category} data={data} />
+      <Circulary category={category} data={data} />
     </div>
   );
 }

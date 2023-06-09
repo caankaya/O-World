@@ -1,4 +1,12 @@
-function Circulary() {
+import { CountryCategories } from '@/@types/countryCategories';
+import { CountriesDataProps } from '@/@types/countryData';
+
+interface CircularyProps {
+  category: CountryCategories[];
+  data: CountriesDataProps | null;
+}
+
+function Circulary({ category, data }: CircularyProps) {
   return (
     <div className="Circulary">
       <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">

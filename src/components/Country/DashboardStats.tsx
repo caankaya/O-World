@@ -16,15 +16,7 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
       <div className="grid lg:grid-cols-4 mt-2 md:grid-cols-2 grid-cols-1 gap-6">
         <div className="stats shadow">
           <div className="stat">
-            <div className="stat-figure dark:text-slate-300 text-primary">
-              <img
-                src={data.flags.png}
-                className="h-6 mr-3 sm:h-7"
-                alt={data.flags.alt}
-                width={50}
-                height={50}
-              />
-            </div>
+            <div className="stat-figure dark:text-slate-300 text-primary"></div>
             <div className="stat-title dark:text-slate-300">Name</div>
             <div className="stat-value dark:text-slate-300 text-primary">
               {data.name.common}
