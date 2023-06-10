@@ -1,6 +1,7 @@
+import React from 'react';
+import CountUp from 'react-countup';
 import { CountryCategories } from '@/@types/countryCategories';
 import { CountriesDataProps } from '@/@types/countryData';
-import React from 'react';
 
 interface DashboardStatsProps {
   category: CountryCategories[];
@@ -29,7 +30,8 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
             <div className="stat-figure dark:text-slate-300 text-primary"></div>
             <div className="stat-title dark:text-slate-300">Area</div>
             <div className="stat-value dark:text-slate-300 text-primary">
-              {data.area.toLocaleString()} km²
+              <CountUp start={0} end={data.area} duration={5} separator="," />{' '}
+              km²
             </div>
             <div className="stat-desc  ">
               {/*Potentionnellement dynamisable */}
@@ -83,7 +85,12 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
             </div>
             <div className="stat-title dark:text-slate-300">Populations</div>
             <div className="stat-value dark:text-slate-300 text-primary">
-              {data.population.toLocaleString()}
+              <CountUp
+                start={0}
+                end={data.population}
+                duration={5}
+                separator=","
+              />{' '}
             </div>
             <div className="stat-desc  font-bold text-rose-500 dark:text-red-400"></div>
           </div>

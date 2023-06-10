@@ -7,7 +7,7 @@ import EconomyStats from '@/components/Country/EconomyStats';
 import DashboardStats from '@/components/Country/DashboardStats';
 
 interface DetailCountryProps {
-  category: CountryCategories[];
+  category: any;
   data: CountriesDataProps | null;
 }
 

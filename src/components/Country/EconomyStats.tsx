@@ -32,7 +32,7 @@ function Economy({ category }: EconomyProps) {
       <div className="Economy">
         <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">
           <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-            <div className="text-xl font-semibold">
+            <div className="text-xl font-semibold text-center">
               Inflation between 2002 - 2022
             </div>
             <div className="divider mt-2"></div>
@@ -52,7 +52,7 @@ function Economy({ category }: EconomyProps) {
             </div>
           </div>
           <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-            <div className="text-xl font-semibold">
+            <div className="text-xl font-semibold text-center">
               Environnement between 2002 - 2022
             </div>
             <div className="divider mt-2"></div>
