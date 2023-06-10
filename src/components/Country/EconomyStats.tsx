@@ -1,5 +1,5 @@
 import { CountryCategories } from '@/@types/countryCategories';
-import MyChart from './PieChart';
+import PieChart from './PieChart';
 
 interface EconomyProps {
   category: CountryCategories;
@@ -41,10 +41,12 @@ function Economy({ category }: EconomyProps) {
               </div>
             </div>
             <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-              <div className="text-xl font-semibold ">Orders by Category</div>
+              <div className="text-xl font-semibold ">
+                Environnement between 2002 - 2022
+              </div>
               <div className="divider mt-2"></div>
               <div className="h-full w-full pb-6 bg-base-100">
-                <MyChart category={category} />
+                <PieChart category={category} />
               </div>
             </div>
           </div>
