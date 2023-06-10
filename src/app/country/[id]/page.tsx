@@ -16,8 +16,6 @@ import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
 import DetailCountry from '@/components/Country/DetailCountry';
-import { CountriesDataProps } from '@/@types/countryData';
-import { CountryCategories } from '@/@types/countryCategories';
 
 interface CountryProps {
   params: {

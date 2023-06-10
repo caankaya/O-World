@@ -14,7 +14,7 @@ const store = configureStore({
   },
 });
 
-if (sessionStorage) {
+if (typeof sessionStorage !== 'undefined') {
   const username = sessionStorage.getItem('username');
   const sessionId = sessionStorage.getItem('sessionId');
 

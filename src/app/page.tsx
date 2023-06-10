@@ -17,10 +17,14 @@ export default function Home() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       dispatch(setLoading(false));
     }, 3000);
-  }, [dispatch]);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <main className="min-h-screen m-auto">
