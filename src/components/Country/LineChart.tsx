@@ -39,11 +39,9 @@ function LineChart({ category }: LineChartProps) {
       ],
     };
 
-    const options = {};
-
     return (
       <div className="LineChart">
-        <Line data={data} options={options} />
+        <Line data={data} />
       </div>
     );
   }

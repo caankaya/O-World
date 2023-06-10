@@ -20,8 +20,14 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
             <div className="stat-value dark:text-slate-300 text-primary">
               {data.name.common}
             </div>
-            <div className="stat-desc  font-bold text-green-700 dark:text-green-300">
+            <div className="stat-desc flex font-bold text-green-700 dark:text-green-300">
               {data.name.official}
+              <img
+                src={data.flags.svg}
+                alt={data.flags.alt}
+                width={50}
+                className="block"
+              />
             </div>
           </div>
         </div>

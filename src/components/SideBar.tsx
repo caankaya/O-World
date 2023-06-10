@@ -22,14 +22,16 @@ function SideBar({ category, data }: SideBarProps) {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
-          <a href="/" className="mb-5 flex flex-col justify-start items-center">
-            <img src="/ooo.png" className="h-20 mr-3" alt="OWorld Logo" />
-            <span className="self-center text-4xl font-semibold whitespace-nowrap">
-              OWorld
-            </span>
-            <span className="alien-font shadow-neon self-center text-xl font-semibold whitespace-nowrap">
-              OWorld
-            </span>
+          <a href="/" className="mb-5 flex justify-start items-center mr-5">
+            <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
+            <div className="logo flex flex-col items-start">
+              <span className="self-center text-2xl font-semibold whitespace-nowrap mr-2">
+                OWorld
+              </span>
+              <span className="alien-font shadow-neon self-center text-sm font-semibold whitespace-nowrap ml">
+                OWorld
+              </span>
+            </div>
           </a>
           {/*Fin LOGO ET TITRE */}
 
