@@ -1,5 +1,5 @@
 import { CountryCategories } from '@/@types/countryCategories';
-import { CountriesDataProps } from '@/@types/countryData';
+import MyChart from './PieChart';
 
 interface EconomyProps {
   category: CountryCategories;
@@ -7,7 +7,6 @@ interface EconomyProps {
 
 function Economy({ category }: EconomyProps) {
   if (category && category.economy) {
-    console.log('category :', category);
     const indicator = category.economy[2].indicator;
     const years = category.economy[2].values;
 
@@ -26,7 +25,7 @@ function Economy({ category }: EconomyProps) {
                     <thead>
                       <tr>
                         <th>Years</th>
-                        <th key={indicator.id}>{indicator.values}</th>
+                        <th key={indicator.id}>{indicator.value}</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -39,6 +38,13 @@ function Economy({ category }: EconomyProps) {
                     </tbody>
                   </table>
                 </div>
+              </div>
+            </div>
+            <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
+              <div className="text-xl font-semibold ">Orders by Category</div>
+              <div className="divider mt-2"></div>
+              <div className="h-full w-full pb-6 bg-base-100">
+                <MyChart category={category} />
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ export interface Population {
 
 export interface Indicator {
   id: string;
-  values: string;
+  value: string;
 }
 
 export interface Environnement {
