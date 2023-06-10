@@ -19,15 +19,11 @@ const PieChart = ({ category }: PieChartProps) => {
       co2EmissionValue.reduce((sum, value) => sum + value) /
       co2EmissionValue.length;
 
-    console.log('co2EmissionValue :', co2EmissionValue);
-
     const energyValues = Object.values(environnement[1].values).filter(
       Boolean
     ) as number[];
     const energyAverage =
       energyValues.reduce((sum, value) => sum + value) / energyValues.length;
-
-    console.log('energyValues :', energyValues);
 
     const protectedValues = Object.values(environnement[2].values).filter(
       Boolean
@@ -46,17 +42,17 @@ const PieChart = ({ category }: PieChartProps) => {
       labels: [
         'CO2 emissions (kt)',
         'Energy use kg',
+        'Protected areas %',
         'PM2.5 air pollution',
-        'Terrestrial and marine protected areas %',
       ],
 
       datasets: [
         {
           data: [
-            co2EmissionAverage,
-            energyAverage,
-            protectedAverage,
-            pm25Average,
+            co2EmissionAverage.toFixed(2),
+            energyAverage.toFixed(2),
+            protectedAverage.toFixed(2),
+            pm25Average.toFixed(2),
           ],
           backgroundColor: [
             '#FF6384',
@@ -79,7 +75,7 @@ const PieChart = ({ category }: PieChartProps) => {
     const options = {
       responsive: true,
       maintainAspectRatio: false,
-      aspectRatio: 100, // Ajuster cette valeur en fonction de vos besoins
+      aspectRatio: 1.5,
     };
 
     return (
@@ -88,8 +84,9 @@ const PieChart = ({ category }: PieChartProps) => {
           style={{
             display: 'block',
             boxSizing: 'border-box',
-            height: '716px',
-            width: '716px',
+            height: '500px',
+            width: '500px',
+            margin: 'auto',
           }}
         >
           <Pie data={data} options={options} />

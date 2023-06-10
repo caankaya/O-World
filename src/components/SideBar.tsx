@@ -119,10 +119,10 @@ function SideBar({ category, data }: SideBarProps) {
               </span>
               <li>
                 <a
-                  href={`/`}
+                  href={`/profile`}
                   className="flex items-center ml-3 p-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  Profil
+                  Profile
                 </a>
               </li>
             </ul>
