@@ -1,35 +1,60 @@
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  BarElement,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
 import { CountryCategories } from '@/@types/countryCategories';
-import { CountriesDataProps } from '@/@types/countryData';
-import LineChart from './LineChart';
 
+ChartJS.register(BarElement, Tooltip, Legend);
 interface BarChartProps {
-  category: CountryCategories[];
-  data: CountriesDataProps | null;
+  category: CountryCategories[] | any;
 }
 
-function BarChart({ category, data }: BarChartProps) {
-  return (
-    <div className="BarChart">
-      <div className="grid lg:grid-cols-2 mt-4 grid-cols-1 gap-6">
-        <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-          <div className="text-xl font-semibold">
-            Population growth between 2002 - 2022
-          </div>
-          <div className="divider mt-2"></div>
-          <div className="h-full w-full pb-6 bg-base-100">
-            <LineChart category={category} />
-          </div>
+function BarChart({ category }: BarChartProps) {
+  if (category && category.job) {
+    const population = category.population[1].values;
+    console.log('population :', population);
+
+    const labels = Object;
+    const data = {
+      labels: Object.keys(population),
+      datasets: [
+        {
+          label: 'Life expectancy at birth, total (years)',
+          data: Object.values(population),
+          borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(255, 159, 64, 0.2)',
+            'rgba(255, 205, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(201, 203, 207, 0.2)',
+          ],
+          backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(255, 159, 64)',
+            'rgb(255, 205, 86)',
+            'rgb(75, 192, 192)',
+            'rgb(54, 162, 235)',
+            'rgb(153, 102, 255)',
+            'rgb(201, 203, 207)',
+          ],
+          borderWidth: 1,
+        },
+      ],
+    };
+    return (
+      category && (
+        <div className="BarChart">
+          <Bar data={data} />
         </div>
-        <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-          <div className="text-xl font-semibold">Revenue</div>
-          <div className="divider mt-2"></div>
-          <div className="h-full w-full pb-6 bg-base-100">
-            {/* Il faut insérer le canvas juste ici */}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+      )
+    );
+  }
 }
 
 export default BarChart;
