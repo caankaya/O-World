@@ -6,45 +6,39 @@ import {
 import axiosInstance from '../../../utils/axios';
 
 interface UserState {
-  isLoading: boolean;
-  isLogged: boolean;
   username: string | null;
   message: string;
-  id: number | null;
-  sessionId: null;
+  isLogged: boolean;
+  loading: boolean;
+  sessionId: number | null;
 }
+
 const initialState: UserState = {
-  isLoading: false,
-  isLogged: false,
   username: null,
+  isLogged: false,
   message: '',
-  id: null,
   sessionId: null,
+  loading: false,
 };
 
-// Actions asynchrones
 export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    const { data } = await axiosInstance.post('/api/log/in', obj);
-    return data;
+    const response = await axiosInstance.post('/api/log/in', obj);
+    return response;
   }
 );
 
-// Action
 export const logout = createAction('user/logout');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login.pending, (state, action) => {
-      state.isLoading = true;
+      state.loading = true;
     })
     .addCase(login.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.isLogged = true;
-      state.id = action.payload.user.id;
-      state.message = action.payload.message;
+      state.loading = false;
       const { id, username } = action.payload.data.session;
       state.isLogged = true;
       state.sessionId = id;
@@ -53,14 +47,17 @@ const userReducer = createReducer(initialState, (builder) => {
       sessionStorage.setItem('username', username);
     })
     .addCase(login.rejected, (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.isLogged = false;
+      state.sessionId = null;
+      state.username = null;
     })
     .addCase(logout, (state) => {
       state.isLogged = false;
+      state.sessionId = null;
       state.username = null;
-      state.isLogged = false;
-      state.id = null;
+      sessionStorage.removeItem('sessionId');
+      sessionStorage.removeItem('username');
     });
 });
 
