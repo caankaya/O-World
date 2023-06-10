@@ -40,7 +40,7 @@ const PieChart = ({ category }: PieChartProps) => {
 
     const data = {
       labels: [
-        'CO2 emissions (kt)',
+        'CO2 (kt)',
         'Energy use kg',
         'Protected areas %',
         'PM2.5 air pollution',
@@ -83,10 +83,10 @@ const PieChart = ({ category }: PieChartProps) => {
         <div
           style={{
             display: 'block',
-            boxSizing: 'border-box',
             height: '500px',
             width: '500px',
             margin: 'auto',
+            cursor: 'pointer',
           }}
         >
           <Pie data={data} options={options} />

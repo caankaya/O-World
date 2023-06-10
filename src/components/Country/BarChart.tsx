@@ -1,5 +1,6 @@
 import { CountryCategories } from '@/@types/countryCategories';
 import { CountriesDataProps } from '@/@types/countryData';
+import LineChart from './LineChart';
 
 interface BarChartProps {
   category: CountryCategories[];
@@ -16,34 +17,14 @@ function BarChart({ category, data }: BarChartProps) {
           </div>
           <div className="divider mt-2"></div>
           <div className="h-full w-full pb-6 bg-base-100">
-            <canvas
-              role="img"
-              height="352"
-              width="705"
-              style={{
-                display: 'block',
-                boxSizing: 'border-box',
-                height: '352px',
-                width: '705px',
-              }}
-            ></canvas>
+            <LineChart category={category} />
           </div>
         </div>
         <div className="card w-full p-6 bg-base-100 shadow-xl mt-6">
           <div className="text-xl font-semibold">Revenue</div>
           <div className="divider mt-2"></div>
           <div className="h-full w-full pb-6 bg-base-100">
-            <canvas
-              role="img"
-              height="352"
-              width="705"
-              style={{
-                display: 'block',
-                boxSizing: 'border-box',
-                height: '352px',
-                width: '705px',
-              }}
-            ></canvas>
+            {/* Il faut insérer le canvas juste ici */}
           </div>
         </div>
       </div>

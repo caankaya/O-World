@@ -1,13 +1,13 @@
-import { CountryCategories } from '@/@types/countryCategories';
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import BarChart from '@/components/Country/BarChart';
 import Bilboards from '@/components/Country/Bilboards';
 import EconomyStats from '@/components/Country/EconomyStats';
 import DashboardStats from '@/components/Country/DashboardStats';
+import { CountryCategories } from '@/@types/countryCategories';
 
 interface DetailCountryProps {
-  category: any;
+  category: CountryCategories[];
   data: CountriesDataProps | null;
 }
 
