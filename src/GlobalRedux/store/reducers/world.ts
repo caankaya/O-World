@@ -1,9 +1,4 @@
-import {
-  createAction,
-  createAsyncThunk,
-  createReducer,
-} from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createReducer } from '@reduxjs/toolkit';
 
 interface WorldState {
   world: [];

@@ -12,13 +12,13 @@ interface UserState {
   message: string;
   id: number | null;
 }
-
 const initialState: UserState = {
-  isLoading: false,
+  isLoading : false
   isLogged: false,
   username: null,
   message: '',
   id: null,
+  sessionId: null,
 };
 
 // Actions asynchrones
@@ -26,13 +26,12 @@ export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    const { data } = await axiosInstance.post('/api/log/in', obj);
-    console.log('data :', data);
-    return data;
+    const response = await axiosInstance.post('/api/log/in', obj);
+    return response;
   }
 );
 
-// Actions synchrones
+// Action
 export const logout = createAction('user/logout');
 
 const userReducer = createReducer(initialState, (builder) => {
@@ -46,6 +45,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.username = action.payload.user.username;
       state.id = action.payload.user.id;
       state.message = action.payload.message;
+      sessionStorage.setItem('sessionId', id.toString());
+      sessionStorage.setItem('username', username);
     })
     .addCase(login.rejected, (state, action) => {
       state.isLoading = false;
@@ -53,8 +54,13 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(logout, (state) => {
       state.isLogged = false;
-      state.username = null;
-    });
+      state.username = null
+      state.isLogged = false;
+      state.id = null
+      const { id, username } = action.payload.data.session;
+      sessionStorage.setItem('sessionId', id.toString());
+      sessionStorage.setItem('username', username);
+    })
 });
 
 export default userReducer;

@@ -14,6 +14,25 @@ const store = configureStore({
   },
 });
 
+if (sessionStorage) {
+  const username = sessionStorage.getItem('username');
+  const sessionId = sessionStorage.getItem('sessionId');
+
+  if (sessionId && username) {
+    store.dispatch({
+      type: 'user/login/fulfilled',
+      payload: {
+        data: {
+          session: {
+            id: parseInt(sessionId),
+            username,
+          },
+        },
+      },
+    });
+  }
+}
+
 export default store;
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
