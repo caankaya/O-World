@@ -3,7 +3,7 @@ import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import BarChart from '@/components/Country/BarChart';
 import Bilboards from '@/components/Country/Bilboards';
-import Circulary from '@/components/Country/Circulary';
+import EconomyStats from '@/components/Country/EconomyStats';
 import DashboardStats from '@/components/Country/DashboardStats';
 
 interface DetailCountryProps {
@@ -23,7 +23,7 @@ function DetailCountry({ category, data }: DetailCountryProps) {
       <DashboardStats category={category} data={data} />
       <BarChart category={category} data={data} />
       <Bilboards category={category} data={data} />
-      <Circulary category={category} data={data} />
+      <EconomyStats category={category} />
     </div>
   );
 }

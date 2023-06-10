@@ -8,8 +8,6 @@ interface DashboardStatsProps {
 }
 
 function DashboardStats({ category, data }: DashboardStatsProps) {
-  console.log('category :', category);
-  console.log('data :', data);
   return (
     data &&
     category && (

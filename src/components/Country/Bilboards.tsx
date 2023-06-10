@@ -7,7 +7,6 @@ interface BilboardsProps {
 }
 
 function Bilboards({ category, data }: BilboardsProps) {
-  console.log('data :', data);
   return (
     data &&
     category && (
