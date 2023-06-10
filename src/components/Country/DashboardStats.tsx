@@ -18,16 +18,16 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
             <div className="stat-figure dark:text-slate-300 text-primary"></div>
             <div className="stat-title dark:text-slate-300">Name</div>
             <div className="stat-value dark:text-slate-300 text-primary">
-              {data.name.common}
-            </div>
-            <div className="stat-desc flex font-bold text-green-700 dark:text-green-300">
-              {data.name.official}
               <img
                 src={data.flags.svg}
                 alt={data.flags.alt}
                 width={50}
-                className="block"
+                className="float-right"
               />
+              {data.name.common}
+            </div>
+            <div className="stat-desc font-bold text-green-700 dark:text-green-300">
+              {data.name.official}
             </div>
           </div>
         </div>
@@ -67,7 +67,9 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
             <div className="stat-value dark:text-slate-300 text-primary">
               {data.capital}
             </div>
-            <div className="stat-desc  ">50 in hot leads</div>
+            <div className="stat-desc  ">
+              {/* Potentiellement dynamisable */}
+            </div>
           </div>
         </div>
         <div className="stats shadow">
