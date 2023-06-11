@@ -40,7 +40,16 @@ function LineChart({ category }: LineChartProps) {
     };
 
     return (
-      <div className="LineChart">
+      <div
+        className="LineChart"
+        style={{
+          height: '330px',
+          width: '660px',
+          display: 'block',
+          margin: 'auto',
+          cursor: 'pointer',
+        }}
+      >
         <Line data={data} />
       </div>
     );

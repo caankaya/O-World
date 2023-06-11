@@ -16,7 +16,7 @@ function LineBarChart({ category }: BarChartProps) {
             Population growth between 2002 - 2022
           </div>
           <div className="divider mt-2"></div>
-          <div className="h-full w-full pb-6 bg-base-100">
+          <div className="h-full w-full pb-6 bg-base-100 m-auto">
             <LineChart category={category} />
           </div>
         </div>

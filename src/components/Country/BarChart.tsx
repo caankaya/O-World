@@ -17,7 +17,6 @@ function BarChart({ category }: BarChartProps) {
   if (category && category.job) {
     const population = category.population[1].values;
 
-    const labels = Object;
     const data = {
       labels: Object.keys(population),
       datasets: [
@@ -46,9 +45,19 @@ function BarChart({ category }: BarChartProps) {
         },
       ],
     };
+
     return (
       category && (
-        <div className="BarChart">
+        <div
+          className="BarChart"
+          style={{
+            height: '330px',
+            width: '660px',
+            display: 'block',
+            margin: 'auto',
+            cursor: 'pointer',
+          }}
+        >
           <Bar data={data} />
         </div>
       )
