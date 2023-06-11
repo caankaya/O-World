@@ -10,7 +10,7 @@ function Profile() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   return (
     <div
-      className={`p-4 flex items-center justify-center gap-16 ${
+      className={`p-16 flex items-start justify-center gap-16 ${
         isSideBarOpen ? 'float-right' : ''
       }`}
       style={isSideBarOpen ? { width: ProfileWidth } : {}}

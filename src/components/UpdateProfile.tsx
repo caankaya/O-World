@@ -4,7 +4,7 @@ function UpdateProfile() {
   return (
     <form
       method=""
-      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow flex flex-col gap-5"
+      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow flex flex-col gap-5 w-3/5"
       action="#"
     >
       <div className="flex flex-col items-center">
@@ -19,7 +19,7 @@ function UpdateProfile() {
         Update your information
       </h1>
 
-      <div className="flex gap-16">
+      <div className="flex justify-between gap-16">
         <div className="flex flex-col gap-8">
           <div>
             <label

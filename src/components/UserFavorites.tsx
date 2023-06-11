@@ -5,7 +5,7 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 import { useEffect, useState } from 'react';
 
 function UserFavorites() {
-  const userId = useAppSelector((state) => state.user.id);
+  const userId = useAppSelector((state) => state.user.sessionId);
 
   const [favoritesCountries, setFavoritesCountries] = useState<[]>([]);
   const [flags, setFlags] = useState<[]>([]);
@@ -17,7 +17,7 @@ function UserFavorites() {
       try {
         const response = await axios.get(
           //TODO Dynamisation with userId when log persist
-          `http://localhost:3000/api/user/5`,
+          `http://localhost:3000/api/user/${userId}`,
           {
             headers: {
               accept: 'application/json',
@@ -86,36 +86,41 @@ function UserFavorites() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow">
+    <div className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-2/5">
       <div className="flex items-center justify-between mb-4 gap-6">
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Latest favorites countries
         </h5>
-        {!isViewAll && (
-          <a
-            href="#"
-            className="text-sm font-medium text-white hover:underline"
-            onClick={handleViewCountries}
-          >
-            View all
-          </a>
-        )}
-        {isViewAll && (
-          <a
-            href="#"
-            className="text-sm font-medium text-white hover:underline"
-            onClick={handleViewCountries}
-          >
-            View less
-          </a>
-        )}
+        {favoritesCountries.length > 0 &&
+          (!isViewAll ? (
+            <a
+              href="#"
+              className="text-sm font-medium text-white hover:underline"
+              onClick={handleViewCountries}
+            >
+              View all
+            </a>
+          ) : (
+            <a
+              href="#"
+              className="text-sm font-medium text-white hover:underline"
+              onClick={handleViewCountries}
+            >
+              View less
+            </a>
+          ))}
       </div>
       <div className="flow-root">
+        {!favoritesCountries.length && (
+          <div className="flex-1 min-w-0">
+            <p className="font-medium text-white">No favorite countries yet</p>
+          </div>
+        )}
         <ul role="list" className="divide-y divide-primary">
           {favoritesCountries.slice(0, displayedCountries).map((country) => {
             const flagUrl = findFlagUrl(flags, country.cca3);
             return (
-              <li className="py-3 sm:py-4">
+              <li className="py-3 sm:py-4" key={country.cca3}>
                 <a href={`/country/${country.cca3}`}>
                   <div className="flex items-center space-x-4">
                     <div className="flex-shrink-0">
