@@ -22,7 +22,7 @@ function DashboardStats({ category, data }: DashboardStatsProps) {
                 src={data.flags.png}
                 alt={data.flags.alt}
                 width={50}
-                className="float-right mt-2"
+                className="float-right mb-2"
               />
               {data.name.common}
             </div>
