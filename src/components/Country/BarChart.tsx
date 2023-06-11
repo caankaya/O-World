@@ -16,7 +16,6 @@ interface BarChartProps {
 function BarChart({ category }: BarChartProps) {
   if (category && category.job) {
     const population = category.population[1].values;
-    console.log('population :', population);
 
     const labels = Object;
     const data = {
