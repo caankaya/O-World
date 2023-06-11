@@ -44,8 +44,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = false;
       state.sessionId = null;
       state.username = null;
-      sessionStorage.removeItem('sessionId');
-      sessionStorage.removeItem('username');
+      sessionStorage.clear();
+      sessionStorage.clear();
     });
 });
 

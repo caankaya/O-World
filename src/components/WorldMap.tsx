@@ -15,7 +15,6 @@ interface CountryFeature {
   id: string;
 }
 
-
 function WorldMap() {
   const chartRef = useRef(null);
   const [countryName, setCountryName] = useState<string>('');
@@ -25,15 +24,9 @@ function WorldMap() {
 
   let countries: d3.Selection<d3.BaseType, CountryFeature, HTMLElement, any>;
 
-
   useEffect(() => {
     const width = 800;
     const height = 800;
-
-    // Supprimer les données du localstorage
-    if (localStorage) {
-      localStorage.clear();
-    }
 
     // Définir la projection
     const projection = d3
@@ -78,11 +71,6 @@ function WorldMap() {
         .attr('fill', 'white')
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
-        .on('click', (event, d) => {
-          const clickedPath = d3.select(event.currentTarget);
-          const clickedPathD = clickedPath.attr('d');
-          localStorage.setItem('path', clickedPathD);
-        })
         .on('mouseover', function (event: any, d: any) {
           d3.select(this).style('fill', '#0ff');
           setCountryName(d.properties.name);
@@ -113,13 +101,15 @@ function WorldMap() {
 
     svg.call(drag as any);
 
-    // Définir handleSearchChange dans le useeffect pour accéder aux autres variables comme countries 
+    // Définir handleSearchChange dans le useeffect pour accéder aux autres variables comme countries
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
       const query = event.target.value.toLowerCase();
       setSearchText(query);
 
       // Effectuer la recherche
-      const matchedCountry = countries.data().find(d => d.properties.name.toLowerCase().includes(query));
+      const matchedCountry = countries
+        .data()
+        .find((d) => d.properties.name.toLowerCase().includes(query));
 
       // Rset les couleur des pays
       countries.style('fill', '');
@@ -132,25 +122,27 @@ function WorldMap() {
         const centroid = d3.geoCentroid(matchedCountry);
         projection.rotate([-centroid[0], -centroid[1]]);
         svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', d => path(d));
+        svg.selectAll('.country').attr('d', (d) => path(d));
 
         // Mettre à jour le nom du pays dans les balises h1 et h2
         setCountryName(matchedCountry.properties.name);
       } else {
         // Si aucun pays ne correspond à la recherche, réinitialiser le nom du pays
-        setCountryName(''); 
+        setCountryName('');
       }
     };
 
     // Assigner handleSearchChange à une propriété globale
     chartRef.current.handleSearchChange = handleSearchChange;
-
-
   }, []);
 
-
   return (
-    <div className={`z-[1] items-center p-4 grid justify-center ${isSideBarOpen ? 'float-right' : ''}`} style={isSideBarOpen ? { width: worldWidth } : {}}>
+    <div
+      className={`z-[1] items-center p-4 grid justify-center ${
+        isSideBarOpen ? 'float-right' : ''
+      }`}
+      style={isSideBarOpen ? { width: worldWidth } : {}}
+    >
       <div ref={chartRef} className="flex flex-col items-center">
         <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
           {countryName || 'Click on a country'}
@@ -159,13 +151,15 @@ function WorldMap() {
           {countryName || 'Click on a country'}
         </h2>
         <input
-            type="text"
-            placeholder="Search..."
-            value={searchText}
-            onChange={(event) => chartRef.current.handleSearchChange(event)}
-            className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
-          />
-          <span className="italic text-sm text-neutral-content">Use search if you don't know where to find it</span>
+          type="text"
+          placeholder="Search..."
+          value={searchText}
+          onChange={(event) => chartRef.current.handleSearchChange(event)}
+          className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
+        />
+        <span className="italic text-sm text-neutral-content">
+          Use search if you don't know where to find it
+        </span>
       </div>
     </div>
   );

@@ -43,13 +43,13 @@ function SideBar({ category, data }: SideBarProps) {
                 WORLD
               </span>
               <a
-                href={`/`}
+                href={`/world`}
                 className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
               >
                 World information
               </a>
               <a
-                href={`/world`}
+                href={`/`}
                 className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
               >
                 Home
