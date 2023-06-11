@@ -17,13 +17,9 @@ export default function Home() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       dispatch(setLoading(false));
     }, 3000);
-
-    return () => {
-      clearTimeout(timer);
-    };
   }, []);
 
   return (
