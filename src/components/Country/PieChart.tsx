@@ -54,20 +54,8 @@ const PieChart = ({ category }: PieChartProps) => {
             protectedAverage.toFixed(2),
             pm25Average.toFixed(2),
           ],
-          backgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#2bd4bd',
-            '#828df8',
-          ],
-          hoverBackgroundColor: [
-            '#FF6384',
-            '#36A2EB',
-            '#FFCE56',
-            '#2bd4bd',
-            '#828df8',
-          ],
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#2bd4bd'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#2bd4bd'],
         },
       ],
     };
@@ -84,7 +72,7 @@ const PieChart = ({ category }: PieChartProps) => {
           style={{
             display: 'block',
             height: '500px',
-            width: '500px',
+            width: '600px',
             margin: 'auto',
             cursor: 'pointer',
           }}
