@@ -27,23 +27,23 @@ function UserFavorites() {
         );
 
         // console.log(response.data[0].favorite_countries);
+        if (response.data[0].favorite_countries) {
+          //Transforming the format of data received from the API
+          const transformedData = response.data[0].favorite_countries.map(
+            (country: [string, string, string]) => {
+              const [name, cca3, dateTime] = country;
+              const [date, time] = dateTime?.split(' ') ?? ['', ''];
 
-        //Transforming the format of data received from the API
-        const transformedData = response.data[0].favorite_countries.map(
-          (country: [string, string, string]) => {
-            const [name, cca3, dateTime] = country;
-            const [date, time] = dateTime.split(' ');
-
-            return {
-              name,
-              cca3,
-              date,
-              time,
-            };
-          }
-        );
-
-        setFavoritesCountries(transformedData);
+              return {
+                name,
+                cca3,
+                date,
+                time,
+              };
+            }
+          );
+          setFavoritesCountries(transformedData);
+        }
       } catch (error) {
         console.log('Data recovery error', error);
       }
