@@ -30,12 +30,10 @@ const NavBar = () => {
     <header className={`Header flex`}
     style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
     >
-      <nav
-        className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
-      >
+      <nav className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`} >
         <div className="flex mx-4">
           <button
-            className="btn btn-square btn-ghost"
+            className="btn btn-square btn-ghost hover:bg-base-100"
             onClick={() => {
               dispatch(togglerSideBar(isSideBarOpen));
             }}
@@ -58,7 +56,7 @@ const NavBar = () => {
             </button>
             {isDropDownMenuOpen && (
               <div className="absolute right-0 top-16">
-                <div className="bg-primary-content/50 shadow-xl flex flex-col rounded-lg">
+                <div className="bg-base-100/50 shadow-xl flex flex-col rounded-lg">
                   {!user && (
                     <ul>
                       <li>
