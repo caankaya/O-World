@@ -1,56 +1,130 @@
+'use client';
+
+import { useAppSelector } from "@/GlobalRedux/hooks";
+
 const EarthInfos = ({earthData}: {earthData: any} ) => {
+  const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+
+  const dataPlanet = earthData[0].data.dataPlanet;
+  const dataCategory = earthData[0].data.dataCategory;
   
-    const dataPlanet = earthData[0].data.dataPlanet;
-    const dataCategory = earthData[0].data.dataCategory;
-  
-    return (
-      <div className="earth-infos">
-        <h2>{dataPlanet.name}</h2>
-        <p>Mass: {dataPlanet.mass}</p>
-        <p>Diameter: {dataPlanet.diameter}</p>
-        <p>Habitants: {dataPlanet.habitants}</p>
-        <p>Continents: {dataPlanet.continents.join(', ')}</p>
-        <p>Population: {dataPlanet.population}</p>
-        <p>Orbital Period: {dataPlanet.orbitalPeriod}</p>
-        <p>Rotation Period: {dataPlanet.rotationPeriod}</p>
-        <p>Average Temperature: {dataPlanet.averageTemperature}</p>
-  
-        <h3>Atmosphere Composition:</h3>
-        <ul>
-          {Object.entries(dataPlanet.atmosphereComposition).map(([key, value]) => (
-            <li key={key}>{key}: {value}</li>
-          ))}
-        </ul>
-  
-        <h3>Niveau de développement:</h3>
-        <ul>
-          {Object.entries(dataPlanet['niveau de développement']).map(([key, value]) => (
-            <li key={key}>{key}: {value}</li>
-          ))}
-        </ul>
-  
+  return (
+      <section
+      className={`p-8 flex flex-col items-center justify-center w-full gap-5 ${
+        isSideBarOpen ? 'float-right' : ''
+      }`}
+      style={isSideBarOpen ? { width: DetailEarthWidth } : {}}
+    >
+        <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">{dataPlanet.name}</h1>
+        <h2 className="text-center text-3xl font-bold mb-2">{dataPlanet.name}</h2>
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-figure text-primary bg-transparent">
+              <img className="w-32 h-32" src="/planet-earth.png" alt="planet earth" />
+            </div>
+            <div className="stat-title">Planet</div>
+            <div className="stat-value text-primary">{dataPlanet.name}</div>
+            <div className="stat-desc">Mass: {dataPlanet.mass}</div>
+            <div className="stat-desc">Diameter: {dataPlanet.diameter}</div>
+          </div>
+        </div>
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Habitants</div>
+            <div className="stat-value text-primary">{dataPlanet.habitants}</div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">Population</div>
+            <div className="stat-value">{dataPlanet.population}</div>
+          </div>
+        </div>
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Continents</div>
+            <div className="stat-value text-secondary">{dataPlanet.continents.join(', ')}</div>
+          </div>
+        </div>
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Orbital Period</div>
+            <div className="stat-value text-primary">{dataPlanet.orbitalPeriod}</div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">Rotation Period</div>
+            <div className="stat-value text-secondary">{dataPlanet.rotationPeriod}</div>
+          </div>
+          <div className="stat">
+            <div className="stat-title">Average Temperature</div>
+            <div className="stat-value">{dataPlanet.averageTemperature}</div>
+          </div>
+        </div>
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Atmosphere Composition</div>
+            <ul>
+              {Object.entries(dataPlanet.atmosphereComposition).map(([key, value]) => (
+                <li key={key}>{key}: {value}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Development Level</div>
+            <ul>
+              {Object.entries(dataPlanet['niveau de développement']).map(([key, value]) => (
+                <li key={key}>{key}: {value}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         {dataPlanet.moons && dataPlanet.moons.length > 0 && (
-          <div>
-            <h3>Moons:</h3>
-            {dataPlanet.moons.map((moon, index) => (
-              <div key={index}>
-                <p>Name: {moon.name}</p>
-                <p>Mass: {moon.mass}</p>
-                <p>Diameter: {moon.diameter}</p>
-                <p>Orbital Period: {moon.orbitalPeriod}</p>
-              </div>
-            ))}
+          <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+            <div className="stat">
+              <div className="stat-title">Moons</div>
+              {dataPlanet.moons.map((moon: any, index: number) => (
+                <div key={index}>
+                  <div className="stat">
+                    <div className="stat-title">Name</div>
+                    <div className="stat-value">{moon.name}</div>
+                  </div>
+                  <div className="stat">
+                    <div className="stat-title">Mass</div>
+                    <div className="stat-value">{moon.mass}</div>
+                  </div>
+                  <div className="stat">
+                    <div className="stat-title">Diameter</div>
+                    <div className="stat-value">{moon.diameter}</div>
+                  </div>
+                  <div className="stat">
+                    <div className="stat-title">Orbital Period</div>
+                    <div className="stat-value">{moon.orbitalPeriod}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         )}
-  
-        <h3>Population Data:</h3>
-        <ul>
-          {Object.entries(dataCategory.population).map(([year, population]) => (
-            <li key={year}>{year}: {population.toLocaleString()}</li>
-          ))}
-        </ul>
-      </div>
-    );
+
+        <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+          <div className="stat">
+            <div className="stat-title">Population Data</div>
+            <ul>
+              {Object.entries(dataCategory.population).map(([year, population]) => (
+                <li key={year}>{year}: {population.toLocaleString()}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+    </section>
+  );
   };
   
   export default EarthInfos;
