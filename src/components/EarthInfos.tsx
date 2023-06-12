@@ -20,7 +20,7 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
         <h2 className="text-center text-3xl font-bold mb-2">{dataPlanet.name}</h2>
         <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
           <div className="stat">
-            <div className="stat-figure text-primary bg-transparent">
+            <div className="stat-figure text-primary bg-tr">
               <img className="w-32 h-32" src="/planet-earth.png" alt="planet earth" />
             </div>
             <div className="stat-title">Planet</div>
@@ -67,9 +67,13 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
           <div className="stat">
             <div className="stat-title">Atmosphere Composition</div>
             <ul>
-              {Object.entries(dataPlanet.atmosphereComposition).map(([key, value]) => (
-                <li key={key}>{key}: {value}</li>
-              ))}
+              {(Object.entries(dataPlanet.atmosphereComposition) as [string, string][]).map(
+                ([key, value]) => (
+                  <li key={key}>
+                    {key}: {value}
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -78,9 +82,13 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
           <div className="stat">
             <div className="stat-title">Development Level</div>
             <ul>
-              {Object.entries(dataPlanet['niveau de développement']).map(([key, value]) => (
-                <li key={key}>{key}: {value}</li>
-              ))}
+              {(Object.entries(dataPlanet['niveau de développement']) as [string, string][]).map(
+                ([key, value]) => (
+                  <li key={key}>
+                    {key}: {value}
+                  </li>
+                )
+              )}
             </ul>
           </div>
         </div>
@@ -117,15 +125,17 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
           <div className="stat">
             <div className="stat-title">Population Data</div>
             <ul>
-              {Object.entries(dataCategory.population).map(([year, population]) => (
-                <li key={year}>{year}: {population.toLocaleString()}</li>
+              {(Object.entries(dataCategory.population) as [string, number][]).map(([year, population]) => (
+                <li key={year}>
+                  {year}: {population.toLocaleString()}
+                </li>
               ))}
             </ul>
           </div>
         </div>
     </section>
   );
-  };
+};
   
   export default EarthInfos;
   
