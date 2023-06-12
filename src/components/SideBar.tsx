@@ -7,6 +7,7 @@ interface SideBarProps {
 }
 
 function SideBar({ category, data }: SideBarProps) {
+  const admin = sessionStorage.admin;
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
@@ -122,9 +123,24 @@ function SideBar({ category, data }: SideBarProps) {
               <li>
                 <a
                   href={`/profile`}
-                  className="flex items-center ml-3 p-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                 >
                   Profile
+                </a>
+              </li>
+            </ul>
+          )}
+          {admin && (
+            <ul className="mt-5">
+              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                Admin
+              </span>
+              <li>
+                <a
+                  href={`/profile`}
+                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                >
+                  Statistics
                 </a>
               </li>
             </ul>
