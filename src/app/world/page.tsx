@@ -27,7 +27,6 @@ const World = () => {
             useView: false,
           },
         });
-        console.log(data);
         dispatch(setCountryData(data));
         dispatch(setLoading(false));
       } catch (error) {
