@@ -24,17 +24,16 @@ function UserFavorites() {
             },
           }
         );
-        // console.log(response.data);
+
+        console.log(response.data[0].favorite_countries);
 
         //Transforming the format of data received from the API
         const transformedData = response.data[0].favorite_countries.map(
           (country) => {
-            const [fullName, cca3, dateTime] = country.split(', ');
-            const name = fullName.split(', ')[0];
+            const [name, cca3, dateTime] = country;
             const [date, time] = dateTime.split(' ');
 
             return {
-              fullName,
               name,
               cca3,
               date,
