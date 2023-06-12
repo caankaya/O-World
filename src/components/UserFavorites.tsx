@@ -3,6 +3,7 @@ import axios from '@/utils/axios';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import { useEffect, useState } from 'react';
+import { countryFavorites } from '@/@types/countryFavorites';
 
 function UserFavorites() {
   const userId = useAppSelector((state) => state.user.sessionId);
@@ -25,11 +26,11 @@ function UserFavorites() {
           }
         );
 
-        console.log(response.data[0].favorite_countries);
+        // console.log(response.data[0].favorite_countries);
 
         //Transforming the format of data received from the API
         const transformedData = response.data[0].favorite_countries.map(
-          (country) => {
+          (country: [string, string, string]) => {
             const [name, cca3, dateTime] = country;
             const [date, time] = dateTime.split(' ');
 
@@ -67,9 +68,6 @@ function UserFavorites() {
     fetchFlags();
   }, []);
 
-  console.log(favoritesCountries);
-  // console.log(flags);
-
   const handleViewCountries = () => {
     setIsViewAll(!isViewAll);
     if (!isViewAll) {
@@ -79,7 +77,7 @@ function UserFavorites() {
     setDisplayedCountries(8);
   };
 
-  const findFlagUrl = (flags, cca3) => {
+  const findFlagUrl = (flags: any[], cca3: string) => {
     const flagData = flags.find((flag) => flag.cca3 === cca3);
     return flagData ? flagData.flags.png : '';
   };
@@ -116,30 +114,32 @@ function UserFavorites() {
           </div>
         )}
         <ul role="list" className="divide-y divide-primary">
-          {favoritesCountries.slice(0, displayedCountries).map((country) => {
-            const flagUrl = findFlagUrl(flags, country.cca3);
-            return (
-              <li className="py-3 sm:py-4" key={country.cca3}>
-                <a href={`/country/${country.cca3}`}>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <img
-                        className="w-8 h-8 rounded-full"
-                        src={flagUrl}
-                        alt="Country flag"
-                      />
+          {favoritesCountries
+            .slice(0, displayedCountries)
+            .map((country: countryFavorites) => {
+              const flagUrl = findFlagUrl(flags, country.cca3);
+              return (
+                <li className="py-3 sm:py-4" key={country.cca3}>
+                  <a href={`/country/${country.cca3}`}>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex-shrink-0">
+                        <img
+                          className="w-8 h-8 rounded-full"
+                          src={flagUrl}
+                          alt="Country flag"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-white">{country.name}</p>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-white">{country.date}</p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-white">{country.name}</p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-white">{country.date}</p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
+                  </a>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>
