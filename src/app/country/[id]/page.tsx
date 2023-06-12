@@ -2,21 +2,20 @@
 
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import {
-  setCountryCategory,
-  setCountryData,
-} from '@/GlobalRedux/store/reducers/country';
+import { setCountryCategory, setCountryData } from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import axiosInstance from '@/utils/axios';
-import { Dna } from 'react-loader-spinner';
+
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
-import DetailCountry from '@/components/Country/DetailCountry';
-import { style } from 'd3';
 import OvniLoader from '@/components/OvniLoader';
+import GraphCountry from '@/components/Country/GraphCountry';
+
+import axiosInstance from '@/utils/axios';
+import { Dna } from 'react-loader-spinner';
+import { style } from 'd3';
 
 interface CountryProps {
   params: {
@@ -63,6 +62,7 @@ function Country({ params }: CountryProps) {
     <React.Fragment>
       <NavBar />
       <SideBar category={category} data={data} />
+
       <div className={`Country-${params.id} ml-5`}>
         <div
           className={`Country-${params.id}-container`}
@@ -73,9 +73,9 @@ function Country({ params }: CountryProps) {
           )}
         </div>
       </div>
-      {/* <RestCountriesInfos countryData={data} /> */}
-      <DetailCountry category={category} data={data} />
-
+      
+      <RestCountriesInfos countryData={data} />
+      <GraphCountry category={category} data={data} />
       <StarsCanvas />
       <Footer />
     </React.Fragment>
