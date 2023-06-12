@@ -8,7 +8,6 @@ import {
 } from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import axiosInstance from '@/utils/axios';
-
 import { Dna } from 'react-loader-spinner';
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
@@ -17,6 +16,7 @@ import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
 import DetailCountry from '@/components/Country/DetailCountry';
 import { style } from 'd3';
+import OvniLoader from '@/components/OvniLoader';
 
 interface CountryProps {
   params: {
@@ -69,14 +69,7 @@ function Country({ params }: CountryProps) {
           style={isSideBarOpen ? { width: containerWidth } : {}}
         >
           {loading && (
-            <Dna
-              visible={loading}
-              height="300"
-              width="300"
-              ariaLabel="dna-loading"
-              wrapperStyle={{ margin: '15rem auto' }}
-              wrapperClass="dna-wrapper"
-            />
+            <OvniLoader />
           )}
         </div>
       </div>

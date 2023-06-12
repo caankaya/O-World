@@ -1,11 +1,10 @@
 'use client';
 
+import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import axios from '@/utils/axios';
-import { useEffect, useState } from 'react';
 
 
-function RestCountriesInfos({countryData}: {countryData: any}) {
+function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | null}) {
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 

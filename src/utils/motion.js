@@ -73,3 +73,32 @@ export const fadeIn = (direction, type, delay, duration) => ({
     },
   },
 });
+
+export const staggerContainer = (staggerChildren, delayChildren) => ({
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren,
+      delayChildren,
+    },
+  },
+});
+
+// Effet d'animation d'apparition :
+export const ovniappearing = {
+  hidden: {
+    rotate: 0,
+    scale: 0.2,
+    opacity: 0,
+  },
+  show: {
+    rotate: 0,
+    scale: 1,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      duration: 2,
+      delay: 0.5,
+    },
+  },
+};

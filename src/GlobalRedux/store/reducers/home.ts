@@ -11,7 +11,7 @@ interface HomeState {
 }
 
 const initialState: HomeState = {
-  sideBar: true,
+  sideBar: false,
   dropDown: false,
   currentWidth: 'calc(100% - 256px)',
   modalWidth: 'calc(100% + 256px)',
