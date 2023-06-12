@@ -15,6 +15,7 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
+import OvniLoader from '@/components/OvniLoader';
 
 interface CountryProps {
   params: {
@@ -63,14 +64,7 @@ function Country({ params }: CountryProps) {
       <div className={`Country-${params.id} ml-5`}>
         <div className={`Country-${params.id}-container`}>
           {loading && (
-            <Dna
-              visible={loading}
-              height="300"
-              width="300"
-              ariaLabel="dna-loading"
-              wrapperStyle={{ margin: '15rem auto' }}
-              wrapperClass="dna-wrapper"
-            />
+            <OvniLoader />
           )}
         </div>
       </div>
