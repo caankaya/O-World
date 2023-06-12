@@ -9,9 +9,9 @@ function Admin() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   return (
-    <div
-      className={`p-4 flex flex-col items-center justify-start min-h-screen ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: AdminWidth } : {}}
+    <div className={`p-4 flex flex-col items-center justify-start min-h-screen 
+    ${isSideBarOpen ? 'float-right' : ''}`}
+    style={isSideBarOpen ? { width: AdminWidth } : {}}
     >
     <div className="container px-4 mx-auto w-full">
       <div className="flex flex-wrap -mx-4">

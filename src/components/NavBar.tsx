@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
@@ -8,11 +9,11 @@ import {
   togglerRegisterModal,
   togglerSideBar,
 } from '@/GlobalRedux/store/reducers/home';
+
 import AnimatedText from '../utils/motion';
 
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
-import React from 'react';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -26,9 +27,8 @@ const NavBar = () => {
   );
 
   return (
-    <header
-      className={`Header flex`}
-      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
+    <header className={`Header flex`}
+    style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
     >
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}

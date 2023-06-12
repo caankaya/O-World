@@ -13,11 +13,9 @@ function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | nu
   }
 
   return (
-    <section
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: DetailCountryWidth } : {}}
+    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 
+    ${isSideBarOpen ? 'float-right' : ''}`}
+    style={isSideBarOpen ? { width: DetailCountryWidth } : {}}
     >
       <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">

@@ -1,10 +1,7 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import {
-  togglerLoginModal,
-  togglerRegisterModal,
-} from '@/GlobalRedux/store/reducers/home';
+import { togglerLoginModal, togglerRegisterModal } from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
@@ -12,9 +9,7 @@ function LoginModal() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
-  const isRegisterModalOpen = useAppSelector(
-    (state) => state.home.registerModal
-  );
+  const isRegisterModalOpen = useAppSelector((state) => state.home.registerModal);
 
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -25,9 +20,8 @@ function LoginModal() {
   };
 
   return (
-    <dialog
+    <dialog className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       open={isLoginModalOpen}
-      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: loginModalWidth } : {}}
     >
       <form
