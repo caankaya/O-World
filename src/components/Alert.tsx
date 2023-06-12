@@ -3,8 +3,19 @@
 import { Alert } from '@/@types/alert';
 
 function Alert({ type, message }: Alert) {
+  console.log(type);
+
   return (
-    <div className={`alert alert-${type}`}>
+    <div
+      className={`alert ${
+        type === 'success'
+          ? 'alert-success'
+          : type === 'error'
+          ? 'alert-error'
+          : 'alert-warning'
+      }`}
+    >
+      {' '}
       {type === 'success' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -20,7 +31,6 @@ function Alert({ type, message }: Alert) {
           />
         </svg>
       )}
-
       {type === 'warning' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -36,7 +46,6 @@ function Alert({ type, message }: Alert) {
           />
         </svg>
       )}
-
       {type === 'error' && (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +61,6 @@ function Alert({ type, message }: Alert) {
           />
         </svg>
       )}
-
       <span>{message}</span>
     </div>
   );

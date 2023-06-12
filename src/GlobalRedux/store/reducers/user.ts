@@ -70,6 +70,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.username = null;
       state.alert = {
         type: 'error',
+        //TODO Envoyer une erreur spécifique côté back si les identifiants sont incorrects/inexistants
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
@@ -99,6 +100,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(register.rejected, (state, action) => {
       state.loading = false;
       state.alert = {
+        //TODO Envoyer une erreur spécifique côté back si les identifiants sont déjà pris
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };
@@ -106,7 +108,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(handleError, (state, action) => {
       state.alert = {
-        type: 'error',
+        type: 'warning',
         message: action.payload ?? 'Unknown error occurred.',
       };
     });

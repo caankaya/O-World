@@ -76,7 +76,6 @@ function RegisterModal() {
     const passwordRegex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      //TODO Display a message on the front to warn the user
       dispatch(
         handleError(
           'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
