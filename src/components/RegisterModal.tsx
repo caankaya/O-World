@@ -10,6 +10,7 @@ import {
   togglerLoginModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
+import { handleError, register } from '@/GlobalRedux/store/reducers/user';
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
@@ -63,9 +64,10 @@ function RegisterModal() {
     const password = registerFormData.get('password') as string;
     const confirmPassword = registerFormData.get('confirm-password') as string;
     if (password !== confirmPassword) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password confirmation does not match the password entered.'
+      dispatch(
+        handleError(
+          'The password confirmation does not match the password entered.'
+        )
       );
       return;
     }
@@ -75,8 +77,10 @@ function RegisterModal() {
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(password)) {
       //TODO Display a message on the front to warn the user
-      console.log(
-        'The password does not meet the required criteria: at least 12 characters, one upper case, one lower case and one special character.'
+      dispatch(
+        handleError(
+          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+        )
       );
       return;
     }
@@ -84,26 +88,15 @@ function RegisterModal() {
     // Delete confirmpassword value before saving user info in DB
     registerFormData.delete('confirm-password');
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/api/user',
-        Object.fromEntries(registerFormData)
-      );
-      console.log(response.data);
+    dispatch(register(registerFormData));
 
-      // Reset form after submission
-      if (formRef.current) {
-        formRef.current.reset();
-      }
-
-      //Close the modal
-      toggleRegisterModal();
-    } catch (error) {
-      console.log(
-        'The information provided does not allow you to create an account',
-        error
-      );
+    // Reset form after submission
+    if (formRef.current) {
+      formRef.current.reset();
     }
+
+    //Close the modal
+    toggleRegisterModal();
   };
 
   // Reset form when closing modal before submission

@@ -8,7 +8,6 @@ import { Alert } from '@/@types/alert';
 
 interface UserState {
   username: string | null;
-  message: string;
   isLogged: boolean;
   loading: boolean;
   sessionId: number | null;
@@ -18,7 +17,6 @@ interface UserState {
 const initialState: UserState = {
   username: null,
   isLogged: false,
-  message: '',
   sessionId: null,
   loading: false,
   alert: null,
@@ -34,6 +32,17 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAction('user/logout');
+
+export const register = createAsyncThunk(
+  'user/register',
+  async (formInput: FormData) => {
+    const obj = Object.fromEntries(formInput);
+    const response = await axiosInstance.post('/api/user', obj);
+    return response;
+  }
+);
+
+export const handleError = createAction<string>('user/handleError');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -61,7 +70,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.username = null;
       state.alert = {
         type: 'error',
-        message: action.error.code || 'UNKNOWN_ERROR',
+        message: action.error.message ?? 'Unknown error occurred.',
       };
     })
     .addCase(logout, (state) => {
@@ -73,6 +82,32 @@ const userReducer = createReducer(initialState, (builder) => {
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
+      };
+    });
+  builder
+    .addCase(register.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(register.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Your account has been created and you can now log in.`,
+      };
+    })
+    .addCase(register.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+      console.log('Error:', action.error);
+    })
+    .addCase(handleError, (state, action) => {
+      state.alert = {
+        type: 'error',
+        message: action.payload ?? 'Unknown error occurred.',
       };
     });
 });
