@@ -22,51 +22,53 @@ function SideBar({ category, data }: SideBarProps) {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
-          <a href="/" className="mb-5 flex flex-col justify-start items-center">
-            <img src="/ooo.png" className="h-20 mr-3" alt="OWorld Logo" />
-            <span className="self-center text-4xl font-semibold whitespace-nowrap">
-              OWorld
-            </span>
-            <span className="alien-font shadow-neon self-center text-xl font-semibold whitespace-nowrap">
-              OWorld
-            </span>
+          <a href="/" className="mb-5 flex justify-start items-center mr-5">
+            <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
+            <div className="logo flex flex-col items-start">
+              <span className="self-center text-2xl font-semibold whitespace-nowrap mr-2">
+                OWorld
+              </span>
+              <span className="alien-font shadow-neon self-center text-sm font-semibold whitespace-nowrap ml">
+                OWorld
+              </span>
+            </div>
           </a>
           {/*Fin LOGO ET TITRE */}
 
           {/* Debut de catégories pour le monde */}
-          {!category && !data && (
-            <ul className="space-y-2 font-medium mt-10 mb-10">
-              <li className="mb-10">
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-                  WORLD
-                </span>
-                <a
-                  href={`/world`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-                >
-                  World information
-                </a>
-                <a
-                  href={`/`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-                >
-                  Home
-                </a>
-                <a
-                  href={`/about`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-                >
-                  About
-                </a>
-              </li>
-            </ul>
-          )}
+
+          <ul className="space-y-2 font-medium mt-10 mb-10">
+            <li className="mb-10">
+              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+                WORLD
+              </span>
+              <a
+                href={`/world`}
+                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+              >
+                World information
+              </a>
+              <a
+                href={`/`}
+                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+              >
+                Home
+              </a>
+              <a
+                href={`/about`}
+                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+              >
+                About
+              </a>
+            </li>
+          </ul>
+
           {/*Fin de catégories pour le monde */}
 
           {/* Debut catégories pour un pays */}
-          {data && (
+          {data && category && (
             <ul className="mb-10 mt-10">
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-5">
+              <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-3">
                 Country
               </span>
               <span className="flex items-center pl-2.5 mb-5">
@@ -81,7 +83,7 @@ function SideBar({ category, data }: SideBarProps) {
               </span>
             </ul>
           )}
-          {category && (
+          {/* {category && (
             <ul>
               <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-5">
                 Categories
@@ -107,7 +109,7 @@ function SideBar({ category, data }: SideBarProps) {
                 </li>
               ))}
             </ul>
-          )}
+          )} */}
           {/* Fin de catégories pour un pays */}
           {/* Si Utilisateur est connecté */}
           {user && username && (
@@ -119,10 +121,10 @@ function SideBar({ category, data }: SideBarProps) {
               </span>
               <li>
                 <a
-                  href={`/`}
+                  href={`/profile`}
                   className="flex items-center ml-3 p-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
                 >
-                  Profil
+                  Profile
                 </a>
               </li>
             </ul>
