@@ -27,11 +27,11 @@ const NavBar = () => {
 
   return (
     <header
-      className={`Header flex ${isSideBarOpen ? 'justify-end' : 'w-full'}`}
+      className={`Header flex`}
+      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
     >
       <nav
         className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
-        style={isSideBarOpen ? { width: navBarWidth } : {}}
       >
         <div className="flex mx-4">
           <button

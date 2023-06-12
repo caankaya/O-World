@@ -25,6 +25,7 @@ export default function Home() {
     return () => clearTimeout(timer); // nettoyage
   }, [dispatch]);
 
+
   return (
     <main className="min-h-screen m-auto">
       {loading ? (
