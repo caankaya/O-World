@@ -26,8 +26,15 @@ function UserFavorites() {
           }
         );
 
-        // console.log(response.data[0].favorite_countries);
-        if (response.data[0].favorite_countries) {
+        // console.log(response.data);
+
+        if (
+          response.data[0].favorite_countries.length > 0 &&
+          response.data[0].favorite_countries.some(
+            (country: (string | null)[]) =>
+              country.some((value) => value !== null)
+          )
+        ) {
           //Transforming the format of data received from the API
           const transformedData = response.data[0].favorite_countries.map(
             (country: [string, string, string]) => {
@@ -43,7 +50,9 @@ function UserFavorites() {
             }
           );
           setFavoritesCountries(transformedData);
+          return;
         }
+        setFavoritesCountries([]);
       } catch (error) {
         console.log('Data recovery error', error);
       }
