@@ -37,7 +37,7 @@ function SideBar({ category, data }: SideBarProps) {
 
           <ul className="space-y-2 font-medium mt-10 mb-10">
             <li className="mb-10">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+              <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
                 WORLD
               </span>
               <a
@@ -66,7 +66,7 @@ function SideBar({ category, data }: SideBarProps) {
           {/* Debut catégories pour un pays */}
           {data && category && (
             <ul className="mb-10 mt-10">
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-3">
+              <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
                 Country
               </span>
               <span className="flex items-center pl-2.5 mb-5">

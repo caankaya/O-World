@@ -1,7 +1,7 @@
 'use client';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import { AdminTable } from './AdminComponents/AdminTable';
+import { AdminTable } from './AdminTable';
 
 
 function Admin() {

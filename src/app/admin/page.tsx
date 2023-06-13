@@ -1,6 +1,6 @@
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
-import Admin from '@/components/Admin';
+import Admin from '@/components/AdminComponents/Admin';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
 
