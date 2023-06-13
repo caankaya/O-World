@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { DataRow } from '@/@types/statsAdmin';
-import axios from '@/utils/axios';
+import axiosInstance from '@/utils/axios';
 
 
 const fetchData = async (url, params) => {
   try {
-    const response = await axios.get(url, {
+    const response = await axiosInstance.get(url, {
       params,
       headers: { accept: 'application/json' },
     });
@@ -15,6 +15,7 @@ const fetchData = async (url, params) => {
     return null;
   }
 };
+
 
 export const AdminTable = () => {
   // Introduire de nouvelles variables d'état pour la pagination
@@ -29,8 +30,8 @@ export const AdminTable = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       const [data, flags] = await Promise.all([
-        fetchData('http://localhost:3000/api/admin/stat', { useView: true }),
-        fetchData('http://localhost:3000/api/oworld/flags', {}),
+        fetchData('/api/admin/stat', { useView: true }),
+        fetchData('/api/oworld/flags', {}),
       ]);
       setData(data || []);
       setFlags(flags || []);

@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { setCountryData } from '@/GlobalRedux/store/reducers/country';
-import axios from '@/utils/axios';
+import axiosInstance from '@/utils/axios';
 
 import EarthInfos from '@/components/EarthInfos';
 import Footer from '@/components/Footer';
@@ -22,7 +22,7 @@ const World = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:3000/api/oworld', {
+        const { data } = await axiosInstance.get('/api/oworld', {
           params: {
             useView: false,
           },

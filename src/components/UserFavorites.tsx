@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { countryFavorites } from '@/@types/countryFavorites';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import axios from '@/utils/axios';
+import axiosInstance from '@/utils/axios';
 
 
 function UserFavorites() {
@@ -18,9 +18,9 @@ function UserFavorites() {
   useEffect(() => {
     const fetchFavoritesCountries = async () => {
       try {
-        const response = await axios.get(
+        const response = await axiosInstance.get(
           //TODO Dynamisation with userId when log persist
-          `http://localhost:3000/api/user/${userId}`,
+          `/api/user/${userId}`,
           {
             headers: {
               accept: 'application/json',
@@ -61,8 +61,8 @@ function UserFavorites() {
     };
     const fetchFlags = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/oworld/flags`,
+        const response = await axiosInstance.get(
+          `/api/oworld/flags`,
           {
             headers: {
               accept: 'application/json',

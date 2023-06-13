@@ -5,7 +5,6 @@ import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import About from '@/components/About';
 import Footer from '@/components/Footer';
 import FullPageLoader from '@/components/Loader';
-import LoginModal from '@/components/LoginModal';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';

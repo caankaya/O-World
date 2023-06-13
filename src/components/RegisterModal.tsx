@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { togglerRegisterModal, togglerLoginModal } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
 import { handleError, register } from '@/GlobalRedux/store/reducers/user';
-import axios from 'axios';
+import axiosInstance from '@/utils/axios';
 
 
 function RegisterModal() {
@@ -29,7 +29,7 @@ function RegisterModal() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/oworld', {
+        const response = await axiosInstance.get('/api/oworld', {
           params: {
             useView: true,
           },
