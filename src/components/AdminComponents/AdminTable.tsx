@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { DataRow } from '@/@types/statsAdmin';
-import { Pagination } from './Pagination';
 import axios from '@/utils/axios';
 
 
