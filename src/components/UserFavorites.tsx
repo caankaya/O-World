@@ -1,9 +1,11 @@
 'use client';
+
+import { useEffect, useState } from 'react';
+
+import { countryFavorites } from '@/@types/countryFavorites';
+import { useAppSelector } from '@/GlobalRedux/hooks';
 import axios from '@/utils/axios';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
-import { useEffect, useState } from 'react';
-import { countryFavorites } from '@/@types/countryFavorites';
 
 function UserFavorites() {
   const userId = useAppSelector((state) => state.user.sessionId);

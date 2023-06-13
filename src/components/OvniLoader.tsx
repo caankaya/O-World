@@ -2,13 +2,13 @@ import { motion } from 'framer-motion';
 import { ovniappearing, staggerContainer } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
-const Loader = () => {
+const OvniLoader = () => {
   const ovniloaderWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   return (
     <motion.div
-      variants={staggerContainer}
+      variants={staggerContainer(0.1, 0.2)}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
@@ -29,4 +29,4 @@ const Loader = () => {
   )
 }
 
-export default Loader
+export default OvniLoader

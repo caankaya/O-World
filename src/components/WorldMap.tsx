@@ -158,7 +158,7 @@ function WorldMap() {
           className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
         />
         <span className="italic text-sm text-neutral-content">
-          Use search if you don't know where to find it
+          type the name of the country if you don't know where it is
         </span>
       </div>
     </div>
