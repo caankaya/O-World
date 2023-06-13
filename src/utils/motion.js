@@ -1,17 +1,17 @@
 import { motion, useAnimation } from "framer-motion"; // npm i framer-motion
 import { useEffect, useState } from "react";
 
-const text = "dolor sit amet consectetur"; 
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Nous créons une chaîne de caractères qui contient tous les caractères que nous voulons utiliser pour animer le texte.
 
 const TextLetter = ({ children }) => {
   const controls = useAnimation();
   const [displayLetter, setDisplayLetter] = useState(children);
 
-  useEffect(() => {// useEffect est un Hook qui permet d'exécuter du code à chaque fois que le composant est rendu. Ici, nous utilisons useEffect pour animer chaque lettre du texte.
+  useEffect(() => { // useEffect est un Hook qui permet d'exécuter du code à chaque fois que le composant est rendu. Ici, nous utilisons useEffect pour animer chaque lettre du texte.
+    let isMounted = true;
     const animate = async () => {
       let counter = 0;
-      while (counter < 10) {
+      while (counter < 10 && isMounted) {
         await controls.start({
           opacity: 1,
           transition: { duration: Math.random() + 0.5}
@@ -23,8 +23,10 @@ const TextLetter = ({ children }) => {
         counter++;
       }
     };
-
     animate();
+    return () => { // Quand le composant se démonte, on change la valeur de isMounted
+      isMounted = false;
+    };
   }, [controls]); // useEffect est exécuté à chaque fois que controls change.
 
   return (
@@ -54,7 +56,18 @@ const AnimatedText = ({ text }) => {
 export default AnimatedText;
 
 
-// Effet d'animation de fondu :
+
+export const staggerContainer = (staggerChildren, delayChildren) => ({
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren,
+      delayChildren,
+    },
+  },
+});
+
+// Effet d'animation d'afffichage fondu :
 export const fadeIn = (direction, type, delay, duration) => ({
   hidden: {
     x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
@@ -74,31 +87,19 @@ export const fadeIn = (direction, type, delay, duration) => ({
   },
 });
 
-export const staggerContainer = (staggerChildren, delayChildren) => ({
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren,
-      delayChildren,
-    },
-  },
-});
-
-// Effet d'animation d'apparition :
 export const ovniappearing = {
   hidden: {
-    rotate: 0,
-    scale: 0.2,
-    opacity: 0,
+    x: '100%', // Partir de la droite (en dehors de l'écran)
+    scale: 1,
+    opacity: 1,
   },
   show: {
-    rotate: 0,
+    x: '-100%', // Aller à gauche (en dehors de l'écran)
     scale: 1,
     opacity: 1,
     transition: {
-      type: 'spring',
-      duration: 2,
-      delay: 0.5,
+      duration: 5, // Durée de l'animation
+      ease: "linear" // Mouvement linéaire
     },
   },
 };

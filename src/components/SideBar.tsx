@@ -1,4 +1,5 @@
 'use client';
+
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
 interface SideBarProps {
@@ -14,14 +15,11 @@ function SideBar({ category, data }: SideBarProps) {
 
   return (
     <div className="SideBar z-[1]">
-      <aside
-        id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${
-          sideBar && 'sm:translate-x-0'
-        }`}
+      <aside id="logo-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full 
+      ${sideBar && 'sm:translate-x-0'}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-base-100/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex justify-start items-center mr-5">
             <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
@@ -40,7 +38,7 @@ function SideBar({ category, data }: SideBarProps) {
 
           <ul className="space-y-2 font-medium mt-10 mb-10">
             <li className="mb-10">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+              <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
                 WORLD
               </span>
               <a
@@ -69,7 +67,7 @@ function SideBar({ category, data }: SideBarProps) {
           {/* Debut catégories pour un pays */}
           {data && category && (
             <ul className="mb-10 mt-10">
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-3">
+              <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
                 Country
               </span>
               <span className="flex items-center pl-2.5 mb-5">
@@ -121,6 +119,7 @@ function SideBar({ category, data }: SideBarProps) {
                   username.slice(1).toLowerCase()}
               </span>
               <li>
+
                 <a
                   href={`/profile`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"

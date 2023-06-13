@@ -50,11 +50,9 @@ const About = () => {
   ];
 
   return (
-    <section
-      className={`p-4 flex flex-col items-center justify-center  ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: aboutWidth } : {}}
+    <section className={`p-4 flex flex-col items-center justify-center  
+    ${ isSideBarOpen ? 'float-right' : ''}`}
+    style={isSideBarOpen ? { width: aboutWidth } : {}}
     >
       <div className="container px-4 mx-auto w-full">
         <div className="xl:max-w-4xl mx-auto text-center">

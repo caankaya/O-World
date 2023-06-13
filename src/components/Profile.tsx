@@ -9,11 +9,9 @@ function Profile() {
   const ProfileWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   return (
-    <div
-      className={`p-4 flex items-center justify-center gap-16 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: ProfileWidth } : {}}
+    <div className={`p-4 flex items-center justify-center gap-16 
+    ${ isSideBarOpen ? 'float-right' : ''}`}
+    style={isSideBarOpen ? { width: ProfileWidth } : {}}
     >
       <UpdateProfile />
       <UserFavorites />

@@ -2,9 +2,8 @@
 
 function UpdateProfile() {
   return (
-    <form
+    <form className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow flex flex-col gap-5"
       method=""
-      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow flex flex-col gap-5"
       action="#"
     >
       <div className="flex flex-col items-center">

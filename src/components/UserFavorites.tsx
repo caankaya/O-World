@@ -1,8 +1,8 @@
 'use client';
-import axios from '@/utils/axios';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
 import { useEffect, useState } from 'react';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+import axios from '@/utils/axios';
 
 function UserFavorites() {
   const userId = useAppSelector((state) => state.user.id);
