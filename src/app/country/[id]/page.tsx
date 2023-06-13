@@ -10,12 +10,11 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
-import OvniLoader from '@/components/OvniLoader';
 import GraphCountry from '@/components/Country/GraphCountry';
 
 import axiosInstance from '@/utils/axios';
-import { Dna } from 'react-loader-spinner';
-import { style } from 'd3';
+import FullPageLoader from '@/components/Loader';
+
 
 interface CountryProps {
   params: {
@@ -38,7 +37,6 @@ function Country({ params }: CountryProps) {
           `/api/oworld/${params.id}/category`
         );
         dispatch(setCountryCategory(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.log('Category:', error);
       }
@@ -48,7 +46,6 @@ function Country({ params }: CountryProps) {
       try {
         const { data } = await axiosInstance.get(`/api/oworld/${params.id}`);
         dispatch(setCountryData(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.log('Data :', error);
       }
@@ -58,26 +55,31 @@ function Country({ params }: CountryProps) {
     fetchData();
   }, [params.id]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setLoading(false));
+    }, 3000); // 3 secondes de délai
+
+    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
+  }, [dispatch]);
+
   return (
     <React.Fragment>
-      <NavBar />
-      <SideBar category={category} data={data} />
-
-      <div className={`Country-${params.id} ml-5`}>
-        <div
-          className={`Country-${params.id}-container`}
-          style={isSideBarOpen ? { width: containerWidth } : {}}
-        >
-          {loading && (
-            <OvniLoader />
-          )}
-        </div>
-      </div>
-      
-      <RestCountriesInfos countryData={data} />
-      <GraphCountry category={category} data={data} />
-      <StarsCanvas />
-      <Footer />
+      {loading ? (
+        <>
+          <FullPageLoader />
+          <StarsCanvas />
+        </>
+      ) : (
+        <>
+          <NavBar />
+          <SideBar category={category} data={data} />
+          <RestCountriesInfos countryData={data} />
+          <GraphCountry category={category} data={data} />
+          <StarsCanvas />
+          <Footer />
+        </>
+      )}
     </React.Fragment>
   );
 }

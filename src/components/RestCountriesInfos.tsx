@@ -3,6 +3,9 @@
 import React from 'react';
 import CountUp from 'react-countup';
 
+import { motion } from 'framer-motion';
+import { staggerContainer, fadeIn } from '../utils/motion';
+
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
@@ -17,11 +20,19 @@ function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | nu
   }
 
   return (
-    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 
+    <motion.div 
+    variants={staggerContainer(0.1, 0.2)}
+    initial="hidden"
+    whileInView="show"
+    viewport={{ once: false, amount: 0.25 }}
+    className={`p-8 flex flex-col items-center justify-center w-full gap-5 
     ${isSideBarOpen ? 'float-right' : ''}`}
     style={isSideBarOpen ? { width: DetailCountryWidth } : {}}
     >
-      <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+
+      <motion.div
+      variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
+      className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">
           <div className="stat-figure text-primary">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-8 h-8 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
@@ -42,9 +53,11 @@ function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | nu
             <img src={countryData.coatOfArms.png} alt={countryData.name.common} className="absolute w-full h-full object-contain" />
           </div>
         </div>
-      </div>   
+      </motion.div>   
 
-      <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+      <motion.div
+      variants={fadeIn('up', 'spring', 1 * 0.5, 1)} // index = 0 for first card
+      className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">
           <div className="stat-title">Area</div>
           <div className="stat-value">
@@ -59,9 +72,11 @@ function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | nu
           <div className="stat-title">Capital</div>
           <div className="stat-value text-secondary">{countryData.capital[0]}</div>
         </div>
-      </div>  
+      </motion.div>  
 
-      <div className="stats stats-vertical lg:stats-horizontal shadow w-full">
+      <motion.div
+      variants={fadeIn('up', 'spring', 2 * 0.5, 1)} // index = 0 for first card
+      className="stats stats-vertical lg:stats-horizontal shadow w-full">
         <div className="stat">
           <div className="stat-title">Population</div>
           <div className="stat-value">
@@ -82,8 +97,9 @@ function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | nu
           <div className="stat-value">{countryData.car.side}</div>
           <div className="stat-desc">Car sign: {countryData.car.signs}</div>
         </div>
-      </div>
-    </section>
+      </motion.div>
+
+    </motion.div>
   );
 }
 

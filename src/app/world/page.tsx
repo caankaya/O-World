@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { setCountryData } from '@/GlobalRedux/store/reducers/country';
@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
-import OvniLoader from "@/components/OvniLoader";
+import FullPageLoader from '@/components/Loader';
 
 
 const World = () => {
@@ -28,7 +28,6 @@ const World = () => {
           },
         });
         dispatch(setCountryData(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.error("Error fetching Earth data:", error);
       }
@@ -36,20 +35,30 @@ const World = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setLoading(false));
+    }, 3000); // 3 secondes de délai
+
+    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
+  }, [dispatch]);
 
   return (
     <React.Fragment>
-      <NavBar />
-      <SideBar />
-      {loading && (
-        <OvniLoader />
+      {loading ? (
+        <>
+          <FullPageLoader />
+          <StarsCanvas />
+        </>
+      ) : (
+        <>
+          <NavBar />
+          <SideBar category={undefined} data={undefined} />
+          <EarthInfos earthData={data}/>
+          <StarsCanvas />
+          <Footer />
+        </>
       )}
-      <EarthInfos earthData={data}/>
-      <StarsCanvas />
-      <Footer />
     </React.Fragment>
   );
 }
