@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { setCountryData } from '@/GlobalRedux/store/reducers/country';
@@ -12,6 +12,7 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
 import OvniLoader from "@/components/OvniLoader";
+import FullPageLoader from '@/components/Loader';
 
 
 const World = () => {
@@ -36,20 +37,32 @@ const World = () => {
     fetchData();
   }, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  const [showLoader, setShowLoader] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowLoader(false);
+    }, 3000); // 3 secondes de délai
+
+    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
+  }, []);
 
   return (
     <React.Fragment>
-      <NavBar />
-      <SideBar />
-      {loading && (
-        <OvniLoader />
+      {showLoader ? (
+        <>
+          <FullPageLoader />
+          <StarsCanvas />
+        </>
+      ) : (
+        <>
+          <NavBar />
+          <SideBar category={undefined} data={undefined} />
+          <EarthInfos earthData={data}/>
+          <StarsCanvas />
+          <Footer />
+        </>
       )}
-      <EarthInfos earthData={data}/>
-      <StarsCanvas />
-      <Footer />
     </React.Fragment>
   );
 }
