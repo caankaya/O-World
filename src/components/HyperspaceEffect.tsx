@@ -1,10 +1,24 @@
 const HyperspaceEffect = () => {
   return (
-    <video autoPlay loop muted className="fixed min-h-screen min-w-full right-0 bottom-0">
-    <source src="/Hyperspace-Jump.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
+  <div className="container-effect">
+    <div className="scene">
+      <div className="wrap">
+          <div className="wall wall-right"></div>
+          <div className="wall wall-left"></div>   
+          <div className="wall wall-top"></div>
+          <div className="wall wall-bottom"></div> 
+          <div className="wall wall-back"></div>    
+      </div>
+      <div className="wrap">
+          <div className="wall wall-right"></div>
+          <div className="wall wall-left"></div>   
+          <div className="wall wall-top"></div>
+          <div className="wall wall-bottom"></div>   
+          <div className="wall wall-back"></div>    
+      </div>
+    </div>
+  </div>
   )
 }
 
-export default HyperspaceEffect
+export default HyperspaceEffect;
