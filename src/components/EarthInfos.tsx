@@ -33,7 +33,7 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
     }
 
     // degrees Celsius
-    match = valueString.match(/([\d.]+) Â°C/);
+    match = valueString.match(/([\d.]+) °C/);
     if (match && match[1]) {
         return parseFloat(match[1]);
     }

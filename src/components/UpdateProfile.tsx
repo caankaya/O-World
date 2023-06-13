@@ -2,7 +2,7 @@
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { logout } from '@/GlobalRedux/store/reducers/user';
-import axios from '@/utils/axios';
+import axiosInstance from '@/utils/axios';
 
 import { useRef, useState } from 'react';
 
@@ -46,8 +46,8 @@ function UpdateProfile() {
     newFormData.delete('confirm-password');
 
     try {
-      const response = await axios.put(
-        `http://localhost:3000/api/user/${userId}`,
+      const response = await axiosInstance.put(
+        `/api/user/${userId}`,
         Object.fromEntries(newFormData)
       );
       console.log(response.data);
@@ -66,8 +66,8 @@ function UpdateProfile() {
 
   const handleClickDeleteAccount = async () => {
     try {
-      const response = await axios.delete(
-        `http://localhost:3000/api/user/${userId}`
+      const response = await axiosInstance.delete(
+        `/api/user/${userId}`
       );
       console.log(response.data);
       dispatch(logout());
