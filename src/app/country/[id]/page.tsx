@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setCountryCategory, setCountryData } from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
@@ -10,7 +10,6 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import StarsCanvas from '@/components/Stars';
-import OvniLoader from '@/components/OvniLoader';
 import GraphCountry from '@/components/Country/GraphCountry';
 
 import axiosInstance from '@/utils/axios';
@@ -31,8 +30,6 @@ function Country({ params }: CountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const containerWidth = useAppSelector((state) => state.home.modalWidth);
 
-  const [showLoader, setShowLoader] = useState(true);
-
   useEffect(() => {
     const fetchCategory = async () => {
       try {
@@ -40,7 +37,6 @@ function Country({ params }: CountryProps) {
           `/api/oworld/${params.id}/category`
         );
         dispatch(setCountryCategory(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.log('Category:', error);
       }
@@ -50,7 +46,6 @@ function Country({ params }: CountryProps) {
       try {
         const { data } = await axiosInstance.get(`/api/oworld/${params.id}`);
         dispatch(setCountryData(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.log('Data :', error);
       }
@@ -62,15 +57,15 @@ function Country({ params }: CountryProps) {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowLoader(false);
+      dispatch(setLoading(false));
     }, 3000); // 3 secondes de délai
 
     return () => clearTimeout(timer); // Efface le timer si le composant est démonté
-  }, []);
+  }, [dispatch]);
 
   return (
     <React.Fragment>
-      {showLoader ? (
+      {loading ? (
         <>
           <FullPageLoader />
           <StarsCanvas />

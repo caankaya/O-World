@@ -11,7 +11,6 @@ import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import StarsCanvas from '@/components/Stars';
-import OvniLoader from "@/components/OvniLoader";
 import FullPageLoader from '@/components/Loader';
 
 
@@ -29,7 +28,6 @@ const World = () => {
           },
         });
         dispatch(setCountryData(data));
-        dispatch(setLoading(false));
       } catch (error) {
         console.error("Error fetching Earth data:", error);
       }
@@ -37,19 +35,17 @@ const World = () => {
     fetchData();
   }, []);
 
-  const [showLoader, setShowLoader] = useState(true);
-
   useEffect(() => {
     const timer = setTimeout(() => {
-      setShowLoader(false);
+      dispatch(setLoading(false));
     }, 3000); // 3 secondes de délai
 
     return () => clearTimeout(timer); // Efface le timer si le composant est démonté
-  }, []);
+  }, [dispatch]);
 
   return (
     <React.Fragment>
-      {showLoader ? (
+      {loading ? (
         <>
           <FullPageLoader />
           <StarsCanvas />
