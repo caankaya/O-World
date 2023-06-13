@@ -54,7 +54,18 @@ const AnimatedText = ({ text }) => {
 export default AnimatedText;
 
 
-// Effet d'animation de fondu :
+
+export const staggerContainer = (staggerChildren, delayChildren) => ({
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren,
+      delayChildren,
+    },
+  },
+});
+
+// Effet d'animation d'afffichage fondu :
 export const fadeIn = (direction, type, delay, duration) => ({
   hidden: {
     x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
@@ -70,16 +81,6 @@ export const fadeIn = (direction, type, delay, duration) => ({
       delay,
       duration,
       ease: 'easeOut',
-    },
-  },
-});
-
-export const staggerContainer = (staggerChildren, delayChildren) => ({
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren,
-      delayChildren,
     },
   },
 });

@@ -14,8 +14,6 @@ import OvniLoader from '@/components/OvniLoader';
 import GraphCountry from '@/components/Country/GraphCountry';
 
 import axiosInstance from '@/utils/axios';
-import { Dna } from 'react-loader-spinner';
-import { style } from 'd3';
 
 interface CountryProps {
   params: {
