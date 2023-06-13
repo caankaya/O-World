@@ -78,7 +78,7 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
-  
+
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.sessionId = null;
@@ -88,7 +88,7 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'success',
         message: 'You are disconnected',
       };
-    });
+    })
 
     .addCase(register.pending, (state, action) => {
       state.loading = true;
@@ -110,7 +110,7 @@ const userReducer = createReducer(initialState, (builder) => {
       };
       console.log('Error:', action.error);
     })
-  
+
     .addCase(handleError, (state, action) => {
       state.alert = {
         type: 'warning',
