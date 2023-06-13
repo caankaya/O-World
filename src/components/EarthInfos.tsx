@@ -1,6 +1,7 @@
 'use client';
 
 import { useAppSelector } from "@/GlobalRedux/hooks";
+import CountUp from "react-countup";
 
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
@@ -9,8 +10,41 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
-  const dataPlanet = earthData[0].data.dataPlanet;
+  const dataPlanet = earthData[0].data;
   const dataCategory = earthData[0].data.dataCategory;
+
+  const parseValue = (valueString: string) => {
+    // billions
+    let match = valueString.match(/([\d.]+) billion/);
+    if (match && match[1]) {
+        return parseFloat(match[1]) * 1e9;
+    }
+
+    // days
+    match = valueString.match(/([\d.]+) days/);
+    if (match && match[1]) {
+        return parseFloat(match[1]);
+    }
+
+    // hours
+    match = valueString.match(/([\d.]+) hours/);
+    if (match && match[1]) {
+        return parseFloat(match[1]);
+    }
+
+    // degrees Celsius
+    match = valueString.match(/([\d.]+) Â°C/);
+    if (match && match[1]) {
+        return parseFloat(match[1]);
+    }
+
+    return 0; // return 0 if not match or not parseable
+  };
+
+  const populationNumber = parseValue(dataPlanet.population);
+  const orbitalPeriod = parseValue(dataPlanet.orbitalPeriod);
+  const rotationPeriod = parseValue(dataPlanet.rotationPeriod);
+  const averageTemperature = parseValue(dataPlanet.averageTemperature);
   
   return (
     <motion.div 
@@ -23,32 +57,38 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
       style={isSideBarOpen ? { width: DetailEarthWidth } : {}}
       >
         <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">{dataPlanet.name}</h1>
-        <h2 className="text-center text-3xl font-bold mb-2">{dataPlanet.name}</h2>
 
-        <motion.div 
-        variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
-        className="stats stats-vertical lg:stats-horizontal shadow w-full">
-          <div className="stat">
-            <div className="stat-figure text-primary bg-tr">
-              <img className="w-32 h-32" src="/planet-earth.png" alt="planet earth" />
-            </div>
-            <div className="stat-title">Planet</div>
-            <div className="stat-value text-primary">{dataPlanet.name}</div>
-            <div className="stat-desc">Mass: {dataPlanet.mass}</div>
-            <div className="stat-desc">Diameter: {dataPlanet.diameter}</div>
-          </div>
-        </motion.div>
+        <div className="flex w-full">
+          <motion.div 
+              variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
+              className="stats stats-vertical lg:stats-horizontal shadow w-full bg-transparent">
+              <div className="stat">
+                  <div className="stat-title">Planet</div>
+                  <div className="stat-value text-primary">{dataPlanet.name}</div>
+                  <div className="stat-title">Mass: {dataPlanet.mass}</div>
+                  <div className="stat-title">Diameter: {dataPlanet.diameter}</div>
+              </div>
+          </motion.div>
+
+          <motion.div 
+              variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
+              className="stats stats-vertical lg:stats-horizontal shadow w-full flex justify-center bg-transparent">
+              <img className="w-48 h-48" src="/planet-earth.png" alt="planet earth" />
+          </motion.div>
+        </div>
 
         <motion.div 
         variants={fadeIn('up', 'spring', 1 * 0.5, 1)} // index = 1 for second card
         className="stats stats-vertical lg:stats-horizontal shadow w-full">
           <div className="stat">
             <div className="stat-title">Habitants</div>
-            <div className="stat-value text-primary">{dataPlanet.habitants}</div>
+            <div className="stat-value text-primary">{dataPlanet.inhabitants}</div>
           </div>
           <div className="stat">
             <div className="stat-title">Population</div>
-            <div className="stat-value">{dataPlanet.population}</div>
+            <div className="stat-value">
+              <CountUp start={0} end={populationNumber} duration={5} separator="," />
+            </div>
           </div>
         </motion.div>
 
@@ -66,15 +106,21 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
         className="stats stats-vertical lg:stats-horizontal shadow w-full">
           <div className="stat">
             <div className="stat-title">Orbital Period</div>
-            <div className="stat-value text-primary">{dataPlanet.orbitalPeriod}</div>
+            <div className="stat-value text-primary">
+              <CountUp start={0} end={orbitalPeriod} duration={10} separator="," />{' '} Days
+            </div>
           </div>
           <div className="stat">
             <div className="stat-title">Rotation Period</div>
-            <div className="stat-value text-secondary">{dataPlanet.rotationPeriod}</div>
+            <div className="stat-value text-secondary">
+              <CountUp start={0} end={rotationPeriod} duration={10} separator="," />{' '} Hours
+            </div>
           </div>
           <div className="stat">
             <div className="stat-title">Average Temperature</div>
-            <div className="stat-value">{dataPlanet.averageTemperature}</div>
+            <div className="stat-value">
+              <CountUp start={0} end={averageTemperature} duration={10} separator="," />{' '} °C
+            </div>
           </div>
         </motion.div>
 
@@ -101,7 +147,7 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
           <div className="stat">
             <div className="stat-title">Development Level</div>
             <ul>
-              {(Object.entries(dataPlanet['niveau de développement']) as [string, string][]).map(
+              {(Object.entries(dataPlanet["level of development"]) as [string, string][]).map(
                 ([key, value]) => (
                   <li key={key}>
                     {key}: {value}
