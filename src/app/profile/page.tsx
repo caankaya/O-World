@@ -1,11 +1,13 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import Alert from '@/components/Alert';
+
 import FullPageLoader from '@/components/Loader';
+import Alert from '@/components/Alert';
 import Profile from '@/components/Profile';
-import React, { useEffect } from 'react';
 
 export default function Page() {
   const dispatch = useAppDispatch();

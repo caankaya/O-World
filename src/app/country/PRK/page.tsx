@@ -1,21 +1,14 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import Footer from '@/components/Footer';
-import NavBar from '@/components/NavBar';
-import SideBar from '@/components/SideBar';
-import StarsCanvas from '@/components/Stars';
-import OvniLoader from '@/components/OvniLoader';
+import { useEffect } from 'react';
+
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import {
-  setCountryCategory,
-  setCountryData,
-} from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import axios from '@/utils/axios';
+
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
 
+//TODO Typer les interface dans le dossier types
 interface CountryProps {
   params: {
     id: string;
@@ -24,38 +17,10 @@ interface CountryProps {
 
 function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
-  const category = useAppSelector((state) => state.country.category);
-  const data = useAppSelector((state) => state.country.data);
   const loading = useAppSelector((state) => state.home.spinner);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const alert = useAppSelector((state) => state.user.alert);
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:3000/api/oworld/${params.id}/category`
-        );
-        dispatch(setCountryCategory(data));
-      } catch (error) {
-        console.log('Category:', error);
-      }
-    };
-
-    const fetchData = async () => {
-      try {
-        const { data } = await axios.get(
-          `http://localhost:3000/api/oworld/${params.id}`
-        );
-        dispatch(setCountryData(data));
-      } catch (error) {
-        console.log('Data :', error);
-      }
-    };
-    fetchCategory();
-    fetchData();
-  }, [params.id]);
 
   useEffect(() => {
     const timer = setTimeout(() => {

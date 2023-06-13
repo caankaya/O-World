@@ -1,6 +1,9 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import axiosInstance from '@/utils/axios';
+
+import { useEffect } from 'react';
+
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   setCountryCategory,
@@ -8,13 +11,12 @@ import {
 } from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 
+import FullPageLoader from '@/components/Loader';
+import Alert from '@/components/Alert';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 
-import axiosInstance from '@/utils/axios';
-import FullPageLoader from '@/components/Loader';
-import Alert from '@/components/Alert';
-
+//TODO Typer les interface dans le dossier types
 interface CountryProps {
   params: {
     id: string;

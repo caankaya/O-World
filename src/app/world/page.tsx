@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { setCountryData } from '@/GlobalRedux/store/reducers/country';
 import axiosInstance from '@/utils/axios';
 
-import EarthInfos from '@/components/EarthInfos';
-
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
+import EarthInfos from '@/components/EarthInfos';
 
 const World = () => {
   const dispatch = useAppDispatch();
@@ -17,6 +17,7 @@ const World = () => {
   const data = useAppSelector((state) => state.country.data);
   const alert = useAppSelector((state) => state.user.alert);
 
+  //TODO Déplacer l'appel API directement dans le reducer country pour stocker les données dans le state et les récupérer dans les composants nécessaires
   useEffect(() => {
     const fetchData = async () => {
       try {
