@@ -27,6 +27,7 @@ export const login = createAsyncThunk(
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
     const response = await axiosInstance.post('/api/log/in', obj);
+    console.log('response :', response);
     return response;
   }
 );
@@ -52,10 +53,13 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.loading = false;
-      const { id, username } = action.payload.data.session;
+      const { id, username, roles } = action.payload.data.session;
       state.isLogged = true;
       state.sessionId = id;
       state.username = username;
+      if (roles) {
+        sessionStorage.setItem('admin', roles[0]);
+      }
       sessionStorage.setItem('sessionId', id.toString());
       sessionStorage.setItem('username', username);
       state.alert = {
@@ -74,18 +78,18 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
+  
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.sessionId = null;
       state.username = null;
-      sessionStorage.clear();
       sessionStorage.clear();
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
       };
     });
-  builder
+
     .addCase(register.pending, (state, action) => {
       state.loading = true;
       state.alert = null;
@@ -106,6 +110,7 @@ const userReducer = createReducer(initialState, (builder) => {
       };
       console.log('Error:', action.error);
     })
+  
     .addCase(handleError, (state, action) => {
       state.alert = {
         type: 'warning',

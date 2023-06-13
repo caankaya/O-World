@@ -1,9 +1,11 @@
 'use client';
+
+import { useEffect, useState } from 'react';
+
+import { countryFavorites } from '@/@types/countryFavorites';
+import { useAppSelector } from '@/GlobalRedux/hooks';
 import axios from '@/utils/axios';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
-import { useEffect, useState } from 'react';
-import { countryFavorites } from '@/@types/countryFavorites';
 
 function UserFavorites() {
   const userId = useAppSelector((state) => state.user.sessionId);
@@ -26,8 +28,15 @@ function UserFavorites() {
           }
         );
 
-        // console.log(response.data[0].favorite_countries);
-        if (response.data[0].favorite_countries) {
+        // console.log(response.data);
+
+        if (
+          response.data[0].favorite_countries.length > 0 &&
+          response.data[0].favorite_countries.some(
+            (country: (string | null)[]) =>
+              country.some((value) => value !== null)
+          )
+        ) {
           //Transforming the format of data received from the API
           const transformedData = response.data[0].favorite_countries.map(
             (country: [string, string, string]) => {
@@ -43,7 +52,9 @@ function UserFavorites() {
             }
           );
           setFavoritesCountries(transformedData);
+          return;
         }
+        setFavoritesCountries([]);
       } catch (error) {
         console.log('Data recovery error', error);
       }

@@ -1,24 +1,20 @@
 'use client';
 
-import axios from 'axios';
 
 import { useEffect, useRef, useState } from 'react';
-
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import {
-  togglerRegisterModal,
-  togglerLoginModal,
-} from '@/GlobalRedux/store/reducers/home';
+import { togglerRegisterModal, togglerLoginModal } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
 import { handleError, register } from '@/GlobalRedux/store/reducers/user';
+import axios from 'axios';
+
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.sideBar);
-  const isRegisterModalOpen = useAppSelector(
-    (state) => state.home.registerModal
-  );
+  const isRegisterModalOpen = useAppSelector((state) => state.home.registerModal);
+  const [countries, setCountries] = useState<CountryIdentity[]>([]);   // Retrieve the list of countries via API to dynamize the register form select
 
   const dispatch = useAppDispatch();
 
@@ -29,8 +25,6 @@ function RegisterModal() {
     dispatch(togglerLoginModal(isLoginModalOpen));
   }
 
-  // Retrieve the list of countries via API to dynamize the register form select
-  const [countries, setCountries] = useState<CountryIdentity[]>([]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -107,9 +101,8 @@ function RegisterModal() {
   };
 
   return (
-    <dialog
+    <dialog className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       open={isRegisterModalOpen}
-      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: RegisterModalWidth } : {}}
     >
       <form

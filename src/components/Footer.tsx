@@ -1,18 +1,15 @@
 'use client';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import { style } from 'd3';
 
 const Footer = () => {
   const footerWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   return (
-    <footer
-      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: footerWidth } : {}}
+    <footer className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 
+    ${ isSideBarOpen ? 'float-right' : '' }`}
+    style={isSideBarOpen ? { width: footerWidth } : {}}
     >
       <div className="items-start grid-flow-col cursor-pointer">
         <a href="/about" className="text-[16px]">About</a>
