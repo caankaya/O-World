@@ -14,9 +14,10 @@ function LoginModal() {
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const form = event.currentTarget;
-    const formInput = new FormData(form);
-    dispatch(login(formInput));
+
+    const loginFormData = new FormData(event.currentTarget);
+
+    dispatch(login(loginFormData));
   };
 
   return (

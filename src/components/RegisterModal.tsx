@@ -5,7 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { togglerRegisterModal, togglerLoginModal } from '@/GlobalRedux/store/reducers/home';
 import { CountryIdentity } from '@/@types/countryIdentity';
+import { handleError, register } from '@/GlobalRedux/store/reducers/user';
 import axios from 'axios';
+
 
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
@@ -56,20 +58,22 @@ function RegisterModal() {
     const password = registerFormData.get('password') as string;
     const confirmPassword = registerFormData.get('confirm-password') as string;
     if (password !== confirmPassword) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password confirmation does not match the password entered.'
+      dispatch(
+        handleError(
+          'The password confirmation does not match the password entered.'
+        )
       );
       return;
     }
 
     // Check that the password entered by the user is secure
     const passwordRegex =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{12,}$/;
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(password)) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password does not meet the required criteria: at least 12 characters, one upper case, one lower case and one special character.'
+      dispatch(
+        handleError(
+          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+        )
       );
       return;
     }
@@ -77,26 +81,15 @@ function RegisterModal() {
     // Delete confirmpassword value before saving user info in DB
     registerFormData.delete('confirm-password');
 
-    try {
-      const response = await axios.post(
-        'http://localhost:3000/api/user',
-        Object.fromEntries(registerFormData)
-      );
-      console.log(response.data);
+    dispatch(register(registerFormData));
 
-      // Reset form after submission
-      if (formRef.current) {
-        formRef.current.reset();
-      }
-
-      //Close the modal
-      toggleRegisterModal();
-    } catch (error) {
-      console.log(
-        'The information provided does not allow you to create an account',
-        error
-      );
+    // Reset form after submission
+    if (formRef.current) {
+      formRef.current.reset();
     }
+
+    //Close the modal
+    toggleRegisterModal();
   };
 
   // Reset form when closing modal before submission
@@ -124,7 +117,7 @@ function RegisterModal() {
         </h1>
         <div>
           <label
-            htmlFor="text"
+            htmlFor="register-username"
             className="block mb-2 text-sm font-medium text-white"
           >
             Username
@@ -132,7 +125,7 @@ function RegisterModal() {
           <input
             type="text"
             name="username"
-            id="username"
+            id="register-username"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             placeholder="username"
             required
@@ -156,13 +149,13 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="country_"
+            htmlFor="country-origin"
             className="block mb-2 text-sm font-medium text-white"
           >
             Country
           </label>
           <select
-            id="countries"
+            id="country-origin"
             name="country_origin"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             required
@@ -203,7 +196,7 @@ function RegisterModal() {
           >
             Password
             <span className="px-1 mb-2 text-xs text-white">
-              (+12 characters: upper case, number and special character)
+              (+8 characters: upper case, number and special character)
             </span>
           </label>
           <input
@@ -217,7 +210,7 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="confirm-password"
+            htmlFor="confirm-register_password"
             className="block mb-2 text-sm font-medium text-white"
           >
             Confirm password
@@ -225,7 +218,7 @@ function RegisterModal() {
           <input
             type="password"
             name="confirm-password"
-            id="confirm-password"
+            id="confirm-register-password"
             placeholder="••••••••"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             required
