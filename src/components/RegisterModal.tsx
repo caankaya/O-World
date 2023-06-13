@@ -65,7 +65,7 @@ function RegisterModal() {
 
     // Check that the password entered by the user is secure
     const passwordRegex =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{12,}$/;
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(password)) {
       //TODO Display a message on the front to warn the user
       console.log(
@@ -124,7 +124,7 @@ function RegisterModal() {
         </h1>
         <div>
           <label
-            htmlFor="text"
+            htmlFor="register-username"
             className="block mb-2 text-sm font-medium text-white"
           >
             Username
@@ -132,7 +132,7 @@ function RegisterModal() {
           <input
             type="text"
             name="username"
-            id="username"
+            id="register-username"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             placeholder="username"
             required
@@ -156,13 +156,13 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="country_"
+            htmlFor="country-origin"
             className="block mb-2 text-sm font-medium text-white"
           >
             Country
           </label>
           <select
-            id="countries"
+            id="country-origin"
             name="country_origin"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             required
@@ -203,7 +203,7 @@ function RegisterModal() {
           >
             Password
             <span className="px-1 mb-2 text-xs text-white">
-              (+12 characters: upper case, number and special character)
+              (+8 characters: upper case, number and special character)
             </span>
           </label>
           <input
@@ -217,7 +217,7 @@ function RegisterModal() {
         </div>
         <div>
           <label
-            htmlFor="confirm-password"
+            htmlFor="confirm-register_password"
             className="block mb-2 text-sm font-medium text-white"
           >
             Confirm password
@@ -225,7 +225,7 @@ function RegisterModal() {
           <input
             type="password"
             name="confirm-password"
-            id="confirm-password"
+            id="confirm-register-password"
             placeholder="••••••••"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
             required
