@@ -8,7 +8,7 @@ interface SideBarProps {
 }
 
 function SideBar({ category, data }: SideBarProps) {
-  const admin = sessionStorage.admin;
+  const admin = typeof window !== 'undefined' && sessionStorage.admin;
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
