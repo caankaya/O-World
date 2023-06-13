@@ -10,12 +10,10 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
   const dataCategory = earthData[0].data.dataCategory;
   
   return (
-      <section
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
+    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 
+      ${ isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: DetailEarthWidth } : {}}
-    >
+      >
         <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">{dataPlanet.name}</h1>
         <h2 className="text-center text-3xl font-bold mb-2">{dataPlanet.name}</h2>
         <div className="stats stats-vertical lg:stats-horizontal shadow w-full">

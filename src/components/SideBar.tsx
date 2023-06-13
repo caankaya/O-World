@@ -1,4 +1,5 @@
 'use client';
+
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
 interface SideBarProps {
@@ -13,14 +14,11 @@ function SideBar({ category, data }: SideBarProps) {
 
   return (
     <div className="SideBar z-[1]">
-      <aside
-        id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${
-          sideBar && 'sm:translate-x-0'
-        }`}
+      <aside id="logo-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full 
+      ${sideBar && 'sm:translate-x-0'}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-primary-content/50 shadow-xl">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-base-100/50 shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex justify-start items-center mr-5">
             <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
@@ -120,10 +118,7 @@ function SideBar({ category, data }: SideBarProps) {
                   username.slice(1).toLowerCase()}
               </span>
               <li>
-                <a
-                  href={`/profile`}
-                  className="flex items-center ml-3 p-2 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
+                <a className="flex items-center ml-3 p-2 text-white hover:border-2 hover:border-primary-focus rounded-lg" href={`/profile`} >
                   Profile
                 </a>
               </li>
