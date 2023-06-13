@@ -1,18 +1,16 @@
 'use client';
 
-import Footer from '@/components/Footer';
-import NavBar from '@/components/NavBar';
 import Admin from '@/components/AdminComponents/Admin';
-import SideBar from '@/components/SideBar';
-import StarsCanvas from '@/components/Stars';
 import React, { useEffect } from 'react';
 import FullPageLoader from '@/components/Loader';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import Alert from '@/components/Alert';
 
 export default function Page() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
+  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,21 +21,15 @@ export default function Page() {
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
-        <>
-          <FullPageLoader />
-          <StarsCanvas />
-        </>
+        <FullPageLoader />
       ) : (
         <>
-          <NavBar />
-          <SideBar category={undefined} data={undefined} />
+          {alert && <Alert type={alert.type} message={alert.message} />}
           <Admin />
-          <StarsCanvas />
-          <Footer />
         </>
       )}
-    </React.Fragment>
+    </>
   );
 }

@@ -2,19 +2,18 @@
 
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { setCountryCategory, setCountryData } from '@/GlobalRedux/store/reducers/country';
+import {
+  setCountryCategory,
+  setCountryData,
+} from '@/GlobalRedux/store/reducers/country';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 
-import Footer from '@/components/Footer';
-import NavBar from '@/components/NavBar';
-import SideBar from '@/components/SideBar';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
-import StarsCanvas from '@/components/Stars';
 import GraphCountry from '@/components/Country/GraphCountry';
 
 import axiosInstance from '@/utils/axios';
 import FullPageLoader from '@/components/Loader';
-
+import Alert from '@/components/Alert';
 
 interface CountryProps {
   params: {
@@ -27,8 +26,7 @@ function Country({ params }: CountryProps) {
   const category = useAppSelector((state) => state.country.category);
   const data = useAppSelector((state) => state.country.data);
   const loading = useAppSelector((state) => state.home.spinner);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const containerWidth = useAppSelector((state) => state.home.modalWidth);
+  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -64,23 +62,17 @@ function Country({ params }: CountryProps) {
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
-        <>
-          <FullPageLoader />
-          <StarsCanvas />
-        </>
+        <FullPageLoader />
       ) : (
         <>
-          <NavBar />
-          <SideBar category={category} data={data} />
+          {alert && <Alert type={alert.type} message={alert.message} />}
           <RestCountriesInfos countryData={data} />
           <GraphCountry category={category} data={data} />
-          <StarsCanvas />
-          <Footer />
         </>
       )}
-    </React.Fragment>
+    </>
   );
 }
 

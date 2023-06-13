@@ -2,20 +2,15 @@
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import Footer from '@/components/Footer';
+import Alert from '@/components/Alert';
 import FullPageLoader from '@/components/Loader';
-import LoginModal from '@/components/LoginModal';
-import NavBar from '@/components/NavBar';
 import Profile from '@/components/Profile';
-import SideBar from '@/components/SideBar';
-import StarsCanvas from '@/components/Stars';
-import { Stars } from '@react-three/drei';
-import { data } from 'autoprefixer';
 import React, { useEffect } from 'react';
 
 export default function Page() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
+  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,22 +21,15 @@ export default function Page() {
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
-        <>
-          <FullPageLoader />
-          <StarsCanvas />
-        </>
+        <FullPageLoader />
       ) : (
         <>
-        <NavBar />
-        <SideBar category={undefined} data={undefined} />
-        <LoginModal />
-        <Profile />
-        {/* <StarsCanvas /> */}
-        <Footer />
-      </>
+          {alert && <Alert type={alert.type} message={alert.message} />}
+          <Profile />
+        </>
       )}
-    </React.Fragment>
+    </>
   );
 }

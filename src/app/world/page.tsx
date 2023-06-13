@@ -1,23 +1,21 @@
 'use client';
 
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { setCountryData } from '@/GlobalRedux/store/reducers/country';
 import axiosInstance from '@/utils/axios';
 
 import EarthInfos from '@/components/EarthInfos';
-import Footer from '@/components/Footer';
-import NavBar from '@/components/NavBar';
-import SideBar from '@/components/SideBar';
-import StarsCanvas from '@/components/Stars';
-import FullPageLoader from '@/components/Loader';
 
+import FullPageLoader from '@/components/Loader';
+import Alert from '@/components/Alert';
 
 const World = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
   const data = useAppSelector((state) => state.country.data);
+  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +27,7 @@ const World = () => {
         });
         dispatch(setCountryData(data));
       } catch (error) {
-        console.error("Error fetching Earth data:", error);
+        console.error('Error fetching Earth data:', error);
       }
     };
     fetchData();
@@ -44,23 +42,17 @@ const World = () => {
   }, [dispatch]);
 
   return (
-    <React.Fragment>
+    <>
       {loading ? (
-        <>
-          <FullPageLoader />
-          <StarsCanvas />
-        </>
+        <FullPageLoader />
       ) : (
         <>
-          <NavBar />
-          <SideBar category={undefined} data={undefined} />
-          <EarthInfos earthData={data}/>
-          <StarsCanvas />
-          <Footer />
+          {alert && <Alert type={alert.type} message={alert.message} />}
+          <EarthInfos earthData={data} />
         </>
       )}
-    </React.Fragment>
+    </>
   );
-}
+};
 
-export default World
+export default World;
