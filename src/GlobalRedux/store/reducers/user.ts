@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
+import { create } from 'domain';
 
 interface UserState {
   username: string | null;
@@ -33,6 +34,7 @@ export const login = createAsyncThunk(
 );
 
 export const logout = createAction('user/logout');
+export const clearAlert = createAction('user/clearAlert');
 
 export const register = createAsyncThunk(
   'user/register',
@@ -44,6 +46,7 @@ export const register = createAsyncThunk(
 );
 
 export const handleError = createAction<string>('user/handleError');
+export const messageUp = createAction<boolean>('message/popUp');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -119,6 +122,9 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'warning',
         message: action.payload ?? 'Unknown error occurred.',
       };
+    })
+    .addCase(clearAlert, (state) => {
+      state.alert = null;
     });
 });
 
