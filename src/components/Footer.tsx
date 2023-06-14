@@ -7,12 +7,15 @@ const Footer = () => {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
   return (
-    <footer className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 
-    ${ isSideBarOpen ? 'float-right' : '' }`}
-    style={isSideBarOpen ? { width: footerWidth } : {}}
+    <footer
+      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 right-0 fixed
+    `}
+      style={isSideBarOpen ? { width: footerWidth } : {}}
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <a href="/about" className="text-[16px]">About</a>
+        <a href="/about" className="text-[16px]">
+          About
+        </a>
       </div>
 
       <div className="items-center grid-flow-col text-center">
@@ -22,7 +25,11 @@ const Footer = () => {
       </div>
 
       <div className="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-        <a href="https://github.com/O-clock-Starship/projet-05-o-world-front" target="_blank" className="cursor-pointer">
+        <a
+          href="https://github.com/O-clock-Starship/projet-05-o-world-front"
+          target="_blank"
+          className="cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 50 50"

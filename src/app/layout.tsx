@@ -32,8 +32,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <NavBar />
-          <SideBar />
-
+          <SideBar category={undefined} data={undefined} />
           {children}
           <Footer />
           <StarsCanvas />
