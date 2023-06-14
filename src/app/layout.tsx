@@ -36,7 +36,6 @@ export default function RootLayout({
             <SideBar category={undefined} data={undefined} />
             {children}
             <Footer />
-            <StarsCanvas />
           </Providers>
       </body>
     </html>
