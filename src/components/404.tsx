@@ -12,13 +12,13 @@ return (
       <h2 className="mb-5 font-heading font-bold text-6xl sm:text-8xl xl:text-10xl text-info-content">Planet not found</h2>
       <p className="mb-10 text-info-content text-lg">If you go faster than light, go back to the homepage.</p>
       <div className="p-px md:max-w-max mx-auto bg-gradient-cyan rounded-full">
-        <button className="group relative py-5 px-6 block w-full text-xs text-gray-900 font-semibold uppercase tracking-px bg-info-content overflow-hidden rounded-full">
-        <p className="relative z-10">Go back to Homepage</p>
-        </button>
+        <a href="/" className="group relative py-5 px-6 block w-full text-xs text-gray-900 font-semibold uppercase tracking-px bg-info-content overflow-hidden rounded-full">
+        <span className="relative z-10">Go back to Homepage</span>
+        </a>
       </div>
       </div>
     </div>
-    
+
   </section>
   );
 }
