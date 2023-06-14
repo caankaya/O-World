@@ -57,9 +57,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = true;
       state.sessionId = id;
       state.username = username;
-      if (roles) {
-        sessionStorage.setItem('admin', roles[0]);
-      }
+      console.log('roles :', roles);
       sessionStorage.setItem('sessionId', id.toString());
       sessionStorage.setItem('username', username);
       state.alert = {

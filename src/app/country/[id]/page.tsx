@@ -29,22 +29,18 @@ function Country({ params }: CountryProps) {
   const data = useAppSelector((state) => state.country.data);
   const loading = useAppSelector((state) => state.home.spinner);
   const alert = useAppSelector((state) => state.user.alert);
-
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const prkWidth = useAppSelector((state) => state.home.currentWidth);
+  const countryId = params.id;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoryUrl = `/oworld/${params.id}/category`;
         const dataUrl = `/oworld/${params.id}`;
-
         const categoryResponse = await axiosInstance.get(categoryUrl);
         const dataResponse = await axiosInstance.get(dataUrl);
-
         const categoryData = categoryResponse.data;
         const countryData = dataResponse.data;
-
-        console.log('Category data:', categoryData);
-        console.log('Country data:', countryData);
-
         dispatch(setCountryCategory(categoryData));
         dispatch(setCountryData(countryData));
       } catch (error) {
@@ -70,8 +66,24 @@ function Country({ params }: CountryProps) {
       ) : (
         <>
           {alert && <Alert type={alert.type} message={alert.message} />}
-          <RestCountriesInfos countryData={data} />
-          <GraphCountry category={category} data={data} />
+          {countryId === 'PRK' ? (
+            <>
+              <div
+                className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+                style={isSideBarOpen ? { width: prkWidth } : {}}
+              >
+                <img
+                  src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
+                  alt="kim jung un"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <RestCountriesInfos countryData={data} />
+              <GraphCountry category={category} data={data} />
+            </>
+          )}
         </>
       )}
     </>
