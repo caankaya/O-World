@@ -47,7 +47,7 @@ function UpdateProfile() {
 
     try {
       const response = await axiosInstance.put(
-        `/api/user/${userId}`,
+        `/user/${userId}`,
         Object.fromEntries(newFormData)
       );
       console.log(response.data);
@@ -66,9 +66,7 @@ function UpdateProfile() {
 
   const handleClickDeleteAccount = async () => {
     try {
-      const response = await axiosInstance.delete(
-        `/api/user/${userId}`
-      );
+      const response = await axiosInstance.delete(`/user/${userId}`);
       console.log(response.data);
       dispatch(logout());
       setIsDeleteModalOpen(!isDeleteModalOpen);

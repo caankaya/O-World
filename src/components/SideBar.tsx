@@ -8,14 +8,16 @@ interface SideBarProps {
 }
 
 function SideBar({ category, data }: SideBarProps) {
-  const admin = sessionStorage.admin;
+  const admin = typeof window !== 'undefined' && sessionStorage.admin;
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
 
   return (
     <div className="SideBar z-[1]">
-      <aside id="logo-sidebar" className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full 
+      <aside
+        id="logo-sidebar"
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full 
       ${sideBar && 'sm:translate-x-0'}`}
         aria-label="Sidebar"
       >
@@ -119,7 +121,6 @@ function SideBar({ category, data }: SideBarProps) {
                   username.slice(1).toLowerCase()}
               </span>
               <li>
-
                 <a
                   href={`/profile`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
@@ -136,7 +137,7 @@ function SideBar({ category, data }: SideBarProps) {
               </span>
               <li>
                 <a
-                  href={`/profile`}
+                  href={`/admin`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                 >
                   Statistics

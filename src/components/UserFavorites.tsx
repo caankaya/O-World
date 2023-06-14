@@ -6,7 +6,6 @@ import { countryFavorites } from '@/@types/countryFavorites';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import axiosInstance from '@/utils/axios';
 
-
 function UserFavorites() {
   const userId = useAppSelector((state) => state.user.sessionId);
 
@@ -20,7 +19,7 @@ function UserFavorites() {
       try {
         const response = await axiosInstance.get(
           //TODO Dynamisation with userId when log persist
-          `/api/user/${userId}`,
+          `/user/${userId}`,
           {
             headers: {
               accept: 'application/json',
@@ -61,14 +60,11 @@ function UserFavorites() {
     };
     const fetchFlags = async () => {
       try {
-        const response = await axiosInstance.get(
-          `/api/oworld/flags`,
-          {
-            headers: {
-              accept: 'application/json',
-            },
-          }
-        );
+        const response = await axiosInstance.get(`/oworld/flags`, {
+          headers: {
+            accept: 'application/json',
+          },
+        });
         // console.log(response.data);
         setFlags(response.data);
       } catch (error) {
