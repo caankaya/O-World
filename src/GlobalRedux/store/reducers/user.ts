@@ -59,6 +59,15 @@ export const accountUpdate = createAsyncThunk(
   }
 );
 
+export const accountDeletion = createAsyncThunk(
+  'user/account-deletion',
+  async (_, { getState }) => {
+    const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
+    const response = await axiosInstance.delete(`/user/${sessionId}`);
+    return response;
+  }
+);
+
 const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login.pending, (state, action) => {
@@ -94,6 +103,7 @@ const userReducer = createReducer(initialState, (builder) => {
         //TODO Envoyer une erreur spécifique côté back si les identifiants sont incorrects/inexistants
         message: action.error.message ?? 'Unknown error occurred.',
       };
+      console.log('Error:', action.error);
     })
 
     .addCase(logout, (state) => {
@@ -125,7 +135,7 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };
-      console.log('Error:', action.error);
+      console.log('Error:', action);
     })
 
     .addCase(accountUpdate.pending, (state, action) => {
@@ -143,6 +153,30 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.alert = {
         //TODO Envoyer une erreur spécifique côté back si les identifiants sont déjà pris
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+      console.log('Error:', action.error);
+    })
+
+    .addCase(accountDeletion.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(accountDeletion.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isLogged = false;
+      state.sessionId = null;
+      state.username = null;
+      sessionStorage.clear();
+      state.alert = {
+        type: 'success',
+        message: `Your account has been deleted.`,
+      };
+    })
+    .addCase(accountDeletion.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };

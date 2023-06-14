@@ -31,7 +31,7 @@ function RegisterModal() {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await axiosInstance.get('/oworld', {
+        const response = await axiosInstance.get('/oworld/list', {
           params: {
             useView: true,
           },
