@@ -1,10 +1,13 @@
 import Head from 'next/head';
 import { Inter } from 'next/font/google';
+// Store
 import Providers from '@/GlobalRedux/store/provider';
 
+// Styles
 import '../styles/globals.css';
 import '../styles/alien-font.css';
 
+// Components
 import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import Footer from '@/components/Footer';
@@ -32,7 +35,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <NavBar />
-          <SideBar category={undefined} data={undefined} />
+          <SideBar />
           {children}
           <Footer />
           <StarsCanvas />
