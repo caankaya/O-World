@@ -32,7 +32,6 @@ function Country({ params }: CountryProps) {
   const alert = useAppSelector((state) => state.user.alert);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
-  const errorState = useAppSelector((state) => state.error);
   const countryId = params.id;
 
   useEffect(() => {
@@ -52,7 +51,6 @@ function Country({ params }: CountryProps) {
 
       } catch (error: any) {
         console.log('Error:', error);
-        dispatch(setError({ message: error.message, statusCode: error.response?.status || 500 }));
       }
     };
 

@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { DataRow } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
+import { dispatch } from 'd3';
+import { setError } from '@/GlobalRedux/store/reducers/error';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import ErrorPage from '../Error';
 
 
-const fetchData = async (url: string, params: Record<string, any>): Promise<any> => {
+const fetchData = async (url: string, params: Record<string, any>, dispatch: Function): Promise<any> => {
   try {
     const response = await axiosInstance.get(url, {
       params,
       headers: { accept: 'application/json' },
     });
     return response.data;
-  } catch (error) {
+  } catch (error: any) {
     console.error('Erreur lors de la récupération des données', error);
+    dispatch(setError({ message: error.message, statusCode: error.response?.status || 500 }));
     return null;
   }
 };
 
 export const AdminTable = () => {
+  const dispatch = useAppDispatch();
+  const errorState = useAppSelector((state) => state.error);
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
@@ -29,8 +36,8 @@ export const AdminTable = () => {
   useEffect(() => {
     const fetchAllData = async () => {
       const [data, flags] = await Promise.all([
-        fetchData('/admin/stat', { useView: true }),
-        fetchData('/oworld/flags', {}),
+        fetchData('/admin/stat', { useView: true }, dispatch),
+        fetchData('/oworld/flags', {}, dispatch),
       ]);
       setData(data || []);
       setFlags(flags || []);
@@ -38,6 +45,10 @@ export const AdminTable = () => {
 
     fetchAllData();
   }, []);
+
+  if (errorState) {
+    return <ErrorPage />;
+  }
 
   const total_users = data.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),
