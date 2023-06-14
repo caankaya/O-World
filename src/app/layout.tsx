@@ -1,24 +1,27 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import Providers from '@/GlobalRedux/store/provider'
+import Head from 'next/head';
+import { Inter } from 'next/font/google';
+import Providers from '@/GlobalRedux/store/provider';
 
-import '../styles/globals.css'
-import '../styles/alien-font.css'
+import '../styles/globals.css';
+import '../styles/alien-font.css';
 
-const inter = Inter({ subsets: ['latin'] })
+import NavBar from '@/components/NavBar';
+import SideBar from '@/components/SideBar';
+import Footer from '@/components/Footer';
+import StarsCanvas from '@/components/Stars';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'OWorld - Datas of Planet Earth',
   description: 'Data of planet earth',
-
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  
   return (
     <html lang="en">
       <Head>
@@ -27,8 +30,15 @@ export default function RootLayout({
         <meta name="description" content={metadata.description} />
       </Head>
       <body className={inter.className}>
-        <Providers>{children}</Providers>
-        </body>
+        <Providers>
+          <NavBar />
+          <SideBar category={undefined} data={undefined} />
+
+          {children}
+          <Footer />
+          <StarsCanvas />
+        </Providers>
+      </body>
     </html>
-  )
+  );
 }
