@@ -129,7 +129,8 @@ function SideBar({ category, data }: SideBarProps) {
               </li>
             </ul>
           )}
-          {sessionStorage.userType === 'Admin' ? (
+          {typeof window !== 'undefined' &&
+          sessionStorage.userType === 'Admin' ? (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Admin
