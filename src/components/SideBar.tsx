@@ -8,7 +8,7 @@ interface SideBarProps {
 }
 
 function SideBar({ category, data }: SideBarProps) {
-  const admin = typeof window !== 'undefined' && sessionStorage.admin;
+  // const admin = typeof window !== 'undefined' && sessionStorage.admin;
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
@@ -130,7 +130,7 @@ function SideBar({ category, data }: SideBarProps) {
               </li>
             </ul>
           )}
-          {admin && (
+          {/* {admin && (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Admin
@@ -144,7 +144,7 @@ function SideBar({ category, data }: SideBarProps) {
                 </a>
               </li>
             </ul>
-          )}
+          )} */}
         </div>
       </aside>
     </div>
