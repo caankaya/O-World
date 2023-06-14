@@ -21,7 +21,7 @@ const World = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axiosInstance.get('/api/oworld', {
+        const { data } = await axiosInstance.get('/oworld', {
           params: {
             useView: false,
           },

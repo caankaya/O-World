@@ -26,7 +26,7 @@ export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    const response = await axiosInstance.post('/api/log/in', obj);
+    const response = await axiosInstance.post('/log/in', obj);
     console.log('response :', response);
     return response;
   }
@@ -38,7 +38,7 @@ export const register = createAsyncThunk(
   'user/register',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    const response = await axiosInstance.post('/api/user', obj);
+    const response = await axiosInstance.post('/user', obj);
     return response;
   }
 );

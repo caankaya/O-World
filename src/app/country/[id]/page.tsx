@@ -34,7 +34,7 @@ function Country({ params }: CountryProps) {
     const fetchCategory = async () => {
       try {
         const { data } = await axiosInstance.get(
-          `/api/oworld/${params.id}/category`
+          `/oworld/${params.id}/category`
         );
         dispatch(setCountryCategory(data));
       } catch (error) {
@@ -44,7 +44,7 @@ function Country({ params }: CountryProps) {
 
     const fetchData = async () => {
       try {
-        const { data } = await axiosInstance.get(`/api/oworld/${params.id}`);
+        const { data } = await axiosInstance.get(`/oworld/${params.id}`);
         dispatch(setCountryData(data));
       } catch (error) {
         console.log('Data :', error);
