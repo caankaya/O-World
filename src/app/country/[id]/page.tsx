@@ -15,6 +15,7 @@ import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
+import { setError } from '@/GlobalRedux/store/reducers/error';
 
 //TODO Typer les interface dans le dossier types
 interface CountryProps {
@@ -31,25 +32,33 @@ function Country({ params }: CountryProps) {
   const alert = useAppSelector((state) => state.user.alert);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
+  const errorState = useAppSelector((state) => state.error);
   const countryId = params.id;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const categoryUrl = `/oworld/${params.id}/category`;
         const dataUrl = `/oworld/${params.id}`;
+
         const categoryResponse = await axiosInstance.get(categoryUrl);
         const dataResponse = await axiosInstance.get(dataUrl);
+
         const categoryData = categoryResponse.data;
         const countryData = dataResponse.data;
+
         dispatch(setCountryCategory(categoryData));
         dispatch(setCountryData(countryData));
-      } catch (error) {
+
+      } catch (error: any) {
         console.log('Error:', error);
+        dispatch(setError({ message: error.message, statusCode: error.response?.status || 500 }));
       }
     };
 
     fetchData();
   }, [axiosInstance, dispatch, params.id]);
+
 
   useEffect(() => {
     const timer = setTimeout(() => {

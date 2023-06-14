@@ -4,6 +4,7 @@ import countryReducer from './reducers/country';
 import worldReducer from './reducers/world';
 import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
+import errorReducer from './reducers/error';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     country: countryReducer,
     home: homeReducer,
     user: userReducer,
+    error: errorReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
