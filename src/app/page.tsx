@@ -22,15 +22,15 @@ export default function Home() {
   }, [dispatch]);
 
   return (
+    // <>
+    //   {loading ? (
+    //     <HyperspaceEffect />
+    //   ) : (
     <>
-      {loading ? (
-        <HyperspaceEffect />
-      ) : (
-        <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
-          <WorldMap />
-        </>
-      )}
+      {alert && <Alert type={alert.type} message={alert.message} />}
+      <WorldMap />
     </>
+    // )}
+    // </>
   );
 }
