@@ -31,29 +31,29 @@ function Country({ params }: CountryProps) {
   const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        const { data } = await axiosInstance.get(
-          `/oworld/${params.id}/category`
-        );
-        dispatch(setCountryCategory(data));
-      } catch (error) {
-        console.log('Category:', error);
-      }
-    };
-
     const fetchData = async () => {
       try {
-        const { data } = await axiosInstance.get(`/oworld/${params.id}`);
-        dispatch(setCountryData(data));
+        const categoryUrl = `/oworld/${params.id}/category`;
+        const dataUrl = `/oworld/${params.id}`;
+
+        const categoryResponse = await axiosInstance.get(categoryUrl);
+        const dataResponse = await axiosInstance.get(dataUrl);
+
+        const categoryData = categoryResponse.data;
+        const countryData = dataResponse.data;
+
+        console.log('Category data:', categoryData);
+        console.log('Country data:', countryData);
+
+        dispatch(setCountryCategory(categoryData));
+        dispatch(setCountryData(countryData));
       } catch (error) {
-        console.log('Data :', error);
+        console.log('Error:', error);
       }
     };
 
-    fetchCategory();
     fetchData();
-  }, [params.id]);
+  }, [axiosInstance, dispatch, params.id]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
