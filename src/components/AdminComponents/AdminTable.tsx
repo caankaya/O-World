@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { DataRow } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
 
-const fetchData = async (url, params) => {
+
+const fetchData = async (url: string, params: Record<string, any>): Promise<any> => {
   try {
     const response = await axiosInstance.get(url, {
       params,
@@ -43,8 +44,8 @@ export const AdminTable = () => {
     0
   );
 
-  const findFlagUrl = (flags, countryIso3) => {
-    const flagData = flags.find((flag) => flag.cca3 === countryIso3);
+  const findFlagUrl = (flags: any[], countryIso3: string) => {
+    const flagData = flags.find(flag => flag.cca3 === countryIso3);
     return flagData ? flagData.flags.png : '';
   };
 
