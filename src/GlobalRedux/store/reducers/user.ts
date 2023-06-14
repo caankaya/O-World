@@ -23,6 +23,7 @@ const initialState: UserState = {
   alert: null,
 };
 
+//Asynchronous actions
 export const login = createAsyncThunk(
   'user/login',
   async (formInput: FormData) => {
@@ -36,9 +37,6 @@ export const login = createAsyncThunk(
   }
 );
 
-export const logout = createAction('user/logout');
-export const clearAlert = createAction('user/clearAlert');
-
 export const register = createAsyncThunk(
   'user/register',
   async (formInput: FormData) => {
@@ -51,9 +49,6 @@ export const register = createAsyncThunk(
     }
   }
 );
-
-export const handleError = createAction<string>('user/handleError');
-export const messageUp = createAction<boolean>('message/popUp');
 
 export const accountUpdate = createAsyncThunk(
   'user/account-update',
@@ -81,6 +76,12 @@ export const accountDeletion = createAsyncThunk(
     }
   }
 );
+
+//Synchronous actions
+export const logout = createAction('user/logout');
+export const clearAlert = createAction('user/clearAlert');
+export const handleError = createAction<string>('user/handleError');
+export const messageUp = createAction<boolean>('message/popUp');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder

@@ -5,17 +5,13 @@ import {
   accountDeletion,
   accountUpdate,
   handleError,
-  logout,
 } from '@/GlobalRedux/store/reducers/user';
-import axiosInstance from '@/utils/axios';
 
 import { useRef, useState } from 'react';
 
 function UpdateProfile() {
   const dispatch = useAppDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const userId = useAppSelector((state) => state.user.sessionId);
 
   // Set up a useRef to target and reset the form
   const newformRef = useRef<HTMLFormElement | null>(null);
