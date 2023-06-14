@@ -1,7 +1,11 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { logout } from '@/GlobalRedux/store/reducers/user';
+import {
+  accountUpdate,
+  handleError,
+  logout,
+} from '@/GlobalRedux/store/reducers/user';
 import axiosInstance from '@/utils/axios';
 
 import { useRef, useState } from 'react';
@@ -24,9 +28,10 @@ function UpdateProfile() {
     const newPassword = newFormData.get('password') as string;
     const confirmNewPassword = newFormData.get('confirm-password') as string;
     if (newPassword !== confirmNewPassword) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password confirmation does not match the password entered.'
+      dispatch(
+        handleError(
+          'The new password confirmation does not match the new password entered.'
+        )
       );
       return;
     }
@@ -35,9 +40,10 @@ function UpdateProfile() {
     const passwordRegex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(newPassword)) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+      dispatch(
+        handleError(
+          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+        )
       );
       return;
     }
@@ -45,23 +51,7 @@ function UpdateProfile() {
     // Delete confirmpassword value before saving user info in DB
     newFormData.delete('confirm-password');
 
-    try {
-      const response = await axiosInstance.put(
-        `/user/${userId}`,
-        Object.fromEntries(newFormData)
-      );
-      console.log(response.data);
-
-      // Reset form after submission
-      if (newformRef.current) {
-        newformRef.current.reset();
-      }
-    } catch (error) {
-      console.log(
-        'The information provided does not allow you to update your account',
-        error
-      );
-    }
+    dispatch(accountUpdate(newFormData));
   };
 
   const handleClickDeleteAccount = async () => {

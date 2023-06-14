@@ -6,6 +6,7 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { create } from 'domain';
+import { RootState } from '../store';
 
 interface UserState {
   username: string | null;
@@ -47,6 +48,16 @@ export const register = createAsyncThunk(
 
 export const handleError = createAction<string>('user/handleError');
 export const messageUp = createAction<boolean>('message/popUp');
+
+export const accountUpdate = createAsyncThunk(
+  'user/account-update',
+  async (formInput: FormData, { getState }) => {
+    const obj = Object.fromEntries(formInput);
+    const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
+    const response = await axiosInstance.put(`/user/${sessionId}`, obj);
+    return response;
+  }
+);
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -108,6 +119,27 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(register.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        //TODO Envoyer une erreur spécifique côté back si les identifiants sont déjà pris
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+      console.log('Error:', action.error);
+    })
+
+    .addCase(accountUpdate.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(accountUpdate.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Your account has been updated.`,
+      };
+    })
+    .addCase(accountUpdate.rejected, (state, action) => {
       state.loading = false;
       state.alert = {
         //TODO Envoyer une erreur spécifique côté back si les identifiants sont déjà pris
