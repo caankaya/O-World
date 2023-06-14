@@ -56,6 +56,7 @@ function RegisterModal() {
 
     const registerFormData = new FormData(event.currentTarget);
 
+    // Checks if the email entered by the user has the correct format
     const email = registerFormData.get('email') as string;
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     if (!emailRegex.test(email)) {
