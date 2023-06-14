@@ -1,34 +1,31 @@
 'use client';
 
+'use client';
+
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
 
-// interface pour les propriétés d'un pays.
 interface CountryProperties {
   name: string;
 }
 
-// interface utilisée pour les éléments de données de pays.
 interface CountryFeature {
   properties: CountryProperties;
   id: string;
 }
 
 function WorldMap() {
-  const chartRef = useRef(null);
+  const chartRef = useRef<any>(null);
   const [countryName, setCountryName] = useState<string>('');
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState<string>('');
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-
-  let countries: d3.Selection<d3.BaseType, CountryFeature, HTMLElement, any>;
 
   useEffect(() => {
     const width = 800;
     const height = 800;
 
-    // Définir la projection
     const projection = d3
       .geoOrthographic()
       .scale(350)
@@ -37,10 +34,8 @@ function WorldMap() {
       .precision(0.1)
       .rotate([0, 0, 0]);
 
-    // Définir le chemin de projection
     const path = d3.geoPath().projection(projection);
 
-    // Ajouter le svg
     const svg = d3
       .select(chartRef.current)
       .append('svg')
@@ -48,7 +43,6 @@ function WorldMap() {
       .attr('width', width)
       .attr('height', height);
 
-    // Ajouter la grille
     const graticule = d3.geoGraticule();
     svg
       .append('path')
@@ -56,9 +50,13 @@ function WorldMap() {
       .attr('class', 'graticule')
       .attr('d', path);
 
-    // Ajouter les pays avec une requete ajax + liens vers les pays
-    d3.json('/world-countries.json').then((collection: any) => {
-      countries = svg
+    d3.json<
+      GeoJSON.FeatureCollection<
+        GeoJSON.Geometry | null,
+        GeoJSON.GeoJsonProperties
+      >
+    >('/world-countries.json').then((collection: any) => {
+      const countries = svg
         .selectAll('path.country')
         .data(collection.features)
         .enter()
@@ -71,21 +69,94 @@ function WorldMap() {
         .attr('fill', 'white')
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
-        .on('mouseover', function (event: any, d: any) {
+        .on('mouseover', function (event: MouseEvent, d: any) {
           d3.select(this).style('fill', '#0ff');
           setCountryName(d.properties.name);
         })
-        .on('mouseout', function (event: any, d: any) {
+        .on('mouseout', function (event: MouseEvent, d: any) {
           d3.select(this).style('fill', '');
           setCountryName('');
         });
+
+      d3.csv('/world-temperature.csv').then(function (data) {
+        const quantile = d3
+          .scaleQuantile<number>()
+          .domain([
+            d3.min(data, (e) => +e.temperature!)!,
+            d3.max(data, (e) => +e.temperature!)!,
+          ])
+          .range(d3.range(60));
+
+        // const legend = svg
+        //   .append('g')
+        //   .attr('transform', 'translate(35, 10)')
+        //   .attr('id', 'legend');
+
+        // legend
+        //   .selectAll('.colorbar')
+        //   .data(d3.range(60))
+        //   .enter()
+        //   .append('rect')
+        //   .attr('y', (d) => d * 5 + 'px')
+        //   .attr('height', '5px')
+        //   .attr('width', '20px')
+        //   .attr('x', '0px')
+        //   .attr('class', (d) => 'temperature-' + d);
+
+        // const legendScale = d3
+        //   .scaleLinear<number>()
+        //   .domain([
+        //     d3.min(data, (e) => +e.temperature! ?? 0) ?? 0,
+        //     d3.max(data, (e) => +e.temperature! ?? 0) ?? 0,
+        //   ])
+        //   .range([0, 60 * 5]);
+
+        // svg
+        //   .append('g')
+        //   .attr('transform', 'translate(25, 10)')
+        //   .call(d3.axisLeft(legendScale).ticks(10));
+
+        data.forEach(function (e, i) {
+          if (e.temperature !== undefined) {
+            d3.select('#' + e.country).attr(
+              'class',
+              (d) => 'country temperature-' + quantile(+e.temperature!)
+            );
+          }
+        });
+      });
+
+      const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value.toLowerCase();
+        setSearchText(query);
+
+        countries.style('fill', '');
+
+        const matchedCountry: any = countries
+          .data()
+          .find((d: any) => d.properties.name.toLowerCase().includes(query));
+
+        if (matchedCountry) {
+          d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
+
+          const centroid = d3.geoCentroid(matchedCountry);
+          projection.rotate([-centroid[0], -centroid[1]]);
+          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+          svg.selectAll('.country').attr('d', (d: any) => path(d));
+
+          setCountryName(matchedCountry.properties.name);
+        } else {
+          setCountryName('');
+        }
+      };
+
+      chartRef.current.handleSearchChange = handleSearchChange;
     });
 
-    // gestion de la rotation du globe avec la souris
     const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
     const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
     const drag = d3
-      .drag()
+      .drag<SVGSVGElement, any>()
       .subject(() => {
         const r = projection.rotate();
         return {
@@ -101,39 +172,9 @@ function WorldMap() {
 
     svg.call(drag as any);
 
-    // Définir handleSearchChange dans le useeffect pour accéder aux autres variables comme countries
-    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const query = event.target.value.toLowerCase();
-      setSearchText(query);
-
-      // Effectuer la recherche
-      const matchedCountry = countries
-        .data()
-        .find((d) => d.properties.name.toLowerCase().includes(query));
-
-      // Rset les couleur des pays
-      countries.style('fill', '');
-
-      if (matchedCountry) {
-        // Surligner le pays recherché.
-        d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
-
-        // Rotation du globe pour centrer sur le pays recherché.
-        const centroid = d3.geoCentroid(matchedCountry);
-        projection.rotate([-centroid[0], -centroid[1]]);
-        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d) => path(d));
-
-        // Mettre à jour le nom du pays dans les balises h1 et h2
-        setCountryName(matchedCountry.properties.name);
-      } else {
-        // Si aucun pays ne correspond à la recherche, réinitialiser le nom du pays
-        setCountryName('');
-      }
+    return () => {
+      svg.remove();
     };
-
-    // Assigner handleSearchChange à une propriété globale
-    chartRef.current.handleSearchChange = handleSearchChange;
   }, []);
 
   return (
