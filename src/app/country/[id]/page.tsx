@@ -65,7 +65,6 @@ function Country({ params }: CountryProps) {
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
           {countryId === 'PRK' ? (
             <>
               <div

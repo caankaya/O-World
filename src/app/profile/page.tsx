@@ -28,7 +28,6 @@ export default function Page() {
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
           <Profile />
         </>
       )}

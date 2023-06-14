@@ -27,7 +27,6 @@ export default function Home() {
     //     <HyperspaceEffect />
     //   ) : (
     <>
-      {alert && <Alert type={alert.type} message={alert.message} />}
       <WorldMap />
     </>
     // )}

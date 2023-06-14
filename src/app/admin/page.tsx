@@ -6,13 +6,11 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 
 import FullPageLoader from '@/components/Loader';
-import Alert from '@/components/Alert';
 import Admin from '@/components/AdminComponents/Admin';
 
 export default function Page() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
-  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,7 +26,6 @@ export default function Page() {
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
           <Admin />
         </>
       )}
