@@ -26,6 +26,7 @@ const World = () => {
             useView: false,
           },
         });
+        console.log('data', data);
         dispatch(setCountryData(data));
       } catch (error) {
         console.error('Error fetching Earth data:', error);

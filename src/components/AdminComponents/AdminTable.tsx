@@ -1,56 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { DataRow } from '@/@types/statsAdmin';
-import axiosInstance from '@/utils/axios';
-import { dispatch } from 'd3';
-import { setError } from '@/GlobalRedux/store/reducers/error';
+import { fetchData } from '@/GlobalRedux/store/reducers/stats';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import ErrorPage from '../Error';
 
 
-const fetchData = async (url: string, params: Record<string, any>, dispatch: Function): Promise<any> => {
-  try {
-    const response = await axiosInstance.get(url, {
-      params,
-      headers: { accept: 'application/json' },
-    });
-    return response.data;
-  } catch (error: any) {
-    console.error('Erreur lors de la récupération des données', error);
-    dispatch(setError({ message: error.message, statusCode: error.response?.status || 500 }));
-    return null;
-  }
-};
-
 export const AdminTable = () => {
   const dispatch = useAppDispatch();
   const errorState = useAppSelector((state) => state.error);
+  const statsState = useAppSelector((state) => state.stats);
+
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
-  // Définir l'état pour stocker les données récupérées
-  const [data, setData] = useState<DataRow[]>([]);
-  const [flags, setFlags] = useState<DataRow[]>([]);
-
-  // Effectuer la requête API lors de la première montée du composant
   useEffect(() => {
-    const fetchAllData = async () => {
-      const [data, flags] = await Promise.all([
-        fetchData('/admin/stat', { useView: true }, dispatch),
-        fetchData('/oworld/flags', {}, dispatch),
-      ]);
-      setData(data || []);
-      setFlags(flags || []);
-    };
-
-    fetchAllData();
-  }, []);
+    dispatch(fetchData({ url: '/admin/stat', params: { useView: true } }));
+    dispatch(fetchData({ url: '/oworld/flags', params: {} }));
+  }, [dispatch]);
 
   if (errorState) {
     return <ErrorPage />;
   }
 
-  const total_users = data.reduce(
+  const total_users = statsState.data.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),
     0
   );
@@ -63,7 +35,7 @@ export const AdminTable = () => {
   // Calculer quelles données afficher sur la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = statsState.data.slice(indexOfFirstItem, indexOfLastItem);
 
   // Gérer le changement de page
   const handlePageChange = (pageNumber: number) => {
@@ -71,7 +43,7 @@ export const AdminTable = () => {
   };
 
   // Calculer le nombre total de pages
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(statsState.data.length / itemsPerPage);
 
   return (
     <>
@@ -92,7 +64,7 @@ export const AdminTable = () => {
         <tbody>
           {/* Boucle sur les datas pour la page active et affichage de la liste des pays */}
           {currentData.map((row, index) => {
-            const flagUrl = findFlagUrl(flags, row.iso3);
+            const flagUrl = findFlagUrl(statsState.flags, row.iso3);
             return (
               <tr key={index} className="border-b border-neutral">
                 <td className="flex items-center px-6 font-medium">

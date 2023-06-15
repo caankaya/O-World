@@ -1,16 +1,18 @@
-import { createReducer, createAction, PayloadAction } from '@reduxjs/toolkit';
+import { createReducer, createAction } from '@reduxjs/toolkit';
 
 interface ErrorState {
-  message: string | null;
+  code: string | null;
   statusCode: number | null;
+  message: string | null;
 }
 
 const initialState: ErrorState = {
-  message: null,
+  code: null,
   statusCode: null,
+  message: null,
 };
 
-export const setError = createAction<{ message: string; statusCode: number }>(
+export const setError = createAction<{ code: string; statusCode: number; message: string }>(
   'error/setError'
 );
 
@@ -19,12 +21,14 @@ export const clearError = createAction('error/clearError');
 const errorReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(setError, (state, action) => {
-      state.message = action.payload.message;
+      state.code = action.payload.code;
       state.statusCode = action.payload.statusCode;
+      state.message = action.payload.message;
     })
     .addCase(clearError, (state) => {
-      state.message = null;
+      state.code = null;
       state.statusCode = null;
+      state.message = null;
     });
 });
 
