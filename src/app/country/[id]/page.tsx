@@ -2,23 +2,12 @@
 
 // React Hooks
 import { useEffect } from 'react';
-// Utils
-import axiosInstance from '@/utils/axios';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+// Reducer Actions
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
-
-// Reducer Actions
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
-import {
-  setCountryCategory,
-  setCountryData,
-} from '@/GlobalRedux/store/reducers/country';
 // Components
-
-
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
@@ -39,17 +28,14 @@ function Country({ params }: CountryProps) {
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
-        // Première requête
-        await dispatch(fetchRestCountries({ id: params.id }));
-
-        // Seconde requête
-        await dispatch(fetchGraph({ id: params.id }));
+      await dispatch(fetchRestCountries({ id: params.id }));
+      await dispatch(fetchGraph({ id: params.id }));
     };
-    
+
     fetchData();
-}, [dispatch, params.id]);
+  }, [dispatch, params.id]);
 
   return (
     <>

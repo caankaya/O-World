@@ -1,14 +1,11 @@
 'use client';
 
-
+// React Hooks
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-// React Hooks
-import { useEffect } from 'react';
 // Component
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
@@ -77,9 +74,10 @@ export default function Page() {
         <>
           {alert && <Alert type={alert.type} message={alert.message} />}
 
-          <section className={`p-4 flex flex-col items-center justify-center  
-          ${ isSideBarOpen ? 'float-right' : ''}`}
-          style={isSideBarOpen ? { width: aboutWidth } : {}}
+          <section
+            className={`p-4 flex flex-col items-center justify-center  
+          ${isSideBarOpen ? 'float-right' : ''}`}
+            style={isSideBarOpen ? { width: aboutWidth } : {}}
           >
             <div className="container px-4 mx-auto w-full">
               <div className="xl:max-w-4xl mx-auto text-center">

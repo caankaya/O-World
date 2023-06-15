@@ -1,10 +1,12 @@
 'use client';
 
+// React Hooks
 import { useEffect } from 'react';
+// Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-
+// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-
+// Components
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
 import EarthInfos from '@/components/EarthInfos';
