@@ -1,16 +1,20 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 
 import countryReducer from './reducers/country';
-import worldReducer from './reducers/world';
+import statsReducer from './reducers/stats';
 import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
+import errorReducer from './reducers/error';
+import earthReducer from './reducers/earth';
 
 const store = configureStore({
   reducer: {
-    world: worldReducer,
+    earth: earthReducer,
+    stats: statsReducer,
     country: countryReducer,
     home: homeReducer,
     user: userReducer,
+    error: errorReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,

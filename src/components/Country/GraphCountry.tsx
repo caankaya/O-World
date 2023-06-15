@@ -4,6 +4,7 @@ import { CountryCategories } from '@/@types/countryCategories';
 
 import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
+import ErrorPage from '../Error';
 
 interface DetailCountryProps {
   category: CountryCategories[] | any;
@@ -11,8 +12,13 @@ interface DetailCountryProps {
 }
 
 function GraphCountry({ category, data }: DetailCountryProps) {
+  const errorState = useAppSelector((state) => state.error);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const width = useAppSelector((state) => state.home.currentWidth);
+
+  if (errorState.message) {
+    return <ErrorPage />;
+  }
 
   return (
     <section className="p-8"

@@ -1,12 +1,21 @@
 'use client';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { AdminTable } from './AdminTable';
+import { useEffect } from 'react';
+import { fetchStatsData } from '@/GlobalRedux/store/reducers/stats';
 
 
 function Admin() {
+  const dispatch = useAppDispatch();
   const AdminWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const statsData = useAppSelector((state) => state.stats);
+
+  useEffect(() => {
+    dispatch(fetchStatsData({ url: '/admin/stat', params: { useView: true } }));
+    dispatch(fetchStatsData({ url: '/oworld/flags', params: {} }));
+  }, [dispatch]);
 
   return (
     <div className={`p-4 flex flex-col items-center justify-start min-h-screen 
@@ -26,7 +35,7 @@ function Admin() {
                 </div>
             </div>
             <div className="overflow-x-auto">
-              <AdminTable  />
+              <AdminTable statsData={statsData}  />
             </div>
           </div>
         </div>

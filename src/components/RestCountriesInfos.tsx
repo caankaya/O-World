@@ -8,15 +8,21 @@ import { staggerContainer, fadeIn } from '../utils/motion';
 
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-
+import ErrorPage from './Error';
 
 
 function RestCountriesInfos({countryData}: {countryData: CountriesDataProps | null}) {
+  const errorState = useAppSelector((state) => state.error);
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
+  // Si countryData est null, affichez un message ou gérer d'une autre manière.
   if (!countryData) {
-    return <div>Loading...</div>;
+    return <div>No data available</div>; 
+  }
+
+  if (errorState.message) {
+    return <ErrorPage />;
   }
 
   return (
