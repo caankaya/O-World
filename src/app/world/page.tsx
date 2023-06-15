@@ -4,37 +4,21 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import { setCountryData } from '@/GlobalRedux/store/reducers/country';
-import axiosInstance from '@/utils/axios';
 
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
 import EarthInfos from '@/components/EarthInfos';
+import { fetchEarthData } from '@/GlobalRedux/store/reducers/earth';
 
 const World = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
-  const data = useAppSelector((state) => state.country.data);
   const alert = useAppSelector((state) => state.user.alert);
-
-  //TODO Déplacer l'appel API directement dans le reducer country pour stocker les données dans le state et les récupérer dans les composants nécessaires
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data } = await axiosInstance.get('/oworld', {
-          params: {
-            useView: false,
-          },
-        });
-        dispatch(setCountryData(data));
-      } catch (error) {
-        console.error('Error fetching Earth data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const earthData = useAppSelector((state) => state.earth);
 
   useEffect(() => {
+    dispatch(fetchEarthData({ url: '/oworld', params: { useView: false }}));
+
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
     }, 3000); // 3 secondes de délai
@@ -49,7 +33,7 @@ const World = () => {
       ) : (
         <>
           {alert && <Alert type={alert.type} message={alert.message} />}
-          <EarthInfos earthData={data} />
+          <EarthInfos earthData={earthData} />
         </>
       )}
     </>

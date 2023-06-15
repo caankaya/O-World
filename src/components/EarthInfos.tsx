@@ -1,17 +1,28 @@
 'use client';
 
+import { FC } from "react";
 import { useAppSelector } from "@/GlobalRedux/hooks";
 import CountUp from "react-countup";
 
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
+import ErrorPage from "./Error";
 
-const EarthInfos = ({earthData}: {earthData: any} ) => {
+interface EarthInfosProps {
+  earthData: PlanetsData;
+}
+
+const EarthInfos: FC<EarthInfosProps> = ({ earthData }) => {
+  const errorState = useAppSelector((state) => state.error);
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
-  const dataPlanet = earthData[0].data;
-  const dataCategory = earthData[0].data.dataCategory;
+  if (errorState.message) {
+    return <ErrorPage />;
+  }
+
+  const dataPlanet = earthData.data.Earth;
+  const dataCategory = earthData.data.Earth.dataCategory;
 
   const parseValue = (valueString: string) => {
     // billions

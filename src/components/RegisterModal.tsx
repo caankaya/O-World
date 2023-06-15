@@ -56,6 +56,14 @@ function RegisterModal() {
 
     const registerFormData = new FormData(event.currentTarget);
 
+    // Checks if the email entered by the user has the correct format
+    const email = registerFormData.get('email') as string;
+    const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      dispatch(handleError('Invalid e-mail address format.'));
+      return;
+    }
+
     // Check that the password entered by the user and the password confirmation are identical
     const password = registerFormData.get('password') as string;
     const confirmPassword = registerFormData.get('confirm-password') as string;
@@ -69,8 +77,7 @@ function RegisterModal() {
     }
 
     // Check that the password entered by the user is secure
-    const passwordRegex =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+    const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
     if (!passwordRegex.test(password)) {
       dispatch(
         handleError(

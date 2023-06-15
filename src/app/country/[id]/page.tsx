@@ -6,13 +6,17 @@ import { useEffect } from 'react';
 import axiosInstance from '@/utils/axios';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
+import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
 import {
   setCountryCategory,
   setCountryData,
 } from '@/GlobalRedux/store/reducers/country';
 // Components
+
+
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
@@ -32,32 +36,18 @@ function Country({ params }: CountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const categoryUrl = `/oworld/${params.id}/category`;
-        const dataUrl = `/oworld/${params.id}`;
-        const categoryResponse = await axiosInstance.get(categoryUrl);
-        const dataResponse = await axiosInstance.get(dataUrl);
-        const categoryData = categoryResponse.data;
-        const countryData = dataResponse.data;
-        dispatch(setCountryCategory(categoryData));
-        dispatch(setCountryData(countryData));
-      } catch (error) {
-        console.log('Error:', error);
-      }
-    };
-
-    fetchData();
-  }, [axiosInstance, dispatch, params.id]);
 
   useEffect(() => {
+    dispatch(fetchCountryData({ id: params.id }));
+
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
-    }, 3000); // 3 secondes de délai
+    }, 3000);
 
-    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
-  }, [dispatch]);
+    return () => clearTimeout(timer);
+  }, [dispatch, params.id]);
+
+
 
   return (
     <>

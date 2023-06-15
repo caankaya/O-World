@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+import ErrorPage from '../Error';
 import { DataRow } from '@/@types/statsAdmin';
-import axiosInstance from '@/utils/axios';
 
 
-const fetchData = async (url: string, params: Record<string, any>): Promise<any> => {
-  try {
-    const response = await axiosInstance.get(url, {
-      params,
-      headers: { accept: 'application/json' },
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Erreur lors de la récupération des données', error);
-    return null;
-  }
-};
+export const AdminTable = ({ statsData }: { statsData: { data: DataRow[]; flags: DataRow[] } }) => {
+  const errorState = useAppSelector((state) => state.error);
 
-export const AdminTable = () => {
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
-  // Définir l'état pour stocker les données récupérées
-  const [data, setData] = useState<DataRow[]>([]);
-  const [flags, setFlags] = useState<DataRow[]>([]);
+  if (errorState.message) {
+    return <ErrorPage />;
+  }
 
-  // Effectuer la requête API lors de la première montée du composant
-  useEffect(() => {
-    const fetchAllData = async () => {
-      const [data, flags] = await Promise.all([
-        fetchData('/admin/stat', { useView: true }),
-        fetchData('/oworld/flags', {}),
-      ]);
-      setData(data || []);
-      setFlags(flags || []);
-    };
-
-    fetchAllData();
-  }, []);
-
-  const total_users = data.reduce(
+  const total_users = statsData.data.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),
     0
   );
@@ -52,7 +28,7 @@ export const AdminTable = () => {
   // Calculer quelles données afficher sur la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = statsData.data.slice(indexOfFirstItem, indexOfLastItem);
 
   // Gérer le changement de page
   const handlePageChange = (pageNumber: number) => {
@@ -60,7 +36,7 @@ export const AdminTable = () => {
   };
 
   // Calculer le nombre total de pages
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(statsData.data.length / itemsPerPage);
 
   return (
     <>
@@ -81,7 +57,7 @@ export const AdminTable = () => {
         <tbody>
           {/* Boucle sur les datas pour la page active et affichage de la liste des pays */}
           {currentData.map((row, index) => {
-            const flagUrl = findFlagUrl(flags, row.iso3);
+            const flagUrl = findFlagUrl(statsData.flags, row.iso3);
             return (
               <tr key={index} className="border-b border-neutral">
                 <td className="flex items-center px-6 font-medium">

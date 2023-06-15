@@ -1,16 +1,17 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { logout } from '@/GlobalRedux/store/reducers/user';
-import axiosInstance from '@/utils/axios';
+import {
+  accountDeletion,
+  accountUpdate,
+  handleError,
+} from '@/GlobalRedux/store/reducers/user';
 
 import { useRef, useState } from 'react';
 
 function UpdateProfile() {
   const dispatch = useAppDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const userId = useAppSelector((state) => state.user.sessionId);
 
   // Set up a useRef to target and reset the form
   const newformRef = useRef<HTMLFormElement | null>(null);
@@ -24,9 +25,10 @@ function UpdateProfile() {
     const newPassword = newFormData.get('password') as string;
     const confirmNewPassword = newFormData.get('confirm-password') as string;
     if (newPassword !== confirmNewPassword) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password confirmation does not match the password entered.'
+      dispatch(
+        handleError(
+          'The new password confirmation does not match the new password entered.'
+        )
       );
       return;
     }
@@ -35,9 +37,10 @@ function UpdateProfile() {
     const passwordRegex =
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
     if (!passwordRegex.test(newPassword)) {
-      //TODO Display a message on the front to warn the user
-      console.log(
-        'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+      dispatch(
+        handleError(
+          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+        )
       );
       return;
     }
@@ -45,34 +48,17 @@ function UpdateProfile() {
     // Delete confirmpassword value before saving user info in DB
     newFormData.delete('confirm-password');
 
-    try {
-      const response = await axiosInstance.put(
-        `/user/${userId}`,
-        Object.fromEntries(newFormData)
-      );
-      console.log(response.data);
+    dispatch(accountUpdate(newFormData));
 
-      // Reset form after submission
-      if (newformRef.current) {
-        newformRef.current.reset();
-      }
-    } catch (error) {
-      console.log(
-        'The information provided does not allow you to update your account',
-        error
-      );
+    // Reset form after submission
+    if (newformRef.current) {
+      newformRef.current.reset();
     }
   };
 
   const handleClickDeleteAccount = async () => {
-    try {
-      const response = await axiosInstance.delete(`/user/${userId}`);
-      console.log(response.data);
-      dispatch(logout());
-      setIsDeleteModalOpen(!isDeleteModalOpen);
-    } catch (error) {
-      console.log('Unable to delete account', error);
-    }
+    dispatch(accountDeletion());
+    setIsDeleteModalOpen(!isDeleteModalOpen);
   };
 
   return (
@@ -204,14 +190,14 @@ function UpdateProfile() {
               <h3 className="mb-5 text-lg font-normal text-gray-500">
                 Are you sure you want to delete your account?
               </h3>
-              <a
-                href="/"
+              <button
+                //TODO Gérer le retour sur la Home Page avec un a et href
                 data-modal-hide="popup-modal"
                 className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
                 onClick={handleClickDeleteAccount}
               >
                 Yes, I'm sure
-              </a>
+              </button>
               <button
                 data-modal-hide="popup-modal"
                 type="button"
