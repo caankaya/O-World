@@ -1,61 +1,55 @@
 import { CountryCategories } from '@/@types/countryCategories';
 import { CountriesDataProps } from '../../../@types/countryData';
-import { AnyAction, ThunkDispatch, createAsyncThunk, createReducer } from '@reduxjs/toolkit';
-import { setError } from './error';
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
 import axiosInstance from '@/utils/axios';
+import { Alert } from '@/@types/alert';
 
 interface CountryState {
   category: CountryCategories[];
   data: CountriesDataProps | null;
   loading: boolean;
+  alert: Alert | null;
 }
 
 const initialState: CountryState = {
   category: [],
   data: null,
   loading: false,
+  alert: null,
 };
 
-export const fetchCountryData = createAsyncThunk<any, { id: string }, { dispatch: ThunkDispatch<{}, {}, AnyAction> }>(
-  'country/fetchCountryData',
-  async ({ id }, { dispatch }) => {
+
+export const fetchRestCountries = createAsyncThunk<any, { id: string }>(
+  'country/fetchRestCountries',
+  async ({ id }) => {
     try {
-      const categoryUrl = `/oworld/${id}/category`;
-      const dataUrl = `/oworld/${id}`;
-
-      const categoryResponse = await axiosInstance.get(categoryUrl);
-      const dataResponse = await axiosInstance.get(dataUrl);
-
-      const categoryData = categoryResponse.data;
-      const countryData = dataResponse.data;
-
-      return { categoryData, countryData };
-
+      const response = await axiosInstance.get(`/oworld/${id}`);
+      return response;
     } catch (error: any) {
-      console.log('Error:', error);
-      dispatch(setError({ 
-        code: error.code, 
-        statusCode: error.response?.status || 500,
-        message: error.message || 'Une erreur inattendue est survenue.'
-      }));
-      throw error;
+      throw new Error(error.response.data.message);
     }
   }
 );
 
+
+
 const countryReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchCountryData.pending, (state) => {
+    .addCase(fetchRestCountries.pending, (state) => {
       state.loading = true;
+      state.alert = null;
     })
-    .addCase(fetchCountryData.fulfilled, (state, action) => {
+    .addCase(fetchRestCountries.fulfilled, (state, action) => {
       state.loading = false;
-      state.category = action.payload.categoryData;
-      state.data = action.payload.countryData;
+      state.data = action.payload.data;
     })
-    .addCase(fetchCountryData.rejected, (state) => {
+    .addCase(fetchRestCountries.rejected, (state, action) => {
       state.loading = false;
-    });
+      state.alert = {
+        type: 'error',
+        message: action.error.message || 'Unknown error occurred.',
+      };
+    })
 });
 
 export default countryReducer;

@@ -1,23 +1,25 @@
-import { createReducer, createAsyncThunk, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
-import { setError } from '@/GlobalRedux/store/reducers/error';
+import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
 import { DataRow } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
+import { Alert } from '@/@types/alert';
 
 interface StatsState {
   data: DataRow[];
   flags: DataRow[];
   loading: boolean;
+  alert: Alert | null;
 }
 
 const initialState: StatsState = {
   data: [],
   flags: [],
   loading: false,
+  alert: null,
 };
 
-export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params: Record<string, any> }, { dispatch: ThunkDispatch<{}, {}, AnyAction> }>(
+export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params: Record<string, any> }>(
   'stats/fetchData',
-  async ({ url, params }, { dispatch }) => {
+  async ({ url, params }) => {
     try {
       const response = await axiosInstance.get(url, {
         params,
@@ -25,13 +27,7 @@ export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params:
       });
       return response.data;
     } catch (error: any) {
-      console.log('error :', error);
-      dispatch(setError({ 
-        code: error.code, 
-        statusCode: error.response?.status || 500,
-        message: error.message || 'Une erreur inattendue est survenue.' // Ajoutez le message ici
-      }));
-      throw error; // Important to throw error, so that the thunk is rejected
+      throw new Error(error.response.data.message);
     }
   }
 );
@@ -49,8 +45,12 @@ const statsReducer = createReducer(initialState, (builder) => {
         state.flags = action.payload;
       }
     })
-    .addCase(fetchStatsData.rejected, (state) => {
+    .addCase(fetchStatsData.rejected, (state, action) => {
       state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message || 'Unknown error occurred.',
+      };
     });
 });
 

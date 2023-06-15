@@ -4,7 +4,7 @@ import { CountryCategories } from '@/@types/countryCategories';
 
 import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
-import ErrorPage from '../Error';
+import Alert from '../Alert';
 
 interface DetailCountryProps {
   category: CountryCategories[] | any;
@@ -12,18 +12,19 @@ interface DetailCountryProps {
 }
 
 function GraphCountry({ category, data }: DetailCountryProps) {
-  const errorState = useAppSelector((state) => state.error);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const width = useAppSelector((state) => state.home.currentWidth);
-
-  if (errorState.message) {
-    return <ErrorPage />;
-  }
+  const alert = useAppSelector((state) => state.graph.alert);
 
   return (
     <section className="p-8"
       style={isSideBarOpen ? { width: width, float: 'right' } : {}}
     >
+      {alert && 
+      <div className="px-4 mx-auto w-full">
+      <Alert type={alert.type} message={alert.message} />
+      </div>}
+
       <LineBarChart category={category} />
       <EconomyStats category={category} />
     </section>

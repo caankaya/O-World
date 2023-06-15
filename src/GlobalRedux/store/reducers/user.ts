@@ -146,7 +146,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.alert = {
         type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
+        message: action.error.message || 'Unknown error occurred.',
       };
       console.log('Error:', action);
     })
