@@ -1,11 +1,23 @@
 'use client';
 
+// React Hooks
 import { useEffect } from 'react';
-
+// Utils
+import axiosInstance from '@/utils/axios';
+// Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
+
+// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
+import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
+import {
+  setCountryCategory,
+  setCountryData,
+} from '@/GlobalRedux/store/reducers/country';
+// Components
+
 
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
