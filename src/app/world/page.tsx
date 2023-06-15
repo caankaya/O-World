@@ -5,37 +5,26 @@ import { useEffect } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
+
 // Components
-import FullPageLoader from '@/components/Loader';
+
 import EarthInfos from '@/components/EarthInfos';
 import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
+import SimpleLoader from '@/components/SimpleLoader';
 
 const World = () => {
   const dispatch = useAppDispatch();
-  const loading = useAppSelector((state) => state.home.spinner);
+  const loading = useAppSelector((state) => state.planet.loading);
   const earthData = useAppSelector((state) => state.planet.earthData);
 
   useEffect(() => {
     dispatch(fetchEarthData());
-
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false));
-    }, 3000); // 3 secondes de délai
-
-    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
   }, [dispatch]);
 
-  return (
-    <>
-      {loading ? (
-        <FullPageLoader />
-      ) : (
-        <>
-          <EarthInfos earthData={earthData} />
-        </>
-      )}
-    </>
+  return loading || Object.keys(earthData).length === 0 ? (
+    <SimpleLoader />
+  ) : (
+    <EarthInfos earthData={earthData} />
   );
 };
 

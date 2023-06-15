@@ -5,20 +5,20 @@ import { useEffect } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Action
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { fetchAdminStatsData } from '@/GlobalRedux/store/reducers/stats';
 import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 // Component
-import FullPageLoader from '@/components/Loader';
 import { AdminTable } from '@/components/AdminComponents/AdminTable';
+import SimpleLoader from '@/components/SimpleLoader';
 
 export default function Page() {
   const dispatch = useAppDispatch();
-  const loading = useAppSelector((state) => state.home.spinner);
   const AdminWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const stats = useAppSelector((state) => state.stats.stats);
   const flags = useAppSelector((state) => state.flags.flags);
+  const loadingStats = useAppSelector((state) => state.stats.loading);
+  const loadingFlags = useAppSelector((state) => state.flags.loading);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,18 +29,10 @@ export default function Page() {
     fetchData();
   }, [dispatch]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false));
-    }, 3000); // 3 secondes de délai
-
-    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
-  }, [dispatch]);
-
   return (
     <>
-      {loading ? (
-        <FullPageLoader />
+      {loadingStats || loadingFlags ? (
+        <SimpleLoader />
       ) : (
         <>
           <div
