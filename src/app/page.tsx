@@ -7,6 +7,7 @@ import HyperspaceEffect from '@/components/HyperspaceEffect';
 import Alert from '@/components/Alert';
 import WorldMap from '@/components/WorldMap';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
+import StarsCanvas from '@/components/Stars';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -28,6 +29,7 @@ export default function Home() {
     //   ) : (
     <>
       <WorldMap />
+      <StarsCanvas />
     </>
     // )}
     // </>
