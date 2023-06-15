@@ -2,25 +2,22 @@
 
 import { useState } from 'react';
 
-import { DataRow } from '@/@types/statsAdmin';
-import { countryFavorites } from '@/@types/countryFavorites';
+import { CountryFavorites } from '@/@types/countryFavorites';
+import { Flags } from '@/@types/flags';
 
 type UserFavoritesProps = {
-  favoritesCountries: [];
-  flags: DataRow[];
+  favoritesCountries: CountryFavorites[];
+  flags: Flags[];
 };
 
 function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const [displayedCountries, setDisplayedCountries] = useState<number>(8);
   const [isViewAll, setIsViewAll] = useState<boolean>(false);
 
-  const userFavoritesCountries = favoritesCountries;
-  const countriesFlags = flags;
-
   const handleViewCountries = () => {
     setIsViewAll(!isViewAll);
     if (!isViewAll) {
-      setDisplayedCountries(userFavoritesCountries.length);
+      setDisplayedCountries(favoritesCountries.length);
       return;
     }
     setDisplayedCountries(8);
@@ -37,7 +34,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Latest favorites countries
         </h5>
-        {userFavoritesCountries.length > 0 &&
+        {favoritesCountries.length > 0 &&
           (!isViewAll ? (
             <a
               href="#"
@@ -57,38 +54,36 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
           ))}
       </div>
       <div className="flow-root">
-        {!userFavoritesCountries.length && (
+        {!favoritesCountries.length && (
           <div className="flex-1 min-w-0">
             <p className="font-medium text-white">No favorite countries yet</p>
           </div>
         )}
         <ul role="list" className="divide-y divide-primary">
-          {userFavoritesCountries
-            .slice(0, displayedCountries)
-            .map((country: countryFavorites) => {
-              const flagUrl = findFlagUrl(countriesFlags, country.cca3);
-              return (
-                <li className="py-3 sm:py-4" key={country.cca3}>
-                  <a href={`/country/${country.cca3}`}>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={flagUrl}
-                          alt="Country flag"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-white">{country.name}</p>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-white">{country.date}</p>
-                      </div>
+          {favoritesCountries.slice(0, displayedCountries).map((country) => {
+            const flagUrl = findFlagUrl(flags, country.cca3);
+            return (
+              <li className="py-3 sm:py-4" key={country.cca3}>
+                <a href={`/country/${country.cca3}`}>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src={flagUrl}
+                        alt="Country flag"
+                      />
                     </div>
-                  </a>
-                </li>
-              );
-            })}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.name}</p>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.date}</p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>

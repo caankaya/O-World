@@ -1,13 +1,13 @@
 'use client';
 
 // React Hooks
-import { use, useEffect } from 'react';
+import { useEffect } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { fecthFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
-import { fetchStatsData } from '@/GlobalRedux/store/reducers/stats';
+import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 // Components
 import FullPageLoader from '@/components/Loader';
 import UpdateProfile from '@/components/UpdateProfile';
@@ -22,12 +22,12 @@ export default function Page() {
   const favoritesCountries = useAppSelector(
     (state) => state.user.favoritesCountries
   );
-  const flags = useAppSelector((state) => state.stats.flags);
+  const flags = useAppSelector((state) => state.flags.flags);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fecthFavoritesCountries());
-      await dispatch(fetchStatsData({ url: '/oworld/flags', params: {} }));
+      await dispatch(fetchFlagsData());
     };
     fetchData();
   }, []);

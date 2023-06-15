@@ -1,29 +1,26 @@
 import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
-import { DataRow } from '@/@types/statsAdmin';
+import { Stats } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 
 interface StatsState {
-  data: DataRow[];
-  flags: DataRow[];
+  stats: Stats[];
   loading: boolean;
   alert: Alert | null;
 }
 
 const initialState: StatsState = {
-  data: [],
-  flags: [],
+  stats: [],
   loading: false,
   alert: null,
 };
 
-export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params: Record<string, any> }>(
-  'stats/fetchData',
-  async ({ url, params }) => {
+export const fetchAdminStatsData = createAsyncThunk(
+  'stats/fetchAdminStatsData',
+  async (_, { getState }) => {
     try {
-      const response = await axiosInstance.get(url, {
-        params,
-        headers: { accept: 'application/json' },
+      const response = await axiosInstance.get('/admin/stat', {
+        params: { useView: true },
       });
       return response.data;
     } catch (error: any) {
@@ -34,18 +31,14 @@ export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params:
 
 const statsReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchStatsData.pending, (state) => {
+    .addCase(fetchAdminStatsData.pending, (state) => {
       state.loading = true;
     })
-    .addCase(fetchStatsData.fulfilled, (state, action) => {
+    .addCase(fetchAdminStatsData.fulfilled, (state, action) => {
       state.loading = false;
-      if (action.meta.arg.url === '/admin/stat') {
-        state.data = action.payload;
-      } else if (action.meta.arg.url === '/oworld/flags') {
-        state.flags = action.payload;
-      }
+      state.stats = action.payload;
     })
-    .addCase(fetchStatsData.rejected, (state, action) => {
+    .addCase(fetchAdminStatsData.rejected, (state, action) => {
       state.loading = false;
       state.alert = {
         type: 'error',

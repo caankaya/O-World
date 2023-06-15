@@ -1,4 +1,4 @@
-export interface countryFavorites {
+export interface CountryFavorites {
   name: string;
   cca3: string;
   date: string;

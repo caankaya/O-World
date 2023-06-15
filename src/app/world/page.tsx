@@ -8,18 +8,18 @@ import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import FullPageLoader from '@/components/Loader';
 import Alert from '@/components/Alert';
 import EarthInfos from '@/components/EarthInfos';
-import { fetchEarthData } from '@/GlobalRedux/store/reducers/earth';
+import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
 
 const World = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
   const alert = useAppSelector((state) => state.user.alert);
-  const earthData = useAppSelector((state) => state.earth);
+  const earthData = useAppSelector((state) => state.planet.earthData);
 
   useEffect(() => {
-    dispatch(fetchEarthData({ url: '/oworld', params: { useView: false }}));
+    dispatch(fetchEarthData());
 
-    const timer = setTimeout(() => { 
+    const timer = setTimeout(() => {
       dispatch(setLoading(false));
     }, 3000); // 3 secondes de délai
 

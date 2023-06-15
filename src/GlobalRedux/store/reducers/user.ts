@@ -6,6 +6,7 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
+import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface UserState {
   username: string | null;
@@ -13,7 +14,7 @@ interface UserState {
   loading: boolean;
   sessionId: number | null;
   alert: Alert | null;
-  favoritesCountries: [];
+  favoritesCountries: CountryFavorites[];
 }
 
 const initialState: UserState = {
