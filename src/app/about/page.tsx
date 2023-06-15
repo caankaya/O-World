@@ -1,25 +1,25 @@
 'use client';
 
-import { useEffect } from 'react';
-
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-
+// Redux Hooks
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+// React Hooks
+import { useEffect } from 'react';
+// Component
 import FullPageLoader from '@/components/Loader';
-import Alert from '@/components/Alert';
 import About from '@/components/About';
 
 export default function Page() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
-  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
-    }, 3000); // 3 secondes de délai
+    }, 3000);
 
-    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
+    return () => clearTimeout(timer);
   }, [dispatch]);
 
   return (
@@ -28,7 +28,6 @@ export default function Page() {
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
           <About />
         </>
       )}

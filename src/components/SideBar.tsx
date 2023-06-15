@@ -2,15 +2,11 @@
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
-interface SideBarProps {
-  category: any;
-  data: any;
-}
-
-function SideBar({ category, data }: SideBarProps) {
+function SideBar() {
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
+  const data = useAppSelector((state) => state.country.data);
 
   return (
     <div className="SideBar z-[1]">
@@ -66,7 +62,7 @@ function SideBar({ category, data }: SideBarProps) {
           {/*Fin de catégories pour le monde */}
 
           {/* Debut catégories pour un pays */}
-          {data && category && (
+          {data && (
             <ul className="mb-10 mt-10">
               <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
                 Country
@@ -83,34 +79,6 @@ function SideBar({ category, data }: SideBarProps) {
               </span>
             </ul>
           )}
-          {/* {category && (
-            <ul>
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg block mb-5">
-                Categories
-              </span>
-              <li>
-                <a
-                  href={`/`}
-                  className="flex items-center ml-3 p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-                >
-                  Home
-                </a>
-              </li>
-              {Object.entries(category).map(([key]) => (
-                <li key={key}>
-                  <a
-                    href={`/country/${category.country.id}/category/${key}`}
-                    className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
-                  >
-                    <span className="flex-1 ml-3 whitespace-nowrap">
-                      {key.charAt(0).toUpperCase() + key.slice(1).toLowerCase()}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )} */}
-          {/* Fin de catégories pour un pays */}
           {/* Si Utilisateur est connecté */}
           {user && username && (
             <ul className="mt-5">

@@ -1,12 +1,21 @@
 'use client';
 
-import axiosInstance from '@/utils/axios';
-
+// React Hooks
 import { useEffect } from 'react';
-
+// Utils
+import axiosInstance from '@/utils/axios';
+// Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
+
+// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
+import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
+import {
+  setCountryCategory,
+  setCountryData,
+} from '@/GlobalRedux/store/reducers/country';
+// Components
+
 
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
@@ -23,8 +32,7 @@ function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.country.category);
   const data = useAppSelector((state) => state.country.data);
-  const loading = useAppSelector((state) => state.country.loading);
-  const alert = useAppSelector((state) => state.user.alert);
+  const loading = useAppSelector((state) => state.home.spinner);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
