@@ -10,8 +10,8 @@ const EarthInfos = ({earthData}: {earthData: any} ) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
 
-  const dataPlanet = earthData[0].data;
-  const dataCategory = earthData[0].data.dataCategory;
+  const dataPlanet = earthData.Earth;
+  const dataCategory = earthData.Earth.dataCategory;
 
   const parseValue = (valueString: string) => {
     // billions
