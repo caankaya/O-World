@@ -1,22 +1,19 @@
 import { createReducer, createAsyncThunk, ThunkDispatch, AnyAction } from '@reduxjs/toolkit';
 import { setError } from '@/GlobalRedux/store/reducers/error';
-import { DataRow } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
 
-interface StatsState {
-  data: DataRow[];
-  flags: DataRow[];
+interface EarthState {
+  data: PlanetsData;
   loading: boolean;
 }
 
-const initialState: StatsState = {
-  data: [],
-  flags: [],
+const initialState: EarthState = {
+  data: {},
   loading: false,
 };
 
-export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params: Record<string, any> }, { dispatch: ThunkDispatch<{}, {}, AnyAction> }>(
-  'stats/fetchData',
+export const fetchEarthData = createAsyncThunk<PlanetsData, { url: string; params: Record<string, any> }, { dispatch: ThunkDispatch<{}, {}, AnyAction> }>(
+  'earth/fetchEarthData',
   async ({ url, params }, { dispatch }) => {
     try {
       const response = await axiosInstance.get(url, {
@@ -36,22 +33,18 @@ export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params:
   }
 );
 
-const statsReducer = createReducer(initialState, (builder) => {
+const earthReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchStatsData.pending, (state) => {
+    .addCase(fetchEarthData.pending, (state) => {
       state.loading = true;
     })
-    .addCase(fetchStatsData.fulfilled, (state, action) => {
+    .addCase(fetchEarthData.fulfilled, (state, action) => {
       state.loading = false;
-      if (action.meta.arg.url === '/admin/stat') {
-        state.data = action.payload;
-      } else if (action.meta.arg.url === '/oworld/flags') {
-        state.flags = action.payload;
-      }
+      state.data = action.payload;
     })
-    .addCase(fetchStatsData.rejected, (state) => {
+    .addCase(fetchEarthData.rejected, (state) => {
       state.loading = false;
     });
 });
 
-export default statsReducer;
+export default earthReducer;

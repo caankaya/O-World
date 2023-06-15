@@ -5,9 +5,11 @@ import statsReducer from './reducers/stats';
 import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
 import errorReducer from './reducers/error';
+import earthReducer from './reducers/earth';
 
 const store = configureStore({
   reducer: {
+    earth: earthReducer,
     stats: statsReducer,
     country: countryReducer,
     home: homeReducer,
