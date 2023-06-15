@@ -1,19 +1,11 @@
 import React, { useState } from 'react';
-import { useAppSelector } from '@/GlobalRedux/hooks';
-import ErrorPage from '../Error';
 import { DataRow } from '@/@types/statsAdmin';
 
 
 export const AdminTable = ({ statsData }: { statsData: { data: DataRow[]; flags: DataRow[] } }) => {
-  const errorState = useAppSelector((state) => state.error);
-
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
-
-  if (errorState.message) {
-    return <ErrorPage />;
-  }
 
   const total_users = statsData.data.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),

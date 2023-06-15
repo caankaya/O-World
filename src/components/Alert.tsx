@@ -11,7 +11,7 @@ function Alert({ type, message }: Alert) {
         type === 'success'
           ? 'alert-success'
           : type === 'error'
-          ? 'alert-error'
+          ? 'alert-error bg-[#ff0033]'
           : 'alert-warning'
       }`}
     >

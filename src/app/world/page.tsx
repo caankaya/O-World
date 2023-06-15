@@ -19,7 +19,7 @@ const World = () => {
   useEffect(() => {
     dispatch(fetchEarthData({ url: '/oworld', params: { useView: false }}));
 
-    const timer = setTimeout(() => {
+    const timer = setTimeout(() => { 
       dispatch(setLoading(false));
     }, 3000); // 3 secondes de délai
 

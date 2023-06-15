@@ -13,9 +13,13 @@ function Admin() {
   const statsData = useAppSelector((state) => state.stats);
 
   useEffect(() => {
-    dispatch(fetchStatsData({ url: '/admin/stat', params: { useView: true } }));
-    dispatch(fetchStatsData({ url: '/oworld/flags', params: {} }));
-  }, [dispatch]);
+    const fetchData = async () => {
+    await dispatch(fetchStatsData({ url: '/admin/stat', params: { useView: true } }));
+    await dispatch(fetchStatsData({ url: '/oworld/flags', params: {} }));
+  };
+  
+  fetchData();
+}, [dispatch]);
 
   return (
     <div className={`p-4 flex flex-col items-center justify-start min-h-screen 

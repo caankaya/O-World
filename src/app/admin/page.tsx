@@ -9,10 +9,12 @@ import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Component
 import FullPageLoader from '@/components/Loader';
 import Admin from '@/components/AdminComponents/Admin';
+import Alert from '@/components/Alert';
 
 export default function Page() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
+  const alert = useAppSelector((state) => state.stats.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -28,6 +30,10 @@ export default function Page() {
         <FullPageLoader />
       ) : (
         <>
+          {alert && 
+          <div className="px-4 mx-auto w-full">
+          <Alert type={alert.type} message={alert.message} />
+          </div>}
           <Admin />
         </>
       )}
