@@ -1,4 +1,8 @@
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 import { Flags } from '@/@types/flags';
@@ -15,6 +19,10 @@ const initialState: flagsState = {
   alert: null,
 };
 
+//Synchronous actions
+export const clearFlagsAlert = createAction('stats/clearAlert');
+
+//Asynchronous actions
 export const fetchFlagsData = createAsyncThunk(
   'stats/fetchFlagsData',
   async () => {
@@ -42,6 +50,10 @@ const flagsReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
+    })
+
+    .addCase(clearFlagsAlert, (state) => {
+      state.alert = null;
     });
 });
 

@@ -1,4 +1,8 @@
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 import { Stats } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
@@ -15,11 +19,15 @@ const initialState: StatsState = {
   alert: null,
 };
 
+//Synchronous actions
+export const clearStatsAlert = createAction('stats/clearAlert');
+
+//Asynchronous actions
 export const fetchAdminStatsData = createAsyncThunk(
   'stats/fetchAdminStatsData',
   async (_, { getState }) => {
     try {
-      const response = await axiosInstance.get('/admin/stat', {
+      const response = await axiosInstance.get('/stats/fetch-stat', {
         params: { useView: true },
       });
       return response.data;
@@ -44,6 +52,10 @@ const statsReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
+    })
+
+    .addCase(clearStatsAlert, (state) => {
+      state.alert = null;
     });
 });
 

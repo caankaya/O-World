@@ -1,4 +1,8 @@
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
 import { Alert } from '@/@types/alert';
 import axiosInstance from '@/utils/axios';
 import { Earth } from '@/@types/planetDatas';
@@ -15,6 +19,10 @@ const initialState: PlanetState = {
   alert: null,
 };
 
+//Synchronous actions
+export const clearPlanetAlert = createAction('planet/clearAlert');
+
+//Asynchronous actions
 export const fetchEarthData = createAsyncThunk(
   'earth/fetchEarthData',
   async () => {
@@ -43,6 +51,10 @@ const planetReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
+    })
+
+    .addCase(clearPlanetAlert, (state) => {
+      state.alert = null;
     });
 });
 

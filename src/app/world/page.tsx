@@ -8,14 +8,12 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Components
 import FullPageLoader from '@/components/Loader';
-import Alert from '@/components/Alert';
 import EarthInfos from '@/components/EarthInfos';
 import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
 
 const World = () => {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
-  const alert = useAppSelector((state) => state.user.alert);
   const earthData = useAppSelector((state) => state.planet.earthData);
 
   useEffect(() => {
@@ -34,7 +32,6 @@ const World = () => {
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
           <EarthInfos earthData={earthData} />
         </>
       )}

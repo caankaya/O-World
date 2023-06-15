@@ -10,7 +10,6 @@ import { Earth } from '@/@types/planetDatas';
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  console.log(earthData);
 
   const parseValue = (valueString: string) => {
     // billions

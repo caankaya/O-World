@@ -118,9 +118,8 @@ export const fecthFavoritesCountries = createAsyncThunk(
 
 //Synchronous actions
 export const logout = createAction('user/logout');
-export const clearAlert = createAction('user/clearAlert');
+export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
-export const messageUp = createAction<boolean>('message/popUp');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -253,7 +252,8 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.payload ?? 'Unknown error occurred.',
       };
     })
-    .addCase(clearAlert, (state) => {
+
+    .addCase(clearUserAlert, (state) => {
       state.alert = null;
     });
 });
