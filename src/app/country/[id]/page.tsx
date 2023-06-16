@@ -37,9 +37,6 @@ function Country({ params }: CountryProps) {
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
 
-  const test = localStorage.getItem('accesToken');
-  console.log('test :', test);
-
   useEffect(() => {
     const fetchData = async () => {
       // Première requête

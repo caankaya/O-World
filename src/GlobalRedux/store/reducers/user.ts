@@ -7,7 +7,7 @@ import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
-import { local } from 'd3';
+import { stat } from 'fs';
 
 interface UserState {
   username: string | null;
@@ -20,6 +20,7 @@ interface UserState {
   admin: boolean;
   user: boolean;
   roles: [];
+  rememberMe: boolean;
 }
 
 const initialState: UserState = {
@@ -33,6 +34,7 @@ const initialState: UserState = {
   sessionId: null,
   user: false,
   roles: [],
+  rememberMe: false,
 };
 
 //Asynchronous actions
@@ -95,7 +97,8 @@ export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
-export const messageUp = createAction<boolean>('message/popUp');
+export const setRememberMe = createAction<boolean>('user/setRememberMe');
+export const isAdmin = createAction<boolean>('user/isAdmin');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -129,7 +132,6 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
-
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.username = null;
@@ -219,6 +221,12 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(getToken, (state, action) => {
       state.token = action.payload;
       state.isLogged = true;
+    })
+    .addCase(setRememberMe, (state, action) => {
+      state.rememberMe = action.payload;
+    })
+    .addCase(isAdmin, (state, action) => {
+      state.admin = action.payload;
     });
 });
 

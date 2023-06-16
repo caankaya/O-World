@@ -1,4 +1,4 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 
 import countryReducer from './reducers/country';
 import statsReducer from './reducers/stats';
@@ -18,33 +18,7 @@ const store = configureStore({
     graph: graphReducer,
     infos: infosReducer,
   },
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
 });
-
-if (typeof sessionStorage !== 'undefined') {
-  const url = window.location.host;
-  if (!url.includes('localhost')) {
-    sessionStorage.clear();
-  }
-  const username = sessionStorage.getItem('username');
-  const sessionId = sessionStorage.getItem('sessionId');
-
-  if (sessionId && username) {
-    store.dispatch({
-      type: 'user/login/fulfilled',
-      payload: {
-        data: {
-          session: {
-            id: parseInt(sessionId),
-            username,
-          },
-        },
-      },
-    });
-  }
-}
 
 export default store;
 
