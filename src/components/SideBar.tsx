@@ -3,20 +3,19 @@
 import { useAppSelector } from '@/GlobalRedux/hooks';
 
 function SideBar() {
-  const sideBar = useAppSelector((state) => state.home.sideBar);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
   const data = useAppSelector((state) => state.country.data);
 
   return (
-    <div className="SideBar z-[1]">
+    <>
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full 
-      ${sideBar && 'sm:translate-x-0'}`}
+        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${isSideBarOpen && 'md:translate-x-0'}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-base-100/50 shadow-xl">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-base-200 border-r border-blue-500 shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex justify-start items-center mr-5">
             <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
@@ -115,7 +114,7 @@ function SideBar() {
           ) : null}
         </div>
       </aside>
-    </div>
+    </>
   );
 }
 

@@ -69,36 +69,26 @@ function Country({ params }: CountryProps) {
       />
     </div>
   ) : (
-    <>
-      {loadingCountry ? (
-        <SimpleLoader />
-      ) : (
-        <RestCountriesInfos countryData={data} />
-      )}
-      {loadingGraph ? (
-        <SimpleLoader />
-      ) : (
-        <GraphCountry category={category} data={data} />
+      <>
+      {countryId === 'PRK' ? (
         <>
-          {countryId === 'PRK' ? (
-            <>
-              <div
-                className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-                style={isSideBarOpen ? { width: prkWidth } : {}}
-              >
-                <img
-                  src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
-                  alt="kim jung un"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-         
-              <Infos infos={infos} />
-              
-            </>
-          )}
+          <div
+            className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+            style={isSideBarOpen ? { width: prkWidth } : {}}
+          >
+            <img
+              src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
+              alt="kim jung un"
+            />
+          </div>
+        </>
+      ) : (
+        <>
+      
+          <RestCountriesInfos countryData={data} />
+          <Infos infos={infos} />
+          <GraphCountry category={category} data={data} />
+          
         </>
       )}
     </>
