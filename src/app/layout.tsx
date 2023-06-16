@@ -12,7 +12,7 @@ import NavBar from '@/components/NavBar';
 import SideBar from '@/components/SideBar';
 import Footer from '@/components/Footer';
 import StarsCanvas from '@/components/Stars';
-import Error404 from '@/components/404';
+import Toast from '@/components/Toast';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,15 +34,14 @@ export default function RootLayout({
         <meta name="description" content={metadata.description} />
       </Head>
       <body className={inter.className}>
-
         <Providers>
           <NavBar />
+          <Toast />
           <SideBar />
           {children}
           <Footer />
           <StarsCanvas />
         </Providers>
-
       </body>
     </html>
   );
