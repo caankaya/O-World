@@ -11,12 +11,6 @@ import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
 import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
 
 // Reducer Actions
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
-import {
-  setCountryCategory,
-  setCountryData,
-} from '@/GlobalRedux/store/reducers/country';
 
 // Components
 import RestCountriesInfos from '@/components/RestCountriesInfos';
@@ -33,24 +27,26 @@ interface CountryProps {
 
 function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
-  const category = useAppSelector((state) => state.graph.category);
-  const data = useAppSelector((state) => state.country.data);
-
-  const infos = useAppSelector((state) => state.infos);
-
-  const loading = useAppSelector((state) => state.country.loading);
 
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
+
+  const category = useAppSelector((state) => state.graph.category);
+  const data = useAppSelector((state) => state.country.data);
+  const radio = useAppSelector((state) => state.infos.radio);
+  const insolite = useAppSelector((state) => state.infos.insolite);
+  const celebrity = useAppSelector((state) => state.infos.celebrity);
+  const infos = useAppSelector((state) => state.infos);
+
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);
+  const loadingInfos = useAppSelector((state) => state.infos.loading);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchRestCountries({ id: params.id }));
       await dispatch(fetchGraph({ id: params.id }));
-      // Troisième requête
       await dispatch(fetchRadio({ id: params.id }));
     };
 
@@ -74,13 +70,15 @@ function Country({ params }: CountryProps) {
       ) : (
         <RestCountriesInfos countryData={data} />
       )}
+      {loadingInfos ? (
+        <SimpleLoader />
+      ) : (
+        <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
+      )}
       {loadingGraph ? (
         <SimpleLoader />
       ) : (
-        <>
-          <GraphCountry category={category} data={data} />
-          <Infos infos={infos} />
-        </>
+        <GraphCountry category={category} data={data} />
       )}
     </>
   );
