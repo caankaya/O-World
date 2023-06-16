@@ -38,7 +38,6 @@ function Country({ params }: CountryProps) {
   const radio = useAppSelector((state) => state.infos.radio);
   const insolite = useAppSelector((state) => state.infos.insolite);
   const celebrity = useAppSelector((state) => state.infos.celebrity);
-  const infos = useAppSelector((state) => state.infos);
 
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);

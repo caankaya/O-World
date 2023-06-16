@@ -21,12 +21,8 @@ function RestCountriesInfos({
     (state) => state.country.infiniteLoading
   );
 
-  if (infiniteLoadingInfos) {
+  if (infiniteLoadingInfos || !countryData) {
     return <SimpleLoader />;
-  }
-
-  if (!countryData) {
-    return;
   }
 
   return (

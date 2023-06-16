@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import EarthInfos from '@/components/EarthInfos';
 import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
 import SimpleLoader from '@/components/SimpleLoader';
+import AnimatedText from '@/utils/motion';
 
 const World = () => {
   const dispatch = useAppDispatch();
@@ -21,10 +22,21 @@ const World = () => {
     dispatch(fetchEarthData());
   }, [dispatch]);
 
-  return loading || Object.keys(earthData).length === 0 ? (
+  return loading ? (
     <SimpleLoader />
   ) : (
-    <EarthInfos earthData={earthData} />
+    <>
+      <div className="xl:max-w-4xl mx-auto text-center">
+        <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+          Planet Earth information
+        </h1>
+        <AnimatedText text="TEAM" />
+        <p className="text-lg md:text-xl text-white font-medium">
+          General review of this alien planet
+        </p>
+      </div>
+      <EarthInfos earthData={earthData} />
+    </>
   );
 };
 
