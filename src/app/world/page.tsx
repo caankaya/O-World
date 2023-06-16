@@ -5,11 +5,10 @@ import { useEffect } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
+import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
 
 // Components
-
 import EarthInfos from '@/components/EarthInfos';
-import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
 import SimpleLoader from '@/components/SimpleLoader';
 import AnimatedText from '@/utils/motion';
 

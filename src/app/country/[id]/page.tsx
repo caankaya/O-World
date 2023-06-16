@@ -7,10 +7,7 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
-
 import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
-
-// Reducer Actions
 
 // Components
 import RestCountriesInfos from '@/components/RestCountriesInfos';
@@ -19,14 +16,7 @@ import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
 import AnimatedText from '@/utils/motion';
 
-//TODO Typer les interface dans le dossier types
-interface CountryProps {
-  params: {
-    id: string;
-  };
-}
-
-function Country({ params }: CountryProps) {
+function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
 
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);

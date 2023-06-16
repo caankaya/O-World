@@ -12,6 +12,7 @@ interface UserState {
   username: string | null;
   isLogged: boolean;
   loading: boolean;
+  infiniteLoading: Boolean;
   sessionId: number | null;
   alert: Alert | null;
   favoritesCountries: CountryFavorites[];
@@ -22,6 +23,7 @@ const initialState: UserState = {
   isLogged: false,
   sessionId: null,
   loading: false,
+  infiniteLoading: false,
   alert: null,
   favoritesCountries: [],
 };
@@ -232,14 +234,17 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(fecthFavoritesCountries.pending, (state, action) => {
       state.loading = true;
+      state.infiniteLoading = true;
       state.alert = null;
     })
     .addCase(fecthFavoritesCountries.fulfilled, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = false;
       state.favoritesCountries = action.payload;
     })
     .addCase(fecthFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
