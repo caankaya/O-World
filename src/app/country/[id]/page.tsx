@@ -8,6 +8,7 @@ import axiosInstance from '@/utils/axios';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
+import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
 
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
@@ -22,6 +23,7 @@ import {
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
+import Infos from '@/components/Infos';
 
 //TODO Typer les interface dans le dossier types
 interface CountryProps {
@@ -34,6 +36,8 @@ function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.graph.category);
   const data = useAppSelector((state) => state.country.data);
+  const infos = useAppSelector((state) => state.infos);
+
   const loading = useAppSelector((state) => state.country.loading);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
@@ -41,11 +45,13 @@ function Country({ params }: CountryProps) {
 
 useEffect(() => {
     const fetchData = async () => {
-        // Première requête
-        await dispatch(fetchRestCountries({ id: params.id }));
+      // Première requête
+      await dispatch(fetchRestCountries({ id: params.id }));
+      // Seconde requête
+      await dispatch(fetchGraph({ id: params.id }));
+      // Troisième requête
+      await dispatch(fetchRadio({ id: params.id }));
 
-        // Seconde requête
-        await dispatch(fetchGraph({ id: params.id }));
     };
     
     fetchData();
@@ -72,6 +78,7 @@ useEffect(() => {
           ) : (
             <>
               <RestCountriesInfos countryData={data} />
+              <Infos infos={infos} />
               <GraphCountry category={category} data={data} />
             </>
           )}
