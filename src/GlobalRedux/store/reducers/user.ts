@@ -7,6 +7,7 @@ import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
+import { local } from 'd3';
 
 interface UserState {
   username: string | null;
@@ -14,6 +15,11 @@ interface UserState {
   loading: boolean;
   alert: Alert | null;
   token: string;
+  userIp: string;
+  sessionId: number | null;
+  admin: boolean;
+  user: boolean;
+  roles: [];
 }
 
 const initialState: UserState = {
@@ -22,6 +28,11 @@ const initialState: UserState = {
   loading: false,
   alert: null,
   token: '',
+  userIp: '',
+  admin: false,
+  sessionId: null,
+  user: false,
+  roles: [],
 };
 
 //Asynchronous actions
@@ -95,8 +106,12 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
-      const token: any = jwt_decode(action.payload.accessToken);
-      state.username = token.data.username;
+      const accessToken: any = jwt_decode(action.payload.accessToken);
+      const refreshToken: any = jwt_decode(action.payload.refreshToken);
+      state.sessionId = refreshToken.data.id;
+      state.username = accessToken.data.username;
+      state.roles = accessToken.data.roles;
+      localStorage.setItem('roles', JSON.stringify(state.roles));
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
 

@@ -22,7 +22,7 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, [dispatch]);
-
+  console.log('localStorage :', localStorage);
   return (
     <>
       {loading && !localStorage.getItem('Hyperspace') ? (

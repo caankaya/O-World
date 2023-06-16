@@ -98,7 +98,7 @@ function SideBar() {
             </ul>
           )}
           {typeof window !== 'undefined' &&
-          sessionStorage.userType === 'Admin' ? (
+          localStorage.roles.includes('Admin') ? (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Admin
