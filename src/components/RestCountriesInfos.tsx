@@ -27,9 +27,8 @@ function RestCountriesInfos({
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5 
-    ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: DetailCountryWidth } : {}}
+      className={`p-8 flex flex-col items-center justify-center w-full gap-5 `}
+      style={isSideBarOpen ? { width: DetailCountryWidth, float: 'right' } : {}}
     >
       <motion.div
         variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card

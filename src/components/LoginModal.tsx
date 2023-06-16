@@ -21,9 +21,9 @@ function LoginModal() {
   };
 
   return (
-    <dialog className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+    <dialog className={`modal z-[1]`}
       open={isLoginModalOpen}
-      style={isSideBarOpen ? { width: loginModalWidth } : {}}
+      style={isSideBarOpen ? { width: loginModalWidth, float: 'right' } : {}}
     >
       <form
         method="post"

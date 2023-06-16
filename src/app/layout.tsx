@@ -42,7 +42,6 @@ export default function RootLayout({
           <Footer />
           <StarsCanvas />
         </Providers>
-
       </body>
     </html>
   );

@@ -37,7 +37,15 @@ const CardCelebrity: React.FC<CardCelebrityProps> = ({ name, net_worth, gender, 
           nationality: <span className="shadow-neon">{nationality}</span>
         </p>
         <p className="font-normal text-[16px] leading-[20.16px] text-white uppercase">
-          occupation: <span className="shadow-neon">{occupation}</span>
+          occupation:{" "}
+          <span className="shadow-neon">
+            {occupation.map((occ, index) => (
+              <span key={index}>
+                {occ}
+                {index < occupation.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </span>
         </p>
         <p className="font-normal text-[16px] leading-[20.16px] text-white uppercase">
           birthday: <span className="shadow-neon">{birthday}</span>

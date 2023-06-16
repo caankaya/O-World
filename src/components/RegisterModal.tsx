@@ -111,9 +111,9 @@ function RegisterModal() {
 
   return (
     <dialog
-      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+      className={`modal z-[1]`}
       open={isRegisterModalOpen}
-      style={isSideBarOpen ? { width: RegisterModalWidth } : {}}
+      style={isSideBarOpen ? { width: RegisterModalWidth, float: 'right' } : {}}
     >
       <form
         ref={formRef}

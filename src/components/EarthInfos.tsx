@@ -50,9 +50,8 @@ const EarthInfos = ({ earthData }: { earthData: Earth }) => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5
-      ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: DetailEarthWidth } : {}}
+      className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+      style={isSideBarOpen ? { width: DetailEarthWidth, float: 'right' } : {}}
     >
       <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">
         {earthData.name}

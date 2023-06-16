@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
+import { useMediaQuery } from 'react-responsive';
 
 interface CountryProperties {
   name: string;
@@ -121,12 +122,18 @@ function WorldMap() {
     };
   }, []);
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
   return (
     <div
-      className={`z-[1] items-center p-4 grid justify-center ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: worldWidth } : {}}
+      className={`z-[1] items-center p-4 grid justify-center `}
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: worldWidth, float: 'right' }
+                : { width: '100%', float: 'none' }
+            : {}
+      }
     >
       <div ref={chartRef} className="flex flex-col items-center">
         <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">

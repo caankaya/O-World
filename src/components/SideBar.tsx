@@ -1,18 +1,30 @@
 'use client';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { togglerSideBar } from '@/GlobalRedux/store/reducers/home';
+import { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 
 function SideBar() {
+  const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
   const data = useAppSelector((state) => state.country.data);
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  
+  useEffect(() => {
+    if (!isLargeScreen && isSideBarOpen) {
+      dispatch(togglerSideBar(false));
+    }
+  }, [isLargeScreen, isSideBarOpen, dispatch]);
+
   return (
     <>
       <aside
         id="logo-sidebar"
-        className={`fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full ${isSideBarOpen && 'md:translate-x-0'}`}
+        className={`fixed top-0 left-0 z-50 w-64 h-full transition-transform ${isSideBarOpen ? 'translate-x-0' : '-translate-x-full'}`}
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-base-200 border-r border-blue-500 shadow-xl">

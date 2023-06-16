@@ -20,6 +20,7 @@ import { clearPlanetAlert } from '@/GlobalRedux/store/reducers/planet';
 import { clearGraphAlert } from '@/GlobalRedux/store/reducers/graph';
 import { clearFlagsAlert } from '@/GlobalRedux/store/reducers/flags';
 import { clearCountryAlert } from '@/GlobalRedux/store/reducers/country';
+import { useMediaQuery } from 'react-responsive';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -68,10 +69,24 @@ const NavBar = () => {
     dispatch,
   ]);
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  
+  useEffect(() => {
+    if (!isLargeScreen && isSideBarOpen) {
+      dispatch(togglerSideBar(isSideBarOpen));
+    }
+  }, [isLargeScreen, isSideBarOpen, dispatch]);
+
   return (
     <header
-      className={`Header flex`}
-      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
+      className="navbar bg-base-100 z-10 bg-transparent flex items-center justify-between"
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: navBarWidth, float: 'right' }
+                : { width: '100%', float: 'none' }
+            : {}
+      }
     >
       <div className="navbar-container w-full">
         <nav

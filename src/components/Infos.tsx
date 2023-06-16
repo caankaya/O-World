@@ -93,13 +93,14 @@ function Infos({ infos }: InfosProps) {
   };
 
   return (
-    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 ${isSideBarOpen ? 'float-right' : ''}`}
-    style={isSideBarOpen ? { width: DetailRadioWidth } : {}}>
+    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+    style={isSideBarOpen ? { width: DetailRadioWidth, float: 'right' } : {}}>
     <motion.div
       variants={staggerContainer(0.1, 0.2)}
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
+      className="flex flex-col items-center justify-center w-full gap-5"
     >
       <motion.div
         variants={fadeIn('up', 'spring', 0 * 1, 1)}

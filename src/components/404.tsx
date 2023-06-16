@@ -2,7 +2,6 @@ export default function Error404() {
 
 return (
   <section className="pt-16 pb-44 overflow-hidden bg-[url('https://64.media.tumblr.com/54f4fe3c7c2d7c1b8a6b68eb9b62338f/tumblr_phbq2fElHS1ut1d6co1_540.gif')] bg-cover">
-
     <div className="container mx-auto px-4">
       <div className="max-w-4xl text-center mx-auto mb-36">
         <h2 className="font-bold text-9xl md:text-[16rem]  text-info-content tracking-widest">404</h2>
@@ -18,7 +17,6 @@ return (
       </div>
       </div>
     </div>
-
   </section>
   );
 }

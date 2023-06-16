@@ -1,16 +1,23 @@
 'use client';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useMediaQuery } from 'react-responsive';
 
 const Footer = () => {
   const footerWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <footer
-      className={`footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 right-0 fixed
-    `}
-      style={isSideBarOpen ? { width: footerWidth } : {}}
+      className={`footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0`}
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: footerWidth, float: 'right' }
+                : { width: '100%', float: 'none' }
+            : {}
+      }
     >
       <div className="items-start grid-flow-col cursor-pointer">
         <a href="/about" className="text-[16px]">
