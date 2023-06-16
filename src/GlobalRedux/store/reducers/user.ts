@@ -135,6 +135,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.username = null;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('roles');
       state.alert = {
         type: 'success',
         message: 'You are disconnected',

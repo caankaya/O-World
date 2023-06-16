@@ -97,7 +97,8 @@ function SideBar() {
               </li>
             </ul>
           )}
-          {typeof window !== 'undefined' &&
+          {typeof localStorage !== 'undefined' &&
+          localStorage.roles &&
           localStorage.roles.includes('Admin') ? (
             <ul className="mt-5">
               <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
