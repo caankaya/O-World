@@ -17,6 +17,7 @@ import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
+import AnimatedText from '@/utils/motion';
 
 //TODO Typer les interface dans le dossier types
 interface CountryProps {
@@ -68,17 +69,50 @@ function Country({ params }: CountryProps) {
       {loadingCountry ? (
         <SimpleLoader />
       ) : (
-        <RestCountriesInfos countryData={data} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Basic information
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              Some information about this alien country
+            </p>
+          </div>
+          <RestCountriesInfos countryData={data} />
+        </>
       )}
       {loadingInfos ? (
         <SimpleLoader />
       ) : (
-        <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Original information
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              Some complex information about this alien country
+            </p>
+          </div>
+          <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
+        </>
       )}
       {loadingGraph ? (
         <SimpleLoader />
       ) : (
-        <GraphCountry category={category} data={data} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Detailed analysis
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              A few figures on this alien country
+            </p>
+          </div>
+          <GraphCountry category={category} data={data} />
+        </>
       )}
     </>
   );

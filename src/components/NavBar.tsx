@@ -20,6 +20,7 @@ import { clearPlanetAlert } from '@/GlobalRedux/store/reducers/planet';
 import { clearGraphAlert } from '@/GlobalRedux/store/reducers/graph';
 import { clearFlagsAlert } from '@/GlobalRedux/store/reducers/flags';
 import { clearCountryAlert } from '@/GlobalRedux/store/reducers/country';
+import { clearInfosAlert } from '@/GlobalRedux/store/reducers/infos';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ const NavBar = () => {
   const alertPlanet = useAppSelector((state) => state.planet.alert);
   const alertCountry = useAppSelector((state) => state.country.alert);
   const alertGrah = useAppSelector((state) => state.graph.alert);
+  const alertInfos = useAppSelector((state) => state.infos.alert);
 
   useEffect(() => {
     if (
@@ -45,7 +47,8 @@ const NavBar = () => {
       alertPlanet ||
       alertFlags ||
       alertCountry ||
-      alertGrah
+      alertGrah ||
+      alertInfos
     ) {
       const timeout = setTimeout(() => {
         dispatch(clearUserAlert());
@@ -54,6 +57,7 @@ const NavBar = () => {
         dispatch(clearGraphAlert());
         dispatch(clearFlagsAlert());
         dispatch(clearCountryAlert());
+        dispatch(clearInfosAlert());
       }, 3000);
 
       return () => clearTimeout(timeout);
@@ -65,6 +69,7 @@ const NavBar = () => {
     alertFlags,
     alertCountry,
     alertGrah,
+    alertInfos,
     dispatch,
   ]);
 
@@ -173,6 +178,9 @@ const NavBar = () => {
         )}
         {alertGrah && (
           <Alert type={alertGrah.type} message={alertGrah.message} />
+        )}
+        {alertInfos && (
+          <Alert type={alertInfos.type} message={alertInfos.message} />
         )}
       </div>
     </header>

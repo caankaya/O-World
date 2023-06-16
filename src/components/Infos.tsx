@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import AnimatedText, { staggerContainer, fadeIn } from '../utils/motion';
+import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import Alert from './Alert';
 import CardCelebrity from './CardCelebrity';
 import { Celebrity, Radio } from '@/@types/infos';
+import SimpleLoader from './SimpleLoader';
 
 interface InfosProps {
   radio: Radio;
@@ -17,18 +17,16 @@ interface InfosProps {
 function Infos({ radio, insolite, celebrity }: InfosProps) {
   const DetailRadioWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const alert = useAppSelector((state) => state.country.alert);
   const [active, setActive] = useState('1');
   const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>(
     []
   );
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.infos.infiniteLoading
+  );
 
-  if (!radio && !insolite && !celebrity) {
-    return (
-      <div className="px-4 mx-auto w-full">
-        {alert && <Alert type={alert.type} message={alert.message} />}
-      </div>
-    );
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
   }
 
   // Gestion des formats audio
@@ -81,9 +79,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
 
   return (
     <section
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5 ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
+      className={`p-8  ${isSideBarOpen ? 'float-right' : ''}`}
       style={isSideBarOpen ? { width: DetailRadioWidth } : {}}
     >
       <motion.div
@@ -105,7 +101,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
                   src={radio?.url_resolved}
                   type={determineAudioType(radio?.url_resolved)}
                 />
-                Votre navigateur ne supporte pas l'élément audio.
+                Your browser doesn't support audio.
               </audio>
             )}
             <div className="stat-actions">
@@ -128,15 +124,6 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
       </motion.div>
 
       <div className="container px-4 mx-auto w-full">
-        <div className="xl:max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
-            Celebrities
-          </h1>
-          <AnimatedText text="TEAM" />
-          <p className="text-lg md:text-xl text-white font-medium">
-            Famous Aliens in their country
-          </p>
-        </div>
         <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
           {shuffledCelebrities.map((celebrity, index) => (
             <CardCelebrity

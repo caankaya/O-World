@@ -1,4 +1,5 @@
 import {
+  createAction,
   createAsyncThunk,
   createReducer,
   PayloadAction,
@@ -13,19 +14,24 @@ interface InfosState {
   insolite: string;
   celebrity: Celebrity[];
   loading: boolean;
+  infiniteLoading: Boolean;
   alert: Alert | null;
 }
 
 // Définir l'état initial
 const initialState: InfosState = {
   loading: false,
+  infiniteLoading: false,
   alert: null,
   radio: {} as Radio,
   insolite: '',
   celebrity: [],
 };
 
-// Utiliser ces types dans createAsyncThunk
+//Synchronous actions
+export const clearInfosAlert = createAction('infos/clearAlert');
+
+//Asynchronous actions
 export const fetchRadio = createAsyncThunk<ApiResponse, { id: string }>(
   'country/fetchRadio',
   async ({ id }) => {
@@ -43,20 +49,27 @@ const infosReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchRadio.pending, (state) => {
       state.loading = true;
+      state.infiniteLoading = true;
       state.alert = null;
     })
     .addCase(fetchRadio.fulfilled, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = false;
       state.radio = action.payload.radio;
       state.insolite = action.payload.insolite;
       state.celebrity = action.payload.celebrity;
     })
     .addCase(fetchRadio.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
+    })
+
+    .addCase(clearInfosAlert, (state) => {
+      state.alert = null;
     });
 });
 

@@ -8,6 +8,7 @@ import { staggerContainer, fadeIn } from '../utils/motion';
 
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import SimpleLoader from './SimpleLoader';
 
 function RestCountriesInfos({
   countryData,
@@ -16,6 +17,13 @@ function RestCountriesInfos({
 }) {
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.country.infiniteLoading
+  );
+
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
+  }
 
   if (!countryData) {
     return;
