@@ -7,8 +7,6 @@ import {
   createReducer,
 } from '@reduxjs/toolkit';
 
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
-
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 

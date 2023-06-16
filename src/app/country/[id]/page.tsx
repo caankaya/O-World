@@ -24,7 +24,6 @@ import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
 
-
 //TODO Typer les interface dans le dossier types
 interface CountryProps {
   params: {
@@ -78,27 +77,9 @@ function Country({ params }: CountryProps) {
       {loadingGraph ? (
         <SimpleLoader />
       ) : (
-        <GraphCountry category={category} data={data} />
         <>
-          {countryId === 'PRK' ? (
-            <>
-              <div
-                className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-                style={isSideBarOpen ? { width: prkWidth } : {}}
-              >
-                <img
-                  src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
-                  alt="kim jung un"
-                />
-              </div>
-            </>
-          ) : (
-            <>
-         
-              <Infos infos={infos} />
-              
-            </>
-          )}
+          <GraphCountry category={category} data={data} />
+          <Infos infos={infos} />
         </>
       )}
     </>
