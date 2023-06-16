@@ -26,20 +26,23 @@ const initialState: UserState = {
 };
 
 //Asynchronous actions
-export const login = createAsyncThunk('user/login', async (encodedData) => {
-  console.log('Ce que je renvoies vers le back :', encodedData);
-  try {
-    const response = await axiosInstance.post('/log/in', encodedData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-    console.log('response:', response);
-    return response;
-  } catch (error) {
-    console.log('error :', error);
+export const login = createAsyncThunk(
+  'user/login',
+  async (formData: FormData) => {
+    const obj = Object.fromEntries(formData);
+    console.log('obj :', obj);
+    try {
+      const response = await axiosInstance.post('/log/in', obj, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log('response:', response);
+      return response;
+    } catch (error) {
+      console.log('error:', error);
+      throw error;
+    }
   }
-});
+);
 
 export const register = createAsyncThunk(
   'user/register',
@@ -94,20 +97,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.alert = null;
     })
     .addCase(login.fulfilled, (state, action) => {
-      state.loading = false;
+      console.log('action :', action);
 
-      const { id, username, roles } = action.payload.data.session;
-      state.isLogged = true;
-      state.sessionId = id;
-      state.username = username;
-      if (roles && roles.includes('Admin')) {
-        sessionStorage.setItem('userType', 'Admin');
-      } else {
-        sessionStorage.setItem('userType', 'User');
-      }
-
-      sessionStorage.setItem('sessionId', id.toString());
-      sessionStorage.setItem('username', username);
       state.alert = {
         type: 'success',
         message: `Welcome ${state.username}`,

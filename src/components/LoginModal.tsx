@@ -20,18 +20,9 @@ function LoginModal() {
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
-
-    const formInput: any = {};
-    formData.forEach((value, key) => {
-      formInput[key] = value;
-    });
-
-    const encodedData = querystring.stringify(formInput);
-    console.log('Contenu du formulaire :', encodedData);
-    dispatch(login(encodedData));
+    dispatch(login(formData));
   };
 
   return (
@@ -50,7 +41,7 @@ function LoginModal() {
         </h1>
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block mb-2 text-sm font-medium text-white"
           >
             Username

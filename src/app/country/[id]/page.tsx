@@ -12,13 +12,7 @@ import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
 
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import { fetchCountryData } from '@/GlobalRedux/store/reducers/country';
-import {
-  setCountryCategory,
-  setCountryData,
-} from '@/GlobalRedux/store/reducers/country';
 // Components
-
 
 import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
@@ -43,7 +37,7 @@ function Country({ params }: CountryProps) {
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
 
-useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       // Première requête
       await dispatch(fetchRestCountries({ id: params.id }));
@@ -51,11 +45,10 @@ useEffect(() => {
       await dispatch(fetchGraph({ id: params.id }));
       // Troisième requête
       await dispatch(fetchRadio({ id: params.id }));
-
     };
-    
+
     fetchData();
-}, [dispatch, params.id]);
+  }, [dispatch, params.id]);
 
   return (
     <>
