@@ -24,15 +24,13 @@ export default function Home() {
 
   return (
     <>
-      {/* 
       {loading ? (
         <HyperspaceEffect />
       ) : (
-        <> */}
-      <WorldMap />
+        <>
+          <WorldMap />
+        </>
+      )}
     </>
-    // )}
-
-    // </>
   );
 }

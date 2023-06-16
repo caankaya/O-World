@@ -6,23 +6,22 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
-import querystring from 'querystring';
-import { URLSearchParams } from 'url';
+import jwt_decode from 'jwt-decode';
 
 interface UserState {
   username: string | null;
   isLogged: boolean;
   loading: boolean;
-  sessionId: number | null;
   alert: Alert | null;
+  token: string;
 }
 
 const initialState: UserState = {
   username: null,
   isLogged: false,
-  sessionId: null,
   loading: false,
   alert: null,
+  token: '',
 };
 
 //Asynchronous actions
@@ -30,13 +29,9 @@ export const login = createAsyncThunk(
   'user/login',
   async (formData: FormData) => {
     const obj = Object.fromEntries(formData);
-    console.log('obj :', obj);
     try {
-      const response = await axiosInstance.post('/log/in', obj, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-      console.log('response:', response);
-      return response;
+      const response = await axiosInstance.post('/log/in', obj);
+      return response.data.data;
     } catch (error) {
       console.log('error:', error);
       throw error;
@@ -85,6 +80,7 @@ export const accountDeletion = createAsyncThunk(
 );
 
 //Synchronous actions
+export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
@@ -95,9 +91,14 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.pending, (state, action) => {
       state.loading = true;
       state.alert = null;
+      state.isLogged = false;
     })
     .addCase(login.fulfilled, (state, action) => {
-      console.log('action :', action);
+      state.isLogged = true;
+      const token: any = jwt_decode(action.payload.accessToken);
+      state.username = token.data.username;
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
 
       state.alert = {
         type: 'success',
@@ -107,7 +108,6 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.isLogged = false;
-      state.sessionId = null;
       state.username = null;
       state.alert = {
         type: 'error',
@@ -117,9 +117,9 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(logout, (state) => {
       state.isLogged = false;
-      state.sessionId = null;
       state.username = null;
-      sessionStorage.clear();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
@@ -175,7 +175,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = false;
       state.sessionId = null;
       state.username = null;
-      sessionStorage.clear();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       state.alert = {
         type: 'success',
         message: `Your account has been deleted.`,
@@ -198,6 +199,10 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(clearAlert, (state) => {
       state.alert = null;
+    })
+    .addCase(getToken, (state, action) => {
+      state.token = action.payload;
+      state.isLogged = true;
     });
 });
 

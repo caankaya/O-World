@@ -4,6 +4,7 @@ import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import {
   clearAlert,
+  getToken,
   logout,
   messageUp,
 } from '@/GlobalRedux/store/reducers/user';
@@ -31,7 +32,12 @@ const NavBar = () => {
     (state) => state.home.registerModal
   );
   const alert = useAppSelector((state) => state.user.alert);
+
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      dispatch(getToken(token));
+    }
     if (alert) {
       const timeout = setTimeout(() => {
         dispatch(clearAlert());
