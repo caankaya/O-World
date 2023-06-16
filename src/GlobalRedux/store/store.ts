@@ -6,6 +6,7 @@ import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
 import earthReducer from './reducers/earth';
 import graphReducer from './reducers/graph';
+import infosReducer from './reducers/infos';
 
 const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ const store = configureStore({
     home: homeReducer,
     user: userReducer,
     graph: graphReducer,
+    infos: infosReducer,
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
