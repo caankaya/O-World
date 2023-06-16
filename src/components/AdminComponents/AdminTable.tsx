@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
-import { DataRow } from '@/@types/statsAdmin';
+import { Stats } from '@/@types/statsAdmin';
+import { Flags } from '@/@types/flags';
 
+type AdminTableProps = {
+  stats: Stats[];
+  flags: Flags[];
+};
 
-export const AdminTable = ({ statsData }: { statsData: { data: DataRow[]; flags: DataRow[] } }) => {
+export const AdminTable = ({ stats, flags }: AdminTableProps) => {
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
 
-  const total_users = statsData.data.reduce(
+  const total_users = stats.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),
     0
   );
 
   const findFlagUrl = (flags: any[], countryIso3: string) => {
-    const flagData = flags.find(flag => flag.cca3 === countryIso3);
+    const flagData = flags.find((flag) => flag.cca3 === countryIso3);
     return flagData ? flagData.flags.png : '';
   };
 
   // Calculer quelles données afficher sur la page actuelle
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = statsData.data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = stats.slice(indexOfFirstItem, indexOfLastItem);
 
   // Gérer le changement de page
   const handlePageChange = (pageNumber: number) => {
@@ -28,7 +33,7 @@ export const AdminTable = ({ statsData }: { statsData: { data: DataRow[]; flags:
   };
 
   // Calculer le nombre total de pages
-  const totalPages = Math.ceil(statsData.data.length / itemsPerPage);
+  const totalPages = Math.ceil(stats.length / itemsPerPage);
 
   return (
     <>
@@ -49,7 +54,7 @@ export const AdminTable = ({ statsData }: { statsData: { data: DataRow[]; flags:
         <tbody>
           {/* Boucle sur les datas pour la page active et affichage de la liste des pays */}
           {currentData.map((row, index) => {
-            const flagUrl = findFlagUrl(statsData.flags, row.iso3);
+            const flagUrl = findFlagUrl(flags, row.iso3);
             return (
               <tr key={index} className="border-b border-neutral">
                 <td className="flex items-center px-6 font-medium">

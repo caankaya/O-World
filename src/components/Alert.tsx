@@ -3,8 +3,6 @@
 import { Alert } from '@/@types/alert';
 
 function Alert({ type, message }: Alert) {
-  console.log(type);
-
   return (
     <div
       className={`alert ${

@@ -1,5 +1,9 @@
 import { CountriesDataProps } from '../../../@types/countryData';
-import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+import {
+  createAction,
+  createAsyncThunk,
+  createReducer,
+} from '@reduxjs/toolkit';
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 
@@ -15,7 +19,10 @@ const initialState: CountryState = {
   alert: null,
 };
 
+//Synchronous actions
+export const clearCountryAlert = createAction('stats/clearAlert');
 
+//Asynchronous actions
 export const fetchRestCountries = createAsyncThunk<any, { id: string }>(
   'country/fetchRestCountries',
   async ({ id }) => {
@@ -46,6 +53,10 @@ const countryReducer = createReducer(initialState, (builder) => {
         message: action.error.message || 'Unknown error occurred.',
       };
     })
+
+    .addCase(clearCountryAlert, (state) => {
+      state.alert = null;
+    });
 });
 
 export default countryReducer;

@@ -5,17 +5,14 @@ import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // React Hooks
-import { useEffect } from 'react';
+import { useState } from 'react';
+// Redux Hooks
+import { useAppSelector } from '@/GlobalRedux/hooks';
 // Component
-import FullPageLoader from '@/components/Loader';
-import Alert from '@/components/Alert';
 import AnimatedText from '@/utils/motion';
 import CardProfil from '@/components/CardProfil';
 
 export default function Page() {
-  const dispatch = useAppDispatch();
-  const loading = useAppSelector((state) => state.home.spinner);
-  const alert = useAppSelector((state) => state.user.alert);
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [active, setActive] = useState('1');
@@ -58,22 +55,12 @@ export default function Page() {
     },
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false));
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [dispatch]);
-
   return (
     <>
       {loading ? (
         <FullPageLoader />
       ) : (
         <>
-          {alert && <Alert type={alert.type} message={alert.message} />}
-
           <section
             className={`p-4 flex flex-col items-center justify-center  
           ${isSideBarOpen ? 'float-right' : ''}`}
@@ -105,5 +92,33 @@ export default function Page() {
         </>
       )}
     </>
+    <section
+      className={`p-4 flex flex-col items-center justify-center  
+          ${isSideBarOpen ? 'float-right' : ''}`}
+      style={isSideBarOpen ? { width: aboutWidth } : {}}
+    >
+      <div className="container px-4 mx-auto w-full">
+        <div className="xl:max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+            TEAM
+          </h1>
+          <AnimatedText text="TEAM" />
+          <p className="text-lg md:text-xl text-white font-medium">
+            Meet the aliens who made this possible
+          </p>
+        </div>
+        <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
+          {infos.map((info, index) => (
+            <CardProfil
+              key={info.id}
+              {...info}
+              index={index}
+              active={active}
+              handleClick={setActive}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

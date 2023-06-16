@@ -1,79 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { countryFavorites } from '@/@types/countryFavorites';
-import { useAppSelector } from '@/GlobalRedux/hooks';
-import axiosInstance from '@/utils/axios';
+import { CountryFavorites } from '@/@types/countryFavorites';
+import { Flags } from '@/@types/flags';
 
-function UserFavorites() {
-  const userId = useAppSelector((state) => state.user.sessionId);
+type UserFavoritesProps = {
+  favoritesCountries: CountryFavorites[];
+  flags: Flags[];
+};
 
-  const [favoritesCountries, setFavoritesCountries] = useState<[]>([]);
-  const [flags, setFlags] = useState<[]>([]);
+function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const [displayedCountries, setDisplayedCountries] = useState<number>(8);
   const [isViewAll, setIsViewAll] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetchFavoritesCountries = async () => {
-      try {
-        const response = await axiosInstance.get(
-          //TODO Dynamisation with userId when log persist
-          `/user/${userId}`,
-          {
-            headers: {
-              accept: 'application/json',
-            },
-          }
-        );
-
-        // console.log(response.data);
-
-        if (
-          response.data[0].favorite_countries.length > 0 &&
-          response.data[0].favorite_countries.some(
-            (country: (string | null)[]) =>
-              country.some((value) => value !== null)
-          )
-        ) {
-          //Transforming the format of data received from the API
-          const transformedData = response.data[0].favorite_countries.map(
-            (country: [string, string, string]) => {
-              const [name, cca3, dateTime] = country;
-              const [date, time] = dateTime?.split(' ') ?? ['', ''];
-
-              return {
-                name,
-                cca3,
-                date,
-                time,
-              };
-            }
-          );
-          setFavoritesCountries(transformedData);
-          return;
-        }
-        setFavoritesCountries([]);
-      } catch (error) {
-        console.log('Data recovery error', error);
-      }
-    };
-    const fetchFlags = async () => {
-      try {
-        const response = await axiosInstance.get(`/oworld/flags`, {
-          headers: {
-            accept: 'application/json',
-          },
-        });
-        // console.log(response.data);
-        setFlags(response.data);
-      } catch (error) {
-        console.log('Data recovery error', error);
-      }
-    };
-    fetchFavoritesCountries();
-    fetchFlags();
-  }, []);
 
   const handleViewCountries = () => {
     setIsViewAll(!isViewAll);
@@ -121,32 +60,30 @@ function UserFavorites() {
           </div>
         )}
         <ul role="list" className="divide-y divide-primary">
-          {favoritesCountries
-            .slice(0, displayedCountries)
-            .map((country: countryFavorites) => {
-              const flagUrl = findFlagUrl(flags, country.cca3);
-              return (
-                <li className="py-3 sm:py-4" key={country.cca3}>
-                  <a href={`/country/${country.cca3}`}>
-                    <div className="flex items-center space-x-4">
-                      <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={flagUrl}
-                          alt="Country flag"
-                        />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-white">{country.name}</p>
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium text-white">{country.date}</p>
-                      </div>
+          {favoritesCountries.slice(0, displayedCountries).map((country) => {
+            const flagUrl = findFlagUrl(flags, country.cca3);
+            return (
+              <li className="py-3 sm:py-4" key={country.cca3}>
+                <a href={`/country/${country.cca3}`}>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex-shrink-0">
+                      <img
+                        className="w-8 h-8 rounded-full"
+                        src={flagUrl}
+                        alt="Country flag"
+                      />
                     </div>
-                  </a>
-                </li>
-              );
-            })}
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.name}</p>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-white">{country.date}</p>
+                    </div>
+                  </div>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
