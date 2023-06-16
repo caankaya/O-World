@@ -17,6 +17,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
+      localStorage.setItem('Hyperspace', 'true');
     }, 3000);
 
     return () => clearTimeout(timer);
@@ -24,7 +25,7 @@ export default function Home() {
 
   return (
     <>
-      {loading ? (
+      {loading && !localStorage.getItem('Hyperspace') ? (
         <HyperspaceEffect />
       ) : (
         <>
