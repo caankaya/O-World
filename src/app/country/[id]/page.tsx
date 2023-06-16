@@ -23,6 +23,7 @@ import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
+import { useMediaQuery } from 'react-responsive';
 
 
 //TODO Typer les interface dans le dossier types
@@ -58,23 +59,21 @@ function Country({ params }: CountryProps) {
     fetchData();
   }, [dispatch, params.id]);
 
-  return countryId === 'PRK' ? (
-    <div
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-      style={isSideBarOpen ? { width: prkWidth } : {}}
-    >
-      <img
-        src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
-        alt="kim jung un"
-      />
-    </div>
-  ) : (
-      <>
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
+  return (
+    <>
       {countryId === 'PRK' ? (
         <>
           <div
             className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-            style={isSideBarOpen ? { width: prkWidth } : {}}
+            style={
+              isSideBarOpen
+                  ? isLargeScreen
+                      ? { width: prkWidth, float: 'right' }
+                      : { width: '100%', float: 'none' }
+                  : {}
+            }
           >
             <img
               src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"

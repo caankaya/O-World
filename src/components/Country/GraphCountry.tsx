@@ -5,6 +5,7 @@ import { CountryCategories } from '@/@types/countryCategories';
 import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
 import Alert from '../Alert';
+import { useMediaQuery } from 'react-responsive';
 
 interface DetailCountryProps {
   category: CountryCategories[] | any;
@@ -16,9 +17,17 @@ function GraphCountry({ category, data }: DetailCountryProps) {
   const width = useAppSelector((state) => state.home.currentWidth);
   const alert = useAppSelector((state) => state.graph.alert);
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
   return (
     <section className="p-8"
-      style={isSideBarOpen ? { width: width, float: 'right' } : {}}
+    style={
+      isSideBarOpen
+          ? isLargeScreen
+              ? { width: width, float: 'right' }
+              : { width: '100%', float: 'none' }
+          : {}
+    }
     >
       {alert && 
       <div className="px-4 mx-auto w-full">

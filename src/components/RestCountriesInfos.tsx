@@ -8,6 +8,7 @@ import { staggerContainer, fadeIn } from '../utils/motion';
 
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useMediaQuery } from 'react-responsive';
 
 function RestCountriesInfos({
   countryData,
@@ -21,6 +22,8 @@ function RestCountriesInfos({
     return;
   }
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
   return (
     <motion.div
       variants={staggerContainer(0.1, 0.2)}
@@ -28,7 +31,13 @@ function RestCountriesInfos({
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
       className={`p-8 flex flex-col items-center justify-center w-full gap-5 `}
-      style={isSideBarOpen ? { width: DetailCountryWidth, float: 'right' } : {}}
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: DetailCountryWidth, float: 'right' }
+                : { width: '100%', float: 'none' }
+            : {}
+      }
     >
       <motion.div
         variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card

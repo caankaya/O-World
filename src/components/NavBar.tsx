@@ -84,7 +84,7 @@ const NavBar = () => {
         isSideBarOpen
             ? isLargeScreen
                 ? { width: navBarWidth, float: 'right' }
-                : { width: '100%', float: 'none' }
+                : { width: navBarWidth, float: 'right' }
             : {}
       }
     >

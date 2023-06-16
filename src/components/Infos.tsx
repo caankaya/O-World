@@ -6,6 +6,7 @@ import AnimatedText, { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import Alert from './Alert';
 import CardCelebrity from './CardCelebrity';
+import { useMediaQuery } from 'react-responsive';
 
 interface Celebrity {
   name: string;
@@ -92,9 +93,17 @@ function Infos({ infos }: InfosProps) {
     return shuffledArray;
   };
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
   return (
     <section className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-    style={isSideBarOpen ? { width: DetailRadioWidth, float: 'right' } : {}}>
+    style={
+      isSideBarOpen
+          ? isLargeScreen
+              ? { width: DetailRadioWidth, float: 'right' }
+              : { width: '100%', float: 'none' }
+          : {}
+    }>
     <motion.div
       variants={staggerContainer(0.1, 0.2)}
       initial="hidden"
