@@ -1,7 +1,3 @@
-'use client';
-
-'use client';
-
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
@@ -25,6 +21,7 @@ function WorldMap() {
   useEffect(() => {
     const width = 800;
     const height = 800;
+    let countries: d3.Selection<d3.BaseType, CountryFeature, HTMLElement, any>;
 
     const projection = d3
       .geoOrthographic()
@@ -50,13 +47,8 @@ function WorldMap() {
       .attr('class', 'graticule')
       .attr('d', path);
 
-    d3.json<
-      GeoJSON.FeatureCollection<
-        GeoJSON.Geometry | null,
-        GeoJSON.GeoJsonProperties
-      >
-    >('/world-countries.json').then((collection: any) => {
-      const countries = svg
+    d3.json('/world-countries.json').then((collection: any) => {
+      countries = svg
         .selectAll('path.country')
         .data(collection.features)
         .enter()
@@ -77,81 +69,33 @@ function WorldMap() {
           d3.select(this).style('fill', '');
           setCountryName('');
         });
-
-      d3.csv('/world-temperature.csv').then(function (data) {
-        const quantile = d3
-          .scaleQuantile<number>()
-          .domain([
-            d3.min(data, (e) => +e.temperature!)!,
-            d3.max(data, (e) => +e.temperature!)!,
-          ])
-          .range(d3.range(60));
-
-        // const legend = svg
-        //   .append('g')
-        //   .attr('transform', 'translate(35, 10)')
-        //   .attr('id', 'legend');
-
-        // legend
-        //   .selectAll('.colorbar')
-        //   .data(d3.range(60))
-        //   .enter()
-        //   .append('rect')
-        //   .attr('y', (d) => d * 5 + 'px')
-        //   .attr('height', '5px')
-        //   .attr('width', '20px')
-        //   .attr('x', '0px')
-        //   .attr('class', (d) => 'temperature-' + d);
-
-        // const legendScale = d3
-        //   .scaleLinear<number>()
-        //   .domain([
-        //     d3.min(data, (e) => +e.temperature! ?? 0) ?? 0,
-        //     d3.max(data, (e) => +e.temperature! ?? 0) ?? 0,
-        //   ])
-        //   .range([0, 60 * 5]);
-
-        // svg
-        //   .append('g')
-        //   .attr('transform', 'translate(25, 10)')
-        //   .call(d3.axisLeft(legendScale).ticks(10));
-
-        data.forEach(function (e, i) {
-          if (e.temperature !== undefined) {
-            d3.select('#' + e.country).attr(
-              'class',
-              (d) => 'country temperature-' + quantile(+e.temperature!)
-            );
-          }
-        });
-      });
-
-      const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const query = event.target.value.toLowerCase();
-        setSearchText(query);
-
-        countries.style('fill', '');
-
-        const matchedCountry: any = countries
-          .data()
-          .find((d: any) => d.properties.name.toLowerCase().includes(query));
-
-        if (matchedCountry) {
-          d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
-
-          const centroid = d3.geoCentroid(matchedCountry);
-          projection.rotate([-centroid[0], -centroid[1]]);
-          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-          svg.selectAll('.country').attr('d', (d: any) => path(d));
-
-          setCountryName(matchedCountry.properties.name);
-        } else {
-          setCountryName('');
-        }
-      };
-
-      chartRef.current.handleSearchChange = handleSearchChange;
     });
+
+    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+      const query = event.target.value.toLowerCase();
+      setSearchText(query);
+
+      countries.style('fill', '');
+
+      const matchedCountry: any = countries
+        .data()
+        .find((d: any) => d.properties.name.toLowerCase().includes(query));
+
+      if (matchedCountry) {
+        d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
+
+        const centroid = d3.geoCentroid(matchedCountry);
+        projection.rotate([-centroid[0], -centroid[1]]);
+        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+        svg.selectAll('.country').attr('d', (d: any) => path(d));
+
+        setCountryName(matchedCountry.properties.name);
+      } else {
+        setCountryName('');
+      }
+    };
+
+    chartRef.current.handleSearchChange = handleSearchChange;
 
     const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
     const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
@@ -199,7 +143,7 @@ function WorldMap() {
           className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
         />
         <span className="italic text-sm text-neutral-content">
-          type the name of the country if you don't know where it is
+          Type the name of the country if you don't know where it is
         </span>
       </div>
     </div>

@@ -1,23 +1,25 @@
 import { CountryCategories } from '@/@types/countryCategories';
+
 import { CountriesDataProps } from '../../../@types/countryData';
 import {
   createAction,
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
+
+import { createAsyncThunk, createReducer } from '@reduxjs/toolkit';
+
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 
 interface CountryState {
   category: CountryCategories[];
-  data: CountriesDataProps | null;
   loading: boolean;
   alert: Alert | null;
 }
 
 const initialState: CountryState = {
   category: [],
-  data: null,
   loading: false,
   alert: null,
 };

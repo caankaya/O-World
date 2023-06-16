@@ -7,6 +7,8 @@ import userReducer from './reducers/user';
 import planetReducer from './reducers/planet';
 import graphReducer from './reducers/graph';
 import flagsReducer from './reducers/flags';
+import infosReducer from './reducers/infos';
+
 
 const store = configureStore({
   reducer: {
@@ -17,6 +19,8 @@ const store = configureStore({
     user: userReducer,
     graph: graphReducer,
     flags: flagsReducer,
+    infos: infosReducer,
+
   },
   middleware: getDefaultMiddleware({
     serializableCheck: false,
