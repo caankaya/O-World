@@ -6,6 +6,8 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
+import querystring from 'querystring';
+import { URLSearchParams } from 'url';
 
 interface UserState {
   username: string | null;
@@ -24,18 +26,20 @@ const initialState: UserState = {
 };
 
 //Asynchronous actions
-export const login = createAsyncThunk(
-  'user/login',
-  async (formInput: FormData) => {
-    const obj = Object.fromEntries(formInput);
-    try {
-      const response = await axiosInstance.post('/log/in', obj);
-      return response;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
-    }
+export const login = createAsyncThunk('user/login', async (encodedData) => {
+  console.log('Ce que je renvoies vers le back :', encodedData);
+  try {
+    const response = await axiosInstance.post('/log/in', encodedData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    console.log('response:', response);
+    return response;
+  } catch (error) {
+    console.log('error :', error);
   }
-);
+});
 
 export const register = createAsyncThunk(
   'user/register',

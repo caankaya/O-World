@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import HyperspaceEffect from '@/components/HyperspaceEffect';
 import WorldMap from '@/components/WorldMap';
 
-
 export default function Home() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
@@ -25,15 +24,15 @@ export default function Home() {
 
   return (
     <>
-
+      {/* 
       {loading ? (
         <HyperspaceEffect />
       ) : (
-        <>
-          <WorldMap />
-        </>
-      )}
-
+        <> */}
+      <WorldMap />
     </>
+    // )}
+
+    // </>
   );
 }

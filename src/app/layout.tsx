@@ -34,15 +34,13 @@ export default function RootLayout({
         <meta name="description" content={metadata.description} />
       </Head>
       <body className={inter.className}>
-
         <Providers>
           <NavBar />
           <SideBar />
           {children}
           <Footer />
-          <StarsCanvas />
+          {/* <StarsCanvas /> */}
         </Providers>
-
       </body>
     </html>
   );
