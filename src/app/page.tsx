@@ -1,37 +1,39 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-
-import HyperspaceEffect from '@/components/HyperspaceEffect';
-import Alert from '@/components/Alert';
-import WorldMap from '@/components/WorldMap';
+// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import StarsCanvas from '@/components/Stars';
+// Redux Hooks
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+// React Hooks
+import { useEffect } from 'react';
+// Components
+import HyperspaceEffect from '@/components/HyperspaceEffect';
+import WorldMap from '@/components/WorldMap';
+
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const loading = useAppSelector((state) => state.home.spinner);
-  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
     }, 3000);
 
-    return () => clearTimeout(timer); // nettoyage
+    return () => clearTimeout(timer);
   }, [dispatch]);
 
   return (
-    // <>
-    //   {loading ? (
-    //     <HyperspaceEffect />
-    //   ) : (
     <>
-      <WorldMap />
-      <StarsCanvas />
+
+      {loading ? (
+        <HyperspaceEffect />
+      ) : (
+        <>
+          <WorldMap />
+        </>
+      )}
+
     </>
-    // )}
-    // </>
   );
 }
