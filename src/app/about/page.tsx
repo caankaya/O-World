@@ -7,10 +7,12 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 // Component
 import AnimatedText from '@/utils/motion';
 import CardProfil from '@/components/CardProfil';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Page() {
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const [active, setActive] = useState('1');
   const infos = [
     {
@@ -53,9 +55,14 @@ export default function Page() {
 
   return (
     <section
-      className={`p-4 flex flex-col items-center justify-center  
-          ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: aboutWidth } : {}}
+      className="p-4 flex flex-col items-center justify-center"
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: aboutWidth, float: 'right' }
+                : { width: '100%', float: 'none' }
+            : {}
+      }
     >
       <div className="container px-4 mx-auto w-full">
         <div className="xl:max-w-4xl mx-auto text-center">

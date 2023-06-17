@@ -28,7 +28,6 @@ export const fetchEarthData = createAsyncThunk(
   async () => {
     try {
       const response = await axiosInstance.get('/oworld');
-      console.log(response.data);
       return response.data.Earth;
     } catch (error: any) {
       throw new Error(error.response.data.message);

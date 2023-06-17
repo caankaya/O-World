@@ -38,6 +38,7 @@ function Infos({ infos }: InfosProps) {
   const alert = useAppSelector((state) => state.country.alert);
   const [active, setActive] = useState('1');
   const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>([]);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   if (!infos) {
     return (
@@ -92,8 +93,6 @@ function Infos({ infos }: InfosProps) {
     }
     return shuffledArray;
   };
-
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <section className={`p-8 flex flex-col items-center justify-center w-full gap-5`}

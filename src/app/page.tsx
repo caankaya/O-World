@@ -25,7 +25,6 @@ export default function Home() {
 
   return (
     <>
-
       {loading ? (
         <HyperspaceEffect />
       ) : (
@@ -33,7 +32,6 @@ export default function Home() {
           <WorldMap />
         </>
       )}
-
     </>
   );
 }

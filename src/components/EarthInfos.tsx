@@ -6,10 +6,12 @@ import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { Earth } from '@/@types/planetDatas';
+import { useMediaQuery } from 'react-responsive';
 
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   const parseValue = (valueString: string) => {
     // billions
@@ -50,8 +52,14 @@ const EarthInfos = ({ earthData }: { earthData: Earth }) => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-      style={isSideBarOpen ? { width: DetailEarthWidth, float: 'right' } : {}}
+      className="p-8 flex flex-col items-center justify-center w-full gap-5"
+      style={
+        isSideBarOpen
+          ? isLargeScreen
+            ? { width: DetailEarthWidth, float: 'right' }
+            : { width: '100%', float: 'none' }
+          : {}
+      }
     >
       <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">
         {earthData.name}

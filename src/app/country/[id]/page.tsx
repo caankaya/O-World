@@ -37,16 +37,14 @@ function Country({ params }: CountryProps) {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.graph.category);
   const data = useAppSelector((state) => state.country.data);
-
   const infos = useAppSelector((state) => state.infos);
-
   const loading = useAppSelector((state) => state.country.loading);
-
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -58,8 +56,6 @@ function Country({ params }: CountryProps) {
 
     fetchData();
   }, [dispatch, params.id]);
-
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <>

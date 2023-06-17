@@ -14,9 +14,8 @@ interface DetailCountryProps {
 
 function GraphCountry({ category, data }: DetailCountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const width = useAppSelector((state) => state.home.currentWidth);
+  const graphwidth = useAppSelector((state) => state.home.currentWidth);
   const alert = useAppSelector((state) => state.graph.alert);
-
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
@@ -24,7 +23,7 @@ function GraphCountry({ category, data }: DetailCountryProps) {
     style={
       isSideBarOpen
           ? isLargeScreen
-              ? { width: width, float: 'right' }
+              ? { width: graphwidth, float: 'right' }
               : { width: '100%', float: 'none' }
           : {}
     }

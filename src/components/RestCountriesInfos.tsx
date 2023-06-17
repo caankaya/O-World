@@ -17,12 +17,11 @@ function RestCountriesInfos({
 }) {
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   if (!countryData) {
     return;
   }
-
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <motion.div

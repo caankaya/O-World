@@ -10,6 +10,7 @@ import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 // Component
 import { AdminTable } from '@/components/AdminComponents/AdminTable';
 import SimpleLoader from '@/components/SimpleLoader';
+import { useMediaQuery } from 'react-responsive';
 
 export default function Page() {
   const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ export default function Page() {
   const flags = useAppSelector((state) => state.flags.flags);
   const loadingStats = useAppSelector((state) => state.stats.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,9 +38,14 @@ export default function Page() {
       ) : (
         <>
           <div
-            className={`p-4 flex flex-col items-center justify-start min-h-screen 
-            ${isSideBarOpen ? 'float-right' : ''}`}
-            style={isSideBarOpen ? { width: AdminWidth } : {}}
+            className="p-4 flex flex-col items-center justify-start min-h-screen"
+            style={
+              isSideBarOpen
+                ? isLargeScreen
+                  ? { width: AdminWidth, float: 'right' }
+                  : { width: '100%', float: 'none' }
+              : {}
+            }
           >
             <div className="container px-4 mx-auto w-full">
               <div className="flex flex-wrap -mx-4">

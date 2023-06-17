@@ -3,6 +3,7 @@
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { togglerLoginModal, togglerRegisterModal } from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
+import { useMediaQuery } from 'react-responsive';
 
 function LoginModal() {
   const dispatch = useAppDispatch();
@@ -10,6 +11,7 @@ function LoginModal() {
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isRegisterModalOpen = useAppSelector((state) => state.home.registerModal);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -23,7 +25,13 @@ function LoginModal() {
   return (
     <dialog className={`modal z-[1]`}
       open={isLoginModalOpen}
-      style={isSideBarOpen ? { width: loginModalWidth, float: 'right' } : {}}
+      style={
+        isSideBarOpen
+          ? isLargeScreen
+            ? { width: loginModalWidth, float: 'right' }
+            : { width: '100%', float: 'none' }
+          : {}
+      }
     >
       <form
         method="post"

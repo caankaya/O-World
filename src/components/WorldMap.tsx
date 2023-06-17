@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
 import { useMediaQuery } from 'react-responsive';
 
@@ -18,6 +18,7 @@ function WorldMap() {
   const [searchText, setSearchText] = useState<string>('');
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
     const width = 800;
@@ -122,17 +123,16 @@ function WorldMap() {
     };
   }, []);
 
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <div
-      className={`z-[1] items-center p-4 grid justify-center `}
+      className="z-[1] items-center p-4 grid justify-center"
       style={
         isSideBarOpen
-            ? isLargeScreen
-                ? { width: worldWidth, float: 'right' }
-                : { width: '100%', float: 'none' }
-            : {}
+          ? isLargeScreen
+            ? { width: worldWidth, float: 'right' }
+            : { width: '100%', float: 'none' }
+          : {}
       }
     >
       <div ref={chartRef} className="flex flex-col items-center">
