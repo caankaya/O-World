@@ -71,8 +71,8 @@ const PieChart = ({ category }: PieChartProps) => {
         <div
           style={{
             display: 'block',
-            height: '500px',
-            width: '600px',
+            height: '50vh',
+            width: '100%',
             margin: 'auto',
             cursor: 'pointer',
           }}
