@@ -12,12 +12,12 @@ const CardCelebrity: React.FC<CardCelebrityProps> = ({ name, net_worth, gender, 
     onClick={() => handleClick(name)}
   >
     <img
-      src="https://assets.teenvogue.com/photos/61bcfb146d5605d8a79a8dd4/3:2/w_3804,h_2536,c_limit/1193644057"
+      src="/alien-celebrities.png"
       alt={name}
       className="absolute w-full h-full object-cover rounded-[24px]"
     />
     {active !== name ? (
-      <h3 className="orbitron-font font-semibold sm:text-[26px] text-[22px] text-black absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
+      <h3 className="orbitron-font font-semibold sm:text-[26px] text-[22px] text-white absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
         {name}
       </h3>
     ) : (
@@ -25,7 +25,14 @@ const CardCelebrity: React.FC<CardCelebrityProps> = ({ name, net_worth, gender, 
         <div className={`flex justify-center items-center w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px]`}>
         </div>
         <h2 className="first-letter:mt-[24px] font-semibold sm:text-[32px] text-[24px]">
-          {name}
+          <a
+            href={`https://www.google.com/search?q=${name}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:underline"
+          >
+            {name}
+          </a>
         </h2>
         <p className="font-normal text-[16px] leading-[20.16px] text-white uppercase">
          net_worth: <span className="shadow-neon">{net_worth} $</span>
