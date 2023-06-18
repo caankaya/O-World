@@ -95,7 +95,7 @@ function Infos({ infos }: InfosProps) {
   };
 
   return (
-    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font`}
     style={
       isSideBarOpen
           ? isLargeScreen
@@ -112,11 +112,11 @@ function Infos({ infos }: InfosProps) {
     >
       <motion.div
         variants={fadeIn('up', 'spring', 0 * 1, 1)}
-        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-secondary-focus mb-4"
+        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-secondary-focus mb-4 overflow-auto"
       >
         <div className="stat">
           <div className="stat-title">Radio</div>
-          <div className="stat-value mb-4">{infos.radio?.name}</div>
+          <div className="stat-value mb-4 whitespace-normal break-words">{infos.radio?.name}</div>
           {infos.radio?.url_resolved && (
               <audio controls>
                   <source src={infos.radio?.url_resolved} type={determineAudioType(infos.radio?.url_resolved)} />
@@ -131,11 +131,11 @@ function Infos({ infos }: InfosProps) {
 
       <motion.div
         variants={fadeIn('up', 'spring', 1 * 0.5, 1)}
-        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus"
+        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus overflow-auto"
       >
         <div className="stat">
           <div className="stat-title">Insolite</div>
-          <div className="stat-value text-3xl">{infos.insolite}</div>
+          <div className="stat-value text-3xl whitespace-normal break-words">{infos.insolite}</div>
         </div>
       </motion.div>
 

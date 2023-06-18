@@ -20,13 +20,13 @@ const Footer = () => {
       }
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <a href="/about" className="text-[16px]">
+        <a href="/about" className="orbitron-font text-[16px]">
           About
         </a>
       </div>
 
       <div className="items-center grid-flow-col text-center">
-        <p className="text-[16px]">
+        <p className="orbitron-font text-[16px]">
           OWorld - Copyright ©2023 - All right reserved
         </p>
       </div>

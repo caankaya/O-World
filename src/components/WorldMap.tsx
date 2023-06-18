@@ -139,7 +139,7 @@ function WorldMap() {
         <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
           {countryName || 'Click on a country'}
         </h1>
-        <h2 className="text-center text-2xl font-bold mb-2">
+        <h2 className="orbitron-font text-center text-2xl font-bold mb-2">
           {countryName || 'Click on a country'}
         </h2>
         <input
@@ -147,9 +147,9 @@ function WorldMap() {
           placeholder="Search..."
           value={searchText}
           onChange={(event) => chartRef.current.handleSearchChange(event)}
-          className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
+          className="orbitron-font input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
         />
-        <span className="italic text-sm text-neutral-content">
+        <span className="orbitron-font italic text-sm text-neutral-content">
           Type the name of the country if you don't know where it is
         </span>
       </div>

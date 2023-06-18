@@ -55,7 +55,7 @@ export default function Page() {
 
   return (
     <section
-      className="p-4 flex flex-col items-center justify-center"
+      className="p-4 flex flex-col items-center justify-center orbitron-font"
       style={
         isSideBarOpen
             ? isLargeScreen

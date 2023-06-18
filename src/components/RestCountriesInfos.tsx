@@ -29,7 +29,7 @@ function RestCountriesInfos({
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5 `}
+      className={`p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font`}
       style={
         isSideBarOpen
             ? isLargeScreen

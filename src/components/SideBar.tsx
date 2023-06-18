@@ -27,12 +27,12 @@ function SideBar() {
         className={`fixed top-0 left-0 z-50 w-64 h-full transition-transform ${isSideBarOpen ? 'translate-x-0' : '-translate-x-full'}`}
         aria-label="Sidebar"
       >
-        <div className="h-full px-3 py-4 overflow-y-auto bg-base-200 border-r border-blue-500 shadow-xl">
+        <div className="h-full px-3 py-4 overflow-y-auto bg-base-200 border-r border-primary-focus shadow-xl">
           {/*Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex justify-start items-center mr-5">
             <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
             <div className="logo flex flex-col items-start">
-              <span className="self-center text-2xl font-semibold whitespace-nowrap mr-2">
+              <span className="orbitron-font self-center text-2xl font-semibold whitespace-nowrap mr-2">
                 OWorld
               </span>
               <span className="alien-font shadow-neon self-center text-sm font-semibold whitespace-nowrap ml">
@@ -46,24 +46,24 @@ function SideBar() {
 
           <ul className="space-y-2 font-medium mt-10 mb-10">
             <li className="mb-10">
-              <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
+              <span className="orbitron-font self-center text-xl font-semibold whitespace-nowrap text-white">
                 WORLD
               </span>
               <a
                 href={`/world`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                className="orbitron-font flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
               >
                 World information
               </a>
               <a
                 href={`/`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                className="orbitron-font flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
               >
                 Home
               </a>
               <a
                 href={`/about`}
-                className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                className="orbitron-font flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
               >
                 About
               </a>
@@ -75,10 +75,10 @@ function SideBar() {
           {/* Debut catégories pour un pays */}
           {data && (
             <ul className="mb-10 mt-10">
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
+              <span className="orbitron-font self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
                 Country
               </span>
-              <span className="flex items-center pl-2.5 mb-5">
+              <span className="orbitron-font flex items-center pl-2.5 mb-5">
                 <span className="ml-3 whitespace-nowrap mr-5">
                   {data.name.common}
                 </span>
@@ -93,7 +93,7 @@ function SideBar() {
           {/* Si Utilisateur est connecté */}
           {user && username && (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+              <span className="orbitron-font self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Hi{' '}
                 {username.charAt(0).toUpperCase() +
                   username.slice(1).toLowerCase()}
@@ -101,7 +101,7 @@ function SideBar() {
               <li>
                 <a
                   href={`/profile`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                  className="orbitron-font flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                 >
                   Profile
                 </a>
@@ -111,13 +111,13 @@ function SideBar() {
           {typeof window !== 'undefined' &&
           sessionStorage.userType === 'Admin' ? (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+              <span className="orbitron-font self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
                 Admin
               </span>
               <li>
                 <a
                   href={`/admin`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                  className="orbitron-font flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
                 >
                   Statistics
                 </a>

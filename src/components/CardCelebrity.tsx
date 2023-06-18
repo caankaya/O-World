@@ -17,14 +17,14 @@ const CardCelebrity: React.FC<CardCelebrityProps> = ({ name, net_worth, gender, 
       className="absolute w-full h-full object-cover rounded-[24px]"
     />
     {active !== name ? (
-      <h3 className="font-semibold sm:text-[26px] text-[22px] text-black absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
+      <h3 className="orbitron-font font-semibold sm:text-[26px] text-[22px] text-black absolute z-0 lg:bottom-20 lg:rotate-[-90deg] lg:origin-[0,0]">
         {name}
       </h3>
     ) : (
-      <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]">
+      <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px] orbitron-font">
         <div className={`flex justify-center items-center w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px]`}>
         </div>
-        <h2 className="first-letter:mt-[24px] font-semibold sm:text-[32px] text-[24px] ">
+        <h2 className="first-letter:mt-[24px] font-semibold sm:text-[32px] text-[24px]">
           {name}
         </h2>
         <p className="font-normal text-[16px] leading-[20.16px] text-white uppercase">

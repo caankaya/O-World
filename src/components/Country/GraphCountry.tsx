@@ -19,7 +19,7 @@ function GraphCountry({ category, data }: DetailCountryProps) {
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
-    <section className="p-8"
+    <section className="p-8 orbitron-font"
     style={
       isSideBarOpen
           ? isLargeScreen

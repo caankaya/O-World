@@ -22,7 +22,7 @@ function LineBarChart({ category }: BarChartProps) {
       <motion.div
       variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
       className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-        <div className="text-xl font-semibold">
+        <div className="text-3xl font-semibold">
           Population growth between 2002 - 2022
         </div>
         <div className="divider mt-2"></div>
@@ -34,7 +34,7 @@ function LineBarChart({ category }: BarChartProps) {
       <motion.div
       variants={fadeIn('up', 'spring', 1 * 0.5, 1)} // index = 0 for first card
       className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-        <div className="text-xl font-semibold">
+        <div className="text-3xl font-semibold">
           Life expectancy at birth between 2002 - 2022
         </div>
         <div className="divider mt-2"></div>

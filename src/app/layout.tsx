@@ -6,6 +6,7 @@ import Providers from '@/GlobalRedux/store/provider';
 // Styles
 import '../styles/globals.css';
 import '../styles/alien-font.css';
+import '../styles/orbitron-font.css';
 
 // Components
 import NavBar from '@/components/NavBar';
