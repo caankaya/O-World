@@ -8,7 +8,8 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
 import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
-
+// Reducer Actions
+import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Components
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
@@ -32,7 +33,7 @@ function Country({ params }: { params: { id: string } }) {
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);
   const loadingInfos = useAppSelector((state) => state.infos.loading);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchRestCountries({ id: params.id }));

@@ -1,13 +1,22 @@
 'use client';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { isAdmin } from '@/GlobalRedux/store/reducers/user';
 
 function SideBar() {
+  const dispatch = useAppDispatch();
   const sideBar = useAppSelector((state) => state.home.sideBar);
   const user = useAppSelector((state) => state.user.isLogged);
   const username = useAppSelector((state) => state.user.username);
   const data = useAppSelector((state) => state.country.data);
-
+  const admin = useAppSelector((state) => state.user.admin);
+  if (
+    typeof localStorage !== 'undefined' &&
+    localStorage.roles &&
+    localStorage.roles.includes('Admin')
+  ) {
+    dispatch(isAdmin(true));
+  }
   return (
     <div className="SideBar z-[1]">
       <aside
@@ -17,7 +26,7 @@ function SideBar() {
         aria-label="Sidebar"
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-base-100/50 shadow-xl">
-          {/*Debut LOGO ET TITRE */}
+          {/* Debut LOGO ET TITRE */}
           <a href="/" className="mb-5 flex justify-start items-center mr-5">
             <img src="/world.png" className="h-12 mr-5" alt="OWorld Logo" />
             <div className="logo flex flex-col items-start">
@@ -29,10 +38,9 @@ function SideBar() {
               </span>
             </div>
           </a>
-          {/*Fin LOGO ET TITRE */}
+          {/* Fin LOGO ET TITRE */}
 
           {/* Debut de catégories pour le monde */}
-
           <ul className="space-y-2 font-medium mt-10 mb-10">
             <li className="mb-10">
               <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
@@ -58,36 +66,37 @@ function SideBar() {
               </a>
             </li>
           </ul>
-
-          {/*Fin de catégories pour le monde */}
+          {/* Fin de catégories pour le monde */}
 
           {/* Debut catégories pour un pays */}
           {data && (
             <ul className="mb-10 mt-10">
-              <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
-                Country
-              </span>
-              <span className="flex items-center pl-2.5 mb-5">
-                <span className="ml-3 whitespace-nowrap mr-5">
-                  {data.name.common}
+              <li>
+                <span className="self-center text-xl whitespace-nowrap text-white font-semibolnded-lg block mb-3">
+                  Country
                 </span>
-                <img
-                  src={data.flags.png}
-                  className="h-6 mr-3 sm:h-7"
-                  alt={data.flags.alt}
-                />
-              </span>
+                <span className="flex items-center pl-2.5 mb-5">
+                  <span className="ml-3 whitespace-nowrap mr-5">
+                    {data.name.common}
+                  </span>
+                  <img
+                    src={data.flags.png}
+                    className="h-6 mr-3 sm:h-7"
+                    alt={data.flags.alt}
+                  />
+                </span>
+              </li>
             </ul>
           )}
           {/* Si Utilisateur est connecté */}
           {user && username && (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                Hi{' '}
-                {username.charAt(0).toUpperCase() +
-                  username.slice(1).toLowerCase()}
-              </span>
               <li>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                  Hi{' '}
+                  {username.charAt(0).toUpperCase() +
+                    username.slice(1).toLowerCase()}
+                </span>
                 <a
                   href={`/profile`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
@@ -97,13 +106,12 @@ function SideBar() {
               </li>
             </ul>
           )}
-          {typeof window !== 'undefined' &&
-          sessionStorage.userType === 'Admin' ? (
+          {admin && (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                Admin
-              </span>
               <li>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                  Admin
+                </span>
                 <a
                   href={`/admin`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
@@ -112,7 +120,7 @@ function SideBar() {
                 </a>
               </li>
             </ul>
-          ) : null}
+          )}
         </div>
       </aside>
     </div>

@@ -2,6 +2,13 @@
 
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+
+import {
+  clearAlert,
+  getToken,
+  logout,
+  messageUp,
+} from '@/GlobalRedux/store/reducers/user';
 import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
@@ -25,6 +32,22 @@ const NavBar = () => {
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
+  const alert = useAppSelector((state) => state.user.alert);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      dispatch(getToken(token));
+    }
+    if (alert) {
+      const timeout = setTimeout(() => {
+        dispatch(clearAlert());
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [alert, dispatch]);
+
 
   return (
     <header

@@ -1,7 +1,10 @@
 'use client';
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { togglerLoginModal, togglerRegisterModal } from '@/GlobalRedux/store/reducers/home';
+import {
+  togglerLoginModal,
+  togglerRegisterModal,
+} from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
 
 function LoginModal() {
@@ -9,19 +12,21 @@ function LoginModal() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
-  const isRegisterModalOpen = useAppSelector((state) => state.home.registerModal);
+  const isRegisterModalOpen = useAppSelector(
+    (state) => state.home.registerModal
+  );
 
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const loginFormData = new FormData(event.currentTarget);
-
-    dispatch(login(loginFormData));
+    const formElement = event.currentTarget;
+    const formData = new FormData(formElement);
+    dispatch(login(formData));
   };
 
   return (
-    <dialog className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+    <dialog
+      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
       open={isLoginModalOpen}
       style={isSideBarOpen ? { width: loginModalWidth } : {}}
     >
@@ -35,17 +40,17 @@ function LoginModal() {
         </h1>
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="block mb-2 text-sm font-medium text-white"
           >
-            Email
+            Username
           </label>
           <input
-            type="email"
-            name="email"
-            id="email"
+            type="text"
+            name="username"
+            id="username"
             className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-            placeholder="name@company.com"
+            placeholder="ChuckNorris"
             required
           />
         </div>

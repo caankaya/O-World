@@ -6,12 +6,22 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
+import jwt_decode from 'jwt-decode';
+import { stat } from 'fs';
 import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface UserState {
   username: string | null;
   isLogged: boolean;
   loading: boolean;
+  alert: Alert | null;
+  token: string;
+  userIp: string;
+  sessionId: number | null;
+  admin: boolean;
+  user: boolean;
+  roles: [];
+  rememberMe: boolean;
   infiniteLoading: Boolean;
   sessionId: number | null;
   alert: Alert | null;
@@ -21,23 +31,30 @@ interface UserState {
 const initialState: UserState = {
   username: null,
   isLogged: false,
-  sessionId: null,
   loading: false,
   infiniteLoading: false,
   alert: null,
+  token: '',
+  userIp: '',
+  admin: false,
+  sessionId: null,
+  user: false,
+  roles: [],
+  rememberMe: false,
   favoritesCountries: [],
 };
 
 //Asynchronous actions
 export const login = createAsyncThunk(
   'user/login',
-  async (formInput: FormData) => {
-    const obj = Object.fromEntries(formInput);
+  async (formData: FormData) => {
+    const obj = Object.fromEntries(formData);
     try {
       const response = await axiosInstance.post('/log/in', obj);
-      return response;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+      return response.data.data;
+    } catch (error) {
+      console.log('error:', error);
+      throw error;
     }
   }
 );
@@ -119,31 +136,31 @@ export const fecthFavoritesCountries = createAsyncThunk(
 );
 
 //Synchronous actions
+export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
+export const setRememberMe = createAction<boolean>('user/setRememberMe');
+export const isAdmin = createAction<boolean>('user/isAdmin');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(login.pending, (state, action) => {
       state.loading = true;
       state.alert = null;
+      state.isLogged = false;
     })
     .addCase(login.fulfilled, (state, action) => {
-      state.loading = false;
-
-      const { id, username, roles } = action.payload.data.session;
       state.isLogged = true;
-      state.sessionId = id;
-      state.username = username;
-      if (roles && roles.includes('Admin')) {
-        sessionStorage.setItem('userType', 'Admin');
-      } else {
-        sessionStorage.setItem('userType', 'User');
-      }
+      const accessToken: any = jwt_decode(action.payload.accessToken);
+      const refreshToken: any = jwt_decode(action.payload.refreshToken);
+      state.sessionId = refreshToken.data.id;
+      state.username = accessToken.data.username;
+      state.roles = accessToken.data.roles;
+      localStorage.setItem('roles', JSON.stringify(state.roles));
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
 
-      sessionStorage.setItem('sessionId', id.toString());
-      sessionStorage.setItem('username', username);
       state.alert = {
         type: 'success',
         message: `Welcome ${state.username}`,
@@ -152,19 +169,18 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.rejected, (state, action) => {
       state.loading = false;
       state.isLogged = false;
-      state.sessionId = null;
       state.username = null;
       state.alert = {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
-
     .addCase(logout, (state) => {
       state.isLogged = false;
-      state.sessionId = null;
       state.username = null;
-      sessionStorage.clear();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('roles');
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
@@ -218,7 +234,8 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = false;
       state.sessionId = null;
       state.username = null;
-      sessionStorage.clear();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       state.alert = {
         type: 'success',
         message: `Your account has been deleted.`,
@@ -260,6 +277,16 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(clearUserAlert, (state) => {
       state.alert = null;
+    })
+    .addCase(getToken, (state, action) => {
+      state.token = action.payload;
+      state.isLogged = true;
+    })
+    .addCase(setRememberMe, (state, action) => {
+      state.rememberMe = action.payload;
+    })
+    .addCase(isAdmin, (state, action) => {
+      state.admin = action.payload;
     });
 });
 
