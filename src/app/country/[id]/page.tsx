@@ -7,25 +7,16 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
-
 import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
-
-// Reducer Actions
 
 // Components
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
+import AnimatedText from '@/utils/motion';
 
-//TODO Typer les interface dans le dossier types
-interface CountryProps {
-  params: {
-    id: string;
-  };
-}
-
-function Country({ params }: CountryProps) {
+function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
 
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
@@ -37,7 +28,6 @@ function Country({ params }: CountryProps) {
   const radio = useAppSelector((state) => state.infos.radio);
   const insolite = useAppSelector((state) => state.infos.insolite);
   const celebrity = useAppSelector((state) => state.infos.celebrity);
-  const infos = useAppSelector((state) => state.infos);
 
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);
@@ -68,17 +58,50 @@ function Country({ params }: CountryProps) {
       {loadingCountry ? (
         <SimpleLoader />
       ) : (
-        <RestCountriesInfos countryData={data} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Basic information
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              Some information about this alien country
+            </p>
+          </div>
+          <RestCountriesInfos countryData={data} />
+        </>
       )}
       {loadingInfos ? (
         <SimpleLoader />
       ) : (
-        <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Original information
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              Some complex information about this alien country
+            </p>
+          </div>
+          <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
+        </>
       )}
       {loadingGraph ? (
         <SimpleLoader />
       ) : (
-        <GraphCountry category={category} data={data} />
+        <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Detailed analysis
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              A few figures on this alien country
+            </p>
+          </div>
+          <GraphCountry category={category} data={data} />
+        </>
       )}
     </>
   );

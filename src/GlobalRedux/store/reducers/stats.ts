@@ -10,12 +10,14 @@ import { Alert } from '@/@types/alert';
 interface StatsState {
   stats: Stats[];
   loading: boolean;
+  infiniteLoading: Boolean;
   alert: Alert | null;
 }
 
 const initialState: StatsState = {
   stats: [],
   loading: false,
+  infiniteLoading: false,
   alert: null,
 };
 
@@ -41,13 +43,17 @@ const statsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchAdminStatsData.pending, (state) => {
       state.loading = true;
+      state.infiniteLoading = true;
+      state.alert = null;
     })
     .addCase(fetchAdminStatsData.fulfilled, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = false;
       state.stats = action.payload;
     })
     .addCase(fetchAdminStatsData.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
