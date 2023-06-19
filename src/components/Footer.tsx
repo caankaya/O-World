@@ -10,12 +10,14 @@ const Footer = () => {
 
   return (
     <footer
-      className={`footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0`}
+      className={`z-[0] footer items-center p-4 bg-transparent text-neutral-content grid md:justify-between bottom-0 ${
+        isSideBarOpen && isLargeScreen ? '' : 'justify-items-center md:justify-items-start'
+      }`}
       style={
         isSideBarOpen
             ? isLargeScreen
                 ? { width: footerWidth, float: 'right' }
-                : { width: '100%', float: 'none' }
+                : { width: '100%', float: 'none', textAlign: 'center'}
             : {}
       }
     >
