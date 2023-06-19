@@ -132,7 +132,7 @@ const NavBar = () => {
                       <ul>
                         <li>
                           <button
-                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
+                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                             onClick={() => {
                               dispatch(togglerLoginModal(isLoginModalOpen));
                               
@@ -144,7 +144,7 @@ const NavBar = () => {
                         </li>
                         <li>
                           <button
-                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
+                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                             onClick={() => {
                               dispatch(
                                 togglerRegisterModal(isRegisterModalOpen)
@@ -160,7 +160,7 @@ const NavBar = () => {
                     {user && (
                       <ul>
                         <li>
-                          <button className="orbitron-font block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg">
+                          <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
                             <a href="/profile">PROFILE</a>
                           </button>
                           <button
@@ -169,7 +169,7 @@ const NavBar = () => {
                               dispatch(togglerDropDown(isDropDownMenuOpen));
                               dispatch(togglerLoginModal(!isLoginModalOpen));
                             }}
-                            className="orbitron-font block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                            className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                           >
                             LOGOUT
                           </button>
