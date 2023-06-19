@@ -4,6 +4,8 @@ import { useState } from 'react';
 
 import { CountryFavorites } from '@/@types/countryFavorites';
 import { Flags } from '@/@types/flags';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+import SimpleLoader from './SimpleLoader';
 
 type UserFavoritesProps = {
   favoritesCountries: CountryFavorites[];
@@ -13,6 +15,13 @@ type UserFavoritesProps = {
 function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const [displayedCountries, setDisplayedCountries] = useState<number>(8);
   const [isViewAll, setIsViewAll] = useState<boolean>(false);
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.user.infiniteLoading
+  );
+
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
+  }
 
   const handleViewCountries = () => {
     setIsViewAll(!isViewAll);

@@ -6,10 +6,18 @@ import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { Earth } from '@/@types/planetDatas';
+import SimpleLoader from './SimpleLoader';
 
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.planet.infiniteLoading
+  );
+
+  if (infiniteLoadingInfos || Object.keys(earthData).length === 0) {
+    return <SimpleLoader />;
+  }
 
   const parseValue = (valueString: string) => {
     // billions

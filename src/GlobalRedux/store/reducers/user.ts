@@ -7,6 +7,7 @@ import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
+import { stat } from 'fs';
 import { CountryFavorites } from '@/@types/countryFavorites';
 
 
@@ -16,6 +17,13 @@ interface UserState {
   loading: boolean;
   alert: Alert | null;
   token: string;
+  userIp: string;
+  sessionId: number | null;
+  admin: boolean;
+  user: boolean;
+  roles: [];
+  rememberMe: boolean;
+  infiniteLoading: Boolean;
   favoritesCountries: CountryFavorites[];
 }
 
@@ -23,8 +31,15 @@ const initialState: UserState = {
   username: null,
   isLogged: false,
   loading: false,
+  infiniteLoading: false,
   alert: null,
   token: '',
+  userIp: '',
+  admin: false,
+  sessionId: null,
+  user: false,
+  roles: [],
+  rememberMe: false,
   favoritesCountries: [],
 };
 
@@ -124,6 +139,8 @@ export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
+export const setRememberMe = createAction<boolean>('user/setRememberMe');
+export const isAdmin = createAction<boolean>('user/isAdmin');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -134,8 +151,13 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
-      const token: any = jwt_decode(action.payload.accessToken);
       state.username = token.data.username;
+      const accessToken: any = jwt_decode(action.payload.accessToken);
+      const refreshToken: any = jwt_decode(action.payload.refreshToken);
+      state.sessionId = refreshToken.data.id;
+      state.username = accessToken.data.username;
+      state.roles = accessToken.data.roles;
+      localStorage.setItem('roles', JSON.stringify(state.roles));
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
 
@@ -153,12 +175,10 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
-
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.username = null;
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
+      localStorage.clear();
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
@@ -229,14 +249,17 @@ const userReducer = createReducer(initialState, (builder) => {
 
     .addCase(fecthFavoritesCountries.pending, (state, action) => {
       state.loading = true;
+      state.infiniteLoading = true;
       state.alert = null;
     })
     .addCase(fecthFavoritesCountries.fulfilled, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = false;
       state.favoritesCountries = action.payload;
     })
     .addCase(fecthFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
@@ -256,6 +279,12 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(getToken, (state, action) => {
       state.token = action.payload;
       state.isLogged = true;
+    })
+    .addCase(setRememberMe, (state, action) => {
+      state.rememberMe = action.payload;
+    })
+    .addCase(isAdmin, (state, action) => {
+      state.admin = action.payload;
     });
 });
 

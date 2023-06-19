@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Stats } from '@/@types/statsAdmin';
 import { Flags } from '@/@types/flags';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+import SimpleLoader from '../SimpleLoader';
 
 type AdminTableProps = {
   stats: Stats[];
@@ -11,6 +13,13 @@ export const AdminTable = ({ stats, flags }: AdminTableProps) => {
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.stats.infiniteLoading
+  );
+
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
+  }
 
   const total_users = stats.reduce(
     (sum, row) => sum + parseInt(row.user_count, 10),
