@@ -7,12 +7,13 @@ import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 function SideBar() {
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const dispatch = useAppDispatch();
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const username = localStorage.getItem('username');
   const data = useAppSelector((state) => state.country.data);
-  const roles = localStorage.getItem('roles');
+
+  const roles = localStorage.roles;
+  const username = localStorage.username;
 
   useEffect(() => {
     if (!isLargeScreen && isSideBarOpen) {

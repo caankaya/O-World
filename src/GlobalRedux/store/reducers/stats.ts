@@ -27,11 +27,17 @@ export const clearStatsAlert = createAction('stats/clearAlert');
 //Asynchronous actions
 export const fetchAdminStatsData = createAsyncThunk(
   'stats/fetchAdminStatsData',
-  async (_, { getState }) => {
+  async () => {
     try {
-      const response = await axiosInstance.get('/stats/fetch-stat', {
-        params: { useView: true },
-      });
+      const response = await axiosInstance.get(
+        `/admin/${localStorage.id}/stat`,
+        {
+          params: { useView: true },
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
       return response.data;
     } catch (error: any) {
       throw new Error(error.response.data.message);

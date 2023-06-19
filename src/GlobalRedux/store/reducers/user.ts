@@ -67,11 +67,18 @@ export const register = createAsyncThunk(
 
 export const accountUpdate = createAsyncThunk(
   'user/account-update',
-  async (formInput: FormData, { getState }) => {
+  async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.put(`/user/${sessionId}`, obj);
+      const response = await axiosInstance.put(
+        `/user/${localStorage.id}`,
+        obj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
       return response;
     } catch (error: any) {
       throw new Error(error.response.data.message);
@@ -81,10 +88,13 @@ export const accountUpdate = createAsyncThunk(
 
 export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
-  async (_, { getState }) => {
+  async () => {
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.delete(`/user/${sessionId}`);
+      const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      });
       return response;
     } catch (error: any) {
       throw new Error(error.response.data.message);
@@ -94,11 +104,13 @@ export const accountDeletion = createAsyncThunk(
 
 export const fetchFavoritesCountries = createAsyncThunk(
   'user/favorites-countries',
-  async (_, { getState }) => {
+  async () => {
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.get(`/user/${sessionId}`);
-
+      const response = await axiosInstance.get(`/user/${localStorage.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      });
       if (
         response.data[0].favorite_countries.length > 0 &&
         response.data[0].favorite_countries.some((country: (string | null)[]) =>
@@ -145,20 +157,22 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
+
       const accessToken: any = jwt_decode(action.payload.accessToken);
-      const refreshToken: any = jwt_decode(action.payload.refreshToken);
-      state.sessionId = refreshToken.data.id;
+      const id = accessToken.data.id;
       const username = accessToken.data.username;
       const roles = accessToken.data.roles;
+      console.log(roles);
 
-      localStorage.setItem('roles', roles);
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
+      localStorage.setItem('id', id);
       localStorage.setItem('username', username);
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('roles', roles);
 
       state.alert = {
         type: 'success',
-        message: `Welcome ${state.username}`,
+        message: `Welcome ${username}`,
       };
     })
     .addCase(login.rejected, (state, action) => {
