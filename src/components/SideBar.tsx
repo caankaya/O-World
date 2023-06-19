@@ -2,8 +2,8 @@
 
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { togglerSideBar } from '@/GlobalRedux/store/reducers/home';
-import { local } from 'd3';
-import { useEffect } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 function SideBar() {
@@ -12,8 +12,10 @@ function SideBar() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const data = useAppSelector((state) => state.country.data);
 
-  const roles = localStorage.roles;
-  const username = localStorage.username;
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const roles = useAppSelector((state) => state.user.roles);
+  const username = useAppSelector((state) => state.user.username);
+  console.log(roles);
 
   useEffect(() => {
     if (!isLargeScreen && isSideBarOpen) {
@@ -226,13 +228,11 @@ function SideBar() {
             </div>
           )}
           {/* Si Utilisateur est connecté */}
-          {roles && roles.includes('User') && username && (
+          {roles.includes('User') && (
             <ul className="mt-5">
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                  Hi{' '}
-                  {username.charAt(0).toUpperCase() +
-                    username.slice(1).toLowerCase()}
+                  Hi {username}
                 </span>
                 <a
                   href={`/profile`}
@@ -243,7 +243,7 @@ function SideBar() {
               </li>
             </ul>
           )}
-          {roles && roles.includes('Admin') && (
+          {roles.includes('Admin') && (
             <ul className="mt-5">
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">

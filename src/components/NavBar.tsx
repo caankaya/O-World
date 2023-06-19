@@ -26,8 +26,7 @@ const NavBar = () => {
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-
-  const roles = localStorage.roles;
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
@@ -81,7 +80,9 @@ const NavBar = () => {
             <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
           </div>
           <div className="flex-none">
-            <div className={roles ? `avatar m-2 online` : 'avatar m-2 offline'}>
+            <div
+              className={isLogged ? `avatar m-2 online` : 'avatar m-2 offline'}
+            >
               <button
                 className="w-12 rounded-full cursor-pointer"
                 onClick={() => {
@@ -94,7 +95,7 @@ const NavBar = () => {
               {isDropDownMenuOpen && (
                 <div className="absolute right-0 top-16">
                   <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
-                    {!roles && (
+                    {!isLogged && (
                       <ul>
                         <li>
                           <button
@@ -122,7 +123,7 @@ const NavBar = () => {
                         </li>
                       </ul>
                     )}
-                    {roles && (
+                    {isLogged && (
                       <ul>
                         <li>
                           <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">

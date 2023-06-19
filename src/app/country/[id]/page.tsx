@@ -35,17 +35,20 @@ function Country({ params }: { params: { id: string } }) {
   const favoritesCountries = useAppSelector(
     (state) => state.user.favoritesCountries
   );
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchRestCountries({ id: params.id }));
-      await dispatch(fetchFavoritesCountries());
       await dispatch(fetchGraph({ id: params.id }));
       await dispatch(fetchRadio({ id: params.id }));
     };
 
     fetchData();
-  }, [dispatch, params.id]);
+    if (isLogged) {
+      dispatch(fetchFavoritesCountries());
+    }
+  }, [dispatch, isLogged, params.id]);
 
   return (
     <>

@@ -10,28 +10,40 @@ import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface UserState {
   username: string | null;
+  roles: string[];
   isLogged: boolean;
   loading: boolean;
   alert: Alert | null;
-  token: string;
+  token: string | null;
   userIp: string;
   sessionId: number | null;
-  roles: string[];
   rememberMe: boolean;
   infiniteLoading: Boolean;
   favoritesCountries: CountryFavorites[];
 }
 
 const initialState: UserState = {
-  username: '',
-  isLogged: false,
+  username:
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('username') || null
+      : null,
+  roles:
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('roles') !== null
+      ? localStorage.getItem('roles')!.split(',')
+      : [],
+  isLogged:
+    typeof localStorage !== 'undefined' &&
+    !!localStorage.getItem('accessToken'),
+  token:
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('accessToken')
+      : null,
   loading: false,
   infiniteLoading: false,
   alert: null,
-  token: '',
   userIp: '',
   sessionId: null,
-  roles: [],
   rememberMe: false,
   favoritesCountries: [],
 };
@@ -204,6 +216,9 @@ const userReducer = createReducer(initialState, (builder) => {
       localStorage.setItem('username', username);
       localStorage.setItem('roles', roles);
 
+      state.username = username;
+      state.roles = roles;
+
       state.alert = {
         type: 'success',
         message: `Welcome ${username}`,
@@ -221,6 +236,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.username = null;
+      state.roles = [];
       localStorage.clear();
       state.alert = {
         type: 'success',

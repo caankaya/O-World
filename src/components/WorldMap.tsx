@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
 import { useMediaQuery } from 'react-responsive';
+import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface CountryProperties {
   name: string;
@@ -10,22 +11,32 @@ interface CountryProperties {
 interface CountryFeature {
   properties: CountryProperties;
   id: string;
+  favorite: boolean;
 }
 
-function WorldMap() {
+interface Props {
+  favoritesCountries: CountryFavorites[];
+  isLogged: boolean;
+}
+
+function WorldMap({ favoritesCountries, isLogged }: Props) {
   const chartRef = useRef<any>(null);
   const [countryName, setCountryName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-  
 
   useEffect(() => {
     const scale = isLargeScreen ? 350 : 150;
-    const width = isLargeScreen ? 800 : 400; 
+    const width = isLargeScreen ? 800 : 400;
     const height = isLargeScreen ? 800 : 400;
-    let countries: d3.Selection<d3.BaseType, CountryFeature, HTMLElement, any>;
+    let countries: d3.Selection<
+      SVGPathElement,
+      CountryFeature,
+      HTMLElement,
+      any
+    >;
 
     const projection = d3
       .geoOrthographic()
@@ -52,9 +63,22 @@ function WorldMap() {
       .attr('d', path);
 
     d3.json('/world-countries.json').then((collection: any) => {
+      const updatedCollection = collection.features.map(
+        (feature: CountryFeature) => {
+          const isFavorite = favoritesCountries.some(
+            (favorite) => favorite.cca3 === feature.id
+          );
+          const favorite = isFavorite && isLogged; // Marquer comme favori uniquement si l'utilisateur est connecté
+          return {
+            ...feature,
+            favorite,
+          };
+        }
+      );
+
       countries = svg
         .selectAll('path.country')
-        .data(collection.features)
+        .data(updatedCollection)
         .enter()
         .append('a')
         .attr('href', (d: any) => `country/${d.id}`)
@@ -62,19 +86,23 @@ function WorldMap() {
         .attr('d', (d: any) => path(d))
         .attr('class', 'country')
         .attr('id', (d: any) => d.id)
-        .attr('fill', 'white')
+        .attr('fill', (d: any) => (d.favorite ? ' #828df8' : 'white'))
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
         .on('mouseover', function (event: MouseEvent, d: any) {
-          d3.select(this).style('fill', '#0ff');
+          if (d.favorite) {
+            d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
+          } else {
+            d3.select(this).style('fill', '#3abff8');
+          }
           setCountryName(d.properties.name);
         })
+
         .on('mouseout', function (event: MouseEvent, d: any) {
           d3.select(this).style('fill', '');
           setCountryName('');
         });
     });
-
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
       const query = event.target.value.toLowerCase();
       setSearchText(query);
@@ -123,8 +151,7 @@ function WorldMap() {
     return () => {
       svg.remove();
     };
-  }, []);
-
+  }, [favoritesCountries, isLogged]);
 
   return (
     <div
