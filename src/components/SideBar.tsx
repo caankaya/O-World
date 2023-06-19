@@ -15,7 +15,6 @@ function SideBar() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const roles = useAppSelector((state) => state.user.roles);
   const username = useAppSelector((state) => state.user.username);
-  console.log(roles);
 
   useEffect(() => {
     if (!isLargeScreen && isSideBarOpen) {
@@ -228,7 +227,7 @@ function SideBar() {
             </div>
           )}
           {/* Si Utilisateur est connecté */}
-          {roles.includes('User') && (
+          {isLogged && roles.includes('User') && (
             <ul className="mt-5">
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
@@ -243,7 +242,7 @@ function SideBar() {
               </li>
             </ul>
           )}
-          {roles.includes('Admin') && (
+          {isLogged && roles.includes('Admin') && (
             <ul className="mt-5">
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
