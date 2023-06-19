@@ -127,7 +127,7 @@ const NavBar = () => {
               </button>
               {isDropDownMenuOpen && (
                 <div className="absolute right-0 top-16">
-                  <div className="bg-base-100/50 shadow-xl flex flex-col rounded-lg">
+                  <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
                     {!user && (
                       <ul>
                         <li>
