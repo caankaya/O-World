@@ -1,25 +1,34 @@
 'use client';
 
 import { useAppSelector } from '@/GlobalRedux/hooks';
+import { useMediaQuery } from 'react-responsive';
 
 const Footer = () => {
   const footerWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   return (
     <footer
-      className={`z-[1] footer items-center p-4 bg-transparent text-neutral-content grid justify-between bottom-0 right-0 fixed
-    `}
-      style={isSideBarOpen ? { width: footerWidth } : {}}
+      className={`z-[0] footer items-center p-4 bg-transparent text-neutral-content grid md:justify-between bottom-0 ${
+        isSideBarOpen && isLargeScreen ? '' : 'justify-items-center md:justify-items-start'
+      }`}
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: footerWidth, float: 'right' }
+                : { width: '100%', float: 'none', textAlign: 'center'}
+            : {}
+      }
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <a href="/about" className="text-[16px]">
+        <a href="/about" className="orbitron-font text-[16px]">
           About
         </a>
       </div>
 
       <div className="items-center grid-flow-col text-center">
-        <p className="text-[16px]">
+        <p className="orbitron-font text-[16px]">
           OWorld - Copyright ©2023 - All right reserved
         </p>
       </div>

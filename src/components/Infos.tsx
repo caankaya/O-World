@@ -5,6 +5,18 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import CardCelebrity from './CardCelebrity';
+import { useMediaQuery } from 'react-responsive';
+
+interface Celebrity {
+  name: string;
+  net_worth: number;
+  gender: string;
+  nationality: string;
+  occupation: string[];
+  birthday: string;
+  age: number;
+  is_alive: boolean;
+}
 import { Celebrity, Radio } from '@/@types/infos';
 import SimpleLoader from './SimpleLoader';
 
@@ -18,12 +30,12 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
   const DetailRadioWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [active, setActive] = useState('1');
-  const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>(
-    []
-  );
+  const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>([]);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.infos.infiniteLoading
   );
+
 
   if (infiniteLoadingInfos) {
     return <SimpleLoader />;
@@ -78,24 +90,29 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
   };
 
   return (
-    <section
-      className={`p-8  ${isSideBarOpen ? 'float-right' : ''}`}
-      style={isSideBarOpen ? { width: DetailRadioWidth } : {}}
+    <section className={`p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font`}
+    style={
+      isSideBarOpen
+          ? isLargeScreen
+              ? { width: DetailRadioWidth, float: 'right' }
+              : { width: '100%', float: 'none' }
+          : {}
+    }>
+    <motion.div
+      variants={staggerContainer(0.1, 0.2)}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: false, amount: 0.25 }}
+      className="flex flex-col items-center justify-center w-full gap-5"
     >
       <motion.div
-        variants={staggerContainer(0.1, 0.2)}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: false, amount: 0.25 }}
+        variants={fadeIn('up', 'spring', 0 * 1, 1)}
+        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-secondary-focus mb-4 overflow-auto"
       >
-        <motion.div
-          variants={fadeIn('up', 'spring', 0 * 1, 1)}
-          className="stats stats-vertical lg:stats-horizontal shadow w-full bg-secondary-focus mb-4"
-        >
-          <div className="stat">
-            <div className="stat-title">Radio</div>
-            <div className="stat-value mb-4">{radio?.name}</div>
-            {radio?.url_resolved && (
+        <div className="stat">
+          <div className="stat-title">Radio</div>
+          <div className="stat-value mb-4 whitespace-normal break-words">{infos.radio?.name}</div>
+          {infos.radio?.url_resolved && (
               <audio controls>
                 <source
                   src={radio?.url_resolved}
@@ -111,16 +128,15 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             </div>
           </div>
         </motion.div>
+      <motion.div
+        variants={fadeIn('up', 'spring', 1 * 0.5, 1)}
+        className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus overflow-auto"
+      >
+        <div className="stat">
+          <div className="stat-title">Insolite</div>
+          <div className="stat-value text-3xl whitespace-normal break-words">{infos.insolite}</div>
+        </div>
 
-        <motion.div
-          variants={fadeIn('up', 'spring', 1 * 0.5, 1)}
-          className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus"
-        >
-          <div className="stat">
-            <div className="stat-title">Insolite</div>
-            <div className="stat-value text-3xl">{insolite}</div>
-          </div>
-        </motion.div>
       </motion.div>
 
       <div className="container px-4 mx-auto w-full">

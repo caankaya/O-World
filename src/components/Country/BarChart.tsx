@@ -46,19 +46,25 @@ function BarChart({ category }: BarChartProps) {
       ],
     };
 
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1.5,
+    };
+
     return (
       category && (
         <div
           className="BarChart"
           style={{
-            height: '330px',
-            width: '660px',
             display: 'block',
+            height: '50vh',
+            width: '100%',
             margin: 'auto',
             cursor: 'pointer',
           }}
         >
-          <Bar data={data} />
+          <Bar data={data} options={options} />
         </div>
       )
     );

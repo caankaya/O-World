@@ -5,6 +5,7 @@ import { CountryCategories } from '@/@types/countryCategories';
 import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
 import Alert from '../Alert';
+import { useMediaQuery } from 'react-responsive';
 import SimpleLoader from '../SimpleLoader';
 
 interface DetailCountryProps {
@@ -14,20 +15,26 @@ interface DetailCountryProps {
 
 function GraphCountry({ category, data }: DetailCountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const width = useAppSelector((state) => state.home.currentWidth);
+  const graphwidth = useAppSelector((state) => state.home.currentWidth);
   const alert = useAppSelector((state) => state.graph.alert);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.graph.infiniteLoading
   );
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   if (infiniteLoadingInfos) {
     return <SimpleLoader />;
   }
 
   return (
-    <section
-      className="p-8"
-      style={isSideBarOpen ? { width: width, float: 'right' } : {}}
+    <section className="p-8 orbitron-font"
+    style={
+      isSideBarOpen
+          ? isLargeScreen
+              ? { width: graphwidth, float: 'right' }
+              : { width: '100%', float: 'none' }
+          : {}
+    }
     >
       {alert && (
         <div className="px-4 mx-auto w-full">

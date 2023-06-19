@@ -6,16 +6,15 @@ import {
   togglerRegisterModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
-import querystring from 'querystring';
+import { useMediaQuery } from 'react-responsive';
 
 function LoginModal() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
-  const isRegisterModalOpen = useAppSelector(
-    (state) => state.home.registerModal
-  );
+  const isRegisterModalOpen = useAppSelector((state) => state.home.registerModal);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -26,14 +25,26 @@ function LoginModal() {
   };
 
   return (
-    <dialog
-      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+
+    <>
+    {isLoginModalOpen && (
+      <div
+        className="fixed inset-0 bg-black bg-opacity-80 z-0"
+      ></div>
+    )}
+    <dialog className={`modal z-[1]`}
       open={isLoginModalOpen}
-      style={isSideBarOpen ? { width: loginModalWidth } : {}}
+      style={
+        isSideBarOpen
+          ? isLargeScreen
+            ? { width: loginModalWidth, float: 'right' }
+            : { width: '100%', float: 'none' }
+          : {}
+      }
     >
       <form
         method="post"
-        className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
+        className="orbitron-font modal-box space-y-4 md:space-y-6 bg-base-100/80"
         onSubmit={handleSubmit}
       >
         <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
@@ -91,7 +102,7 @@ function LoginModal() {
         </div>
         <button
           type="submit"
-          className="w-full text-white bg-primary hover:bg-primary-focus focus:ring-4 focus:outline-none focus:ring-primary-focus font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="w-full text-white font-semibold border hover:text-xl hover-shadow-neon rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Sign in
         </button>
@@ -119,6 +130,7 @@ function LoginModal() {
         </button>
       </form>
     </dialog>
+  </>
   );
 }
 

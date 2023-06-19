@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import * as d3 from 'd3';
+import { useMediaQuery } from 'react-responsive';
 
 interface CountryProperties {
   name: string;
@@ -17,15 +18,18 @@ function WorldMap() {
   const [searchText, setSearchText] = useState<string>('');
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  
 
   useEffect(() => {
-    const width = 800;
-    const height = 800;
+    const scale = isLargeScreen ? 350 : 150;
+    const width = isLargeScreen ? 800 : 400; 
+    const height = isLargeScreen ? 800 : 400;
     let countries: d3.Selection<d3.BaseType, CountryFeature, HTMLElement, any>;
 
     const projection = d3
       .geoOrthographic()
-      .scale(350)
+      .scale(scale)
       .translate([width / 2, height / 2])
       .clipAngle(90)
       .precision(0.1)
@@ -121,18 +125,23 @@ function WorldMap() {
     };
   }, []);
 
+
   return (
     <div
-      className={`z-[1] items-center p-4 grid justify-center ${
-        isSideBarOpen ? 'float-right' : ''
-      }`}
-      style={isSideBarOpen ? { width: worldWidth } : {}}
+      className="z-[1] items-center p-4 grid justify-center"
+      style={
+        isSideBarOpen
+          ? isLargeScreen
+            ? { width: worldWidth, float: 'right' }
+            : { width: '100%', float: 'none' }
+          : {}
+      }
     >
       <div ref={chartRef} className="flex flex-col items-center">
-        <h1 className="alien-font text-center font-extrabold text-3xl tracking-wider shadow-neon">
+        <h1 className="alien-font text-center font-extrabold text-xl md:text-3xl tracking-wider shadow-neon">
           {countryName || 'Click on a country'}
         </h1>
-        <h2 className="text-center text-2xl font-bold mb-2">
+        <h2 className="orbitron-font text-center text-xl md:text-2xl font-bold mb-2">
           {countryName || 'Click on a country'}
         </h2>
         <input
@@ -140,11 +149,11 @@ function WorldMap() {
           placeholder="Search..."
           value={searchText}
           onChange={(event) => chartRef.current.handleSearchChange(event)}
-          className="input input-bordered input-info input-sm w-full max-w-sm bg-transparent"
+          className="orbitron-font input input-bordered input-info input-sm max-w-sm bg-transparent md:w-full"
         />
-        <span className="italic text-sm text-neutral-content">
+        <p className="orbitron-font italic text-[10px] md:text-sm text-neutral-content">
           Type the name of the country if you don't know where it is
-        </span>
+        </p>
       </div>
     </div>
   );

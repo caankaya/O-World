@@ -23,6 +23,8 @@ import AnimatedText from '../utils/motion';
 
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
+import { useMediaQuery } from 'react-responsive';
+
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -35,69 +37,56 @@ const NavBar = () => {
     (state) => state.home.registerModal
   );
 
-  const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       dispatch(getToken(token));
     }
-    if (alert) {
+  }, [dispatch]);
 
-  const alertUser = useAppSelector((state) => state.user.alert);
-  const alertStats = useAppSelector((state) => state.stats.alert);
-  const alertFlags = useAppSelector((state) => state.flags.alert);
-  const alertPlanet = useAppSelector((state) => state.planet.alert);
-  const alertCountry = useAppSelector((state) => state.country.alert);
-  const alertGrah = useAppSelector((state) => state.graph.alert);
 
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  
   useEffect(() => {
-    if (
-      alertUser ||
-      alertStats ||
-      alertPlanet ||
-      alertFlags ||
-      alertCountry ||
-      alertGrah
-    ) {
-
-
-  const alert = useAppSelector((state) => state.user.alert);
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      dispatch(getToken(token));
+    if (!isLargeScreen && isSideBarOpen) {
+      dispatch(togglerSideBar(isSideBarOpen));
     }
-    if (alert) {
-
-      const timeout = setTimeout(() => {
-        dispatch(clearAlert());
-      }, 3000);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [alert, dispatch]);
-
+  }, [isLargeScreen, isSideBarOpen, dispatch]);
 
   return (
     <header
-      className={`Header flex`}
-      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
+      className="navbar bg-base-100 z-10 bg-transparent flex items-center justify-between"
+      style={
+        isSideBarOpen
+            ? isLargeScreen
+                ? { width: navBarWidth, float: 'right' }
+                : { width: navBarWidth, float: 'right' }
+            : {}
+      }
     >
       <div className="navbar-container w-full">
         <nav
           className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
         >
-          <div className="flex mx-4">
-            <button
-              className="btn btn-square btn-ghost hover:bg-base-100"
-              onClick={() => {
-                dispatch(togglerSideBar(isSideBarOpen));
-              }}
-            >
-              <img src="/ufo-svgrepo-com.svg" alt="ovni-icon" />
-            </button>
+          <div className="relative inline-block text-center">
+          <button
+            type="button"
+            className="focus:outline-none"
+            onClick={() => {
+              dispatch(togglerSideBar(!isSideBarOpen));
+            }}
+          >
+            <span
+              className={`block h-1 w-6 bg-info-content rounded-full transition-all duration-1000 transform ${isSideBarOpen ? "rotate-45 translate-y-2" : ""}`}
+            />
+            <span
+              className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 ${isSideBarOpen ? "opacity-0" : ""}`}
+            />
+            <span
+              className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 transform ${isSideBarOpen ? "-rotate-45 -translate-y-2" : ""}`}
+            />
+          </button>
           </div>
           <div className="hidden md:block w-full text-center">
             <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
@@ -108,20 +97,22 @@ const NavBar = () => {
                 className="w-12 rounded-full cursor-pointer"
                 onClick={() => {
                   dispatch(togglerDropDown(isDropDownMenuOpen));
+                  dispatch(togglerSideBar(false));
                 }}
               >
                 <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
               </button>
               {isDropDownMenuOpen && (
                 <div className="absolute right-0 top-16">
-                  <div className="bg-base-100/50 shadow-xl flex flex-col rounded-lg">
+                  <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
                     {!user && (
                       <ul>
                         <li>
                           <button
-                            className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-t-lg"
+                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                             onClick={() => {
                               dispatch(togglerLoginModal(isLoginModalOpen));
+                              
                             }}
                           >
                             LOGIN
@@ -130,7 +121,7 @@ const NavBar = () => {
                         </li>
                         <li>
                           <button
-                            className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-b-lg"
+                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                             onClick={() => {
                               dispatch(
                                 togglerRegisterModal(isRegisterModalOpen)
@@ -146,7 +137,7 @@ const NavBar = () => {
                     {user && (
                       <ul>
                         <li>
-                          <button className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg">
+                          <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
                             <a href="/profile">PROFILE</a>
                           </button>
                           <button
@@ -155,7 +146,7 @@ const NavBar = () => {
                               dispatch(togglerDropDown(isDropDownMenuOpen));
                               dispatch(togglerLoginModal(!isLoginModalOpen));
                             }}
-                            className="block py-4 px-12 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                            className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                           >
                             LOGOUT
                           </button>

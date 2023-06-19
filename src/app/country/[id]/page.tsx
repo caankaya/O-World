@@ -16,23 +16,25 @@ import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
+import { useMediaQuery } from 'react-responsive';
 import AnimatedText from '@/utils/motion';
 
 function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
-
+  const category = useAppSelector((state) => state.graph.category);
+  const infos = useAppSelector((state) => state.infos);
+  const loading = useAppSelector((state) => state.country.loading);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
-  const category = useAppSelector((state) => state.graph.category);
   const data = useAppSelector((state) => state.country.data);
   const radio = useAppSelector((state) => state.infos.radio);
   const insolite = useAppSelector((state) => state.infos.insolite);
   const celebrity = useAppSelector((state) => state.infos.celebrity);
   const infos = useAppSelector((state) => state.infos);
-
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);
+  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const loadingInfos = useAppSelector((state) => state.infos.loading);
   
   useEffect(() => {
@@ -45,18 +47,33 @@ function Country({ params }: { params: { id: string } }) {
     fetchData();
   }, [dispatch, params.id]);
 
-  return countryId === 'PRK' ? (
-    <div
-      className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
-      style={isSideBarOpen ? { width: prkWidth } : {}}
-    >
-      <img
-        src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
-        alt="kim jung un"
-      />
-    </div>
-  ) : (
+  return (
     <>
+      {countryId === 'PRK' ? (
+        <>
+          <div
+            className={`p-8 flex flex-col items-center justify-center w-full gap-5`}
+            style={
+              isSideBarOpen
+                  ? isLargeScreen
+                      ? { width: prkWidth, float: 'right' }
+                      : { width: '100%', float: 'none' }
+                  : {}
+            }
+          >
+            <img
+              src="https://media2.giphy.com/media/xT9IgmYU3ZVaCjGafm/giphy.gif?cid=ecf05e47sk0rk5clzyz4rveyndjqflz9i3xl8ef25nwna67g&ep=v1_gifs_search&rid=giphy.gif"
+              alt="kim jung un"
+            />
+          </div>
+        </>
+      ) : (
+        <>
+      
+          <RestCountriesInfos countryData={data} />
+          <Infos infos={infos} />
+          <GraphCountry category={category} data={data} />
+          
       {loadingCountry ? (
         <SimpleLoader />
       ) : (

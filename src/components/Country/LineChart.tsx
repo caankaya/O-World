@@ -22,6 +22,7 @@ interface LineChartProps {
   category: any;
 }
 
+
 function LineChart({ category }: LineChartProps) {
   if (category && category.population) {
     const population = category.population[0].values;
@@ -39,18 +40,24 @@ function LineChart({ category }: LineChartProps) {
       ],
     };
 
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      aspectRatio: 1.5,
+    };
+
     return (
       <div
         className="LineChart"
         style={{
-          height: '330px',
-          width: '660px',
           display: 'block',
+          height: '50vh',
+          width: '100%',
           margin: 'auto',
           cursor: 'pointer',
         }}
       >
-        <Line data={data} />
+        <Line data={data} options={options} />
       </div>
     );
   }

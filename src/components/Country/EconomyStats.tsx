@@ -42,13 +42,13 @@ function Economy({ category }: EconomyProps) {
         <motion.div 
         variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card
         className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-          <div className="text-xl font-semibold text-center">
+          <div className="text-3xl font-semibold text-center">
             Economy between 2002 - 2022
           </div>
           <div className="divider mt-2"></div>
           <div className="h-full w-full pb-6 bg-base-100">
             <div className="overflow-auto max-h-[400px]">
-              <table className="table w-full">
+              <table className="table w-full text-center">
                 <thead>
                   <tr>
                     <th>Years</th>
@@ -65,7 +65,7 @@ function Economy({ category }: EconomyProps) {
         <motion.div
         variants={fadeIn('up', 'spring', 1 * 0.5, 1)} // index = 1 for second card
         className="card w-full p-6 bg-base-100 shadow-xl mt-6">
-          <div className="text-xl font-semibold text-center">
+          <div className="text-3xl font-semibold text-center">
             Environnement between 2002 - 2022
           </div>
           <div className="divider mt-2"></div>

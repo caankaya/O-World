@@ -110,15 +110,22 @@ function RegisterModal() {
   };
 
   return (
+    <>
+    {isRegisterModalOpen && (
+      <div
+        className="fixed inset-0 bg-black bg-opacity-80 z-0"
+        onClick={handleCloseModal}
+      ></div>
+    )}
     <dialog
-      className={`modal z-[1] ${isSideBarOpen ? 'float-right' : ''}`}
+      className={`modal z-[1]`}
       open={isRegisterModalOpen}
-      style={isSideBarOpen ? { width: RegisterModalWidth } : {}}
+      style={isSideBarOpen ? { width: RegisterModalWidth, float: 'right' } : {}}
     >
       <form
         ref={formRef}
         method="dialog"
-        className="modal-box space-y-4 md:space-y-6 bg-primary-content/50"
+        className="orbitron-font modal-box space-y-4 md:space-y-6 bg-base-100/80"
         action="#"
         onSubmit={handleSubmit}
       >
@@ -258,7 +265,7 @@ function RegisterModal() {
         </div>
         <button
           type="submit"
-          className="w-full text-white bg-primary hover:bg-primary-focus focus:ring-4 focus:outline-none focus:ring-primary-focus font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+          className="w-full text-white border hover:text-xl hover-shadow-neon rounded-lg text-sm px-5 py-2.5 text-center"
         >
           Create an account
         </button>
@@ -280,6 +287,7 @@ function RegisterModal() {
         <button onClick={handleCloseModal}>close</button>
       </form>
     </dialog>
+    </>
   );
 }
 
