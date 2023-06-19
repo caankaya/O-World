@@ -10,6 +10,7 @@ import jwt_decode from 'jwt-decode';
 import { stat } from 'fs';
 import { CountryFavorites } from '@/@types/countryFavorites';
 
+
 interface UserState {
   username: string | null;
   isLogged: boolean;
@@ -23,8 +24,6 @@ interface UserState {
   roles: [];
   rememberMe: boolean;
   infiniteLoading: Boolean;
-  sessionId: number | null;
-  alert: Alert | null;
   favoritesCountries: CountryFavorites[];
 }
 
@@ -152,6 +151,7 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
+      state.username = token.data.username;
       const accessToken: any = jwt_decode(action.payload.accessToken);
       const refreshToken: any = jwt_decode(action.payload.refreshToken);
       state.sessionId = refreshToken.data.id;
@@ -178,9 +178,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.username = null;
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('roles');
+      localStorage.clear();
       state.alert = {
         type: 'success',
         message: 'You are disconnected',

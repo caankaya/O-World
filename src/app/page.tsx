@@ -27,7 +27,6 @@ export default function Home() {
       {loading &&
       typeof localStorage !== 'undefined' &&
       !localStorage.getItem('Hyperspace') ? (
-      {loading ? (
         <HyperspaceEffect />
       ) : (
         <>

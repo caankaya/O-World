@@ -9,6 +9,8 @@ import {
   logout,
   messageUp,
 } from '@/GlobalRedux/store/reducers/user';
+
+import { clearUserAlert, logout } from '@/GlobalRedux/store/reducers/user';
 import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
@@ -32,6 +34,7 @@ const NavBar = () => {
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
+
   const alert = useAppSelector((state) => state.user.alert);
 
   useEffect(() => {
@@ -40,6 +43,34 @@ const NavBar = () => {
       dispatch(getToken(token));
     }
     if (alert) {
+
+  const alertUser = useAppSelector((state) => state.user.alert);
+  const alertStats = useAppSelector((state) => state.stats.alert);
+  const alertFlags = useAppSelector((state) => state.flags.alert);
+  const alertPlanet = useAppSelector((state) => state.planet.alert);
+  const alertCountry = useAppSelector((state) => state.country.alert);
+  const alertGrah = useAppSelector((state) => state.graph.alert);
+
+  useEffect(() => {
+    if (
+      alertUser ||
+      alertStats ||
+      alertPlanet ||
+      alertFlags ||
+      alertCountry ||
+      alertGrah
+    ) {
+
+
+  const alert = useAppSelector((state) => state.user.alert);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      dispatch(getToken(token));
+    }
+    if (alert) {
+
       const timeout = setTimeout(() => {
         dispatch(clearAlert());
       }, 3000);

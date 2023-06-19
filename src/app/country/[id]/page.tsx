@@ -11,6 +11,7 @@ import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
 // Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Components
+import FullPageLoader from '@/components/Loader';
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
@@ -23,12 +24,12 @@ function Country({ params }: { params: { id: string } }) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const prkWidth = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
-
   const category = useAppSelector((state) => state.graph.category);
   const data = useAppSelector((state) => state.country.data);
   const radio = useAppSelector((state) => state.infos.radio);
   const insolite = useAppSelector((state) => state.infos.insolite);
   const celebrity = useAppSelector((state) => state.infos.celebrity);
+  const infos = useAppSelector((state) => state.infos);
 
   const loadingCountry = useAppSelector((state) => state.country.loading);
   const loadingGraph = useAppSelector((state) => state.graph.loading);

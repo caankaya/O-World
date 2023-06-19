@@ -6,6 +6,7 @@ import {
   togglerRegisterModal,
 } from '@/GlobalRedux/store/reducers/home';
 import { login } from '@/GlobalRedux/store/reducers/user';
+import querystring from 'querystring';
 
 function LoginModal() {
   const dispatch = useAppDispatch();
