@@ -5,7 +5,6 @@ import {
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
-import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
 import { CountryFavorites } from '@/@types/countryFavorites';
 
@@ -131,7 +130,6 @@ export const fetchFavoritesCountries = createAsyncThunk(
             };
           }
         );
-
         return transformedData;
       }
     } catch (error: any) {
@@ -140,13 +138,50 @@ export const fetchFavoritesCountries = createAsyncThunk(
   }
 );
 
+export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
+  'user/add-favorite-country',
+  async ({ countryId }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/${localStorage.id}/${countryId}`,
+        {}, // Passer un objet vide en tant que corps de la requête
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const removeFavoriteCountry = createAsyncThunk<
+  any,
+  { countryId: string }
+>('user/remove-favorite-country', async ({ countryId }) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/user/${localStorage.id}/${countryId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+});
+
 //Synchronous actions
-export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
 export const setRememberMe = createAction<boolean>('user/setRememberMe');
-export const isAdmin = createAction<boolean>('user/isAdmin');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -162,7 +197,6 @@ const userReducer = createReducer(initialState, (builder) => {
       const id = accessToken.data.id;
       const username = accessToken.data.username;
       const roles = accessToken.data.roles;
-      console.log(roles);
 
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
@@ -275,6 +309,44 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
+    .addCase(addFavoriteCountry.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(addFavoriteCountry.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Country added to favorites.`,
+      };
+    })
+    .addCase(addFavoriteCountry.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+    })
+
+    .addCase(removeFavoriteCountry.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(removeFavoriteCountry.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Country deleted to favorites.`,
+      };
+    })
+    .addCase(removeFavoriteCountry.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+    })
+
     .addCase(handleError, (state, action) => {
       state.alert = {
         type: 'warning',
@@ -285,10 +357,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(clearUserAlert, (state) => {
       state.alert = null;
     })
-    .addCase(getToken, (state, action) => {
-      state.token = action.payload;
-      state.isLogged = true;
-    })
+
     .addCase(setRememberMe, (state, action) => {
       state.rememberMe = action.payload;
     });

@@ -16,6 +16,7 @@ import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
 import { useMediaQuery } from 'react-responsive';
 import AnimatedText from '@/utils/motion';
+import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
 
 function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
@@ -31,10 +32,14 @@ function Country({ params }: { params: { id: string } }) {
   const loadingGraph = useAppSelector((state) => state.graph.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const loadingInfos = useAppSelector((state) => state.infos.loading);
+  const favoritesCountries = useAppSelector(
+    (state) => state.user.favoritesCountries
+  );
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchRestCountries({ id: params.id }));
+      await dispatch(fetchFavoritesCountries());
       await dispatch(fetchGraph({ id: params.id }));
       await dispatch(fetchRadio({ id: params.id }));
     };
@@ -75,7 +80,11 @@ function Country({ params }: { params: { id: string } }) {
                   Some information about this alien country
                 </p>
               </div>
-              <RestCountriesInfos countryData={data} />
+              <RestCountriesInfos
+                countryData={data}
+                countryId={countryId}
+                favoritesCountries={favoritesCountries}
+              />
             </>
           )}
           {loadingInfos ? (
