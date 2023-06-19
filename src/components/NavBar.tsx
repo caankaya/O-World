@@ -1,13 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+
 import {
   clearAlert,
   getToken,
   logout,
   messageUp,
 } from '@/GlobalRedux/store/reducers/user';
+import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
   togglerLoginModal,
@@ -19,7 +21,6 @@ import AnimatedText from '../utils/motion';
 
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
-import Alert from './Alert';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -46,6 +47,7 @@ const NavBar = () => {
       return () => clearTimeout(timeout);
     }
   }, [alert, dispatch]);
+
 
   return (
     <header
@@ -135,7 +137,6 @@ const NavBar = () => {
             </div>
           </div>
         </nav>
-        {alert && <Alert type={alert.type} message={alert.message} />}
       </div>
     </header>
   );

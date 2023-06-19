@@ -4,19 +4,23 @@ import countryReducer from './reducers/country';
 import statsReducer from './reducers/stats';
 import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
-import earthReducer from './reducers/earth';
+import planetReducer from './reducers/planet';
 import graphReducer from './reducers/graph';
+import flagsReducer from './reducers/flags';
 import infosReducer from './reducers/infos';
+
 
 const store = configureStore({
   reducer: {
-    earth: earthReducer,
+    planet: planetReducer,
     stats: statsReducer,
     country: countryReducer,
     home: homeReducer,
     user: userReducer,
     graph: graphReducer,
+    flags: flagsReducer,
     infos: infosReducer,
+
   },
 });
 

@@ -8,6 +8,7 @@ import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
 import { stat } from 'fs';
+import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface UserState {
   username: string | null;
@@ -21,12 +22,17 @@ interface UserState {
   user: boolean;
   roles: [];
   rememberMe: boolean;
+  infiniteLoading: Boolean;
+  sessionId: number | null;
+  alert: Alert | null;
+  favoritesCountries: CountryFavorites[];
 }
 
 const initialState: UserState = {
   username: null,
   isLogged: false,
   loading: false,
+  infiniteLoading: false,
   alert: null,
   token: '',
   userIp: '',
@@ -35,6 +41,7 @@ const initialState: UserState = {
   user: false,
   roles: [],
   rememberMe: false,
+  favoritesCountries: [],
 };
 
 //Asynchronous actions
@@ -92,10 +99,46 @@ export const accountDeletion = createAsyncThunk(
   }
 );
 
+export const fecthFavoritesCountries = createAsyncThunk(
+  'user/favorites-countries',
+  async (_, { getState }) => {
+    try {
+      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
+      const response = await axiosInstance.get(`/user/${sessionId}`);
+
+      if (
+        response.data[0].favorite_countries.length > 0 &&
+        response.data[0].favorite_countries.some((country: (string | null)[]) =>
+          country.some((value) => value !== null)
+        )
+      ) {
+        //Transforming the format of data received from the API
+        const transformedData = response.data[0].favorite_countries.map(
+          (country: [string, string, string]) => {
+            const [name, cca3, dateTime] = country;
+            const [date, time] = dateTime?.split(' ') ?? ['', ''];
+
+            return {
+              name,
+              cca3,
+              date,
+              time,
+            };
+          }
+        );
+
+        return transformedData;
+      }
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
 //Synchronous actions
 export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
-export const clearAlert = createAction('user/clearAlert');
+export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
 export const setRememberMe = createAction<boolean>('user/setRememberMe');
 export const isAdmin = createAction<boolean>('user/isAdmin');
@@ -161,7 +204,6 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
-      console.log('Error:', action);
     })
 
     .addCase(accountUpdate.pending, (state, action) => {
@@ -181,7 +223,6 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };
-      console.log('Error:', action.error);
     })
 
     .addCase(accountDeletion.pending, (state, action) => {
@@ -206,7 +247,25 @@ const userReducer = createReducer(initialState, (builder) => {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',
       };
-      console.log('Error:', action.error);
+    })
+
+    .addCase(fecthFavoritesCountries.pending, (state, action) => {
+      state.loading = true;
+      state.infiniteLoading = true;
+      state.alert = null;
+    })
+    .addCase(fecthFavoritesCountries.fulfilled, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = false;
+      state.favoritesCountries = action.payload;
+    })
+    .addCase(fecthFavoritesCountries.rejected, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = true;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
     })
 
     .addCase(handleError, (state, action) => {
@@ -215,7 +274,8 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.payload ?? 'Unknown error occurred.',
       };
     })
-    .addCase(clearAlert, (state) => {
+
+    .addCase(clearUserAlert, (state) => {
       state.alert = null;
     })
     .addCase(getToken, (state, action) => {

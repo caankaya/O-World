@@ -1,29 +1,36 @@
-import { createReducer, createAsyncThunk } from '@reduxjs/toolkit';
-import { DataRow } from '@/@types/statsAdmin';
+import {
+  createReducer,
+  createAsyncThunk,
+  createAction,
+} from '@reduxjs/toolkit';
+import { Stats } from '@/@types/statsAdmin';
 import axiosInstance from '@/utils/axios';
 import { Alert } from '@/@types/alert';
 
 interface StatsState {
-  data: DataRow[];
-  flags: DataRow[];
+  stats: Stats[];
   loading: boolean;
+  infiniteLoading: Boolean;
   alert: Alert | null;
 }
 
 const initialState: StatsState = {
-  data: [],
-  flags: [],
+  stats: [],
   loading: false,
+  infiniteLoading: false,
   alert: null,
 };
 
-export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params: Record<string, any> }>(
-  'stats/fetchData',
-  async ({ url, params }) => {
+//Synchronous actions
+export const clearStatsAlert = createAction('stats/clearAlert');
+
+//Asynchronous actions
+export const fetchAdminStatsData = createAsyncThunk(
+  'stats/fetchAdminStatsData',
+  async (_, { getState }) => {
     try {
-      const response = await axiosInstance.get(url, {
-        params,
-        headers: { accept: 'application/json' },
+      const response = await axiosInstance.get('/stats/fetch-stat', {
+        params: { useView: true },
       });
       return response.data;
     } catch (error: any) {
@@ -34,23 +41,27 @@ export const fetchStatsData = createAsyncThunk<DataRow[], { url: string; params:
 
 const statsReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(fetchStatsData.pending, (state) => {
+    .addCase(fetchAdminStatsData.pending, (state) => {
       state.loading = true;
+      state.infiniteLoading = true;
+      state.alert = null;
     })
-    .addCase(fetchStatsData.fulfilled, (state, action) => {
+    .addCase(fetchAdminStatsData.fulfilled, (state, action) => {
       state.loading = false;
-      if (action.meta.arg.url === '/admin/stat') {
-        state.data = action.payload;
-      } else if (action.meta.arg.url === '/oworld/flags') {
-        state.flags = action.payload;
-      }
+      state.infiniteLoading = false;
+      state.stats = action.payload;
     })
-    .addCase(fetchStatsData.rejected, (state, action) => {
+    .addCase(fetchAdminStatsData.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',
       };
+    })
+
+    .addCase(clearStatsAlert, (state) => {
+      state.alert = null;
     });
 });
 
