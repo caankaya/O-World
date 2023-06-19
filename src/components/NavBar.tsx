@@ -1,8 +1,17 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+
+import {
+  clearAlert,
+  getToken,
+  logout,
+  messageUp,
+} from '@/GlobalRedux/store/reducers/user';
+
 import { clearUserAlert, logout } from '@/GlobalRedux/store/reducers/user';
+import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
   togglerLoginModal,
@@ -14,13 +23,8 @@ import AnimatedText from '../utils/motion';
 
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
-import Alert from './Alert';
-import { clearStatsAlert } from '@/GlobalRedux/store/reducers/stats';
-import { clearPlanetAlert } from '@/GlobalRedux/store/reducers/planet';
-import { clearGraphAlert } from '@/GlobalRedux/store/reducers/graph';
-import { clearFlagsAlert } from '@/GlobalRedux/store/reducers/flags';
-import { clearCountryAlert } from '@/GlobalRedux/store/reducers/country';
 import { useMediaQuery } from 'react-responsive';
+
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
@@ -32,42 +36,15 @@ const NavBar = () => {
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-  const alertUser = useAppSelector((state) => state.user.alert);
-  const alertStats = useAppSelector((state) => state.stats.alert);
-  const alertFlags = useAppSelector((state) => state.flags.alert);
-  const alertPlanet = useAppSelector((state) => state.planet.alert);
-  const alertCountry = useAppSelector((state) => state.country.alert);
-  const alertGrah = useAppSelector((state) => state.graph.alert);
+
 
   useEffect(() => {
-    if (
-      alertUser ||
-      alertStats ||
-      alertPlanet ||
-      alertFlags ||
-      alertCountry ||
-      alertGrah
-    ) {
-      const timeout = setTimeout(() => {
-        dispatch(clearUserAlert());
-        dispatch(clearStatsAlert());
-        dispatch(clearPlanetAlert());
-        dispatch(clearGraphAlert());
-        dispatch(clearFlagsAlert());
-        dispatch(clearCountryAlert());
-      }, 3000);
-
-      return () => clearTimeout(timeout);
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      dispatch(getToken(token));
     }
-  }, [
-    alertUser,
-    alertStats,
-    alertPlanet,
-    alertFlags,
-    alertCountry,
-    alertGrah,
-    dispatch,
-  ]);
+  }, [dispatch]);
+
 
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   
@@ -182,24 +159,6 @@ const NavBar = () => {
             </div>
           </div>
         </nav>
-        {alertUser && (
-          <Alert type={alertUser.type} message={alertUser.message} />
-        )}
-        {alertStats && (
-          <Alert type={alertStats.type} message={alertStats.message} />
-        )}
-        {alertPlanet && (
-          <Alert type={alertPlanet.type} message={alertPlanet.message} />
-        )}
-        {alertFlags && (
-          <Alert type={alertFlags.type} message={alertFlags.message} />
-        )}
-        {alertCountry && (
-          <Alert type={alertCountry.type} message={alertCountry.message} />
-        )}
-        {alertGrah && (
-          <Alert type={alertGrah.type} message={alertGrah.message} />
-        )}
       </div>
     </header>
   );

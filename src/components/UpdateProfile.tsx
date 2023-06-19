@@ -1,6 +1,6 @@
 'use client';
 
-import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
+import { useAppDispatch } from '@/GlobalRedux/hooks';
 import {
   accountDeletion,
   accountUpdate,

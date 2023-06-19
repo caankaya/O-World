@@ -11,6 +11,7 @@ import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 import { AdminTable } from '@/components/AdminComponents/AdminTable';
 import SimpleLoader from '@/components/SimpleLoader';
 import { useMediaQuery } from 'react-responsive';
+import AnimatedText from '@/utils/motion';
 
 export default function Page() {
   const dispatch = useAppDispatch();
@@ -37,6 +38,15 @@ export default function Page() {
         <SimpleLoader />
       ) : (
         <>
+          <div className="xl:max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              Administrator statistics
+            </h1>
+            <AnimatedText text="TEAM" />
+            <p className="text-lg md:text-xl text-white font-medium">
+              Some information about OWorld users
+            </p>
+          </div>
           <div
             className="p-4 flex flex-col items-center justify-start min-h-screen"
             style={

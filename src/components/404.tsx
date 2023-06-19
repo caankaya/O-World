@@ -18,5 +18,5 @@ return (
       </div>
     </div>
   </section>
-  );
+);
 }

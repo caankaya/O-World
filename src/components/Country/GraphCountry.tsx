@@ -6,6 +6,7 @@ import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
 import Alert from '../Alert';
 import { useMediaQuery } from 'react-responsive';
+import SimpleLoader from '../SimpleLoader';
 
 interface DetailCountryProps {
   category: CountryCategories[] | any;
@@ -16,7 +17,14 @@ function GraphCountry({ category, data }: DetailCountryProps) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const graphwidth = useAppSelector((state) => state.home.currentWidth);
   const alert = useAppSelector((state) => state.graph.alert);
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.graph.infiniteLoading
+  );
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
+  }
 
   return (
     <section className="p-8 orbitron-font"
@@ -28,10 +36,11 @@ function GraphCountry({ category, data }: DetailCountryProps) {
           : {}
     }
     >
-      {alert && 
-      <div className="px-4 mx-auto w-full">
-      <Alert type={alert.type} message={alert.message} />
-      </div>}
+      {alert && (
+        <div className="px-4 mx-auto w-full">
+          <Alert type={alert.type} message={alert.message} />
+        </div>
+      )}
 
       <LineBarChart category={category} />
       <EconomyStats category={category} />

@@ -2,9 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import AnimatedText, { staggerContainer, fadeIn } from '../utils/motion';
+import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import Alert from './Alert';
 import CardCelebrity from './CardCelebrity';
 import { useMediaQuery } from 'react-responsive';
 
@@ -18,78 +17,74 @@ interface Celebrity {
   age: number;
   is_alive: boolean;
 }
+import { Celebrity, Radio } from '@/@types/infos';
+import SimpleLoader from './SimpleLoader';
 
 interface InfosProps {
-  infos: {
-      radio: {
-          name: string;
-          url: string;
-          url_resolved: string;
-          homepage: string;
-      } | null;
-      insolite: string | null;
-      celebrity: Celebrity[] | null;
-  }
+  radio: Radio;
+  insolite: string;
+  celebrity: Celebrity[];
 }
 
-function Infos({ infos }: InfosProps) {
+function Infos({ radio, insolite, celebrity }: InfosProps) {
   const DetailRadioWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const alert = useAppSelector((state) => state.country.alert);
   const [active, setActive] = useState('1');
   const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>([]);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.infos.infiniteLoading
+  );
 
-  if (!infos) {
-    return (
-      <div className="px-4 mx-auto w-full">
-        {alert && <Alert type={alert.type} message={alert.message} />}
-      </div>
-    );
+
+  if (infiniteLoadingInfos) {
+    return <SimpleLoader />;
   }
-
 
   // Gestion des formats audio
   const determineAudioType = (url: any) => {
-    if (!url) return 'audio/*'; 
-  
+    if (!url) return 'audio/*';
+
     if (url.endsWith('.mp3')) {
-        return 'audio/mpeg';
+      return 'audio/mpeg';
     } else if (url.endsWith('.ogg')) {
-        return 'audio/ogg';
+      return 'audio/ogg';
     } else if (url.endsWith('.wav')) {
-        return 'audio/wav';
+      return 'audio/wav';
     } else if (url.endsWith('.aac')) {
-        return 'audio/aac';
+      return 'audio/aac';
     } else if (url.endsWith('.flac')) {
-        return 'audio/flac';
+      return 'audio/flac';
     } else if (url.endsWith('.webm')) {
-        return 'audio/webm';
+      return 'audio/webm';
     } else if (url.endsWith('.opus')) {
-        return 'audio/opus';
+      return 'audio/opus';
     } else if (url.endsWith('.mp4')) {
-        return 'audio/mp4';
-    } else if (url.endsWith('.audio')) { 
-        return 'audio/mpeg'; 
+      return 'audio/mp4';
+    } else if (url.endsWith('.audio')) {
+      return 'audio/mpeg';
     } else if (url.endsWith('.m3u8')) {
-        return 'application/x-mpegURL';
-  }
+      return 'application/x-mpegURL';
+    }
     return 'audio/*';
   };
 
   useEffect(() => {
-    if (infos && infos.celebrity) {
-      const shuffled = shuffleArray(infos.celebrity);
+    if (celebrity) {
+      const shuffled = shuffleArray(celebrity);
       setShuffledCelebrities(shuffled.slice(0, 4));
     }
-  }, [infos]);
+  }, [celebrity]);
 
   // Function to shuffle an array
   const shuffleArray = (array: Celebrity[]): Celebrity[] => {
     const shuffledArray = [...array];
     for (let i = shuffledArray.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
     }
     return shuffledArray;
   };
@@ -119,16 +114,20 @@ function Infos({ infos }: InfosProps) {
           <div className="stat-value mb-4 whitespace-normal break-words">{infos.radio?.name}</div>
           {infos.radio?.url_resolved && (
               <audio controls>
-                  <source src={infos.radio?.url_resolved} type={determineAudioType(infos.radio?.url_resolved)} />
-                  Votre navigateur ne supporte pas l'élément audio.
+                <source
+                  src={radio?.url_resolved}
+                  type={determineAudioType(radio?.url_resolved)}
+                />
+                Your browser doesn't support audio.
               </audio>
-          )}
-          <div className="stat-actions">
-            <a href={infos.radio?.homepage} target="_blank" className="btn btn-sm">Website</a>
+            )}
+            <div className="stat-actions">
+              <a href={radio?.homepage} target="_blank" className="btn btn-sm">
+                Website
+              </a>
+            </div>
           </div>
-        </div>
-      </motion.div>
-
+        </motion.div>
       <motion.div
         variants={fadeIn('up', 'spring', 1 * 0.5, 1)}
         className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus overflow-auto"
@@ -137,30 +136,20 @@ function Infos({ infos }: InfosProps) {
           <div className="stat-title">Insolite</div>
           <div className="stat-value text-3xl whitespace-normal break-words">{infos.insolite}</div>
         </div>
+
       </motion.div>
 
-    </motion.div>
-
       <div className="container px-4 mx-auto w-full">
-        <div className="xl:max-w-4xl mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
-            Celebrities
-          </h1>
-          <AnimatedText text="TEAM" />
-          <p className="text-lg md:text-xl text-white font-medium">
-            Famous Aliens in their country
-          </p>
-        </div>
         <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
-        {shuffledCelebrities.map((celebrity, index) => (
-          <CardCelebrity
-          key={celebrity.name}
-          {...celebrity}
-          index={index}
-          active={active}
-          handleClick={setActive}
-        />
-        ))}
+          {shuffledCelebrities.map((celebrity, index) => (
+            <CardCelebrity
+              key={celebrity.name}
+              {...celebrity}
+              index={index}
+              active={active}
+              handleClick={setActive}
+            />
+          ))}
         </div>
       </div>
     </section>

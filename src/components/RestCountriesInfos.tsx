@@ -9,6 +9,8 @@ import { staggerContainer, fadeIn } from '../utils/motion';
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import { useMediaQuery } from 'react-responsive';
+=======
+import SimpleLoader from './SimpleLoader';
 
 function RestCountriesInfos({
   countryData,
@@ -18,9 +20,12 @@ function RestCountriesInfos({
   const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.country.infiniteLoading
+  );
 
-  if (!countryData) {
-    return;
+  if (infiniteLoadingInfos || !countryData) {
+    return <SimpleLoader />;
   }
 
   return (

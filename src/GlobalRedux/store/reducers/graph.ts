@@ -1,6 +1,5 @@
 import { CountryCategories } from '@/@types/countryCategories';
 
-import { CountriesDataProps } from '../../../@types/countryData';
 import {
   createAction,
   createAsyncThunk,
@@ -13,12 +12,14 @@ import { Alert } from '@/@types/alert';
 interface CountryState {
   category: CountryCategories[];
   loading: boolean;
+  infiniteLoading: Boolean;
   alert: Alert | null;
 }
 
 const initialState: CountryState = {
   category: [],
   loading: false,
+  infiniteLoading: false,
   alert: null,
 };
 
@@ -42,14 +43,17 @@ const graphReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchGraph.pending, (state) => {
       state.loading = true;
+      state.infiniteLoading = true;
       state.alert = null;
     })
     .addCase(fetchGraph.fulfilled, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = false;
       state.category = action.payload.data;
     })
     .addCase(fetchGraph.rejected, (state, action) => {
       state.loading = false;
+      state.infiniteLoading = true;
       state.alert = {
         type: 'error',
         message: action.error.message || 'Unknown error occurred.',

@@ -20,6 +20,22 @@ function SideBar() {
     }
   }, [isLargeScreen, isSideBarOpen, dispatch]);
 
+import { isAdmin } from '@/GlobalRedux/store/reducers/user';
+
+function SideBar() {
+  const dispatch = useAppDispatch();
+  const sideBar = useAppSelector((state) => state.home.sideBar);
+  const user = useAppSelector((state) => state.user.isLogged);
+  const username = useAppSelector((state) => state.user.username);
+  const data = useAppSelector((state) => state.country.data);
+  const admin = useAppSelector((state) => state.user.admin);
+  if (
+    typeof localStorage !== 'undefined' &&
+    localStorage.roles &&
+    localStorage.roles.includes('Admin')
+  ) {
+    dispatch(isAdmin(true));
+  }
   return (
     <>
       <aside
@@ -133,12 +149,12 @@ function SideBar() {
           {/* Si Utilisateur est connecté */}
           {user && username && (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                Hi{' '}
-                {username.charAt(0).toUpperCase() +
-                  username.slice(1).toLowerCase()}
-              </span>
               <li>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                  Hi{' '}
+                  {username.charAt(0).toUpperCase() +
+                    username.slice(1).toLowerCase()}
+                </span>
                 <a
                   href={`/profile`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
@@ -148,13 +164,12 @@ function SideBar() {
               </li>
             </ul>
           )}
-          {typeof window !== 'undefined' &&
-          sessionStorage.userType === 'Admin' ? (
+          {admin && (
             <ul className="mt-5">
-              <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
-                Admin
-              </span>
               <li>
+                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                  Admin
+                </span>
                 <a
                   href={`/admin`}
                   className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
@@ -163,7 +178,7 @@ function SideBar() {
                 </a>
               </li>
             </ul>
-          ) : null}
+          )}
         </div>
       </aside>
     </>

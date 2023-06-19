@@ -7,11 +7,20 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { Earth } from '@/@types/planetDatas';
 import { useMediaQuery } from 'react-responsive';
+import SimpleLoader from './SimpleLoader';
 
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
   const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
+  const infiniteLoadingInfos = useAppSelector(
+    (state) => state.planet.infiniteLoading
+  );
+
+  if (infiniteLoadingInfos || Object.keys(earthData).length === 0) {
+    return <SimpleLoader />;
+  }
 
   const parseValue = (valueString: string) => {
     // billions
