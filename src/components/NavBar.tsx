@@ -1,17 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 
-import {
-  clearAlert,
-  getToken,
-  logout,
-  messageUp,
-} from '@/GlobalRedux/store/reducers/user';
-
-import { clearUserAlert, logout } from '@/GlobalRedux/store/reducers/user';
-import { logout } from '@/GlobalRedux/store/reducers/user';
+import { getToken, logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
   togglerLoginModal,
@@ -25,7 +17,6 @@ import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import { useMediaQuery } from 'react-responsive';
 
-
 const NavBar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.isLogged);
@@ -37,7 +28,6 @@ const NavBar = () => {
     (state) => state.home.registerModal
   );
 
-
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
@@ -45,9 +35,8 @@ const NavBar = () => {
     }
   }, [dispatch]);
 
-
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-  
+
   useEffect(() => {
     if (!isLargeScreen && isSideBarOpen) {
       dispatch(togglerSideBar(isSideBarOpen));
@@ -59,10 +48,10 @@ const NavBar = () => {
       className="navbar bg-base-100 z-10 bg-transparent flex items-center justify-between"
       style={
         isSideBarOpen
-            ? isLargeScreen
-                ? { width: navBarWidth, float: 'right' }
-                : { width: navBarWidth, float: 'right' }
-            : {}
+          ? isLargeScreen
+            ? { width: navBarWidth, float: 'right' }
+            : { width: navBarWidth, float: 'right' }
+          : {}
       }
     >
       <div className="navbar-container w-full">
@@ -70,23 +59,29 @@ const NavBar = () => {
           className={`navbar bg-base-100 z-[1] bg-transparent flex items-center justify-between w-full`}
         >
           <div className="relative inline-block text-center">
-          <button
-            type="button"
-            className="focus:outline-none"
-            onClick={() => {
-              dispatch(togglerSideBar(!isSideBarOpen));
-            }}
-          >
-            <span
-              className={`block h-1 w-6 bg-info-content rounded-full transition-all duration-1000 transform ${isSideBarOpen ? "rotate-45 translate-y-2" : ""}`}
-            />
-            <span
-              className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 ${isSideBarOpen ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 transform ${isSideBarOpen ? "-rotate-45 -translate-y-2" : ""}`}
-            />
-          </button>
+            <button
+              type="button"
+              className="focus:outline-none"
+              onClick={() => {
+                dispatch(togglerSideBar(!isSideBarOpen));
+              }}
+            >
+              <span
+                className={`block h-1 w-6 bg-info-content rounded-full transition-all duration-1000 transform ${
+                  isSideBarOpen ? 'rotate-45 translate-y-2' : ''
+                }`}
+              />
+              <span
+                className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 ${
+                  isSideBarOpen ? 'opacity-0' : ''
+                }`}
+              />
+              <span
+                className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 transform ${
+                  isSideBarOpen ? '-rotate-45 -translate-y-2' : ''
+                }`}
+              />
+            </button>
           </div>
           <div className="hidden md:block w-full text-center">
             <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
@@ -112,7 +107,6 @@ const NavBar = () => {
                             className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
                             onClick={() => {
                               dispatch(togglerLoginModal(isLoginModalOpen));
-                              
                             }}
                           >
                             LOGIN

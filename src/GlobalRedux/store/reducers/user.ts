@@ -7,9 +7,7 @@ import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
 import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
-import { stat } from 'fs';
 import { CountryFavorites } from '@/@types/countryFavorites';
-
 
 interface UserState {
   username: string | null;
@@ -19,25 +17,21 @@ interface UserState {
   token: string;
   userIp: string;
   sessionId: number | null;
-  admin: boolean;
-  user: boolean;
-  roles: [];
+  roles: string[];
   rememberMe: boolean;
   infiniteLoading: Boolean;
   favoritesCountries: CountryFavorites[];
 }
 
 const initialState: UserState = {
-  username: null,
+  username: '',
   isLogged: false,
   loading: false,
   infiniteLoading: false,
   alert: null,
   token: '',
   userIp: '',
-  admin: false,
   sessionId: null,
-  user: false,
   roles: [],
   rememberMe: false,
   favoritesCountries: [],
@@ -98,7 +92,7 @@ export const accountDeletion = createAsyncThunk(
   }
 );
 
-export const fecthFavoritesCountries = createAsyncThunk(
+export const fetchFavoritesCountries = createAsyncThunk(
   'user/favorites-countries',
   async (_, { getState }) => {
     try {
@@ -151,15 +145,16 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
-      state.username = token.data.username;
       const accessToken: any = jwt_decode(action.payload.accessToken);
       const refreshToken: any = jwt_decode(action.payload.refreshToken);
       state.sessionId = refreshToken.data.id;
-      state.username = accessToken.data.username;
-      state.roles = accessToken.data.roles;
-      localStorage.setItem('roles', JSON.stringify(state.roles));
-      localStorage.setItem('accessToken', action.payload.accessToken);
-      localStorage.setItem('refreshToken', action.payload.refreshToken);
+      const username = accessToken.data.username;
+      const roles = accessToken.data.roles;
+
+      localStorage.setItem('roles', roles);
+      localStorage.setItem('username', username);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('refreshToken', refreshToken);
 
       state.alert = {
         type: 'success',
@@ -247,17 +242,17 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    .addCase(fecthFavoritesCountries.pending, (state, action) => {
+    .addCase(fetchFavoritesCountries.pending, (state, action) => {
       state.loading = true;
       state.infiniteLoading = true;
       state.alert = null;
     })
-    .addCase(fecthFavoritesCountries.fulfilled, (state, action) => {
+    .addCase(fetchFavoritesCountries.fulfilled, (state, action) => {
       state.loading = false;
       state.infiniteLoading = false;
       state.favoritesCountries = action.payload;
     })
-    .addCase(fecthFavoritesCountries.rejected, (state, action) => {
+    .addCase(fetchFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
       state.infiniteLoading = true;
       state.alert = {
@@ -282,9 +277,6 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(setRememberMe, (state, action) => {
       state.rememberMe = action.payload;
-    })
-    .addCase(isAdmin, (state, action) => {
-      state.admin = action.payload;
     });
 });
 

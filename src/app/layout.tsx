@@ -41,7 +41,7 @@ export default function RootLayout({
           <SideBar />
           {children}
           <Footer />
-          {/* <StarsCanvas /> */}
+          <StarsCanvas />
         </Providers>
       </body>
     </html>

@@ -24,14 +24,10 @@ export default function Home() {
   }, [dispatch]);
   return (
     <>
-      {loading &&
-      typeof localStorage !== 'undefined' &&
-      !localStorage.getItem('Hyperspace') ? (
+      {loading && !localStorage.getItem('Hyperspace') ? (
         <HyperspaceEffect />
       ) : (
-        <>
-          <WorldMap />
-        </>
+        <WorldMap />
       )}
     </>
   );

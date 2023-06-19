@@ -9,7 +9,6 @@ import graphReducer from './reducers/graph';
 import flagsReducer from './reducers/flags';
 import infosReducer from './reducers/infos';
 
-
 const store = configureStore({
   reducer: {
     planet: planetReducer,
@@ -20,8 +19,11 @@ const store = configureStore({
     graph: graphReducer,
     flags: flagsReducer,
     infos: infosReducer,
-
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false, // Désactive la vérification de sérialisation par défaut
+    }),
 });
 
 export default store;

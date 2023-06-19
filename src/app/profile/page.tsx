@@ -1,15 +1,11 @@
 'use client';
 
-// React Hooks
 import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
-// Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-// Reducer Actions
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
-import { fecthFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
 import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
-// Components
+import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
 import UpdateProfile from '@/components/UpdateProfile';
 import UserFavorites from '@/components/UserFavorites';
 import SimpleLoader from '@/components/SimpleLoader';
@@ -17,7 +13,7 @@ import AnimatedText from '@/utils/motion';
 
 export default function Page() {
   const dispatch = useAppDispatch();
-  const ProfileWidth = useAppSelector((state) => state.home.currentWidth);
+  const profileWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const favoritesCountries = useAppSelector(
     (state) => state.user.favoritesCountries
@@ -29,18 +25,18 @@ export default function Page() {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fecthFavoritesCountries());
+      await dispatch(fetchFavoritesCountries());
       await dispatch(fetchFlagsData());
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
-    }, 3000); // 3 secondes de délai
+    }, 3000);
 
-    return () => clearTimeout(timer); // Efface le timer si le composant est démonté
+    return () => clearTimeout(timer);
   }, [dispatch]);
 
   return (
@@ -50,31 +46,32 @@ export default function Page() {
         style={
           isSideBarOpen
             ? isLargeScreen
-              ? { width: ProfileWidth, float: 'right' }
+              ? { width: profileWidth, float: 'right' }
               : { width: '100%', float: 'none' }
             : {}
         }
       >
-      <UpdateProfile />
-      {loadingFavorites || loadingFlags ? (
-        <SimpleLoader />
-      ) : (
-        <>
-          <div className="xl:max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
-              Favorite alien countries
-            </h1>
-            <AnimatedText text="TEAM" />
-            <p className="text-lg md:text-xl text-white font-medium">
-              Find your favorite countries
-            </p>
-          </div>
-          <UserFavorites
-            favoritesCountries={favoritesCountries}
-            flags={flags}
-          />
-        </>
-      )}
+        <UpdateProfile />
+        {loadingFavorites || loadingFlags ? (
+          <SimpleLoader />
+        ) : (
+          <>
+            <div className="xl:max-w-4xl mx-auto text-center">
+              <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+                Favorite alien countries
+              </h1>
+              <AnimatedText text="TEAM" />
+              <p className="text-lg md:text-xl text-white font-medium">
+                Find your favorite countries
+              </p>
+            </div>
+            <UserFavorites
+              favoritesCountries={favoritesCountries}
+              flags={flags}
+            />
+          </>
+        )}
+      </div>
     </>
   );
 }
