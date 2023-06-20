@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 
 import { logout } from '@/GlobalRedux/store/reducers/user';
@@ -12,7 +12,6 @@ import {
 } from '@/GlobalRedux/store/reducers/home';
 
 import AnimatedText from '../utils/motion';
-
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import { useMediaQuery } from 'react-responsive';
@@ -27,7 +26,7 @@ const NavBar = () => {
     (state) => state.home.registerModal
   );
   const isLogged = useAppSelector((state) => state.user.isLogged);
-
+  const [isClient, setIsClient] = useState(false);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
@@ -35,6 +34,10 @@ const NavBar = () => {
       dispatch(togglerSideBar(isSideBarOpen));
     }
   }, [isLargeScreen, isSideBarOpen, dispatch]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <header
@@ -77,11 +80,11 @@ const NavBar = () => {
             </button>
           </div>
           <div className="hidden md:block w-full text-center">
-            <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
+            <AnimatedText text="planet earth, cradle of humanity" />
           </div>
+          
           <div className="flex-none">
-            {isLogged && <div className="avatar m-2 online" />}
-            {!isLogged && <div className="avatar m-2 offline" />}
+          <div className={`avatar ${isClient ? (isLogged ? 'online' : 'offline') : ''}`}>
             <button
               className="w-12 rounded-full cursor-pointer"
               onClick={() => {
@@ -91,6 +94,7 @@ const NavBar = () => {
             >
               <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
             </button>
+
             {isDropDownMenuOpen && (
               <div className="absolute right-0 top-16">
                 <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
@@ -142,6 +146,7 @@ const NavBar = () => {
                 </div>
               </div>
             )}
+            </div>
           </div>
         </nav>
       </div>
