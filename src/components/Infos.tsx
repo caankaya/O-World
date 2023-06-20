@@ -3,8 +3,9 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
 import CardCelebrity from './CardCelebrity';
-import { useMediaQuery } from 'react-responsive';
 import { Celebrity, Radio } from '@/@types/infos';
+import axios from 'axios';
+
 import SimpleLoader from './SimpleLoader';
 
 interface InfosProps {
@@ -14,16 +15,11 @@ interface InfosProps {
 }
 
 function Infos({ radio, insolite, celebrity }: InfosProps) {
-  const DetailRadioWidth = useAppSelector((state) => state.home.currentWidth);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [active, setActive] = useState('1');
-  const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>(
-    []
-  );
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-  const infiniteLoadingInfos = useAppSelector(
-    (state) => state.infos.infiniteLoading
-  );
+  const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>([]);
+  const infiniteLoadingInfos = useAppSelector((state) => state.infos.infiniteLoading);
+  const [insoliteTranslated, setInsoliteTranslated] = useState('');
+  const [isTranslating, setIsTranslating] = useState(true);
 
   if (infiniteLoadingInfos) {
     return <SimpleLoader />;
@@ -75,16 +71,38 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
     return shuffledArray;
   };
 
+  useEffect(() => {
+    const translateAnecdote = async () => {
+      if (insolite) {
+        setIsTranslating(true); // Définir que la traduction est en cours
+        try {
+          const response = await axios.post('https://rapid-translate-multi-traduction.p.rapidapi.com/t', {
+            from: 'fr',
+            to: 'en',
+            q: insolite,
+          }, {
+            headers: {
+              'Content-Type': 'application/json',
+              'X-RapidAPI-Key': 'ab0f032a10msh2d1ac46575f4090p132325jsn5cd7d500e1e8',
+              'X-RapidAPI-Host': 'rapid-translate-multi-traduction.p.rapidapi.com'
+            },
+          });
+
+          setInsoliteTranslated(response.data); // Assurez-vous que l'API renvoie directement le texte traduit sans avoir besoin de récupérer une propriété spécifique
+          setIsTranslating(false); // Définir que la traduction est terminée
+        } catch (error) {
+          console.error('Failed to translate anecdote:', error);
+          setIsTranslating(false); // Définir que la traduction est terminée même en cas d'erreur
+        }
+      }
+    };
+
+    translateAnecdote();
+  }, [insolite]);
+
   return (
     <section
       className={`p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font`}
-      style={
-        isSideBarOpen
-          ? isLargeScreen
-            ? { width: DetailRadioWidth, float: 'right' }
-            : { width: '100%', float: 'none' }
-          : {}
-      }
     >
       <motion.div
         variants={staggerContainer(0.1, 0.2)}
@@ -93,6 +111,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
         viewport={{ once: false, amount: 0.25 }}
         className="flex flex-col items-center justify-center w-full gap-5"
       >
+
         <motion.div
           variants={fadeIn('up', 'spring', 0 * 1, 1)}
           className="stats stats-vertical lg:stats-horizontal shadow w-full bg-secondary-focus mb-4 overflow-auto"
@@ -102,7 +121,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             <div className="stat-value mb-4 whitespace-normal break-words">
               {radio?.name}
             </div>
-            {radio?.url_resolved && (
+            {radio?.url_resolved ? (
               <audio controls>
                 <source
                   src={radio?.url_resolved}
@@ -110,6 +129,8 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
                 />
                 Your browser doesn't support audio.
               </audio>
+            ) : (
+              <div className="text-white font-bold">No radio URL available for this Country.</div>
             )}
             <div className="stat-actions">
               <a href={radio?.homepage} target="_blank" className="btn btn-sm">
@@ -118,18 +139,29 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             </div>
           </div>
         </motion.div>
+
         <motion.div
           variants={fadeIn('up', 'spring', 1 * 0.5, 1)}
           className="stats stats-vertical lg:stats-horizontal shadow w-full bg-accent-focus overflow-auto"
         >
           <div className="stat">
-            <div className="stat-title">Insolite</div>
+            <div className="stat-title">Anecdote</div>
             <div className="stat-value text-3xl whitespace-normal break-words">
-              {insolite}
+              {isTranslating ? (
+                <div className="text-white font-bold">Translating...</div> // Texte ou loader pendant que la traduction est en cours
+                ) : insoliteTranslated ? (
+                  insoliteTranslated
+                ) : (
+                  <div className="text-white font-bold">No anecdote available for this Country.</div>
+                )}
             </div>
           </div>
         </motion.div>
-        <div className="container px-4 mx-auto w-full">
+
+        <div id="celebrities" className="container px-4 mx-auto w-full text-center">
+          <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+            Celebrities
+          </h2>
           <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
             {shuffledCelebrities.map((celebrity, index) => (
               <CardCelebrity
@@ -142,6 +174,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             ))}
           </div>
         </div>
+
       </motion.div>
     </section>
   );

@@ -61,19 +61,8 @@ const EarthInfos = ({ earthData }: { earthData: Earth }) => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: false, amount: 0.25 }}
-      className="p-8 flex flex-col items-center justify-center w-full gap-5"
-      style={
-        isSideBarOpen
-          ? isLargeScreen
-            ? { width: DetailEarthWidth, float: 'right' }
-            : { width: '100%', float: 'none' }
-          : {}
-      }
+      className="orbitron-font flex flex-col items-center justify-center w-full gap-5"
     >
-      <h1 className="alien-font text-center font-extrabold text-4xl tracking-wider shadow-neon">
-        {earthData.name}
-      </h1>
-
       <div className="flex w-full">
         <motion.div
           variants={fadeIn('up', 'spring', 0 * 0.5, 1)} // index = 0 for first card

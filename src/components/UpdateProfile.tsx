@@ -65,7 +65,7 @@ function UpdateProfile() {
     <form
       ref={newformRef}
       method=""
-      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow flex flex-col gap-5 w-3/5"
+      className="w-full p-8 bg-base-100 rounded-lg shadow flex flex-col gap-5"
       action="#"
       onSubmit={handleSubmit}
     >
@@ -154,7 +154,7 @@ function UpdateProfile() {
 
       <button
         type="submit"
-        className="w-full text-white bg-primary hover:bg-primary-focus focus:ring-4 focus:outline-none focus:ring-primary-focus font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        className="w-full text-white border hover:text-xl hover-shadow-neon rounded-lg text-sm px-5 py-2.5 text-center"
       >
         Update account
       </button>
