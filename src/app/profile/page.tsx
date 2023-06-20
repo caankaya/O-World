@@ -42,7 +42,7 @@ export default function Page() {
   return (
     <>
       <div
-        className="p-4 flex items-center justify-center gap-16"
+        className="p-8 flex flex-col items-center justify-start min-h-screen orbitron-font gap-5"
         style={
           isSideBarOpen
             ? isLargeScreen
@@ -51,13 +51,19 @@ export default function Page() {
             : {}
         }
       >
+        <div className="xl:max-w-4xl mx-auto text-center">
+          <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+            Username
+          </h1>
+          <AnimatedText text="TEAM" />
+        </div>
         <UpdateProfile />
         {loadingFavorites || loadingFlags ? (
           <SimpleLoader />
         ) : (
           <>
             <div className="xl:max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
                 Favorite alien countries
               </h1>
               <AnimatedText text="TEAM" />
