@@ -13,9 +13,7 @@ export const AdminTable = ({ stats, flags }: AdminTableProps) => {
   // Introduire de nouvelles variables d'état pour la pagination
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
-  const infiniteLoadingInfos = useAppSelector(
-    (state) => state.stats.infiniteLoading
-  );
+  const infiniteLoadingInfos = useAppSelector((state) => state.stats.infiniteLoading);
 
   if (infiniteLoadingInfos) {
     return <SimpleLoader />;
