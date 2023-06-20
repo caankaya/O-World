@@ -114,3 +114,22 @@ body {
     opacity: 0;
   }
 }
+
+
+/* SideBar.css */
+.sidebar-scrollbar {
+  overflow-y: auto;
+}
+
+.sidebar-scrollbar::-webkit-scrollbar {
+  width: 3px; /* Largeur de la barre de défilement */
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-track {
+  background: transparent; /* Couleur de l'arrière-plan de la barre de défilement */
+}
+
+.sidebar-scrollbar::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #AE67FA, #67B2FA); /* Gradient de couleur */
+  border-radius: 20px; /* Arrondir les coins de la barre de défilement */
+}
