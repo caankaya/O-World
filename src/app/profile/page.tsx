@@ -1,11 +1,13 @@
 'use client';
-
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
+import { handleError } from '@/GlobalRedux/store/reducers/user';
+
 import UpdateProfile from '@/components/UpdateProfile';
 import UserFavorites from '@/components/UserFavorites';
 import SimpleLoader from '@/components/SimpleLoader';
@@ -13,6 +15,7 @@ import AnimatedText from '@/utils/motion';
 
 export default function Page() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const profileWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const favoritesCountries = useAppSelector(
@@ -22,6 +25,25 @@ export default function Page() {
   const loadingFavorites = useAppSelector((state) => state.user.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const roles = useAppSelector((state) => state.user.roles);
+
+
+  useEffect(() => {
+    if (!isLogged || !roles.includes('User')) {
+      router.push('/');
+      dispatch(
+        handleError(
+          'You are not authorized to view this page.'
+        )
+      );
+    }
+  }, [isLogged, roles, router, dispatch]);
+  
+  if (!isLogged || !roles.includes('User')) {
+    return; 
+  }
 
   useEffect(() => {
     const fetchData = async () => {

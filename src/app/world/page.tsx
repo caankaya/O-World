@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { fetchEarthData } from '@/GlobalRedux/store/reducers/planet';
-
 // Components
 import EarthInfos from '@/components/EarthInfos';
 import SimpleLoader from '@/components/SimpleLoader';

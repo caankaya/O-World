@@ -1,19 +1,16 @@
 'use client';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
 import CountUp from 'react-countup';
+import { useAppSelector } from '@/GlobalRedux/hooks';
+import { Earth } from '@/@types/planetDatas';
 
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
-import { Earth } from '@/@types/planetDatas';
-import { useMediaQuery } from 'react-responsive';
+
 import SimpleLoader from './SimpleLoader';
+import WorldLineChart from './WorldGraphiques/WorldLineChart';
 
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
-  const DetailEarthWidth = useAppSelector((state) => state.home.currentWidth);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.planet.infiniteLoading
   );
@@ -242,20 +239,10 @@ const EarthInfos = ({ earthData }: { earthData: Earth }) => {
       >
         <div className="stat">
           <div className="stat-title">Population Data</div>
-          <ul>
-            {(
-              Object.entries(earthData.dataCategory.population) as [
-                string,
-                number
-              ][]
-            ).map(([year, population]) => (
-              <li key={year}>
-                {year}: {population.toLocaleString()}
-              </li>
-            ))}
-          </ul>
+          <WorldLineChart population={earthData.dataCategory.population} />
         </div>
       </motion.div>
+
     </motion.div>
   );
 };

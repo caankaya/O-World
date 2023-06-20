@@ -4,12 +4,11 @@
 import { useEffect } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-// Reducer Actions
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
 // Components
-import HyperspaceEffect from '@/components/HyperspaceEffect';
 import WorldMap from '@/components/WorldMap';
 import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
+import HyperspaceEffect from '@/components/HyperspaceEffect';
+import { setLoading } from '@/GlobalRedux/store/reducers/home';
 
 export default function Home() {
   const dispatch = useAppDispatch();
@@ -25,21 +24,22 @@ export default function Home() {
     }
   }, [dispatch, isLogged]);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     dispatch(setLoading(false));
-  //     localStorage.setItem('Hyperspace', 'true');
-  //   }, 3000);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setLoading(false));
+      localStorage.setItem('Hyperspace', 'true');
+    }, 3000);
 
-  //   return () => clearTimeout(timer);
-  // }, [dispatch]);
+    return () => clearTimeout(timer);
+  }, [dispatch]);
+
   return (
     <>
-      {/* {loading && !localStorage.getItem('Hyperspace') ? (
+      {loading && !localStorage.getItem('Hyperspace') ? (
         <HyperspaceEffect />
-      ) : ( */}
+      ) : (
       <WorldMap favoritesCountries={favoritesCountries} isLogged={isLogged} />
-      {/* )} */}
+      )}
     </>
   );
 }

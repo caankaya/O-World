@@ -1,10 +1,10 @@
 import { CountryCategories } from '@/@types/countryCategories';
 
-import LineChart from './LineChart';
-import BarChart from './BarChart';
-
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../../utils/motion';
+
+import LineChart from './LineChart';
+import BarChart from './BarChart';
 
 interface BarChartProps {
   category: CountryCategories[];
