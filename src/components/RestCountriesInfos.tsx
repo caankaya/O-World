@@ -5,14 +5,8 @@ import CountUp from 'react-countup';
 
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
-
 import { CountriesDataProps } from '@/@types/countryData';
-
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { useMediaQuery } from 'react-responsive';
-
-import { useAppSelector } from '@/GlobalRedux/hooks';
-
 import SimpleLoader from './SimpleLoader';
 import {
   addFavoriteCountry,
@@ -33,9 +27,6 @@ function RestCountriesInfos({
   favoritesCountries,
 }: RestCountriesInfosProps) {
   const dispatch = useAppDispatch();
-  const DetailCountryWidth = useAppSelector((state) => state.home.currentWidth);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.country.infiniteLoading
