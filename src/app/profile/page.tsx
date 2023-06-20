@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
 import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
+
 import UpdateProfile from '@/components/UpdateProfile';
 import UserFavorites from '@/components/UserFavorites';
 import SimpleLoader from '@/components/SimpleLoader';

@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 
 import SimpleLoader from './SimpleLoader';
+import WorldLineChart from './WorldGraphiques/WorldLineChart';
 
 const EarthInfos = ({ earthData }: { earthData: Earth }) => {
   const infiniteLoadingInfos = useAppSelector(
@@ -238,20 +239,10 @@ const EarthInfos = ({ earthData }: { earthData: Earth }) => {
       >
         <div className="stat">
           <div className="stat-title">Population Data</div>
-          <ul>
-            {(
-              Object.entries(earthData.dataCategory.population) as [
-                string,
-                number
-              ][]
-            ).map(([year, population]) => (
-              <li key={year}>
-                {year}: {population.toLocaleString()}
-              </li>
-            ))}
-          </ul>
+          <WorldLineChart population={earthData.dataCategory.population} />
         </div>
       </motion.div>
+
     </motion.div>
   );
 };

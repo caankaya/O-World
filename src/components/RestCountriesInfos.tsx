@@ -7,7 +7,6 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { CountriesDataProps } from '@/@types/countryData';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { useMediaQuery } from 'react-responsive';
 
 import SimpleLoader from './SimpleLoader';
 import {

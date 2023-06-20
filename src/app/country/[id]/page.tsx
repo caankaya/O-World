@@ -2,23 +2,19 @@
 
 // React Hooks
 import { useEffect } from 'react';
+import { useMediaQuery } from 'react-responsive';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Actions
 import { fetchRestCountries } from '@/GlobalRedux/store/reducers/country';
 import { fetchGraph } from '@/GlobalRedux/store/reducers/graph';
 import { fetchRadio } from '@/GlobalRedux/store/reducers/infos';
-
+import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
 // Components
 import RestCountriesInfos from '@/components/RestCountriesInfos';
 import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
-import { useMediaQuery } from 'react-responsive';
-
-import AnimatedText from '@/utils/motion';
-import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
-
 
 function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
