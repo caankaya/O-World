@@ -39,7 +39,13 @@ const NavBar = () => {
   return (
     <header
       className="navbar bg-base-100 z-10 bg-transparent flex items-center justify-between"
-      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
+      style={
+        isSideBarOpen
+          ? isLargeScreen
+            ? { width: navBarWidth, float: 'right' }
+            : { width: navBarWidth, float: 'right' }
+          : {}
+      }
     >
       <div className="navbar-container w-full">
         <nav

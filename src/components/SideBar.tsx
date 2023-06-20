@@ -315,7 +315,7 @@ function SideBar() {
             <div className="space-y-2 font-medium mt-10 mb-10">
               <div className="flex items-center justify-between">
                 <h2 className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
-                  Country
+                  COUNTRY
                 </h2>
                 <span
                   onClick={() => setIsCountryOpen(!isCountryOpen)}
