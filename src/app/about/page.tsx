@@ -7,6 +7,11 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 import AnimatedText from '@/utils/motion';
 import CardProfil from '@/components/CardProfil';
 import { useMediaQuery } from 'react-responsive';
+import Footer from '@/components/Footer';
+import StarsCanvas from '@/components/Stars';
+import NavBar from '@/components/NavBar';
+import Toast from '@/components/Toast';
+import SideBar from '@/components/SideBar';
 
 export default function Page() {
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);

@@ -1,7 +1,8 @@
 'use client';
 
 // React Hooks
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 // Redux Hooks
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 // Reducer Action
@@ -12,9 +13,11 @@ import { AdminTable } from '@/components/AdminComponents/AdminTable';
 import SimpleLoader from '@/components/SimpleLoader';
 import { useMediaQuery } from 'react-responsive';
 import AnimatedText from '@/utils/motion';
+import { handleError } from '@/GlobalRedux/store/reducers/user';
 
 export default function Page() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const AdminWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const stats = useAppSelector((state) => state.stats.stats);
@@ -22,7 +25,26 @@ export default function Page() {
   const loadingStats = useAppSelector((state) => state.stats.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const roles = useAppSelector((state) => state.user.roles);
+  
+  
+  useEffect(() => {
+    if (!isLogged || !roles.includes('Admin')) {
+      router.push('/');
+      dispatch(
+        handleError(
+          'You are not authorized to view this page.'
+        )
+      );
+    }
+    return; 
+  }, [isLogged, roles, router, dispatch]);
+  
+  if (!isLogged || !roles.includes('Admin')) {
+    return; 
+  }
+  
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchAdminStatsData());
@@ -31,6 +53,7 @@ export default function Page() {
 
     fetchData();
   }, [dispatch]);
+
 
   return (
     <>
