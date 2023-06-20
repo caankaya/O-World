@@ -8,7 +8,7 @@ const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, gitUrl, activeImgUr
     variants={fadeIn('right', 'spring', index * 0.5, 0.75)}
     className={`relative ${
         active === id.toString() ? 'lg:flex-[3.5] flex-[10]' : 'lg:flex-[0.5] flex-[2]'
-    } flex items-center justify-center min-w-[200px] h-[700px] transition-[flex] duration-[0.7s] ease-out-flex cursor-pointer`}
+    } flex items-center justify-center min-w-[200px] h-[600px] transition-[flex] duration-[0.7s] ease-out-flex cursor-pointer`}
     onClick={() => handleClick(id.toString())}
   >
     <img
@@ -21,7 +21,7 @@ const CardProfil: React.FC<CardProfilProps> = ({ id, imgUrl, gitUrl, activeImgUr
         {title}
       </h3>
     ) : (
-      <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-[rgba(0,0,0,0.5)] rounded-b-[24px]">
+      <div className="absolute bottom-0 p-8 flex justify-start w-full flex-col bg-[rgba(0,0,0,0.8)] rounded-b-[24px]">
         <div className={`flex justify-center items-center w-[60px] h-[60px] rounded-[24px] glassmorphism mb-[16px]`}>
           <a href={gitUrl} target="_blank" className="cursor-pointer">
             <svg

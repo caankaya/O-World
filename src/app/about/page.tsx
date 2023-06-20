@@ -66,7 +66,7 @@ export default function Page() {
       >
         <div className="container px-4 mx-auto w-full">
           <div className="xl:max-w-4xl mx-auto text-center">
-            <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+            <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
               TEAM
             </h1>
             <AnimatedText text="TEAM" />

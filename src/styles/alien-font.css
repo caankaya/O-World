@@ -15,3 +15,11 @@
 .hover-shadow-neon:hover {
   box-shadow: 0 0 5px #3abff8, 0 0 20px #3abff8;
 }
+
+
+.gradient-text {
+  background: linear-gradient(89.97deg, #AE67FA 1.84%, #F49867 102.67%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
