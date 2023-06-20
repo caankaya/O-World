@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+.avatar.offline:before {
+  background-color: red;
+}
 
 #world {
   display: block;
@@ -115,7 +118,6 @@ body {
   }
 }
 
-
 /* SideBar.css */
 .sidebar-scrollbar {
   overflow-y: auto;
@@ -130,6 +132,10 @@ body {
 }
 
 .sidebar-scrollbar::-webkit-scrollbar-thumb {
-  background: linear-gradient(45deg, #AE67FA, #67B2FA); /* Gradient de couleur */
+  background: linear-gradient(
+    45deg,
+    #ae67fa,
+    #67b2fa
+  ); /* Gradient de couleur */
   border-radius: 20px; /* Arrondir les coins de la barre de défilement */
 }
