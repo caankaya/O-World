@@ -5,34 +5,45 @@ import {
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
 import { Alert } from '@/@types/alert';
-import { RootState } from '../store';
 import jwt_decode from 'jwt-decode';
 import { CountryFavorites } from '@/@types/countryFavorites';
 
 interface UserState {
   username: string | null;
+  roles: string[];
   isLogged: boolean;
   loading: boolean;
   alert: Alert | null;
-  token: string;
+  token: string | null;
   userIp: string;
   sessionId: number | null;
-  roles: string[];
   rememberMe: boolean;
   infiniteLoading: Boolean;
   favoritesCountries: CountryFavorites[];
 }
 
 const initialState: UserState = {
-  username: '',
-  isLogged: false,
+  username:
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('username') || null
+      : null,
+  roles:
+    typeof localStorage !== 'undefined' &&
+    localStorage.getItem('roles') !== null
+      ? localStorage.getItem('roles')!.split(',')
+      : [],
+  isLogged:
+    typeof localStorage !== 'undefined' &&
+    !!localStorage.getItem('accessToken'),
+  token:
+    typeof localStorage !== 'undefined'
+      ? localStorage.getItem('accessToken')
+      : null,
   loading: false,
   infiniteLoading: false,
   alert: null,
-  token: '',
   userIp: '',
   sessionId: null,
-  roles: [],
   rememberMe: false,
   favoritesCountries: [],
 };
@@ -67,11 +78,18 @@ export const register = createAsyncThunk(
 
 export const accountUpdate = createAsyncThunk(
   'user/account-update',
-  async (formInput: FormData, { getState }) => {
+  async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.put(`/user/${sessionId}`, obj);
+      const response = await axiosInstance.put(
+        `/user/${localStorage.id}`,
+        obj,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
       return response;
     } catch (error: any) {
       throw new Error(error.response.data.message);
@@ -81,10 +99,13 @@ export const accountUpdate = createAsyncThunk(
 
 export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
-  async (_, { getState }) => {
+  async () => {
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.delete(`/user/${sessionId}`);
+      const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      });
       return response;
     } catch (error: any) {
       throw new Error(error.response.data.message);
@@ -94,11 +115,13 @@ export const accountDeletion = createAsyncThunk(
 
 export const fetchFavoritesCountries = createAsyncThunk(
   'user/favorites-countries',
-  async (_, { getState }) => {
+  async () => {
     try {
-      const { sessionId } = (getState() as RootState).user; // Utilisation de RootState pour annoter le type
-      const response = await axiosInstance.get(`/user/${sessionId}`);
-
+      const response = await axiosInstance.get(`/user/${localStorage.id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      });
       if (
         response.data[0].favorite_countries.length > 0 &&
         response.data[0].favorite_countries.some((country: (string | null)[]) =>
@@ -119,7 +142,6 @@ export const fetchFavoritesCountries = createAsyncThunk(
             };
           }
         );
-
         return transformedData;
       }
     } catch (error: any) {
@@ -128,13 +150,50 @@ export const fetchFavoritesCountries = createAsyncThunk(
   }
 );
 
+export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
+  'user/add-favorite-country',
+  async ({ countryId }) => {
+    try {
+      const response = await axiosInstance.post(
+        `/user/${localStorage.id}/${countryId}`,
+        {}, // Passer un objet vide en tant que corps de la requête
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error: any) {
+      throw new Error(error.response.data.message);
+    }
+  }
+);
+
+export const removeFavoriteCountry = createAsyncThunk<
+  any,
+  { countryId: string }
+>('user/remove-favorite-country', async ({ countryId }) => {
+  try {
+    const response = await axiosInstance.delete(
+      `/user/${localStorage.id}/${countryId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response.data.message);
+  }
+});
+
 //Synchronous actions
-export const getToken = createAction<string>('user/getToken');
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
 export const setRememberMe = createAction<boolean>('user/setRememberMe');
-export const isAdmin = createAction<boolean>('user/isAdmin');
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -145,20 +204,24 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
+
       const accessToken: any = jwt_decode(action.payload.accessToken);
-      const refreshToken: any = jwt_decode(action.payload.refreshToken);
-      state.sessionId = refreshToken.data.id;
+      const id = accessToken.data.id;
       const username = accessToken.data.username;
       const roles = accessToken.data.roles;
 
-      localStorage.setItem('roles', roles);
+      localStorage.setItem('accessToken', action.payload.accessToken);
+      localStorage.setItem('refreshToken', action.payload.refreshToken);
+      localStorage.setItem('id', id);
       localStorage.setItem('username', username);
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('roles', roles);
+
+      state.username = username;
+      state.roles = roles;
 
       state.alert = {
         type: 'success',
-        message: `Welcome ${state.username}`,
+        message: `Welcome ${username}`,
       };
     })
     .addCase(login.rejected, (state, action) => {
@@ -173,6 +236,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(logout, (state) => {
       state.isLogged = false;
       state.username = null;
+      state.roles = [];
       localStorage.clear();
       state.alert = {
         type: 'success',
@@ -261,6 +325,44 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
+    .addCase(addFavoriteCountry.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(addFavoriteCountry.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Country added to favorites.`,
+      };
+    })
+    .addCase(addFavoriteCountry.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+    })
+
+    .addCase(removeFavoriteCountry.pending, (state, action) => {
+      state.loading = true;
+      state.alert = null;
+    })
+    .addCase(removeFavoriteCountry.fulfilled, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: `Country deleted to favorites.`,
+      };
+    })
+    .addCase(removeFavoriteCountry.rejected, (state, action) => {
+      state.loading = false;
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+    })
+
     .addCase(handleError, (state, action) => {
       state.alert = {
         type: 'warning',
@@ -271,10 +373,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(clearUserAlert, (state) => {
       state.alert = null;
     })
-    .addCase(getToken, (state, action) => {
-      state.token = action.payload;
-      state.isLogged = true;
-    })
+
     .addCase(setRememberMe, (state, action) => {
       state.rememberMe = action.payload;
     });

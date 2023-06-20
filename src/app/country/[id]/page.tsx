@@ -16,6 +16,10 @@ import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
 import { useMediaQuery } from 'react-responsive';
 
+import AnimatedText from '@/utils/motion';
+import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
+
+
 function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.graph.category);
@@ -30,6 +34,10 @@ function Country({ params }: { params: { id: string } }) {
   const loadingGraph = useAppSelector((state) => state.graph.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const loadingInfos = useAppSelector((state) => state.infos.loading);
+  const favoritesCountries = useAppSelector(
+    (state) => state.user.favoritesCountries
+  );
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +47,10 @@ function Country({ params }: { params: { id: string } }) {
     };
 
     fetchData();
-  }, [dispatch, params.id]);
+    if (isLogged) {
+      dispatch(fetchFavoritesCountries());
+    }
+  }, [dispatch, isLogged, params.id]);
 
   return (
     <>
@@ -79,7 +90,11 @@ function Country({ params }: { params: { id: string } }) {
                   Basic informations
                 </h2>
               </div>
-              <RestCountriesInfos countryData={data} />
+              <RestCountriesInfos
+                countryData={data}
+                countryId={countryId}
+                favoritesCountries={favoritesCountries}
+              />
             </>
           )}
           {loadingInfos ? (

@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 
-import { getToken, logout } from '@/GlobalRedux/store/reducers/user';
+import { logout } from '@/GlobalRedux/store/reducers/user';
 import {
   togglerDropDown,
   togglerLoginModal,
@@ -19,7 +19,6 @@ import { useMediaQuery } from 'react-responsive';
 
 const NavBar = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.isLogged);
   const navBarWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isDropDownMenuOpen = useAppSelector((state) => state.home.dropDown);
@@ -27,13 +26,7 @@ const NavBar = () => {
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    if (token) {
-      dispatch(getToken(token));
-    }
-  }, [dispatch]);
+  const isLogged = useAppSelector((state) => state.user.isLogged);
 
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
@@ -87,7 +80,9 @@ const NavBar = () => {
             <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
           </div>
           <div className="flex-none">
-            <div className={user ? `avatar m-2 online` : 'avatar m-2 offline'}>
+            <div
+              className={isLogged ? `avatar m-2 online` : 'avatar m-2 offline'}
+            >
               <button
                 className="w-12 rounded-full cursor-pointer"
                 onClick={() => {
@@ -100,7 +95,7 @@ const NavBar = () => {
               {isDropDownMenuOpen && (
                 <div className="absolute right-0 top-16">
                   <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
-                    {!user && (
+                    {!isLogged && (
                       <ul>
                         <li>
                           <button
@@ -128,7 +123,7 @@ const NavBar = () => {
                         </li>
                       </ul>
                     )}
-                    {user && (
+                    {isLogged && (
                       <ul>
                         <li>
                           <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
