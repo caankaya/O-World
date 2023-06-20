@@ -27,33 +27,31 @@ export default function Page() {
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const roles = useAppSelector((state) => state.user.roles);
-  
-  
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     if (!isLogged || !roles.includes('Admin')) {
       router.push('/');
-      dispatch(
-        handleError(
-          'You are not authorized to view this page.'
-        )
-      );
+      dispatch(handleError('You are not authorized to view this page.'));
+    } else {
+      const fetchData = async () => {
+        await dispatch(fetchAdminStatsData());
+        await dispatch(fetchFlagsData());
+      };
+
+      fetchData();
     }
-    return; 
-  }, [isLogged, roles, router, dispatch]);
-  
-  if (!isLogged || !roles.includes('Admin')) {
-    return; 
+  }, [isClient, isLogged, roles, router, dispatch]);
+
+  if (!isClient || !isLogged || !roles.includes('Admin')) {
+    return null; // You can return a custom component here to show a message or redirect
   }
-  
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchAdminStatsData());
-      await dispatch(fetchFlagsData());
-    };
-
-    fetchData();
-  }, [dispatch]);
-
 
   return (
     <>
@@ -106,4 +104,4 @@ export default function Page() {
       )}
     </>
   );
-};
+}

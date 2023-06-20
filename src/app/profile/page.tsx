@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { setLoading } from '@/GlobalRedux/store/reducers/home';
@@ -28,38 +28,31 @@ export default function Page() {
 
   const isLogged = useAppSelector((state) => state.user.isLogged);
   const roles = useAppSelector((state) => state.user.roles);
-
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!isLogged || !roles.includes('User')) {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient) return;
+
+    if (!isLogged || !roles.includes('Admin')) {
       router.push('/');
-      dispatch(
-        handleError(
-          'You are not authorized to view this page.'
-        )
-      );
+      dispatch(handleError('You are not authorized to view this page.'));
+    } else {
+      const fetchData = async () => {
+        await dispatch(fetchFavoritesCountries());
+        await dispatch(fetchFlagsData());
+      };
+
+      fetchData();
     }
-  }, [isLogged, roles, router, dispatch]);
-  
-  if (!isLogged || !roles.includes('User')) {
-    return; 
+  }, [isClient, isLogged, roles, router, dispatch]);
+
+  if (!isClient || !isLogged || !roles.includes('Admin')) {
+    return null; // You can return a custom component here to show a message or redirect
   }
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchFavoritesCountries());
-      await dispatch(fetchFlagsData());
-    };
-    fetchData();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false));
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [dispatch]);
 
   return (
     <>
