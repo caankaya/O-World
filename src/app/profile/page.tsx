@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
-import { setLoading } from '@/GlobalRedux/store/reducers/home';
+
 import { fetchFlagsData } from '@/GlobalRedux/store/reducers/flags';
 import { fetchFavoritesCountries } from '@/GlobalRedux/store/reducers/user';
 import { handleError } from '@/GlobalRedux/store/reducers/user';
@@ -37,7 +37,7 @@ export default function Page() {
   useEffect(() => {
     if (!isClient) return;
 
-    if (!isLogged || !roles.includes('Admin')) {
+    if (!isLogged || !roles.includes('User')) {
       router.push('/');
       dispatch(handleError('You are not authorized to view this page.'));
     } else {
@@ -50,8 +50,8 @@ export default function Page() {
     }
   }, [isClient, isLogged, roles, router, dispatch]);
 
-  if (!isClient || !isLogged || !roles.includes('Admin')) {
-    return null; // You can return a custom component here to show a message or redirect
+  if (!isClient || !isLogged || !roles.includes('User')) {
+    return null;
   }
 
   return (

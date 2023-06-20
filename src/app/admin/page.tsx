@@ -50,7 +50,7 @@ export default function Page() {
   }, [isClient, isLogged, roles, router, dispatch]);
 
   if (!isClient || !isLogged || !roles.includes('Admin')) {
-    return null; // You can return a custom component here to show a message or redirect
+    return null;
   }
 
   return (
