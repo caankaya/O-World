@@ -11,8 +11,6 @@ import { CountriesDataProps } from '@/@types/countryData';
 import { useAppDispatch, useAppSelector } from '@/GlobalRedux/hooks';
 import { useMediaQuery } from 'react-responsive';
 
-import { useAppSelector } from '@/GlobalRedux/hooks';
-
 import SimpleLoader from './SimpleLoader';
 import {
   addFavoriteCountry,
@@ -49,11 +47,13 @@ function RestCountriesInfos({
   }
 
   useEffect(() => {
-    const isFavorite = favoritesCountries.some(
-      (favorite) => favorite.cca3 === countryId
-    );
-    setIsFavoriteCountry(isFavorite);
-  }, [countryId, favoritesCountries]);
+    if (favoritesCountries) {
+      const isFavorite = favoritesCountries.some(
+        (favorite) => favorite.cca3 === countryId
+      );
+      setIsFavoriteCountry(isFavorite);
+    }
+  }, [favoritesCountries, countryId]);
 
   const handleAddFavorite = () => {
     dispatch(addFavoriteCountry({ countryId }));

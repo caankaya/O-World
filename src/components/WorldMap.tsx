@@ -63,11 +63,11 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       .attr('d', path);
 
     d3.json('/world-countries.json').then((collection: any) => {
-      const updatedCollection = collection.features.map(
+      const filteredCollection = collection.features.map(
         (feature: CountryFeature) => {
-          const isFavorite = favoritesCountries.some(
-            (favorite) => favorite.cca3 === feature.id
-          );
+          const isFavorite =
+            favoritesCountries &&
+            favoritesCountries.some((favorite) => favorite.cca3 === feature.id);
           const favorite = isFavorite && isLogged; // Marquer comme favori uniquement si l'utilisateur est connecté
           return {
             ...feature,
@@ -78,7 +78,7 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
 
       countries = svg
         .selectAll('path.country')
-        .data(updatedCollection)
+        .data(filteredCollection)
         .enter()
         .append('a')
         .attr('href', (d: any) => `country/${d.id}`)

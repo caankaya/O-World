@@ -39,13 +39,7 @@ const NavBar = () => {
   return (
     <header
       className="navbar bg-base-100 z-10 bg-transparent flex items-center justify-between"
-      style={
-        isSideBarOpen
-          ? isLargeScreen
-            ? { width: navBarWidth, float: 'right' }
-            : { width: navBarWidth, float: 'right' }
-          : {}
-      }
+      style={isSideBarOpen ? { width: navBarWidth, float: 'right' } : {}}
     >
       <div className="navbar-container w-full">
         <nav
@@ -80,72 +74,68 @@ const NavBar = () => {
             <AnimatedText text="Voici la planète terre, berceau de l'humanité" />
           </div>
           <div className="flex-none">
-            <div
-              className={isLogged ? `avatar m-2 online` : 'avatar m-2 offline'}
+            {isLogged && <div className="avatar m-2 online" />}
+            {!isLogged && <div className="avatar m-2 offline" />}
+            <button
+              className="w-12 rounded-full cursor-pointer"
+              onClick={() => {
+                dispatch(togglerDropDown(isDropDownMenuOpen));
+                dispatch(togglerSideBar(false));
+              }}
             >
-              <button
-                className="w-12 rounded-full cursor-pointer"
-                onClick={() => {
-                  dispatch(togglerDropDown(isDropDownMenuOpen));
-                  dispatch(togglerSideBar(false));
-                }}
-              >
-                <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
-              </button>
-              {isDropDownMenuOpen && (
-                <div className="absolute right-0 top-16">
-                  <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
-                    {!isLogged && (
-                      <ul>
-                        <li>
-                          <button
-                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
-                            onClick={() => {
-                              dispatch(togglerLoginModal(isLoginModalOpen));
-                            }}
-                          >
-                            LOGIN
-                          </button>
-                          <LoginModal />
-                        </li>
-                        <li>
-                          <button
-                            className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
-                            onClick={() => {
-                              dispatch(
-                                togglerRegisterModal(isRegisterModalOpen)
-                              );
-                            }}
-                          >
-                            REGISTER
-                          </button>
-                          <RegisterModal />
-                        </li>
-                      </ul>
-                    )}
-                    {isLogged && (
-                      <ul>
-                        <li>
-                          <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
-                            <a href="/profile">PROFILE</a>
-                          </button>
-                          <button
-                            onClick={() => {
-                              dispatch(logout());
-                              dispatch(togglerDropDown(isDropDownMenuOpen));
-                              dispatch(togglerLoginModal(!isLoginModalOpen));
-                            }}
-                            className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
-                          >
-                            LOGOUT
-                          </button>
-                        </li>
-                      </ul>
-                    )}
-                  </div>
+              <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
+            </button>
+            {isDropDownMenuOpen && (
+              <div className="absolute right-0 top-16">
+                <div className="bg-base-100/80 shadow-xl flex flex-col rounded-lg">
+                  {!isLogged && (
+                    <ul>
+                      <li>
+                        <button
+                          className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
+                          onClick={() => {
+                            dispatch(togglerLoginModal(isLoginModalOpen));
+                          }}
+                        >
+                          LOGIN
+                        </button>
+                        <LoginModal />
+                      </li>
+                      <li>
+                        <button
+                          className="orbitron-font block py-4 px-12 w-full text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
+                          onClick={() => {
+                            dispatch(togglerRegisterModal(isRegisterModalOpen));
+                          }}
+                        >
+                          REGISTER
+                        </button>
+                        <RegisterModal />
+                      </li>
+                    </ul>
+                  )}
+                  {isLogged && (
+                    <ul>
+                      <li>
+                        <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
+                          <a href="/profile">PROFILE</a>
+                        </button>
+                        <button
+                          onClick={() => {
+                            dispatch(logout());
+                            dispatch(togglerDropDown(isDropDownMenuOpen));
+                            dispatch(togglerLoginModal(!isLoginModalOpen));
+                          }}
+                          className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg"
+                        >
+                          LOGOUT
+                        </button>
+                      </li>
+                    </ul>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </nav>
       </div>
