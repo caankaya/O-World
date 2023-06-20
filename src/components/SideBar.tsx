@@ -20,12 +20,17 @@ function SideBar() {
   const [isSolarSystemOpen, setIsSolarSystemOpen] = useState(true);
   const [isCountryOpen, setIsCountryOpen] = useState(true);
 
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
     if (!isLargeScreen && isSideBarOpen) {
       dispatch(togglerSideBar(false));
     }
   }, [isLargeScreen, isSideBarOpen, dispatch]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   return (
     <>
@@ -438,14 +443,11 @@ function SideBar() {
           )}
           {/* Si Utilisateur est connecté */}
 
-          {isLogged && roles.includes('User') && (
+          {isClient && isLogged && roles.includes('User') && (
             <ul className="space-y-2 font-medium mt-10 mb-10">
               <li className="mb-2 w-full">
                 <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Hi {username}
-
-     
-            
                 </span>
                 <a
                   href={`/profile`}
@@ -470,10 +472,8 @@ function SideBar() {
             </ul>
           )}
 
-          {isLogged && roles.includes('Admin') && (
-        
+          {isClient && isLogged && roles.includes('Admin') && (
             <ul className="space-y-2 font-medium mt-10 mb-10">
-
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Admin

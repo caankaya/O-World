@@ -5,7 +5,7 @@ import { useAppSelector } from '@/GlobalRedux/hooks';
 
 import Alert from './Alert';
 
-const NavBar = () => {
+const Toast = () => {
   const alertUser = useAppSelector((state) => state.user.alert);
   const alertStats = useAppSelector((state) => state.stats.alert);
   const alertFlags = useAppSelector((state) => state.flags.alert);
@@ -37,4 +37,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default Toast;
