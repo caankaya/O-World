@@ -15,13 +15,12 @@ import GraphCountry from '@/components/Country/GraphCountry';
 import SimpleLoader from '@/components/SimpleLoader';
 import Infos from '@/components/Infos';
 import { useMediaQuery } from 'react-responsive';
-import AnimatedText from '@/utils/motion';
 
 function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
   const category = useAppSelector((state) => state.graph.category);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const prkWidth = useAppSelector((state) => state.home.currentWidth);
+  const Width = useAppSelector((state) => state.home.currentWidth);
   const countryId = params.id;
   const data = useAppSelector((state) => state.country.data);
   const radio = useAppSelector((state) => state.infos.radio);
@@ -50,7 +49,7 @@ function Country({ params }: { params: { id: string } }) {
           style={
             isSideBarOpen
               ? isLargeScreen
-                ? { width: prkWidth, float: 'right' }
+                ? { width: Width, float: 'right' }
                 : { width: '100%', float: 'none' }
               : {}
           }
@@ -61,19 +60,24 @@ function Country({ params }: { params: { id: string } }) {
           />
         </div>
       ) : (
-        <>
+        <div
+        className={`orbitron-font p-4 flex flex-col items-center justify-center w-full gap-5`}
+        style={
+          isSideBarOpen
+            ? isLargeScreen
+              ? { width: Width, float: 'right' }
+              : { width: '100%', float: 'none' }
+            : {}
+        }
+        >
           {loadingCountry ? (
             <SimpleLoader />
           ) : (
             <>
-              <div className="xl:max-w-4xl mx-auto text-center">
-                <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
-                  Basic information
-                </h1>
-                <AnimatedText text="TEAM" />
-                <p className="text-lg md:text-xl text-white font-medium">
-                  Some information about this alien country
-                </p>
+              <div id="informations" className="xl:max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+                  Basic informations
+                </h2>
               </div>
               <RestCountriesInfos countryData={data} />
             </>
@@ -82,14 +86,10 @@ function Country({ params }: { params: { id: string } }) {
             <SimpleLoader />
           ) : (
             <>
-              <div className="xl:max-w-4xl mx-auto text-center">
-                <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
-                  Original information
-                </h1>
-                <AnimatedText text="TEAM" />
-                <p className="text-lg md:text-xl text-white font-medium">
-                  Some complex information about this alien country
-                </p>
+              <div id="original" className="xl:max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+                  Original informations
+                </h2>
               </div>
               <Infos radio={radio} insolite={insolite} celebrity={celebrity} />
             </>
@@ -98,19 +98,15 @@ function Country({ params }: { params: { id: string } }) {
             <SimpleLoader />
           ) : (
             <>
-              <div className="xl:max-w-4xl mx-auto text-center">
-                <h1 className="text-3xl md:text-4xl text-white font-bold tracking-tighter leading-tight">
+              <div id="detailed" className="xl:max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
                   Detailed analysis
-                </h1>
-                <AnimatedText text="TEAM" />
-                <p className="text-lg md:text-xl text-white font-medium">
-                  A few figures on this alien country
-                </p>
+                </h2>
               </div>
               <GraphCountry category={category} data={data} />
             </>
           )}
-        </>
+        </div>
       )}
     </>
   );

@@ -14,28 +14,18 @@ interface DetailCountryProps {
 }
 
 function GraphCountry({ category, data }: DetailCountryProps) {
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const graphwidth = useAppSelector((state) => state.home.currentWidth);
   const alert = useAppSelector((state) => state.graph.alert);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.graph.infiniteLoading
   );
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+
 
   if (infiniteLoadingInfos) {
     return <SimpleLoader />;
   }
 
   return (
-    <section className="p-8 orbitron-font"
-    style={
-      isSideBarOpen
-          ? isLargeScreen
-              ? { width: graphwidth, float: 'right' }
-              : { width: '100%', float: 'none' }
-          : {}
-    }
-    >
+    <section className="p-8 orbitron-font">
       {alert && (
         <div className="px-4 mx-auto w-full">
           <Alert type={alert.type} message={alert.message} />

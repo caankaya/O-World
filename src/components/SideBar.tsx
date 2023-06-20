@@ -125,7 +125,7 @@ function SideBar() {
                 Country
               </h2>
               <div className="flex items-center justify-center p-2 text-white text-xl font-semibold">
-                <span className="whitespace-nowrap">{data.name.common}</span>
+                <span>{data.name.common}</span>
                 <img
                   src={data.flags.png}
                   className="h-6 ml-10 sm:h-7"
@@ -135,7 +135,7 @@ function SideBar() {
               <ul className="flex flex-col justify-start items-start p-2 text-white font-semibold">
                 <li className="mb-2 w-full">
                   <a
-                    href="#"
+                    href="#informations"
                     className="flex p-2 w-full text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                   >
                     <svg
@@ -152,12 +152,12 @@ function SideBar() {
                         d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                       />
                     </svg>
-                    Basic Information
+                    Informations
                   </a>
                 </li>
                 <li className="mb-2 w-full">
                   <a
-                    href="#"
+                    href="#original"
                     className="flex p-2 w-full text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                   >
                     <svg
@@ -174,12 +174,12 @@ function SideBar() {
                         d="M3.75 7.5l16.5-4.125M12 6.75c-2.708 0-5.363.224-7.948.655C2.999 7.58 2.25 8.507 2.25 9.574v9.176A2.25 2.25 0 004.5 21h15a2.25 2.25 0 002.25-2.25V9.574c0-1.067-.75-1.994-1.802-2.169A48.329 48.329 0 0012 6.75zm-1.683 6.443l-.005.005-.006-.005.006-.005.005.005zm-.005 2.127l-.005-.006.005-.005.005.005-.005.005zm-2.116-.006l-.005.006-.006-.006.005-.005.006.005zm-.005-2.116l-.006-.005.006-.005.005.005-.005.005zM9.255 10.5v.008h-.008V10.5h.008zm3.249 1.88l-.007.004-.003-.007.006-.003.004.006zm-1.38 5.126l-.003-.006.006-.004.004.007-.006.003zm.007-6.501l-.003.006-.007-.003.004-.007.006.004zm1.37 5.129l-.007-.004.004-.006.006.003-.004.007zm.504-1.877h-.008v-.007h.008v.007zM9.255 18v.008h-.008V18h.008zm-3.246-1.87l-.007.004L6 16.127l.006-.003.004.006zm1.366-5.119l-.004-.006.006-.004.004.007-.006.003zM7.38 17.5l-.003.006-.007-.003.004-.007.006.004zm-1.376-5.116L6 12.38l.003-.007.007.004-.004.007zm-.5 1.873h-.008v-.007h.008v.007zM17.25 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zm0 4.5a.75.75 0 110-1.5.75.75 0 010 1.5z"
                       />
                     </svg>
-                    Radio / Anecdote
+                    Radio
                   </a>
                 </li>
                 <li className="mb-2 w-full">
                   <a
-                    href="#"
+                    href="#celebrities"
                     className="flex p-2 w-full text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                   >
                     <svg
@@ -201,7 +201,7 @@ function SideBar() {
                 </li>
                 <li className="mb-2 w-full">
                   <a
-                    href="#"
+                    href="#detailed"
                     className="flex p-2 w-full text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                   >
                     <svg
@@ -228,14 +228,14 @@ function SideBar() {
           {roles && roles.includes('User') && username && (
             <ul className="mt-5">
               <li>
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Hi{' '}
                   {username.charAt(0).toUpperCase() +
                     username.slice(1).toLowerCase()}
                 </span>
                 <a
                   href={`/profile`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                  className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   Profile
                 </a>
@@ -245,12 +245,12 @@ function SideBar() {
           {roles && roles.includes('Admin') && (
             <ul className="mt-5">
               <li>
-                <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white block">
+                <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Admin
                 </span>
                 <a
                   href={`/admin`}
-                  className="flex items-center p-2 text-white font-semibold  hover:border-2 hover:border-primary-focus rounded-lg"
+                  className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   Statistics
                 </a>

@@ -14,13 +14,10 @@ interface InfosProps {
 }
 
 function Infos({ radio, insolite, celebrity }: InfosProps) {
-  const DetailRadioWidth = useAppSelector((state) => state.home.currentWidth);
-  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [active, setActive] = useState('1');
   const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>(
     []
   );
-  const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.infos.infiniteLoading
   );
@@ -78,13 +75,6 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
   return (
     <section
       className={`p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font`}
-      style={
-        isSideBarOpen
-          ? isLargeScreen
-            ? { width: DetailRadioWidth, float: 'right' }
-            : { width: '100%', float: 'none' }
-          : {}
-      }
     >
       <motion.div
         variants={staggerContainer(0.1, 0.2)}
@@ -129,7 +119,10 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             </div>
           </div>
         </motion.div>
-        <div className="container px-4 mx-auto w-full">
+        <div id="celebrities" className="container px-4 mx-auto w-full text-center">
+          <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+            Celebrities
+          </h2>
           <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
             {shuffledCelebrities.map((celebrity, index) => (
               <CardCelebrity
