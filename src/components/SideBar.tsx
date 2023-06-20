@@ -226,8 +226,8 @@ function SideBar() {
           )}
           {/* Si Utilisateur est connecté */}
           {roles && roles.includes('User') && username && (
-            <ul className="mt-5">
-              <li>
+            <ul className="space-y-2 font-medium mt-10 mb-10">
+              <li className="mb-2 w-full">
                 <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Hi{' '}
                   {username.charAt(0).toUpperCase() +
@@ -235,23 +235,48 @@ function SideBar() {
                 </span>
                 <a
                   href={`/profile`}
-                  className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
+                  className="flex mt-2 items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
+                > 
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  className="w-6 h-6 mr-5"
                 >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                </svg>
                   Profile
                 </a>
               </li>
             </ul>
           )}
           {roles && roles.includes('Admin') && (
-            <ul className="mt-5">
+            <ul className="space-y-2 font-medium mt-10 mb-10">
               <li>
                 <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                   Admin
                 </span>
                 <a
                   href={`/admin`}
-                  className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
+                  className="flex mt-2 items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  fill="none" 
+                  viewBox="0 0 24 24" 
+                  stroke-width="1.5" 
+                  stroke="currentColor" 
+                  className="w-6 h-6 mr-5">
+                  <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                </svg>
                   Statistics
                 </a>
               </li>
