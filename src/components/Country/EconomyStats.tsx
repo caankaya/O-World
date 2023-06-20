@@ -1,8 +1,7 @@
 import { CountryCategories } from '@/@types/countryCategories';
-import PieChart from './PieChart';
-
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../../utils/motion';
+import PieChart from './PieChart';
 
 interface EconomyProps {
   category: CountryCategories;

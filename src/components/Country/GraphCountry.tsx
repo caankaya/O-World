@@ -5,7 +5,6 @@ import { CountryCategories } from '@/@types/countryCategories';
 import LineBarChart from '@/components/Country/LineBarChart';
 import EconomyStats from '@/components/Country/EconomyStats';
 import Alert from '../Alert';
-import { useMediaQuery } from 'react-responsive';
 import SimpleLoader from '../SimpleLoader';
 
 interface DetailCountryProps {

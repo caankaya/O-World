@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '@/GlobalRedux/hooks';
-import CardCelebrity from './CardCelebrity';
 import { Celebrity, Radio } from '@/@types/infos';
 import axios from 'axios';
-
+import CardCelebrity from './CardCelebrity';
 import SimpleLoader from './SimpleLoader';
 
 interface InfosProps {
