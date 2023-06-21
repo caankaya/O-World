@@ -64,17 +64,17 @@ function NavBar() {
               }}
             >
               <span
-                className={`block h-1 w-6 bg-info-content rounded-full transition-all duration-1000 transform ${
+                className={`block h-1 w-6 bg-base-content rounded-full transition-all duration-1000 transform ${
                   isSideBarOpen ? 'rotate-45 translate-y-2' : ''
                 }`}
               />
               <span
-                className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 ${
+                className={`block h-1 w-6 bg-base-content rounded-full mt-1 transition-all duration-1000 ${
                   isSideBarOpen ? 'opacity-0' : ''
                 }`}
               />
               <span
-                className={`block h-1 w-6 bg-info-content rounded-full mt-1 transition-all duration-1000 transform ${
+                className={`block h-1 w-6 bg-base-content rounded-full mt-1 transition-all duration-1000 transform ${
                   isSideBarOpen ? '-rotate-45 -translate-y-2' : ''
                 }`}
               />
