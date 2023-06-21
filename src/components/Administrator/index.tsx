@@ -17,6 +17,14 @@ export default function Administrator() {
   const loadingStats = useAppSelector((state) => state.stats.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const roles = useAppSelector((state) => state.user.roles);
+
+  useEffect(() => {
+    if (!isLogged || !roles.includes('Admin')) {
+      window.location.href = '/';
+    }
+  }, [isLogged, roles, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {

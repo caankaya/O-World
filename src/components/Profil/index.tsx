@@ -22,6 +22,14 @@ export default function Profil() {
   const loadingFavorites = useAppSelector((state) => state.user.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  const isLogged = useAppSelector((state) => state.user.isLogged);
+  const roles = useAppSelector((state) => state.user.roles);
+
+  useEffect(() => {
+    if (!isLogged || !roles.includes('User')) {
+      window.location.href = '/';
+    }
+  }, [isLogged, roles, dispatch]);
 
   useEffect(() => {
     const fetchData = async () => {
