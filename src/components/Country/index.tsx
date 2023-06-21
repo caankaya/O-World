@@ -36,7 +36,7 @@ export default function Country() {
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(fetchRestCountries(countryId as string));
-      await dispatch(fetchGraph({ id: countryId }));
+      await dispatch(fetchGraph(countryId as string));
       await dispatch(fetchRadio({ id: countryId }));
     };
 
