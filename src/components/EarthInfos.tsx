@@ -1,9 +1,8 @@
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../GlobalRedux/hooks';
-import { Earth } from '../@types/planetDatas';
+import { Earth, Moon } from '../@types/planetDatas';
 
-// @ts-ignore
 import { staggerContainer, fadeIn } from '../utils/motion';
 
 import SimpleLoader from './SimpleLoader';
@@ -208,8 +207,8 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
         >
           <div className="stat">
             <div className="stat-title">Moons</div>
-            {earthData.moons.map((moon: any, index: number) => (
-              <div key={index}>
+            {earthData.moons.map((moon: Moon) => (
+              <div key={moon.name}>
                 <div className="stat">
                   <div className="stat-title">Name</div>
                   <div className="stat-value">{moon.name}</div>

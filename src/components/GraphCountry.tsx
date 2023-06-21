@@ -1,4 +1,3 @@
-import { CountriesDataProps } from '../@types/countryData';
 import { useAppSelector } from '../GlobalRedux/hooks';
 import { CountryCategories } from '../@types/countryCategories';
 
@@ -8,11 +7,10 @@ import Alert from './Alert';
 import SimpleLoader from './SimpleLoader';
 
 interface DetailCountryProps {
-  category: CountryCategories[] | any;
-  data: CountriesDataProps | null;
+  category: CountryCategories;
 }
 
-function GraphCountry({ category, data }: DetailCountryProps) {
+function GraphCountry({ category }: DetailCountryProps) {
   const alert = useAppSelector((state) => state.graph.alert);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.graph.infiniteLoading
