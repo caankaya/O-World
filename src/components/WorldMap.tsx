@@ -9,10 +9,16 @@ interface CountryProperties {
   name: string;
 }
 
+interface WorldData {
+  features: CountryFeature[];
+  // Autres propriétés présentes dans le fichier JSON, si nécessaire
+}
+
 interface CountryFeature {
   properties: CountryProperties;
   id: string;
   favorite: boolean;
+  fill: string;
 }
 
 interface Props {
@@ -21,7 +27,7 @@ interface Props {
 }
 
 function WorldMap({ favoritesCountries, isLogged }: Props) {
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<HTMLDivElement>(null);
   const [countryName, setCountryName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
@@ -35,8 +41,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
     let countries: d3.Selection<
       SVGPathElement,
       CountryFeature,
-      HTMLElement,
-      any
+      SVGSVGElement,
+      unknown
     >;
 
     const projection = d3
@@ -63,8 +69,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       .attr('class', 'graticule')
       .attr('d', path);
 
-    d3.json('/world-countries.json').then((collection: any) => {
-      const filteredCollection = collection.features.map(
+    d3.json('/world-countries.json').then((collection: WorldData) => {
+      const filteredCollection: CountryFeature[] = collection.features.map(
         (feature: CountryFeature) => {
           const isFavorite =
             favoritesCountries &&
@@ -78,29 +84,31 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       );
 
       countries = svg
-        .selectAll('path.country')
+        .selectAll<SVGPathElement, CountryFeature>('path.country')
         .data(filteredCollection)
         .enter()
         .append('a')
-        .attr('href', (d: any) => `country/${d.id}`)
+        .attr('href', (d: CountryFeature) => `country/${d.id}`)
         .append('path')
-        .attr('d', (d: any) => path(d))
+        .attr('d', (d: CountryFeature) => path(d))
         .attr('class', 'country')
-        .attr('id', (d: any) => d.id)
-        .attr('fill', (d: any) => (d.favorite ? ' #828df8' : 'white'))
+        .attr('id', (d: CountryFeature) => d.id)
+        .attr('fill', (d: CountryFeature) =>
+          d.favorite ? ' #828df8' : 'white'
+        )
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
-        .on('mouseover', function (event: MouseEvent, d: any) {
+        .on('mouseover', (event: MouseEvent, d: CountryFeature) => {
           if (d.favorite) {
-            d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
+            d3.select(event.currentTarget).style('fill', '#4ecca3');
+            // Couleur différente pour les pays favoris lors du survol
           } else {
-            d3.select(this).style('fill', '#3abff8');
+            d3.select(event.currentTarget).style('fill', '#3abff8');
           }
           setCountryName(d.properties.name);
         })
-
-        .on('mouseout', function (event: MouseEvent, d: any) {
-          d3.select(this).style('fill', '');
+        .on('mouseout', () => {
+          d3.select(event.currentTarget).style('fill', '');
           setCountryName('');
         });
     });
@@ -110,9 +118,11 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
 
       countries.style('fill', '');
 
-      const matchedCountry: any = countries
+      const matchedCountry: CountryFeature | undefined = countries
         .data()
-        .find((d: any) => d.properties.name.toLowerCase().includes(query));
+        .find((d: CountryFeature) =>
+          d.properties.name.toLowerCase().includes(query)
+        );
 
       if (matchedCountry) {
         d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
@@ -120,7 +130,7 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         const centroid = d3.geoCentroid(matchedCountry);
         projection.rotate([-centroid[0], -centroid[1]]);
         svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d: any) => path(d));
+        svg.selectAll('.country').attr('d', (d: CountryFeature) => path(d));
 
         setCountryName(matchedCountry.properties.name);
       } else {
@@ -128,12 +138,14 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       }
     };
 
-    chartRef.current.handleSearchChange = handleSearchChange;
+    if (chartRef.current) {
+      chartRef.current.handleSearchChange = handleSearchChange;
+    }
 
     const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
     const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
     const drag = d3
-      .drag<SVGSVGElement, any>()
+      .drag<SVGSVGElement, unknown>()
       .subject(() => {
         const r = projection.rotate();
         return {
@@ -144,15 +156,11 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       .on('drag', (event) => {
         projection.rotate([lambda(event.x), phi(event.y)]);
         svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d: any) => path(d));
+        svg.selectAll('.country').attr('d', (d: CountryFeature) => path(d));
       });
 
-    svg.call(drag as any);
-
-    return () => {
-      svg.remove();
-    };
-  }, [favoritesCountries, isLogged]);
+    svg.call(drag);
+  }, [favoritesCountries, isLogged, isLargeScreen]);
 
   return (
     <div
@@ -176,11 +184,11 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(event) => chartRef.current.handleSearchChange(event)}
+          onChange={(event) => chartRef.current?.handleSearchChange(event)}
           className="orbitron-font input input-bordered input-info input-sm max-w-sm bg-transparent md:w-full"
         />
         <p className="orbitron-font italic text-[10px] md:text-sm text-neutral-content">
-          Type the name of the country if you don't know where it is
+          Type the name of the country if you don&apos;t know where it is
         </p>
       </div>
     </div>
