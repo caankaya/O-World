@@ -6,11 +6,7 @@ import EconomyStats from './EconomyStats';
 import Alert from './Alert';
 import SimpleLoader from './SimpleLoader';
 
-interface DetailCountryProps {
-  category: CountryCategories;
-}
-
-function GraphCountry({ category }: DetailCountryProps) {
+function GraphCountry({ category }: { category: CountryCategories | null }) {
   const alert = useAppSelector((state) => state.graph.alert);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.graph.infiniteLoading
@@ -28,8 +24,8 @@ function GraphCountry({ category }: DetailCountryProps) {
         </div>
       )}
 
-      <LineBarChart category={category} />
-      <EconomyStats category={category} />
+      <LineBarChart category={category as CountryCategories} />
+      <EconomyStats category={category as CountryCategories} />
     </section>
   );
 }

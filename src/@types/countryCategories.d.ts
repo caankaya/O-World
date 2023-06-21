@@ -14,7 +14,7 @@ export interface Country {
 
 export interface Population {
   indicator: Indicator;
-  values: Values;
+  values: Values[];
 }
 
 export interface Indicator {
@@ -24,22 +24,22 @@ export interface Indicator {
 
 export interface Environnement {
   indicator: Indicator;
-  values: Values;
+  values: Values[];
 }
 
 export interface Education {
   indicator: Indicator;
-  values: Values;
+  values: Values[];
 }
 
 export interface Job {
   indicator: Indicator;
-  values: Values;
+  values: Values[];
 }
 
 export interface Economy {
   indicator: Indicator;
-  values: Values;
+  values: Values[];
 }
 
 export interface Values {

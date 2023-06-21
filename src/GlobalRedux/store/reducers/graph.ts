@@ -3,36 +3,19 @@ import {
   createAsyncThunk,
   createReducer,
 } from '@reduxjs/toolkit';
-import {
-  Country,
-  CountryCategories,
-  Economy,
-  Education,
-  Environnement,
-  Job,
-  Population,
-  Values,
-} from '../../../@types/countryCategories';
+import { CountryCategories } from '../../../@types/countryCategories';
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 
 interface CountryState {
-  category: CountryCategories;
+  category: CountryCategories | null;
   loading: boolean;
   infiniteLoading: boolean;
   alert: AlertType | null;
 }
 
 const initialState: CountryState = {
-  category: {
-    country: {} as Country,
-    population: [] as Population[],
-    environnement: [] as Environnement[],
-    education: [] as Education[],
-    job: [] as Job[],
-    economy: [] as Economy[],
-    value: [] as Values[],
-  },
+  category: null,
   loading: false,
   infiniteLoading: false,
   alert: null,
