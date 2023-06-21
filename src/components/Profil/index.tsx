@@ -52,8 +52,11 @@ export default function Profil() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Username
+          Profile
         </h1>
+        <p className="text-lg md:text-xl text-white font-medium">
+          Your informations
+        </p>
       </div>
       <UpdateProfile />
       {loadingFavorites || loadingFlags ? (
@@ -62,10 +65,10 @@ export default function Profil() {
         <>
           <div className="xl:max-w-4xl mx-auto text-center">
             <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-              Favorite alien countries
+              Favorite
             </h1>
             <p className="text-lg md:text-xl text-white font-medium">
-              Find your favorite countries
+              Favorite alien countries
             </p>
           </div>
           <UserFavorites
