@@ -88,7 +88,7 @@ export default function Country() {
           </div>
           <RestCountriesInfos
             countryData={data}
-            countryId={countryId}
+            countryId={countryId as string}
             favoritesCountries={favoritesCountries}
           />
         </>
@@ -114,7 +114,7 @@ export default function Country() {
               Detailed analysis
             </h2>
           </div>
-          <GraphCountry category={category} data={data} />
+          <GraphCountry category={category} />
         </>
       )}
     </div>
