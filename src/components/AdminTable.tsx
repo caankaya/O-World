@@ -28,8 +28,8 @@ function AdminTable({ stats, flags }: AdminTableProps) {
     0
   );
 
-  const findFlagUrl = (flags: any[], countryIso3: string) => {
-    const flagData = flags.find((flag) => flag.cca3 === countryIso3);
+  const findFlagUrl = (flagss: Flags[], countryIso3: string) => {
+    const flagData = flagss.find((flag) => flag.cca3 === countryIso3);
     return flagData ? flagData.flags.png : '';
   };
 
@@ -64,10 +64,10 @@ function AdminTable({ stats, flags }: AdminTableProps) {
         </thead>
         <tbody>
           {/* Boucle sur les datas pour la page active et affichage de la liste des pays */}
-          {currentData.map((row, index) => {
+          {currentData.map((row) => {
             const flagUrl = findFlagUrl(flags, row.iso3);
             return (
-              <tr key={index} className="border-b border-neutral">
+              <tr key={row.iso3} className="border-b border-neutral">
                 <td className="flex items-center px-6 font-medium">
                   <div className="flex px-4 py-3 items-center">
                     <div className="object-contain">
@@ -136,7 +136,7 @@ function AdminTable({ stats, flags }: AdminTableProps) {
             {/* crée un tableau de la taille de totalPages */}
             {/* change la page actuelle en utilisant la fonction handlePageChange avec l'index en cours (i + 1) en tant que paramètre */}
             {[...Array(totalPages)].map((e, i) => (
-              <li key={i}>
+              <li key={1}>
                 <button
                   className={`px-3 py-1 mx-1 rounded border ${
                     currentPage === i + 1
