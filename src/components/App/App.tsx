@@ -16,6 +16,8 @@ import Earth from '../Earth';
 import Error404 from '../Error404';
 import Layout from '../Layout';
 import Country from '../Country';
+import Profil from '../Profil';
+import Administrator from '../Administrator';
 
 function App() {
   const { id } = useParams(); // Récupération de l'ID du pays depuis l'URL
@@ -26,6 +28,8 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/profile" element={<Profil />} />
+          <Route path="/administrator" element={<Administrator />} />
           <Route path="/world" element={<Earth />} />
           <Route path="/country/:id" element={<Country params={{ id }} />} />
         </Route>

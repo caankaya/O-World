@@ -13,7 +13,7 @@ import GraphCountry from '../GraphCountry';
 import SimpleLoader from '../SimpleLoader';
 import Infos from '../Infos';
 
-function Country({ params }: { params: { id: string } }) {
+export default function Country({ params }: { params: { id: string } }) {
   const dispatch = useAppDispatch();
   const { id } = useParams(); // Récupération de l'ID du pays depuis l'URL
   const countryId = id; // Utilisation de l'ID du pays
@@ -120,5 +120,3 @@ function Country({ params }: { params: { id: string } }) {
     </div>
   );
 }
-
-export default Country;

@@ -5,7 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import jwt_decode from 'jwt-decode';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
 
 interface UserState {
@@ -13,7 +13,7 @@ interface UserState {
   roles: string[];
   isLogged: boolean;
   loading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
   token: string | null;
   userIp: string;
   sessionId: number | null;

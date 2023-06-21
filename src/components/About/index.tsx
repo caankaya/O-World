@@ -6,7 +6,7 @@ import { useAppSelector } from '../../GlobalRedux/hooks';
 import AnimatedText from '../../utils/motion';
 import CardProfil from '../CardProfil';
 
-export default function Page() {
+export default function About() {
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });

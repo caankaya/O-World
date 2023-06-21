@@ -6,7 +6,7 @@ import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
 import EarthInfos from '../EarthInfos';
 import SimpleLoader from '../SimpleLoader';
 
-function World() {
+export default function Earth() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
@@ -40,5 +40,3 @@ function World() {
     </div>
   );
 }
-
-export default World;

@@ -496,7 +496,7 @@ function SideBar() {
                 Admin
               </span>
               <a
-                href="/admin"
+                href="/administrator"
                 className="flex mt-2 items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
               >
                 <svg
