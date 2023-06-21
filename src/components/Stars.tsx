@@ -5,7 +5,7 @@ import { Points, PointMaterial, Preload } from '@react-three/drei'; // Points es
 function randomInSphere(count: number, radius: number) {
   // Cette fonction génère un certain nombre (count) de points aléatoires à l'intérieur d'une sphère de rayon donné (radius). Les points sont uniformément distribués dans la sphère. Les coordonnées de chaque point sont stockées dans un Float32Array
   const positions = new Float32Array(count * 3);
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += 1) {
     const r = radius * Math.cbrt(Math.random()); // Cube root to get uniform distribution
     const theta = Math.random() * 2 * Math.PI;
     const phi = Math.acos(2 * Math.random() - 1);
@@ -16,7 +16,7 @@ function randomInSphere(count: number, radius: number) {
   return positions;
 }
 
-function Stars(props: any) {
+function Stars({ ...props }) {
   // Ceci est le composant principal qui génère les étoiles. Il utilise useRef pour conserver une référence à l'objet Points, useState pour stocker les positions initiales des étoiles, et useFrame pour faire tourner les étoiles à chaque image.
   const ref = useRef(null || props);
   const [sphere] = useState(() => randomInSphere(5000, 1.2));
@@ -30,7 +30,13 @@ function Stars(props: any) {
 
   return (
     <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={sphere} stride={3} frustumCulled {...props}>
+      <Points
+        ref={ref as React.MutableRefObject<THREE.Points>}
+        positions={sphere}
+        stride={3}
+        frustumCulled
+        {...props}
+      >
         {' '}
         {/* composant Points qui crée le nuage de points (étoiles). Il utilise les positions générées par la fonction randomInSphere et passe d'autres props à travers. */}
         <PointMaterial
