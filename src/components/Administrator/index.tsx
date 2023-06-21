@@ -23,17 +23,18 @@ export default function Administrator() {
   useEffect(() => {
     if (!isLogged || !roles.includes('Admin')) {
       window.location.href = '/';
+    } else {
+      const fetchData = async () => {
+        await dispatch(fetchAdminStatsData());
+        await dispatch(fetchFlagsData());
+      };
+      fetchData();
     }
   }, [isLogged, roles, dispatch]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchAdminStatsData());
-      await dispatch(fetchFlagsData());
-    };
-
-    fetchData();
-  }, [dispatch]);
+  if (!isLogged || !roles.includes('Admin')) {
+    return null;
+  }
 
   return loadingStats || loadingFlags ? (
     <SimpleLoader />

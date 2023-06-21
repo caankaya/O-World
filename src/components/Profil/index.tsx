@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { setLoading } from '../../GlobalRedux/store/reducers/home';
 import { fetchFlagsData } from '../../GlobalRedux/store/reducers/flags';
 import { fetchFavoritesCountries } from '../../GlobalRedux/store/reducers/user';
 
@@ -28,24 +27,18 @@ export default function Profil() {
   useEffect(() => {
     if (!isLogged || !roles.includes('User')) {
       window.location.href = '/';
+    } else {
+      const fetchData = async () => {
+        await dispatch(fetchFavoritesCountries());
+        await dispatch(fetchFlagsData());
+      };
+      fetchData();
     }
   }, [isLogged, roles, dispatch]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchFavoritesCountries());
-      await dispatch(fetchFlagsData());
-    };
-    fetchData();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setLoading(false));
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [dispatch]);
+  if (!isLogged || !roles.includes('User')) {
+    return null;
+  }
 
   return (
     <div
