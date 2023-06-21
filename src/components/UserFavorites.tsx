@@ -41,7 +41,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Latest favorites countries
         </h5>
-        {favoritesCountries.length > 0 &&
+        {favoritesCountries &&
           (!isViewAll ? (
             <a
               href="#"
@@ -61,36 +61,37 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
           ))}
       </div>
       <div className="flow-root">
-        {!favoritesCountries.length && (
+        {!favoritesCountries && (
           <div className="flex-1 min-w-0">
             <p className="font-medium text-white">No favorite countries yet</p>
           </div>
         )}
         <ul className="divide-y divide-primary">
-          {favoritesCountries.slice(0, displayedCountries).map((country) => {
-            const flagUrl = findFlagUrl(flags, country.cca3);
-            return (
-              <li className="py-3 sm:py-4" key={country.cca3}>
-                <a href={`/country/${country.cca3}`}>
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-shrink-0">
-                      <img
-                        className="w-8 h-8 rounded-full"
-                        src={flagUrl}
-                        alt="Country flag"
-                      />
+          {favoritesCountries &&
+            favoritesCountries.slice(0, displayedCountries).map((country) => {
+              const flagUrl = findFlagUrl(flags, country.cca3);
+              return (
+                <li className="py-3 sm:py-4" key={country.cca3}>
+                  <a href={`/country/${country.cca3}`}>
+                    <div className="flex items-center space-x-4">
+                      <div className="flex-shrink-0">
+                        <img
+                          className="w-8 h-8 rounded-full"
+                          src={flagUrl}
+                          alt="Country flag"
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-white">{country.name}</p>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-white">{country.date}</p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-white">{country.name}</p>
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-white">{country.date}</p>
-                    </div>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
+                  </a>
+                </li>
+              );
+            })}
         </ul>
       </div>
     </div>
