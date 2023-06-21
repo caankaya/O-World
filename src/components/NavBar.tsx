@@ -94,7 +94,6 @@ function NavBar() {
                 className="w-12 rounded-full cursor-pointer"
                 onClick={() => {
                   dispatch(togglerDropDown(isDropDownMenuOpen));
-                  dispatch(togglerSideBar(false));
                 }}
               >
                 <img src="/alien-svgrepo-com.svg" alt="profil-picture" />
