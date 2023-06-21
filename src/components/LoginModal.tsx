@@ -64,7 +64,7 @@ function LoginModal() {
               name="username"
               id="username"
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              placeholder="ChuckNorris"
+              placeholder="username"
               required
             />
           </div>

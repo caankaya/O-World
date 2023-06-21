@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useRef, useState } from 'react';
-import { useAppDispatch } from '../GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import {
   accountDeletion,
   accountUpdate,
@@ -13,6 +13,7 @@ import {
 function UpdateProfile() {
   const dispatch = useAppDispatch();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const username = useAppSelector((state) => state.user.username);
 
   // Set up a useRef to target and reset the form
   const newformRef = useRef<HTMLFormElement | null>(null);
@@ -76,7 +77,7 @@ function UpdateProfile() {
             <img src="/alien-svgrepo-com.svg" alt="profil" />
           </div>
         </div>
-        <h5 className="mb-1 text-xl font-medium text-white ">Username</h5>
+        <h5 className="mb-1 text-xl font-medium text-white ">Hi {username}</h5>
       </div>
       <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
         Update your information
@@ -96,7 +97,7 @@ function UpdateProfile() {
               name="username"
               id="updated-username"
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              placeholder="username"
+              placeholder={username!}
               required
             />
           </div>
@@ -124,6 +125,9 @@ function UpdateProfile() {
               className="block mb-2 text-sm font-medium text-white"
             >
               New password
+              <span className="px-1 mb-2 text-xs text-white">
+                (+8 characters: upper case, number and special character)
+              </span>
             </label>
             <input
               type="password"
