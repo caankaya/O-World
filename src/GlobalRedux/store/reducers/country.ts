@@ -5,13 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 import { CountriesDataProps } from '../../../@types/countryData';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 
 interface CountryState {
   data: CountriesDataProps | null;
   loading: boolean;
   infiniteLoading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 const initialState: CountryState = {

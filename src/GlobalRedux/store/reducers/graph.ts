@@ -5,13 +5,13 @@ import {
 } from '@reduxjs/toolkit';
 import { CountryCategories } from '../../../@types/countryCategories';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 
 interface CountryState {
   category: CountryCategories[];
   loading: boolean;
   infiniteLoading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 const initialState: CountryState = {

@@ -4,13 +4,13 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 import { Flags } from '../../../@types/flags';
 
 interface FlagsState {
   flags: Flags[];
   loading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 const initialState: FlagsState = {

@@ -4,7 +4,7 @@ import {
   createReducer,
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 import { ApiResponse, Celebrity, Radio } from '../../../@types/infos';
 
 // Définir l'interface pour l'état
@@ -14,7 +14,7 @@ interface InfosState {
   celebrity: Celebrity[];
   loading: boolean;
   infiniteLoading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 // Définir l'état initial

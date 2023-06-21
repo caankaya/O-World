@@ -4,14 +4,14 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 import { Earth } from '../../../@types/planetDatas';
 
 interface PlanetState {
   earthData: Earth;
   loading: boolean;
   infiniteLoading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 const initialState: PlanetState = {

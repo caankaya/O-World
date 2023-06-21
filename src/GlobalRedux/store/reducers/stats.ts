@@ -4,14 +4,14 @@ import {
   createAction,
 } from '@reduxjs/toolkit';
 import axiosInstance from '../../../utils/axios';
-import { Alert } from '../../../@types/alert';
+import { AlertType } from '../../../@types/alert';
 import { Stats } from '../../../@types/statsAdmin';
 
 interface StatsState {
   stats: Stats[];
   loading: boolean;
   infiniteLoading: boolean;
-  alert: Alert | null;
+  alert: AlertType | null;
 }
 
 const initialState: StatsState = {
