@@ -85,6 +85,7 @@ function WorldLineChart({ population }) {
           width: '100%',
           margin: 'auto',
           cursor: 'pointer',
+          padding: '1rem',
         }}
       >
         <Bar data={data} options={options} />

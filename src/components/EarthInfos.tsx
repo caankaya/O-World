@@ -236,10 +236,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
         variants={fadeIn('up', 'spring', 7 * 0.5, 1)} // index = 7 for eigth card
         className="stats stats-vertical lg:stats-horizontal shadow w-full"
       >
-        <div className="stat">
-          <div className="stat-title">Population Data</div>
-          <WorldLineChart population={earthData.dataCategory.population} />
-        </div>
+        <WorldLineChart population={earthData.dataCategory.population} />
       </motion.div>
     </motion.div>
   );
