@@ -37,7 +37,7 @@ export default function Country() {
     const fetchData = async () => {
       await dispatch(fetchRestCountries(countryId as string));
       await dispatch(fetchGraph(countryId as string));
-      await dispatch(fetchRadio({ id: countryId }));
+      await dispatch(fetchRadio(countryId as string));
     };
 
     fetchData();
