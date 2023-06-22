@@ -63,6 +63,7 @@ function BarChart({ category }: BarChartProps) {
       )
     );
   }
+  return <p>No data avaibles for this country</p>;
 }
 
 export default BarChart;
