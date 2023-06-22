@@ -43,9 +43,9 @@ function SideBar() {
       <div className="h-full px-3 py-4 overflow-y-auto bg-base-200 border-r border-neutral-content/60 shadow-xl sidebar-scrollbar">
         {/* Debut LOGO ET TITRE */}
         <div className="mb-5 flex flex-col justify-center items-center">
-          <a href="/">
+          <Link to="/">
             <img src="/logo-oworld.png" className="h-28" alt="OWorld Logo" />
-          </a>
+          </Link>
           <h1 className="text-2xl text-white font-bold tracking-[0.5em] mt-2 text-center">
             OWORLD
           </h1>

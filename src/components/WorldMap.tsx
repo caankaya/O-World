@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 
 import { useMediaQuery } from 'react-responsive';
+import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { useAppSelector } from '../GlobalRedux/hooks';
@@ -22,6 +23,7 @@ interface Props {
 }
 
 function WorldMap({ favoritesCountries, isLogged }: Props) {
+  const navigate = useNavigate();
   const chartRef = useRef<any>(null);
   const [countryName, setCountryName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
@@ -82,8 +84,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .selectAll('path.country')
         .data<CountryFeature>(filteredCollection)
         .enter()
-        .append('a')
-        .attr('href', (d: any) => `country/${d.id}`)
+        // .append('a')
+        // .attr('href', (d: any) => `country/${d.id}`)
         .append('path')
         .attr('d', (d: any) => path(d))
         .attr('class', 'country')
@@ -103,7 +105,13 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .on('mouseout', function (event: MouseEvent, d: any) {
           d3.select(this).style('fill', '');
           setCountryName('');
+        })
+        .on('click', function (d) {
+          clickHandler(d);
         });
+      const clickHandler = (d: React.MouseEvent<HTMLElement> | any) => {
+        navigate(`/country/${d.target.__data__.id}`);
+      };
     });
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
       const query = event.target.value.toLowerCase();
