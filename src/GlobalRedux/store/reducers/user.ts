@@ -100,13 +100,17 @@ export const accountUpdate = createAsyncThunk(
 
 export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
-  async () => {
+  async (formInput: FormData) => {
+    const obj = Object.fromEntries(formInput);
     try {
       const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.accessToken}`,
         },
+        data: obj,
       });
+      console.log(response);
+
       return response;
     } catch (error: string | any) {
       throw new Error(error.response.data.message as string);
