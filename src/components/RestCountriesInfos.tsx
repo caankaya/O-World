@@ -21,7 +21,6 @@ type RestCountriesInfosProps = {
 
 function RestCountriesInfos({
   countryData,
-
   countryId,
   favoritesCountries,
 }: RestCountriesInfosProps) {

@@ -23,13 +23,13 @@ const initialState: CountryState = {
 
 export const clearCountryAlert = createAction('stats/clearAlert');
 
-export const fetchRestCountries = createAsyncThunk<any, { id: string }>(
+export const fetchRestCountries = createAsyncThunk(
   'country/fetchRestCountries',
-  async ({ id }) => {
+  async (countryId: string) => {
     try {
-      const response = await axiosInstance.get(`/oworld/${id}`);
+      const response = await axiosInstance.get(`/oworld/${countryId}`);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(error.response.data.message);
     }
   }

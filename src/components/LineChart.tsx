@@ -62,7 +62,7 @@ function LineChart({ category }: LineChartProps) {
     );
   }
 
-  return null;
+  return <p>No data avaibles for this country</p>;
 }
 
 export default LineChart;

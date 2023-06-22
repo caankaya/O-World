@@ -13,7 +13,7 @@ import GraphCountry from '../GraphCountry';
 import SimpleLoader from '../SimpleLoader';
 import Infos from '../Infos';
 
-export default function Country({ params }: { params: { id: string } }) {
+export default function Country() {
   const dispatch = useAppDispatch();
   const { id } = useParams(); // Récupération de l'ID du pays depuis l'URL
   const countryId = id; // Utilisation de l'ID du pays
@@ -35,9 +35,9 @@ export default function Country({ params }: { params: { id: string } }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(fetchRestCountries({ id: countryId }));
-      await dispatch(fetchGraph({ id: countryId }));
-      await dispatch(fetchRadio({ id: countryId }));
+      await dispatch(fetchRestCountries(countryId as string));
+      await dispatch(fetchGraph(countryId as string));
+      await dispatch(fetchRadio(countryId as string));
     };
 
     fetchData();
@@ -88,7 +88,7 @@ export default function Country({ params }: { params: { id: string } }) {
           </div>
           <RestCountriesInfos
             countryData={data}
-            countryId={countryId}
+            countryId={countryId as string}
             favoritesCountries={favoritesCountries}
           />
         </>
@@ -114,7 +114,7 @@ export default function Country({ params }: { params: { id: string } }) {
               Detailed analysis
             </h2>
           </div>
-          <GraphCountry category={category} data={data} />
+          <GraphCountry category={category} />
         </>
       )}
     </div>
