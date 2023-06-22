@@ -39,8 +39,6 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
     unknown
   >;
 
-  let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
-
   useEffect(() => {
     const scale = isLargeScreen ? 350 : 150;
     const width = isLargeScreen ? 800 : 400;
