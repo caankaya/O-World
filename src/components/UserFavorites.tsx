@@ -4,7 +4,10 @@ import { CountryFavorites } from '../@types/countryFavorites';
 import { Flags } from '../@types/flags';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import SimpleLoader from './SimpleLoader';
-import { removeFavoriteCountry } from '../GlobalRedux/store/reducers/user';
+import {
+  fetchFavoritesCountries,
+  removeFavoriteCountry,
+} from '../GlobalRedux/store/reducers/user';
 
 type UserFavoritesProps = {
   favoritesCountries: CountryFavorites[];
@@ -40,6 +43,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
 
   const handleRemoveFavorite = (countryId: string) => {
     dispatch(removeFavoriteCountry({ countryId }));
+    dispatch(fetchFavoritesCountries());
     // setIsFavoriteCountry(false);
   };
 
