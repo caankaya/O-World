@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';

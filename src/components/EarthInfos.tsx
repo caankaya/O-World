@@ -2,7 +2,6 @@ import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../GlobalRedux/hooks';
 import { Earth, Moon } from '../@types/planetDatas';
-
 import { staggerContainer, fadeIn } from '../utils/motion';
 
 import SimpleLoader from './SimpleLoader';

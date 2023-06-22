@@ -50,16 +50,14 @@ function AdminTable({ stats, flags }: AdminTableProps) {
     <>
       <table className="table-auto w-full">
         <thead className="bg-neutral-focus">
-          <tr className="text-md text-info-content text-left">
-            <th className="flex items-center pl-6 py-4 font-bold text-info-content">
+          <tr className="text-md text-white text-left">
+            <th className="flex items-center pl-6 py-4 font-bold">
               Country origin
             </th>
-            <th className="py-4 font-bold text-info-content">Total user</th>
-            <th className="py-4 font-bold text-info-content">
-              Percentage of total
-            </th>
-            <th className="py-4 font-bold text-info-content">Average age</th>
-            <th className="py-4 font-bold text-info-content">Favorite</th>
+            <th className="py-4 font-bold">Total user</th>
+            <th className="py-4 font-bold">Percentage of total</th>
+            <th className="py-4 font-bold">Average age</th>
+            <th className="py-4 font-bold">Favorite</th>
           </tr>
         </thead>
         <tbody>
@@ -67,7 +65,7 @@ function AdminTable({ stats, flags }: AdminTableProps) {
           {currentData.map((row) => {
             const flagUrl = findFlagUrl(flags, row.iso3);
             return (
-              <tr key={row.iso3} className="border-b border-neutral">
+              <tr key={row.iso3} className="border-b border-neutral-content">
                 <td className="flex items-center px-6 font-medium">
                   <div className="flex px-4 py-3 items-center">
                     <div className="object-contain">
@@ -77,16 +75,16 @@ function AdminTable({ stats, flags }: AdminTableProps) {
                         alt=""
                       />
                     </div>
-                    <p className="text-md font-bold text-base-200">
+                    <p className="text-md font-bold text-white">
                       {row.country_origin}
                     </p>
                   </div>
                 </td>
                 <td className="font-bold items-center">
-                  <p className="text-sm text-base-200">{row.user_count}</p>
+                  <p className="text-sm text-white">{row.user_count}</p>
                 </td>
                 <td className="font-bold items-center">
-                  <p className="text-sm text-base-200">
+                  <p className="text-sm text-white">
                     {(
                       (parseInt(row.user_count, 10) / totalUsers) *
                       100
@@ -95,12 +93,12 @@ function AdminTable({ stats, flags }: AdminTableProps) {
                   </p>
                 </td>
                 <td className="font-bold items-center">
-                  <p className="text-sm text-base-200">
+                  <p className="text-sm text-white">
                     {parseFloat(row.average_age).toFixed(2)}
                   </p>
                 </td>
                 <td className="font-bold items-center">
-                  <p className="text-sm text-base-200">{row.favorite_count}</p>
+                  <p className="text-sm text-white">{row.favorite_count}</p>
                 </td>
               </tr>
             );

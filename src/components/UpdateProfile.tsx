@@ -72,7 +72,7 @@ function UpdateProfile() {
     <form
       ref={newformRef}
       method=""
-      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-full"
+      className="space-y-4 md:space-y-6 p-8 bg-base-100 rounded-lg shadow w-full"
       action="#"
       onSubmit={handleSubmit}
     >

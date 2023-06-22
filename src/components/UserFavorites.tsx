@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+
 import { useState } from 'react';
 import { CountryFavorites } from '../@types/countryFavorites';
 import { Flags } from '../@types/flags';
@@ -48,7 +49,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-full">
+    <div className="space-y-4 md:space-y-6 p-8 bg-base-100 rounded-lg shadow w-full">
       <div className="flex items-center justify-between mb-4 gap-6">
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Latest favorite countries
@@ -73,7 +74,6 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
               View less
             </a>
           ))}
-
       </div>
       <div className="flow-root">
         {!favoritesCountries && (
@@ -83,7 +83,6 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
         )}
         <ul className="divide-y divide-primary">
           {favoritesCountries &&
-
             favoritesCountries.slice(0, displayedCountries).map((country) => {
               const flagUrl = findFlagUrl(flags, country.cca3);
               return (
@@ -136,7 +135,6 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
                 </li>
               );
             })}
-
         </ul>
       </div>
     </div>

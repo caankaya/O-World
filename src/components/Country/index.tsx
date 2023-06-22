@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';

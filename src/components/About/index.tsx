@@ -1,9 +1,14 @@
 /* eslint-disable no-nested-ternary */
+
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppSelector } from '../../GlobalRedux/hooks';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0758d31625554fafd760b623461a178b4f7a1fbd
 import AnimatedText from '../../utils/motion';
+
 import CardProfil from '../CardProfil';
 
 export default function About() {

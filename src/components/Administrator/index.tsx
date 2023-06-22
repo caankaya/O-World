@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
@@ -60,14 +61,14 @@ export default function Administrator() {
       <div className="container px-4 mx-auto w-full">
         <div className="flex flex-wrap -mx-4">
           <div className="w-full px-4">
-            <div className="pt-4 bg-neutral-content shadow rounded">
+            <div className="pt-4 bg-base-100 shadow rounded">
               <div className="px-6 border-b border-neutral">
                 <div className="flex flex-wrap items-center mb-4">
                   <div>
-                    <h3 className="text-xl text-base-100 font-bold">
+                    <h3 className="text-xl text-white font-bold">
                       Statistics Admin Users
                     </h3>
-                    <p className="text-sm text-base-100 font-medium">
+                    <p className="text-sm text-white font-medium">
                       Users per country
                     </p>
                   </div>
