@@ -125,9 +125,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .find((d: any) => d.properties.name.toLowerCase().includes(query));
 
       if (matchedCountry) {
-        const selectedCountry = d3.select(`#${matchedCountry.id}`);
+        const selectedCountry = d3.select(`${matchedCountry.id}`);
         if (selectedCountry) {
-          // Check if the selection is valid
           selectedCountry.style('fill', '#0ff');
 
           const centroid = d3.geoCentroid(matchedCountry);
