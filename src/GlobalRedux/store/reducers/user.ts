@@ -89,7 +89,9 @@ export const accountUpdate = createAsyncThunk(
           },
         }
       );
-      return response;
+      console.log(response);
+
+      return response.data;
     } catch (error: string | any) {
       throw new Error(error.response.data.message as string);
     }
@@ -200,6 +202,7 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = false;
     })
     .addCase(login.fulfilled, (state, action) => {
+      state.loading = false;
       state.isLogged = true;
 
       const accessToken: IToken = jwt_decode(action.payload.accessToken);
@@ -265,10 +268,34 @@ const userReducer = createReducer(initialState, (builder) => {
       state.alert = null;
     })
     .addCase(accountUpdate.fulfilled, (state, action) => {
+      console.log(action.payload);
+
       state.loading = false;
+      // state.isLogged = true;
+
+      const accessToken: IToken = jwt_decode(action.payload.tokens.accessToken);
+      const { id } = accessToken.data;
+      const { username } = accessToken.data;
+      const { roles } = accessToken.data;
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('id');
+      localStorage.removeItem('username');
+      localStorage.removeItem('roles');
+
+      localStorage.setItem('accessToken', action.payload.tokens.accessToken);
+      localStorage.setItem('refreshToken', action.payload.tokens.refreshToken);
+      localStorage.setItem('id', id);
+      localStorage.setItem('username', username);
+      localStorage.setItem('roles', roles as string);
+
+      state.username = username;
+      state.roles = roles as string[];
+
       state.alert = {
         type: 'success',
-        message: `Your account has been updated.`,
+        message: `Good news ${username}! Your account has been updated.`,
       };
     })
     .addCase(accountUpdate.rejected, (state, action) => {

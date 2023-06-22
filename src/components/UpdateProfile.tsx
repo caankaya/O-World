@@ -104,9 +104,7 @@ function UpdateProfile() {
               name="username"
               id="updated-username"
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
-              defaultValue={username!}
-              placeholder={username!}
-              required
+              placeholder="newusername"
             />
           </div>
           <div className="border-b border-primary"></div>
@@ -122,8 +120,7 @@ function UpdateProfile() {
               name="email"
               id="new-email"
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
-              defaultValue="name@company.com"
-              placeholder="name@company.com"
+              placeholder="newname@company.com"
             />
           </div>
         </div>
@@ -159,6 +156,22 @@ function UpdateProfile() {
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
             />
           </div>
+        </div>
+        <div>
+          <label
+            htmlFor="password"
+            className="block mb-2 text-sm font-medium text-white"
+          >
+            Old password
+          </label>
+          <input
+            type="password"
+            name="old_password"
+            id="old_password"
+            placeholder="••••••••"
+            className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
+            required
+          />
         </div>
       </div>
 
