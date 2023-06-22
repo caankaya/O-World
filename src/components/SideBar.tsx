@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import { togglerSideBar } from '../GlobalRedux/store/reducers/home';
+import { Link } from 'react-router-dom';
 
 function SideBar() {
   const dispatch = useAppDispatch();
@@ -181,8 +182,8 @@ function SideBar() {
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -200,7 +201,7 @@ function SideBar() {
                     />
                   </svg>
                   Earth
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
