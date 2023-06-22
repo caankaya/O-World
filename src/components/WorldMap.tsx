@@ -28,7 +28,6 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
   const chartRef = useRef<any>(null);
   const [countryName, setCountryName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
-  console.log('searchText :', searchText);
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
@@ -93,6 +92,7 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .attr('fill', (d: any) => (d.favorite ? ' #828df8' : 'white'))
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
+        .style('cursor', 'pointer')
         .on('mouseover', function (event: MouseEvent, d: any) {
           if (d.favorite) {
             d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
