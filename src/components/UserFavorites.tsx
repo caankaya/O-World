@@ -10,13 +10,6 @@ interface UserFavoritesProps {
   flags: Flags[];
 }
 
-interface Flag {
-  cca3: string;
-  flags: {
-    png: string;
-  };
-}
-
 function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const [displayedCountries, setDisplayedCountries] = useState<number>(8);
   const [isViewAll, setIsViewAll] = useState<boolean>(false);
@@ -37,7 +30,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     setDisplayedCountries(8);
   };
 
-  const findFlagUrl = (flagsList: Flag[], cca3: string) => {
+  const findFlagUrl = (flagsList: Flags[], cca3: string) => {
     const flagData = flagsList.find((flag) => flag.cca3 === cca3);
     return flagData ? flagData.flags.png : '';
   };
