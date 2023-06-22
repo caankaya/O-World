@@ -246,7 +246,7 @@ function RegisterModal() {
                 I accept the{' '}
                 <a
                   className="text-sm font-medium text-white hover:underline"
-                  href="#"
+                  href="/legal"
                 >
                   Terms and Conditions
                 </a>
