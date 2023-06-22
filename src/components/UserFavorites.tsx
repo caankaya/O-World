@@ -49,7 +49,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-full">
+    <div className="space-y-4 md:space-y-6 p-8 bg-base-100 rounded-lg shadow w-full">
       <div className="flex items-center justify-between mb-4 gap-6">
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
           Latest favorite countries
