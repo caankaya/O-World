@@ -12,17 +12,18 @@ import axiosInstance from '../utils/axios';
 function RegisterModal() {
   const RegisterModalWidth = useAppSelector((state) => state.home.modalWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const isLoginModalOpen = useAppSelector((state) => state.home.sideBar);
+  const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const isRegisterModalOpen = useAppSelector(
     (state) => state.home.registerModal
   );
-  const [countries, setCountries] = useState<CountryIdentity[]>([]); // Retrieve the list of countries via API to dynamize the register form select
+  const [countries, setCountries] = useState<CountryIdentity[]>([]);
 
   const dispatch = useAppDispatch();
 
   function toggleRegisterModal() {
     dispatch(togglerRegisterModal(isRegisterModalOpen));
   }
+
   function toggleLoginModal() {
     dispatch(togglerLoginModal(isLoginModalOpen));
   }
@@ -39,7 +40,6 @@ function RegisterModal() {
           },
         });
         setCountries(response.data);
-        // console.log(response.data);
       } catch (error) {
         console.log('Data recovery error', error);
       }
@@ -47,7 +47,6 @@ function RegisterModal() {
     fetchCountries();
   }, []);
 
-  // Set up a useRef to target and reset the form
   const formRef = useRef<HTMLFormElement | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -55,7 +54,6 @@ function RegisterModal() {
 
     const registerFormData = new FormData(event.currentTarget);
 
-    // Checks if the email entered by the user has the correct format
     const email = registerFormData.get('email') as string;
     const emailRegex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     if (!emailRegex.test(email)) {
@@ -63,7 +61,6 @@ function RegisterModal() {
       return;
     }
 
-    // Check that the password entered by the user and the password confirmation are identical
     const password = registerFormData.get('password') as string;
     const confirmPassword = registerFormData.get('confirm-password') as string;
     if (password !== confirmPassword) {
@@ -75,30 +72,26 @@ function RegisterModal() {
       return;
     }
 
-    // Check that the password entered by the user is secure
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
     if (!passwordRegex.test(password)) {
       dispatch(
         handleError(
-          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+          'The password does not meet the required criteria: at least 8 characters, one uppercase, one lowercase, and one special character.'
         )
       );
       return;
     }
 
-    // Delete confirmpassword value before saving user info in DB
     registerFormData.delete('confirm-password');
 
     dispatch(register(registerFormData));
 
-    // Reset form after submission
     if (formRef.current) {
       formRef.current.reset();
     }
     toggleRegisterModal();
   };
 
-  // Reset form when closing modal before submission
   const handleCloseModal = () => {
     toggleRegisterModal();
     if (formRef.current) {
@@ -110,9 +103,17 @@ function RegisterModal() {
     <>
       {isRegisterModalOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-80 z-0"
+          role="button"
+          tabIndex={0}
           onClick={handleCloseModal}
-        />
+          onKeyDown={(event) => {
+            if (event.key === '') {
+              event.preventDefault();
+            }
+          }}
+        >
+          Click Me
+        </div>
       )}
       <dialog
         className="modal z-[1]"
@@ -129,7 +130,7 @@ function RegisterModal() {
           onSubmit={handleSubmit}
         >
           <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
-            Create and account
+            Create an account
           </h1>
           <div>
             <label
@@ -212,7 +213,7 @@ function RegisterModal() {
             >
               Password
               <span className="px-1 mb-2 text-xs text-white">
-                (+8 characters: upper case, number and special character)
+                (+8 characters: uppercase, number, and special character)
               </span>
             </label>
             <input

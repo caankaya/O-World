@@ -3,7 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useRef, useState } from 'react';
-import { useAppDispatch } from '../GlobalRedux/hooks';
+import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import {
   accountDeletion,
   accountUpdate,
@@ -12,7 +12,10 @@ import {
 
 function UpdateProfile() {
   const dispatch = useAppDispatch();
+  const DeleteModalWidth = useAppSelector((state) => state.home.modalWidth);
+  const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const username = useAppSelector((state) => state.user.username);
 
   // Set up a useRef to target and reset the form
   const newformRef = useRef<HTMLFormElement | null>(null);
@@ -35,15 +38,18 @@ function UpdateProfile() {
     }
 
     // Check that the password entered by the user is secure
-    const passwordRegex =
-      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
-    if (!passwordRegex.test(newPassword)) {
-      dispatch(
-        handleError(
-          'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
-        )
-      );
-      return;
+    if (newPassword) {
+      // Only perform validation if newPassword is provided
+      const passwordRegex =
+        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+      if (!passwordRegex.test(newPassword)) {
+        dispatch(
+          handleError(
+            'The password does not meet the required criteria: at least 8 characters, one upper case, one lower case and one special character.'
+          )
+        );
+        return;
+      }
     }
 
     // Delete confirmpassword value before saving user info in DB
@@ -66,7 +72,7 @@ function UpdateProfile() {
     <form
       ref={newformRef}
       method=""
-      className="w-full p-8 bg-base-100 rounded-lg shadow flex flex-col gap-5"
+      className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-full"
       action="#"
       onSubmit={handleSubmit}
     >
@@ -76,13 +82,15 @@ function UpdateProfile() {
             <img src="/alien-svgrepo-com.svg" alt="profil" />
           </div>
         </div>
-        <h5 className="mb-1 text-xl font-medium text-white ">Username</h5>
+        <h5 className="mb-1 text-xl font-semibold text-secondary">
+          Hi {username}, what's new?
+        </h5>
       </div>
-      <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
+      <h1 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-primary">
         Update your information
       </h1>
 
-      <div className="flex justify-between gap-16">
+      <div className="grid grid-cols-2 gap-16">
         <div className="flex flex-col gap-8">
           <div>
             <label
@@ -95,11 +103,13 @@ function UpdateProfile() {
               type="text"
               name="username"
               id="updated-username"
-              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              placeholder="username"
+              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
+              defaultValue={username!}
+              placeholder={username!}
               required
             />
           </div>
+          <div className="border-b border-primary"></div>
           <div>
             <label
               htmlFor="email"
@@ -111,9 +121,9 @@ function UpdateProfile() {
               type="email"
               name="email"
               id="new-email"
-              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
+              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
+              defaultValue="name@company.com"
               placeholder="name@company.com"
-              required
             />
           </div>
         </div>
@@ -130,10 +140,10 @@ function UpdateProfile() {
               name="password"
               id="new-password"
               placeholder="••••••••"
-              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              required
+              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
             />
           </div>
+          <div className="border-b border-primary"></div>
           <div>
             <label
               htmlFor="password"
@@ -146,8 +156,7 @@ function UpdateProfile() {
               name="confirm-password"
               id="confirm-new-password"
               placeholder="••••••••"
-              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              required
+              className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
             />
           </div>
         </div>
@@ -170,12 +179,22 @@ function UpdateProfile() {
         </a>
       </p>
       {isDeleteModalOpen && (
-        <dialog open={isDeleteModalOpen} id="my_modal_2" className="modal">
-          <form method="dialog" className="modal-box">
+        <dialog
+          open={isDeleteModalOpen}
+          id="my_modal_2"
+          className="modal"
+          style={
+            isSideBarOpen ? { width: DeleteModalWidth, float: 'right' } : {}
+          }
+        >
+          <form
+            method="dialog"
+            className="modal-box orbitron-font space-y-4 md:space-y-6 bg-base-100/80"
+          >
             <div className="p-6 text-center">
               <svg
                 aria-hidden="true"
-                className="mx-auto mb-4 text-gray-400 w-14 h-14"
+                className="mx-auto mb-4 text-error w-14 h-14"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -188,25 +207,26 @@ function UpdateProfile() {
                   d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <h3 className="mb-5 text-lg font-normal text-gray-500">
+              <h3 className="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white mb-6">
                 Are you sure you want to delete your account?
               </h3>
-              <button
-                // TODO Gérer le retour sur la Home Page avec un a et href
-                data-modal-hide="popup-modal"
-                className="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
-                onClick={handleClickDeleteAccount}
-              >
-                Yes, I'm sure
-              </button>
-              <button
-                data-modal-hide="popup-modal"
-                type="button"
-                className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10"
-                onClick={() => setIsDeleteModalOpen(!isDeleteModalOpen)}
-              >
-                No, cancel
-              </button>
+              <div className="flex justify-between">
+                <button
+                  data-modal-hide="popup-modal"
+                  className="text-white bg-error border-error hover:text-xl hover-shadow-neon rounded-lg text-sm px-5 py-2.5 text-center"
+                  onClick={handleClickDeleteAccount}
+                >
+                  Yes, I'm sure
+                </button>
+                <button
+                  data-modal-hide="popup-modal"
+                  type="button"
+                  className="text-white border hover:text-xl hover-shadow-neon rounded-lg text-sm px-5 py-2.5 text-center"
+                  onClick={() => setIsDeleteModalOpen(!isDeleteModalOpen)}
+                >
+                  No, cancel
+                </button>
+              </div>
             </div>
           </form>
           <form method="dialog" className="modal-backdrop">

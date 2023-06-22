@@ -1,16 +1,10 @@
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend,
-  BarElement,
-} from 'chart.js';
+import { Chart as ChartJS, Tooltip, Legend, BarElement } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { CountryCategories } from '../@types/countryCategories';
 
 ChartJS.register(BarElement, Tooltip, Legend);
 interface BarChartProps {
-  category: CountryCategories[] | any;
+  category: CountryCategories;
 }
 
 function BarChart({ category }: BarChartProps) {

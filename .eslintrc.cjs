@@ -3,6 +3,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
   },
   extends: [
     'airbnb',
@@ -24,11 +25,14 @@ module.exports = {
   overrides: [
     {
       files: ['src/**/store/**/*.ts'],
-      rules: { 'no-param-reassign': ['error', { props: false }] },
+      rules: {
+        'no-param-reassign': ['error', { props: false }, { endOfLine: 'auto' }],
+      },
     },
   ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'no-console': 'off',
     'react/react-in-jsx-scope': 0,
     'react/jsx-filename-extension': [
       2,

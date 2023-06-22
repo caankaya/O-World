@@ -14,7 +14,6 @@ import {
   togglerSideBar,
 } from '../GlobalRedux/store/reducers/home';
 
-// @ts-ignore
 import AnimatedText from '../utils/motion';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
@@ -94,7 +93,6 @@ function NavBar() {
                 className="w-12 rounded-full cursor-pointer"
                 onClick={() => {
                   dispatch(togglerDropDown(isDropDownMenuOpen));
-                  dispatch(togglerSideBar(false));
                 }}
               >
                 <img src="/alien-svgrepo-com.svg" alt="profil-picture" />

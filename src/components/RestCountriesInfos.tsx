@@ -2,7 +2,6 @@ import CountUp from 'react-countup';
 import { useEffect, useState } from 'react';
 
 import { motion } from 'framer-motion';
-// @ts-ignore
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { CountriesDataProps } from '../@types/countryData';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
@@ -22,22 +21,15 @@ type RestCountriesInfosProps = {
 
 function RestCountriesInfos({
   countryData,
-
   countryId,
   favoritesCountries,
 }: RestCountriesInfosProps) {
   const dispatch = useAppDispatch();
-
+  const isLogged = useAppSelector((state) => state.user.isLogged);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.country.infiniteLoading
   );
-  const isLogged = useAppSelector((state) => state.user.isLogged);
-
   const [isFavoriteCountry, setIsFavoriteCountry] = useState(false);
-
-  if (infiniteLoadingInfos || !countryData) {
-    return <SimpleLoader />;
-  }
 
   useEffect(() => {
     if (favoritesCountries) {
@@ -47,6 +39,10 @@ function RestCountriesInfos({
       setIsFavoriteCountry(isFavorite);
     }
   }, [favoritesCountries, countryId]);
+
+  if (infiniteLoadingInfos || !countryData) {
+    return <SimpleLoader />;
+  }
 
   const handleAddFavorite = () => {
     dispatch(addFavoriteCountry({ countryId }));

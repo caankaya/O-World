@@ -4,39 +4,45 @@ import { CountryCategories } from '../@types/countryCategories';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface PieChartProps {
-  category: CountryCategories;
-}
-
-function PieChart({ category }: PieChartProps) {
+function PieChart({ category }: { category: CountryCategories }) {
   if (category && category.environnement) {
     const { environnement } = category;
 
-    const co2EmissionValue = Object.values(environnement[0].values).filter(
-      Boolean
-    ) as number[];
+    const co2EmissionValue = Object.values(environnement[0].values);
     const co2EmissionAverage =
-      co2EmissionValue.reduce((sum, value) => sum + value) /
-      co2EmissionValue.length;
+      co2EmissionValue.reduce((sum, value) => {
+        if (typeof value === 'number') {
+          return sum + value;
+        }
+        return sum;
+      }, 0) / co2EmissionValue.length;
 
-    const energyValues = Object.values(environnement[1].values).filter(
-      Boolean
-    ) as number[];
+    const energyValues = Object.values(environnement[1].values);
     const energyAverage =
-      energyValues.reduce((sum, value) => sum + value) / energyValues.length;
+      energyValues.reduce((sum, value) => {
+        if (typeof value === 'number') {
+          return sum + value;
+        }
+        return sum;
+      }, 0) / energyValues.length;
 
-    const protectedValues = Object.values(environnement[2].values).filter(
-      Boolean
-    ) as number[];
+    const protectedValues = Object.values(environnement[2].values);
     const protectedAverage =
-      protectedValues.reduce((sum, value) => sum + value) /
-      protectedValues.length;
+      protectedValues.reduce((sum, value) => {
+        if (typeof value === 'number') {
+          return sum + value;
+        }
+        return sum;
+      }, 0) / protectedValues.length;
 
-    const pm25Values = Object.values(environnement[3].values).filter(
-      Boolean
-    ) as number[];
+    const pm25Values = Object.values(environnement[3].values);
     const pm25Average =
-      pm25Values.reduce((sum, value) => sum + value) / pm25Values.length;
+      pm25Values.reduce((sum, value) => {
+        if (typeof value === 'number') {
+          return sum + value;
+        }
+        return sum;
+      }, 0) / pm25Values.length;
 
     const data = {
       labels: [

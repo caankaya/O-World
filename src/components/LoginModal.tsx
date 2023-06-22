@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-nested-ternary */
 
+import { useRef } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import {
@@ -11,7 +12,6 @@ import {
 import { login } from '../GlobalRedux/store/reducers/user';
 
 function LoginModal() {
-  const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLoginModalOpen = useAppSelector((state) => state.home.loginModal);
   const loginModalWidth = useAppSelector((state) => state.home.modalWidth);
@@ -20,12 +20,32 @@ function LoginModal() {
   );
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
+  const dispatch = useAppDispatch();
+
+  function toggleRegisterModal() {
+    dispatch(togglerRegisterModal(isRegisterModalOpen));
+  }
+  function toggleLoginModal() {
+    dispatch(togglerLoginModal(isLoginModalOpen));
+  }
+
+  // Set up a useRef to target and reset the form
+  const formRef = useRef<HTMLFormElement | null>(null);
+
   // Soumission du formulaire de connexion
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
     dispatch(login(formData));
+  };
+
+  // Reset form when closing modal before submission
+  const handleCloseModal = () => {
+    toggleLoginModal();
+    if (formRef.current) {
+      formRef.current.reset();
+    }
   };
 
   return (
@@ -45,6 +65,7 @@ function LoginModal() {
         }
       >
         <form
+          ref={formRef}
           method="post"
           className="orbitron-font modal-box space-y-4 md:space-y-6 bg-base-100/80"
           onSubmit={handleSubmit}
@@ -64,7 +85,7 @@ function LoginModal() {
               name="username"
               id="username"
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-2.5"
-              placeholder="ChuckNorris"
+              placeholder="username"
               required
             />
           </div>
@@ -126,13 +147,7 @@ function LoginModal() {
           </p>
         </form>
         <form method="dialog" className="modal-backdrop">
-          <button
-            onClick={() => {
-              dispatch(togglerLoginModal(isLoginModalOpen));
-            }}
-          >
-            close
-          </button>
+          <button onClick={handleCloseModal}>close</button>
         </form>
       </dialog>
     </>

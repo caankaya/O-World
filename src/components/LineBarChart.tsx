@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
 import { CountryCategories } from '../@types/countryCategories';
-// @ts-ignore
 import { staggerContainer, fadeIn } from '../utils/motion';
 
 import LineChart from './LineChart';
 import BarChart from './BarChart';
 
 interface BarChartProps {
-  category: CountryCategories[];
+  category: CountryCategories;
 }
 
 function LineBarChart({ category }: BarChartProps) {

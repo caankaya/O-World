@@ -8,14 +8,14 @@ import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 
 interface CountryState {
-  category: CountryCategories[];
+  category: CountryCategories | null;
   loading: boolean;
   infiniteLoading: boolean;
   alert: AlertType | null;
 }
 
 const initialState: CountryState = {
-  category: [],
+  category: null,
   loading: false,
   infiniteLoading: false,
   alert: null,
@@ -23,13 +23,13 @@ const initialState: CountryState = {
 
 export const clearGraphAlert = createAction('planet/clearAlert');
 
-export const fetchGraph = createAsyncThunk<any, { id: string }>(
+export const fetchGraph = createAsyncThunk(
   'country/fetchGraph',
-  async ({ id }) => {
+  async (countryId: string) => {
     try {
-      const response = await axiosInstance.get(`/oworld/${id}/category`);
+      const response = await axiosInstance.get(`/oworld/${countryId}/category`);
       return response;
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(error.response.data.message);
     }
   }
