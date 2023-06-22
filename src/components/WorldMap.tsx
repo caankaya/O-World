@@ -91,11 +91,9 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .attr('stroke', 'gray')
         .attr('stroke-width', '.5px')
         .on('mouseover', function (event: MouseEvent, d: any) {
-          if (d.favorite) {
-            d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
-          } else {
-            d3.select(this).style('fill', '#3abff8');
-          }
+          d3.select(this)
+            .style('cursor', 'pointer')
+            .style('fill', d.favorite ? ' #606ff6' : '#3abff8');
           setCountryName(d.properties.name);
         })
 
@@ -126,17 +124,14 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .find((d: any) => d.properties.name.toLowerCase().includes(query));
 
       if (matchedCountry) {
-        const selectedCountry = d3.select(`${matchedCountry.id}`);
-        if (selectedCountry) {
-          selectedCountry.style('fill', '#0ff');
+        d3.select(`${matchedCountry.id}`).style('fill', '#0ff');
 
-          const centroid = d3.geoCentroid(matchedCountry);
-          projection.rotate([-centroid[0], -centroid[1]]);
-          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-          svg.selectAll('.country').attr('d', (d: any) => path(d));
+        const centroid = d3.geoCentroid(matchedCountry);
+        projection.rotate([-centroid[0], -centroid[1]]);
+        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+        svg.selectAll('.country').attr('d', (d: any) => path(d));
 
-          setCountryName(matchedCountry.properties.name);
-        }
+        setCountryName(matchedCountry.properties.name);
       } else {
         setCountryName('');
       }
