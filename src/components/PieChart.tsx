@@ -88,6 +88,7 @@ function PieChart({ category }: { category: CountryCategories }) {
       )
     );
   }
+  return <p>No data avaibles for this country</p>;
 }
 
 export default PieChart;
