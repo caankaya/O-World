@@ -1,3 +1,4 @@
-[[statics]]
-  route = "/*"
-  destination = "/index.html"
+[[redirects]]
+  from = "/*"
+  to = "/"
+  status = 200
