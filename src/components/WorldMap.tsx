@@ -78,9 +78,9 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         }
       );
 
-      countries = svg
+      let countries = svg
         .selectAll('path.country')
-        .data(filteredCollection)
+        .data<CountryFeature>(filteredCollection)
         .enter()
         .append('a')
         .attr('href', (d: any) => `country/${d.id}`)
