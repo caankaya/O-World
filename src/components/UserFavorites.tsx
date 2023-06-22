@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CountryFavorites } from '../@types/countryFavorites';
 import { Flags } from '../@types/flags';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
@@ -87,7 +88,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
               return (
                 <li className="py-3 sm:py-4" key={country.cca3}>
                   <div className="flex items-center justify-between space-x-4">
-                    <a href={`/country/${country.cca3}`} className="block">
+                    <Link to={`/country/${country.cca3}`} className="block">
                       <div className="flex items-center px-6 font-medium">
                         <div className="object-contain">
                           <img
@@ -103,7 +104,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
                           </p>
                         </div>
                       </div>
-                    </a>
+                    </Link>
                     <div className="flex gap-16">
                       <p className="font-medium text-white">
                         Added on {country.date}

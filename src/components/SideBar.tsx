@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import { togglerSideBar } from '../GlobalRedux/store/reducers/home';
-import { Link } from 'react-router-dom';
 
 function SideBar() {
   const dispatch = useAppDispatch();
@@ -57,8 +57,8 @@ function SideBar() {
 
         {/* Accessibilité */}
         <div className="space-y-2 font-medium mt-10 mb-10">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="flex items-center p-2 text-white font-semibold  hover:border hover-shadow-neon rounded-lg"
           >
             <svg
@@ -76,9 +76,9 @@ function SideBar() {
               />
             </svg>
             Home
-          </a>
-          <a
-            href="/about"
+          </Link>
+          <Link
+            to="/about"
             className="flex items-center p-2 text-white font-semibold  hover:border hover-shadow-neon rounded-lg"
           >
             <svg
@@ -96,7 +96,7 @@ function SideBar() {
               />
             </svg>
             About
-          </a>
+          </Link>
         </div>
         {/* Fin Accessibilité */}
 
@@ -136,8 +136,8 @@ function SideBar() {
           >
             <ul className="flex flex-col justify-start items-start text-white font-semibold">
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex p-2 w-full text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -155,12 +155,12 @@ function SideBar() {
                     />
                   </svg>
                   Mercury
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -178,7 +178,7 @@ function SideBar() {
                     />
                   </svg>
                   Venus
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
@@ -205,8 +205,8 @@ function SideBar() {
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -224,12 +224,12 @@ function SideBar() {
                     />
                   </svg>
                   Mars
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -247,12 +247,12 @@ function SideBar() {
                     />
                   </svg>
                   Jupiter
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -270,12 +270,12 @@ function SideBar() {
                     />
                   </svg>
                   Saturne
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -293,12 +293,12 @@ function SideBar() {
                     />
                   </svg>
                   Uranus
-                </a>
+                </Link>
               </li>
 
               <li className="mb-2 w-full">
-                <a
-                  href="/world"
+                <Link
+                  to="/world"
                   className="flex items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
                 >
                   <svg
@@ -316,7 +316,7 @@ function SideBar() {
                     />
                   </svg>
                   Neptune
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -467,8 +467,8 @@ function SideBar() {
               <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                 Hi {username}
               </span>
-              <a
-                href="/profile"
+              <Link
+                to="/profile"
                 className="flex mt-2 items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
               >
                 <svg
@@ -486,7 +486,7 @@ function SideBar() {
                   />
                 </svg>
                 Profile
-              </a>
+              </Link>
             </li>
           </ul>
         )}
@@ -497,8 +497,8 @@ function SideBar() {
               <span className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">
                 Admin
               </span>
-              <a
-                href="/administrator"
+              <Link
+                to="/administrator"
                 className="flex mt-2 items-center p-2 text-white font-semibold hover:border hover-shadow-neon rounded-lg"
               >
                 <svg
@@ -516,7 +516,7 @@ function SideBar() {
                   />
                 </svg>
                 Statistics
-              </a>
+              </Link>
             </li>
           </ul>
         )}

@@ -1,5 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useMediaQuery } from 'react-responsive';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../GlobalRedux/hooks';
 
 function Footer() {
@@ -23,9 +24,9 @@ function Footer() {
       }
     >
       <div className="items-start grid-flow-col cursor-pointer">
-        <a href="/about" className="orbitron-font text-[16px]">
+        <Link to="/about" className="orbitron-font text-[16px]">
           About
-        </a>
+        </Link>
       </div>
 
       <div className="items-center grid-flow-col text-center">

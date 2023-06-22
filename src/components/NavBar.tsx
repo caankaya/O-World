@@ -3,6 +3,7 @@
 /* eslint-disable no-nested-ternary */
 
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 
@@ -133,7 +134,7 @@ function NavBar() {
                       <ul>
                         <li>
                           <button className="orbitron-font block py-4 px-12 text-white font-semibold hover:text-xl hover:border hover-shadow-neon rounded-lg">
-                            <a href="/profile">PROFILE</a>
+                            <Link to="/profile">PROFILE</Link>
                           </button>
                           <button
                             onClick={() => {
