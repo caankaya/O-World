@@ -49,120 +49,124 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
 
     const path = d3.geoPath().projection(projection);
 
-    const svg = d3
-      .select(chartRef.current)
-      .append('svg')
-      .attr('id', 'world')
-      .attr('width', width)
-      .attr('height', height);
+    if (chartRef.current) {
+      const svg = d3
+        .select(chartRef.current)
+        .append('svg')
+        .attr('id', 'world')
+        .attr('width', width)
+        .attr('height', height);
 
-    const graticule = d3.geoGraticule();
-    svg
-      .append('path')
-      .datum(graticule())
-      .attr('class', 'graticule')
-      .attr('d', path);
-
-    d3.json('/world-countries.json').then((collection: any) => {
-      const filteredCollection = collection.features.map(
-        (feature: CountryFeature) => {
-          const isFavorite =
-            favoritesCountries &&
-            favoritesCountries.some((favorite) => favorite.cca3 === feature.id);
-          const favorite = isFavorite && isLogged; // Marquer comme favori uniquement si l'utilisateur est connecté
-          return {
-            ...feature,
-            favorite,
-          };
-        }
-      );
-
-      countriesRef.current = svg
-        .selectAll('path.country')
-        .data<CountryFeature>(filteredCollection)
-        .enter()
-        // .append('a')
-        // .attr('href', (d: any) => `${d.id}`)
+      const graticule = d3.geoGraticule();
+      svg
         .append('path')
-        .attr('d', (d: any) => path(d))
-        .attr('class', 'country')
-        .attr('id', (d: any) => d.id)
-        .attr('fill', (d: any) => (d.favorite ? ' #828df8' : 'white'))
-        .attr('stroke', 'gray')
-        .attr('stroke-width', '.5px')
-        .on('mouseover', function (event: MouseEvent, d: any) {
-          if (d.favorite) {
-            d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
-          } else {
-            d3.select(this).style('fill', '#3abff8');
+        .datum(graticule())
+        .attr('class', 'graticule')
+        .attr('d', path);
+
+      d3.json('/world-countries.json').then((collection: any) => {
+        const filteredCollection = collection.features.map(
+          (feature: CountryFeature) => {
+            const isFavorite =
+              favoritesCountries &&
+              favoritesCountries.some(
+                (favorite) => favorite.cca3 === feature.id
+              );
+            const favorite = isFavorite && isLogged; // Marquer comme favori uniquement si l'utilisateur est connecté
+            return {
+              ...feature,
+              favorite,
+            };
           }
-          setCountryName(d.properties.name);
-        })
+        );
 
-        .on('mouseout', function (event: MouseEvent, d: any) {
-          d3.select(this).style('fill', '');
-          setCountryName('');
-        })
-        .on('click', function (d) {
-          clickHandler(d);
-        });
-      const clickHandler = (d: React.MouseEvent<HTMLElement> | any) => {
-        navigate(`/country/${d.target.__data__.id}`);
-      };
-    });
+        countriesRef.current = svg
+          .selectAll('path.country')
+          .data<CountryFeature>(filteredCollection)
+          .enter()
+          // .append('a')
+          // .attr('href', (d: any) => `${d.id}`)
+          .append('path')
+          .attr('d', (d: any) => path(d))
+          .attr('class', 'country')
+          .attr('id', (d: any) => d.id)
+          .attr('fill', (d: any) => (d.favorite ? ' #828df8' : 'white'))
+          .attr('stroke', 'gray')
+          .attr('stroke-width', '.5px')
+          .on('mouseover', function (event: MouseEvent, d: any) {
+            if (d.favorite) {
+              d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
+            } else {
+              d3.select(this).style('fill', '#3abff8');
+            }
+            setCountryName(d.properties.name);
+          })
 
-    const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
-      const query = event.target.value.toLowerCase();
-      setSearchText(query);
-
-      if (!countriesRef.current) {
-        return; // countries is not available, exit the function
-      }
-
-      countriesRef.current.style('fill', '');
-
-      const matchedCountry: any = countriesRef.current
-        .data()
-        .find((d: any) => d.properties.name.toLowerCase().includes(query));
-
-      if (matchedCountry) {
-        d3.select(`${matchedCountry.id}`).style('fill', '#0ff');
-
-        const centroid = d3.geoCentroid(matchedCountry);
-        projection.rotate([-centroid[0], -centroid[1]]);
-        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d: any) => path(d));
-
-        setCountryName(matchedCountry.properties.name);
-      } else {
-        setCountryName('');
-      }
-    };
-
-    chartRef.current = { handleSearchChange };
-
-    const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
-    const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
-    const drag = d3
-      .drag<SVGSVGElement, any>()
-      .subject(() => {
-        const r = projection.rotate();
-        return {
-          x: lambda.invert(r[0]),
-          y: phi.invert(r[1]),
+          .on('mouseout', function (event: MouseEvent, d: any) {
+            d3.select(this).style('fill', '');
+            setCountryName('');
+          })
+          .on('click', function (d) {
+            clickHandler(d);
+          });
+        const clickHandler = (d: React.MouseEvent<HTMLElement> | any) => {
+          navigate(`/country/${d.target.__data__.id}`);
         };
-      })
-      .on('drag', (event) => {
-        projection.rotate([lambda(event.x), phi(event.y)]);
-        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-        svg.selectAll('.country').attr('d', (d: any) => path(d));
       });
 
-    svg.call(drag as any);
+      const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value.toLowerCase();
+        setSearchText(query);
 
-    return () => {
-      svg.remove();
-    };
+        if (!countriesRef.current) {
+          return; // countries is not available, exit the function
+        }
+
+        countriesRef.current.style('fill', '');
+
+        const matchedCountry: any = countriesRef.current
+          .data()
+          .find((d: any) => d.properties.name.toLowerCase().includes(query));
+
+        if (matchedCountry) {
+          d3.select(`${matchedCountry.id}`).style('fill', '#0ff');
+
+          const centroid = d3.geoCentroid(matchedCountry);
+          projection.rotate([-centroid[0], -centroid[1]]);
+          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+          svg.selectAll('.country').attr('d', (d: any) => path(d));
+
+          setCountryName(matchedCountry.properties.name);
+        } else {
+          setCountryName('');
+        }
+      };
+
+      chartRef.current = { handleSearchChange };
+
+      const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
+      const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
+      const drag = d3
+        .drag<SVGSVGElement, any>()
+        .subject(() => {
+          const r = projection.rotate();
+          return {
+            x: lambda.invert(r[0]),
+            y: phi.invert(r[1]),
+          };
+        })
+        .on('drag', (event) => {
+          projection.rotate([lambda(event.x), phi(event.y)]);
+          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+          svg.selectAll('.country').attr('d', (d: any) => path(d));
+        });
+
+      svg.call(drag as any);
+
+      return () => {
+        svg.remove();
+      };
+    }
   }, [favoritesCountries, isLogged]);
 
   return (
