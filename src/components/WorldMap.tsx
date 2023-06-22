@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
@@ -79,7 +81,7 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .data<CountryFeature>(filteredCollection)
         .enter()
         // .append('a')
-        // .attr('href', (d: any) => `${d.id}`)
+        // .attr('href', (d: any) => `country/${d.id}`)
         .append('path')
         .attr('d', (d: any) => path(d))
         .attr('class', 'country')
@@ -123,23 +125,20 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .find((d: any) => d.properties.name.toLowerCase().includes(query));
 
       if (matchedCountry) {
-        const selectedCountry = d3.select(`${matchedCountry.id}`);
-        if (selectedCountry) {
-          selectedCountry.style('fill', '#0ff');
+        d3.select(`#${matchedCountry.id}`).style('fill', '#0ff');
 
-          const centroid = d3.geoCentroid(matchedCountry);
-          projection.rotate([-centroid[0], -centroid[1]]);
-          svg.selectAll('.graticule').datum(graticule()).attr('d', path);
-          svg.selectAll('.country').attr('d', (d: any) => path(d));
+        const centroid = d3.geoCentroid(matchedCountry);
+        projection.rotate([-centroid[0], -centroid[1]]);
+        svg.selectAll('.graticule').datum(graticule()).attr('d', path);
+        svg.selectAll('.country').attr('d', (d: any) => path(d));
 
-          setCountryName(matchedCountry.properties.name);
-        }
+        setCountryName(matchedCountry.properties.name);
       } else {
         setCountryName('');
       }
     };
 
-    chartRef.current = { handleSearchChange };
+    chartRef.current.handleSearchChange = handleSearchChange;
 
     const lambda = d3.scaleLinear().domain([0, width]).range([-180, 180]);
     const phi = d3.scaleLinear().domain([0, height]).range([90, -90]);
@@ -187,7 +186,7 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
           type="text"
           placeholder="Search..."
           value={searchText}
-          onChange={(event) => chartRef.current?.handleSearchChange(event)}
+          onChange={(event) => chartRef.current.handleSearchChange(event)}
           className="orbitron-font input input-bordered input-info input-sm max-w-sm bg-transparent md:w-full"
         />
         <p className="orbitron-font italic text-[10px] md:text-sm text-neutral-content">
