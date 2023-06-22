@@ -115,7 +115,7 @@ function UpdateProfile() {
               placeholder="newusername"
             />
           </div>
-          <div className="border-b border-primary"></div>
+
           <div>
             <label
               htmlFor="email"
@@ -148,7 +148,6 @@ function UpdateProfile() {
               className="shadow-sm bg-white border border-white text-neutral sm:text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-focus block w-full p-3"
             />
           </div>
-          <div className="border-b border-primary"></div>
           <div>
             <label
               htmlFor="password"
@@ -165,12 +164,14 @@ function UpdateProfile() {
             />
           </div>
         </div>
+      </div>
+      <div className="border-t border-b pt-6 pb-8  border-primary">
         <div>
           <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-white"
           >
-            Old password
+            Confirm your account update with your old password
           </label>
           <input
             type="password"
