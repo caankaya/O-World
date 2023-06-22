@@ -31,16 +31,12 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
+  let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
+
   useEffect(() => {
     const scale = isLargeScreen ? 350 : 150;
     const width = isLargeScreen ? 800 : 400;
     const height = isLargeScreen ? 800 : 400;
-    let countries: d3.Selection<
-      SVGPathElement,
-      CountryFeature,
-      HTMLElement,
-      any
-    >;
 
     const projection = d3
       .geoOrthographic()
@@ -113,9 +109,14 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         navigate(`/country/${d.target.__data__.id}`);
       };
     });
+
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
       const query = event.target.value.toLowerCase();
       setSearchText(query);
+
+      if (!countries) {
+        return; // countries is not available, exit the function
+      }
 
       countries.style('fill', '');
 
