@@ -92,10 +92,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         .attr('stroke-width', '.5px')
         .on('mouseover', function (event: MouseEvent, d: any) {
           if (d.favorite) {
-            d3.select(this).style('cursor', 'pointer');
             d3.select(this).style('fill', ' #606ff6'); // Couleur différente pour les pays favoris lors du survol
           } else {
-            d3.select(this).style('cursor', 'pointer');
             d3.select(this).style('fill', '#3abff8');
           }
           setCountryName(d.properties.name);
