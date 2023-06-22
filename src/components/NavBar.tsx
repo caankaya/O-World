@@ -14,7 +14,6 @@ import {
   togglerSideBar,
 } from '../GlobalRedux/store/reducers/home';
 
-// @ts-ignore
 import AnimatedText from '../utils/motion';
 import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';

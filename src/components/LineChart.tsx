@@ -8,6 +8,7 @@ import {
   PointElement,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { CountryCategories } from '../@types/countryCategories';
 
 ChartJS.register(
   LineElement,
@@ -19,7 +20,7 @@ ChartJS.register(
 );
 
 interface LineChartProps {
-  category: any;
+  category: CountryCategories;
 }
 
 function LineChart({ category }: LineChartProps) {
@@ -61,7 +62,7 @@ function LineChart({ category }: LineChartProps) {
     );
   }
 
-  return null;
+  return <p>No data avaibles for this country</p>;
 }
 
 export default LineChart;

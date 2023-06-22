@@ -6,6 +6,7 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { ApiResponse, Celebrity, Radio } from '../../../@types/infos';
+import { countReset } from 'console';
 
 // Définir l'interface pour l'état
 interface InfosState {
@@ -29,13 +30,13 @@ const initialState: InfosState = {
 
 export const clearInfosAlert = createAction('infos/clearAlert');
 
-export const fetchRadio = createAsyncThunk<ApiResponse, { id: string }>(
+export const fetchRadio = createAsyncThunk(
   'country/fetchRadio',
-  async ({ id }) => {
+  async (countryId: string) => {
     try {
-      const response = await axiosInstance.get(`/oworld/${id}/wtf`);
+      const response = await axiosInstance.get(`/oworld/${countryId}/wtf`);
       return response.data;
-    } catch (error: any) {
+    } catch (error) {
       throw new Error(error.response?.data?.message);
     }
   }

@@ -1,8 +1,6 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-// @ts-ignore
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { useAppSelector } from '../GlobalRedux/hooks';
 import { Celebrity, Radio } from '../@types/infos';
@@ -20,6 +18,24 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
   const [shuffledCelebrities, setShuffledCelebrities] = useState<Celebrity[]>(
     []
   );
+  const shuffleArray = (array: Celebrity[]): Celebrity[] => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
+
+  useEffect(() => {
+    if (celebrity) {
+      const shuffled = shuffleArray(celebrity);
+      setShuffledCelebrities(shuffled.slice(0, 4));
+    }
+  }, [celebrity]);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.infos.infiniteLoading
   );
@@ -28,7 +44,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
     return <SimpleLoader />;
   }
 
-  const determineAudioType = (url: any) => {
+  const determineAudioType = (url: string) => {
     if (!url) return 'audio/*';
 
     if (url.endsWith('.mp3')) {
@@ -64,25 +80,6 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
     return 'audio/*';
   };
 
-  useEffect(() => {
-    if (celebrity) {
-      const shuffled = shuffleArray(celebrity);
-      setShuffledCelebrities(shuffled.slice(0, 4));
-    }
-  }, [celebrity]);
-
-  const shuffleArray = (array: Celebrity[]): Celebrity[] => {
-    const shuffledArray = [...array];
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
-    }
-    return shuffledArray;
-  };
-
   return (
     <section className="p-8 flex flex-col items-center justify-center w-full gap-5 orbitron-font">
       <motion.div
@@ -107,7 +104,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
                   src={radio?.url_resolved}
                   type={determineAudioType(radio?.url_resolved)}
                 />
-                Your browser doesn't support audio.
+                Your browser doesn&apos;t support audio.
               </audio>
             ) : (
               <div className="text-white font-bold">
@@ -151,10 +148,10 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             Celebrities
           </h2>
           <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
-            {shuffledCelebrities.map((celebrity, index) => (
+            {shuffledCelebrities.map((celebrities, index) => (
               <CardCelebrity
-                key={celebrity.name}
-                {...celebrity}
+                key={celebrities.name}
+                {...celebrities}
                 index={index}
                 active={active}
                 handleClick={setActive}

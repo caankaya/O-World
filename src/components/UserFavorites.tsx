@@ -9,10 +9,10 @@ import {
   removeFavoriteCountry,
 } from '../GlobalRedux/store/reducers/user';
 
-type UserFavoritesProps = {
+interface UserFavoritesProps {
   favoritesCountries: CountryFavorites[];
   flags: Flags[];
-};
+}
 
 function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const dispatch = useAppDispatch();
@@ -36,8 +36,8 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     setDisplayedCountries(5);
   };
 
-  const findFlagUrl = (flags: any[], cca3: string) => {
-    const flagData = flags.find((flag) => flag.cca3 === cca3);
+  const findFlagUrl = (flagsList: Flags[], cca3: string) => {
+    const flagData = flagsList.find((flag) => flag.cca3 === cca3);
     return flagData ? flagData.flags.png : '';
   };
 
@@ -51,8 +51,9 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     <div className="space-y-4 md:space-y-6 p-8 bg-primary-content/50 rounded-lg shadow w-full">
       <div className="flex items-center justify-between mb-4 gap-6">
         <h5 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl text-primary">
-          Latest favorites countries
+          Latest favorite countries
         </h5>
+
         {favoritesCountries &&
           favoritesCountries.length > 5 &&
           (!isViewAll ? (
@@ -72,6 +73,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
               View less
             </a>
           ))}
+
       </div>
       <div className="flow-root">
         {!favoritesCountries && (
@@ -81,6 +83,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
         )}
         <ul className="divide-y divide-primary">
           {favoritesCountries &&
+
             favoritesCountries.slice(0, displayedCountries).map((country) => {
               const flagUrl = findFlagUrl(flags, country.cca3);
               return (
@@ -95,6 +98,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
                             alt="Country flag"
                           />
                         </div>
+
                         <div className="flex">
                           <p className="font-medium text-white">
                             {country.name}
@@ -132,6 +136,7 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
                 </li>
               );
             })}
+
         </ul>
       </div>
     </div>
