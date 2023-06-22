@@ -15,9 +15,11 @@ export default function Home() {
   const isLogged = useAppSelector((state) => state.user.isLogged);
 
   useEffect(() => {
-    if (isLogged) {
-      dispatch(fetchFavoritesCountries());
-    }
+    const timer = setTimeout(() => {
+      if (isLogged) {
+        dispatch(fetchFavoritesCountries());
+      }
+    }, 10000);
   }, [dispatch, isLogged]);
 
   useEffect(() => {
