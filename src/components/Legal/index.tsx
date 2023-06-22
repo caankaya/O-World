@@ -9,7 +9,7 @@ export default function Legal() {
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const [active, setActive] = useState(0);
 
-  const handleSetActive = (index) => {
+  const handleSetActive = (index: number) => {
     setActive(index === active ? -1 : index);
   };
 
