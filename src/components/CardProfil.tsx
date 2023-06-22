@@ -2,7 +2,6 @@
 /* eslint-disable react/prop-types */
 
 import { motion } from 'framer-motion';
-// @ts-ignore
 import { fadeIn } from '../utils/motion';
 import CardProfilProps from '../@types/cardsTypes';
 
