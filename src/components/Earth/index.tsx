@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
+
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
 import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
 import EarthInfos from '../EarthInfos';
+
 import SimpleLoader from '../SimpleLoader';
 
 export default function Earth() {

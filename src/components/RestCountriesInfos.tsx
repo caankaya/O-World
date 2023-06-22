@@ -1,17 +1,16 @@
 import CountUp from 'react-countup';
 import { useEffect, useState } from 'react';
-
 import { motion } from 'framer-motion';
 import { staggerContainer, fadeIn } from '../utils/motion';
 import { CountriesDataProps } from '../@types/countryData';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
-
-import SimpleLoader from './SimpleLoader';
 import {
   addFavoriteCountry,
   removeFavoriteCountry,
 } from '../GlobalRedux/store/reducers/user';
 import { CountryFavorites } from '../@types/countryFavorites';
+
+import SimpleLoader from './SimpleLoader';
 
 type RestCountriesInfosProps = {
   countryData: CountriesDataProps | null;

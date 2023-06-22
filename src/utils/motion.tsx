@@ -2,9 +2,17 @@
 import { motion, useAnimation } from 'framer-motion'; // npm i framer-motion
 import { useEffect, useState } from 'react';
 
+type TextLetterProps = {
+  children: string;
+};
+
+type AnimatedTextProps = {
+  text: string;
+};
+
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Nous créons une chaîne de caractères qui contient tous les caractères que nous voulons utiliser pour animer le texte.
 
-function TextLetter({ children }) {
+function TextLetter({ children }: TextLetterProps) {
   const controls = useAnimation();
   const [displayLetter, setDisplayLetter] = useState(children);
 
@@ -48,7 +56,7 @@ function TextLetter({ children }) {
   );
 }
 
-function AnimatedText({ text }) {
+function AnimatedText({ text }: AnimatedTextProps) {
   return (
     <div className="">
       {Array.from(text).map((letter, i) => (
@@ -61,7 +69,10 @@ function AnimatedText({ text }) {
 
 export default AnimatedText;
 
-export const staggerContainer = (staggerChildren, delayChildren) => ({
+export const staggerContainer = (
+  staggerChildren: number,
+  delayChildren: number
+) => ({
   hidden: {},
   show: {
     transition: {
@@ -72,7 +83,12 @@ export const staggerContainer = (staggerChildren, delayChildren) => ({
 });
 
 // Effet d'animation d'afffichage fondu :
-export const fadeIn = (direction, type, delay, duration) => ({
+export const fadeIn = (
+  direction: 'left' | 'right' | 'up' | 'down',
+  type: string,
+  delay: number,
+  duration: number
+) => ({
   hidden: {
     x: direction === 'left' ? 100 : direction === 'right' ? -100 : 0,
     y: direction === 'up' ? 100 : direction === 'down' ? -100 : 0,

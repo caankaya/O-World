@@ -1,4 +1,5 @@
 /* eslint-disable no-nested-ternary */
+
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';

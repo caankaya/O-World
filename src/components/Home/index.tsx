@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
 import { fetchFavoritesCountries } from '../../GlobalRedux/store/reducers/user';
 import { setLoading } from '../../GlobalRedux/store/reducers/home';
 import HyperspaceEffect from '../HyperspaceEffect';
+
 import WorldMap from '../WorldMap';
 
 export default function Home() {

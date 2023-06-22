@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { CountryCategories } from '../@types/countryCategories';
-
 import { staggerContainer, fadeIn } from '../utils/motion';
 import PieChart from './PieChart';
 
