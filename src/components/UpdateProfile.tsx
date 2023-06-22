@@ -80,7 +80,7 @@ function UpdateProfile() {
     console.log(newDeleteFormData);
 
     dispatch(accountDeletion(newDeleteFormData));
-    setIsDeleteModalOpen(!isDeleteModalOpen);
+    // setIsDeleteModalOpen(!isDeleteModalOpen);
   };
 
   return (

@@ -238,7 +238,9 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
     .addCase(logout, (state) => {
+      state.loading = false;
       state.isLogged = false;
+      state.sessionId = null;
       state.username = null;
       state.roles = [];
       localStorage.clear();
@@ -275,7 +277,7 @@ const userReducer = createReducer(initialState, (builder) => {
       console.log(action.payload);
 
       state.loading = false;
-      // state.isLogged = true;
+      state.isLogged = true;
 
       const accessToken: IToken = jwt_decode(action.payload.tokens.accessToken);
       const { id } = accessToken.data;
@@ -319,8 +321,12 @@ const userReducer = createReducer(initialState, (builder) => {
       state.isLogged = false;
       state.sessionId = null;
       state.username = null;
+      state.roles = [];
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
+      localStorage.removeItem('id');
+      localStorage.removeItem('username');
+      localStorage.removeItem('roles');
       state.alert = {
         type: 'success',
         message: `Your account has been deleted.`,
