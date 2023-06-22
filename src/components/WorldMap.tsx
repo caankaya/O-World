@@ -31,7 +31,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
-  let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
+  const countriesRef = useRef<any>(null);
+  // let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
 
   useEffect(() => {
     const scale = isLargeScreen ? 350 : 150;
@@ -76,12 +77,12 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         }
       );
 
-      let countries = svg
+      countriesRef.current = svg
         .selectAll('path.country')
         .data<CountryFeature>(filteredCollection)
         .enter()
-        .append('a')
-        .attr('href', (d: any) => `${d.id}`)
+        // .append('a')
+        // .attr('href', (d: any) => `${d.id}`)
         .append('path')
         .attr('d', (d: any) => path(d))
         .attr('class', 'country')
@@ -114,13 +115,13 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
       const query = event.target.value.toLowerCase();
       setSearchText(query);
 
-      if (!countries) {
+      if (!countriesRef.current) {
         return; // countries is not available, exit the function
       }
 
-      countries.style('fill', '');
+      countriesRef.current.style('fill', '');
 
-      const matchedCountry: any = countries
+      const matchedCountry: any = countriesRef.current
         .data()
         .find((d: any) => d.properties.name.toLowerCase().includes(query));
 
