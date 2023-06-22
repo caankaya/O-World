@@ -3,14 +3,14 @@ import { useMediaQuery } from 'react-responsive';
 import { useAppSelector } from '../../GlobalRedux/hooks';
 import AnimatedText from '../../utils/motion';
 
-export default function About() {
+export default function Legal() {
   const aboutWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
-  const [active, setActive] = useState(false);
+  const [active, setActive] = useState(0);
 
-  const handleSetActive = () => {
-    setActive(!active);
+  const handleSetActive = (index) => {
+    setActive(index === active ? -1 : index);
   };
 
   return (
@@ -27,22 +27,32 @@ export default function About() {
       <div className="container px-4 mx-auto w-full">
         <div className="xl:max-w-4xl mx-auto text-center">
           <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-            TEAM
+            Legal
           </h1>
           <AnimatedText text="TEAM" />
           <p className="text-lg md:text-xl text-white font-medium">
-            Meet the aliens who made this possible
+            Even in space, respect for users is important
           </p>
         </div>
       </div>
 
       <div className="orbitron-font w-full flex flex-col items-center justify-center gap-2 shadow m-16">
         <div
-          className="collapse collapse-arrow bg-base-100 p-6 "
-          onClick={handleSetActive}
+          className={`collapse collapse-arrow ${
+            active === 0 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
         >
-          <input type="radio" name="my-accordion-2" checked="checked" />
-          <div className="collapse-title text-2xl font-bold text-primary">
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 0}
+            onChange={() => handleSetActive(0)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 0 ? 'text-primary' : 'text-white'
+            }`}
+          >
             Déclaration de confidentialité
           </div>
           <div className="collapse-content pr-10">
@@ -58,10 +68,23 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200 p-6">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-2xl font-bold text-white">
-            Collecte et utilisation des informations{' '}
+        <div
+          className={`collapse collapse-arrow ${
+            active === 1 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 1}
+            onChange={() => handleSetActive(1)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 1 ? 'text-primary' : 'text-white'
+            }`}
+          >
+            Collecte et utilisation des informations
           </div>
           <div className="collapse-content pr-10">
             <p>
@@ -74,9 +97,22 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">
+        <div
+          className={`collapse collapse-arrow ${
+            active === 2 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 2}
+            onChange={() => handleSetActive(2)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 2 ? 'text-primary' : 'text-white'
+            }`}
+          >
             Sécurité des données
           </div>
           <div className="collapse-content">
@@ -89,11 +125,24 @@ export default function About() {
               et la confidentialité de vos informations personnelles.
             </p>
           </div>
-        </div>{' '}
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">
-            Responsabilité des données erronées{' '}
+        </div>
+        <div
+          className={`collapse collapse-arrow ${
+            active === 3 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 3}
+            onChange={() => handleSetActive(3)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 3 ? 'text-primary' : 'text-white'
+            }`}
+          >
+            Responsabilité des données erronées
           </div>
           <div className="collapse-content">
             <p>
@@ -109,16 +158,44 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">Sources </div>
+        <div
+          className={`collapse collapse-arrow ${
+            active === 4 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 4}
+            onChange={() => handleSetActive(4)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 4 ? 'text-primary' : 'text-white'
+            }`}
+          >
+            Sources
+          </div>
           <div className="collapse-content">
             <p>- World Bank - Rest Country - Radio Browser - Ninja API</p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">
+        <div
+          className={`collapse collapse-arrow ${
+            active === 5 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 5}
+            onChange={() => handleSetActive(5)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 5 ? 'text-primary' : 'text-white'
+            }`}
+          >
             Liens vers des tiers
           </div>
           <div className="collapse-content">
@@ -132,9 +209,22 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">
+        <div
+          className={`collapse collapse-arrow ${
+            active === 6 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 6}
+            onChange={() => handleSetActive(6)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 6 ? 'text-primary' : 'text-white'
+            }`}
+          >
             Vos droits en matière de protection des données
           </div>
           <div className="collapse-content">
@@ -149,9 +239,24 @@ export default function About() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-arrow bg-base-200">
-          <input type="radio" name="my-accordion-2" />
-          <div className="collapse-title text-xl font-medium">Coordonnées </div>
+        <div
+          className={`collapse collapse-arrow ${
+            active === 7 ? 'bg-base-100' : 'bg-base-200'
+          } p-6`}
+        >
+          <input
+            type="radio"
+            name="my-accordion-2"
+            checked={active === 7}
+            onChange={() => handleSetActive(7)}
+          />
+          <div
+            className={`collapse-title text-2xl font-bold ${
+              active === 7 ? 'text-primary' : 'text-white'
+            }`}
+          >
+            Coordonnées{' '}
+          </div>
           <div className="collapse-content">
             <p>
               Si vous avez des questions, des préoccupations ou des demandes
