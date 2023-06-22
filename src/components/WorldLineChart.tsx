@@ -18,7 +18,14 @@ ChartJS.register(
   BarController
 );
 
-function WorldLineChart({ population }) {
+interface PopulationsProps {
+  population: {
+    indicator: string;
+    values: number;
+  };
+}
+
+function WorldLineChart({ population }: PopulationsProps) {
   if (population) {
     const years = Object.keys(population);
     const populations = Object.values(population);
@@ -56,24 +63,6 @@ function WorldLineChart({ population }) {
       responsive: true,
       maintainAspectRatio: false,
       aspectRatio: 1.5,
-      plugins: {
-        legend: {
-          display: true,
-        },
-        tooltip: {
-          enabled: true,
-        },
-      },
-      animations: {
-        duration: 5000, // durée de l'animation en millisecondes
-        easing: 'easeInOutElastic', // type d'effet d'atténuation
-      },
-      scales: {
-        y: {
-          min: 6000000000,
-          max: 8500000000,
-        },
-      },
     };
 
     return (
