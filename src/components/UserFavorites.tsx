@@ -42,10 +42,9 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     return flagData ? flagData.flags.png : '';
   };
 
-  const handleRemoveFavorite = (countryId: string) => {
-    dispatch(removeFavoriteCountry({ countryId }));
-    dispatch(fetchFavoritesCountries());
-    // setIsFavoriteCountry(false);
+  const handleRemoveFavorite = async (countryId: string) => {
+    await dispatch(removeFavoriteCountry({ countryId }));
+    await dispatch(fetchFavoritesCountries());
   };
 
   return (
