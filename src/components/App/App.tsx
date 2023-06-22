@@ -1,10 +1,5 @@
 // App.tsx
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import '../../styles/globals.css';
 import '../../styles/alien-font.css';
@@ -20,7 +15,7 @@ import Profil from '../Profil';
 import Administrator from '../Administrator';
 
 function App() {
-  const { id } = useParams(); // Récupération de l'ID du pays depuis l'URL
+  // Récupération de l'ID du pays depuis l'URL
   return (
     <Router>
       <Routes>
@@ -31,7 +26,7 @@ function App() {
           <Route path="/profile" element={<Profil />} />
           <Route path="/administrator" element={<Administrator />} />
           <Route path="/world" element={<Earth />} />
-          <Route path="/country/:id" element={<Country params={{ id }} />} />
+          <Route path="/country/:id" element={<Country />} />
         </Route>
         {/* 404 Page without Layout */}
         <Route path="/*" element={<Error404 />} />
