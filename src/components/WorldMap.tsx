@@ -4,6 +4,7 @@ import { useMediaQuery } from 'react-responsive';
 import { useNavigate } from 'react-router-dom';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
+import { Selection } from 'd3';
 import { useAppSelector } from '../GlobalRedux/hooks';
 import { CountryFavorites } from '../@types/countryFavorites';
 
@@ -27,9 +28,16 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
   const chartRef = useRef<any>(null);
   const [countryName, setCountryName] = useState<string>('');
   const [searchText, setSearchText] = useState<string>('');
+  console.log('searchText :', searchText);
   const worldWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
+  let countries: Selection<
+    SVGPathElement,
+    CountryFeature,
+    SVGSVGElement,
+    unknown
+  >;
 
   let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
 
@@ -76,12 +84,10 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         }
       );
 
-      let countries = svg
-        .selectAll('path.country')
+      countries = svg
+        .selectAll<SVGPathElement, CountryFeature>('path.country')
         .data<CountryFeature>(filteredCollection)
         .enter()
-        // .append('a')
-        // .attr('href', (d: any) => `country/${d.id}`)
         .append('path')
         .attr('d', (d: any) => path(d))
         .attr('class', 'country')
