@@ -55,6 +55,14 @@ function UpdateProfile() {
     // Delete confirmpassword value before saving user info in DB
     newFormData.delete('confirm-password');
 
+    // Delete empty fields from FormData
+    for (let pair of newFormData.entries()) {
+      const [, value] = pair;
+      if (!value) {
+        newFormData.delete(pair[0]);
+      }
+    }
+
     dispatch(accountUpdate(newFormData));
 
     // Reset form after submission
