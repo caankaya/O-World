@@ -11,7 +11,7 @@ import Earth from '../Earth';
 import Error404 from '../Error404';
 import Layout from '../Layout';
 import Country from '../Country';
-import Profil from '../Profil';
+import Profil from '../Profile';
 import Administrator from '../Administrator';
 
 function App() {

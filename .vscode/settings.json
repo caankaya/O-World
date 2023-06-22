@@ -11,7 +11,10 @@
   "files.exclude": {
     "USE_GITIGNORE": true
   },
-  "files.eol": "\n",
+  "files.eol": "\r\n", // Utiliser CRLF (Windows) par défaut
+  "[linux]": {
+      "files.eol": "\n" // Utiliser LF (Linux) pour les environnements Linux
+  },
   "javascript.validate.enable": false,
   "search.exclude": {
     "**/node_modules": true,

@@ -25,7 +25,9 @@ module.exports = {
   overrides: [
     {
       files: ['src/**/store/**/*.ts'],
-      rules: { 'no-param-reassign': ['error', { props: false }] },
+      rules: {
+        'no-param-reassign': ['error', { props: false }, { endOfLine: 'auto' }],
+      },
     },
   ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
