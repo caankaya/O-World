@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { CountriesDataProps } from '../../../@types/countryData';
 import axiosInstance from '../../../utils/axios';
+
 import { AlertType } from '../../../@types/alert';
 
 interface CountryState {
@@ -29,8 +30,8 @@ export const fetchRestCountries = createAsyncThunk(
     try {
       const response = await axiosInstance.get(`/oworld/${countryId}`);
       return response;
-    } catch (error) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );

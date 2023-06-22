@@ -37,8 +37,8 @@ export const fetchAdminStatsData = createAsyncThunk(
         }
       );
       return response.data;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );

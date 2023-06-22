@@ -29,8 +29,8 @@ export const fetchGraph = createAsyncThunk(
     try {
       const response = await axiosInstance.get(`/oworld/${countryId}/category`);
       return response;
-    } catch (error) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );

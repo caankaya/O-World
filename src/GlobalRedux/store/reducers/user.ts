@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
+import { IToken } from '../../../@types/accessToken';
 
 interface UserState {
   username: string | null;
@@ -55,9 +56,8 @@ export const login = createAsyncThunk(
     try {
       const response = await axiosInstance.post('/log/in', obj);
       return response.data.data;
-    } catch (error) {
-      console.log('error:', error);
-      throw error;
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -69,8 +69,8 @@ export const register = createAsyncThunk(
     try {
       const response = await axiosInstance.post('/user', obj);
       return response;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -90,8 +90,8 @@ export const accountUpdate = createAsyncThunk(
         }
       );
       return response;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -106,8 +106,8 @@ export const accountDeletion = createAsyncThunk(
         },
       });
       return response;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -142,8 +142,8 @@ export const fetchFavoritesCountries = createAsyncThunk(
         );
         return transformedData;
       }
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -162,8 +162,8 @@ export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
         }
       );
       return response.data;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
     }
   }
 );
@@ -182,8 +182,8 @@ export const removeFavoriteCountry = createAsyncThunk<
       }
     );
     return response.data;
-  } catch (error: any) {
-    throw new Error(error.response.data.message);
+  } catch (error: string | any) {
+    throw new Error(error.response.data.message as string);
   }
 });
 
@@ -202,7 +202,7 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       state.isLogged = true;
 
-      const accessToken: any = jwt_decode(action.payload.accessToken);
+      const accessToken: IToken = jwt_decode(action.payload.accessToken);
       const { id } = accessToken.data;
       const { username } = accessToken.data;
       const { roles } = accessToken.data;
@@ -211,10 +211,10 @@ const userReducer = createReducer(initialState, (builder) => {
       localStorage.setItem('refreshToken', action.payload.refreshToken);
       localStorage.setItem('id', id);
       localStorage.setItem('username', username);
-      localStorage.setItem('roles', roles);
+      localStorage.setItem('roles', roles as string);
 
       state.username = username;
-      state.roles = roles;
+      state.roles = roles as string[];
 
       state.alert = {
         type: 'success',

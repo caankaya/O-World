@@ -27,8 +27,8 @@ export const fetchFlagsData = createAsyncThunk(
     try {
       const response = await axiosInstance.get('/oworld/flags');
       return response.data;
-    } catch (error: any) {
-      throw new Error(error.response.data.message);
+    } catch (error: string | any) {
+      throw new Error(error.response.data.message as any);
     }
   }
 );

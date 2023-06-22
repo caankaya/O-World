@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useAppSelector } from '../../GlobalRedux/hooks';
-// @ts-ignore
+
 import AnimatedText from '../../utils/motion';
 import CardProfil from '../CardProfil';
 
