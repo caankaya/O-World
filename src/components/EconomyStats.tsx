@@ -77,6 +77,7 @@ function Economy({ category }: EconomyProps) {
       </motion.div>
     );
   }
+  return null;
 }
 
 export default Economy;
