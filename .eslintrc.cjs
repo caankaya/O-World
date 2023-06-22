@@ -30,6 +30,7 @@ module.exports = {
   ],
   plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
+    'no-console': 'off',
     'react/react-in-jsx-scope': 0,
     'react/jsx-filename-extension': [
       2,
