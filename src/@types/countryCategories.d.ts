@@ -43,6 +43,7 @@ export interface Economy {
 }
 
 export interface Values {
+  toFixed(arg0: number): import('react').ReactNode;
   2002: number | null;
   2003: number | null;
   2004: number | null;
