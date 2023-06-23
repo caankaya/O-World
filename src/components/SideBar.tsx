@@ -2,10 +2,11 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import { togglerSideBar } from '../GlobalRedux/store/reducers/home';
+import { resetCountryData } from '../GlobalRedux/store/reducers/country';
 
 function SideBar() {
   const dispatch = useAppDispatch();
@@ -31,6 +32,8 @@ function SideBar() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const location = useLocation();
 
   return (
     <aside
@@ -344,7 +347,7 @@ function SideBar() {
         {/* Fin de catégories pour le monde */}
 
         {/* Debut catégories pour un pays */}
-        {data && (
+        {data && location.pathname.startsWith('/country') && (
           <div className="space-y-2 font-medium mt-10 mb-10">
             <div className="flex items-center justify-between">
               <h2 className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">

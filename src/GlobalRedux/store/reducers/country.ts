@@ -36,6 +36,8 @@ export const fetchRestCountries = createAsyncThunk(
   }
 );
 
+export const resetCountryData = createAction('country/reset-data');
+
 const countryReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchRestCountries.pending, (state) => {

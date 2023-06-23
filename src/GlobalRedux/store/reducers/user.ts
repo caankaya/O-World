@@ -330,11 +330,6 @@ const userReducer = createReducer(initialState, (builder) => {
       state.sessionId = null;
       state.username = null;
       state.roles = [];
-      // localStorage.removeItem('accessToken');
-      // localStorage.removeItem('refreshToken');
-      // localStorage.removeItem('id');
-      // localStorage.removeItem('username');
-      // localStorage.removeItem('roles');
       localStorage.clear();
       state.alert = {
         type: 'success',
