@@ -149,15 +149,21 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
             Celebrities
           </h2>
           <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
-            {shuffledCelebrities.map((celebrities, index) => (
-              <CardCelebrity
-                key={celebrities.name}
-                {...celebrities}
-                index={index}
-                active={active}
-                handleClick={setActive}
-              />
-            ))}
+            {shuffledCelebrities.length > 0 ? (
+              shuffledCelebrities.map((celebrities, index) => (
+                <CardCelebrity
+                  key={celebrities.name}
+                  {...celebrities}
+                  index={index}
+                  active={active}
+                  handleClick={setActive}
+                />
+              ))
+            ) : (
+              <div className="text-white font-bold">
+                No celebrities available for this Country.
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
