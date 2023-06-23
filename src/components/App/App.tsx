@@ -19,6 +19,7 @@ import Layout from '../Layout';
 import Country from '../Country';
 import Profil from '../Profile';
 import Administrator from '../Administrator';
+import Legal from '../Legal';
 
 function App() {
   // Récupération de l'ID du pays depuis l'URL
@@ -29,6 +30,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/legal" element={<Legal />} />
           <Route path="/profile" element={<Profil />} />
           <Route path="/administrator" element={<Administrator />} />
           <Route path="/mercury" element={<Mercury />} />
