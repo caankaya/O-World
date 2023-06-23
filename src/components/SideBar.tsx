@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 import { useAppDispatch, useAppSelector } from '../GlobalRedux/hooks';
 import { togglerSideBar } from '../GlobalRedux/store/reducers/home';
@@ -34,10 +34,18 @@ function SideBar() {
   }, []);
 
   const location = useLocation();
+  const navigate = useNavigate();
+  const previousLocationRef = useRef(location);
   useEffect(() => {
-    // Mettre à jour la valeur de data à false lorsque la route change
-    dispatch(resetCountryData());
-  }, [dispatch, location]);
+    const previousPathname = previousLocationRef.current.pathname;
+    const currentPathname = location.pathname;
+
+    if (previousPathname !== currentPathname) {
+      dispatch(resetCountryData());
+    }
+
+    previousLocationRef.current = location;
+  }, [dispatch, location, navigate]);
 
   return (
     <aside
