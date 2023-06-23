@@ -6,7 +6,6 @@ import { AlertType } from '../@types/alert';
 function Toast() {
   const [showAlert, setShowAlert] = useState<boolean>(false);
   const [alertData, setAlertData] = useState(null as AlertType | null);
-  console.log('AlertData :', alertData);
 
   const alertUser = useAppSelector((state) => state.user.alert);
   const alertStats = useAppSelector((state) => state.stats.alert);

@@ -21,12 +21,21 @@ export default function Home() {
   }, [dispatch, isLogged]);
 
   useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.removeItem('Hyperspace');
+    };
+
     const timer = setTimeout(() => {
       dispatch(setLoading(false));
       localStorage.setItem('Hyperspace', 'true');
     }, 3000);
 
-    return () => clearTimeout(timer);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, [dispatch]);
 
   return loading && !localStorage.getItem('Hyperspace') ? (
