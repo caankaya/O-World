@@ -34,6 +34,10 @@ function SideBar() {
   }, []);
 
   const location = useLocation();
+  useEffect(() => {
+    // Mettre à jour la valeur de data à false lorsque la route change
+    dispatch(resetCountryData());
+  }, [dispatch, location]);
 
   return (
     <aside
@@ -347,7 +351,7 @@ function SideBar() {
         {/* Fin de catégories pour le monde */}
 
         {/* Debut catégories pour un pays */}
-        {data && location.pathname.startsWith('/country') && (
+        {data && (
           <div className="space-y-2 font-medium mt-10 mb-10">
             <div className="flex items-center justify-between">
               <h2 className="self-center text-xl font-semibold whitespace-nowrap shadow-neon">

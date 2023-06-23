@@ -59,6 +59,10 @@ const countryReducer = createReducer(initialState, (builder) => {
       };
     })
 
+    .addCase(resetCountryData, (state) => {
+      state.data = null;
+    })
+
     .addCase(clearCountryAlert, (state) => {
       state.alert = null;
     });
