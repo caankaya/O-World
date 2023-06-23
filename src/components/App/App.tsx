@@ -6,6 +6,7 @@ import '../../styles/orbitron-font.css';
 
 import Home from '../Home';
 import About from '../About';
+import Legal from '../Legal';
 import Earth from '../Earth';
 import Error404 from '../Error404';
 import Layout from '../Layout';
@@ -22,6 +23,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/legal" element={<Legal />} />
           <Route path="/profile" element={<Profil />} />
           <Route path="/administrator" element={<Administrator />} />
           <Route path="/world" element={<Earth />} />

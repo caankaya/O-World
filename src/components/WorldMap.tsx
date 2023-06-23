@@ -39,6 +39,8 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
     unknown
   >;
 
+  let countries: d3.Selection<SVGPathElement, CountryFeature, HTMLElement, any>;
+
   useEffect(() => {
     const scale = isLargeScreen ? 350 : 150;
     const width = isLargeScreen ? 800 : 400;
@@ -113,9 +115,14 @@ function WorldMap({ favoritesCountries, isLogged }: Props) {
         navigate(`/country/${d.target.__data__.id}`);
       };
     });
+
     const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
       const query = event.target.value.toLowerCase();
       setSearchText(query);
+
+      if (!countries) {
+        return; // countries is not available, exit the function
+      }
 
       countries.style('fill', '');
 

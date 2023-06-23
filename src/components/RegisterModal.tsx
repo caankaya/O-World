@@ -103,18 +103,7 @@ function RegisterModal() {
   return (
     <>
       {isRegisterModalOpen && (
-        <div
-          role="button"
-          tabIndex={0}
-          onClick={handleCloseModal}
-          onKeyDown={(event) => {
-            if (event.key === '') {
-              event.preventDefault();
-            }
-          }}
-        >
-          Click Me
-        </div>
+        <div className="fixed inset-0 bg-black bg-opacity-80 z-0" />
       )}
       <dialog
         className="modal z-[1]"
@@ -257,7 +246,7 @@ function RegisterModal() {
                 I accept the{' '}
                 <a
                   className="text-sm font-medium text-white hover:underline"
-                  href="#"
+                  href="/legal"
                 >
                   Terms and Conditions
                 </a>
