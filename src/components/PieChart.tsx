@@ -8,7 +8,10 @@ function PieChart({ category }: { category: CountryCategories }) {
   if (category && category.environnement) {
     const { environnement } = category;
 
-    const co2EmissionValue = Object.values(environnement[0].values);
+    const co2EmissionValue =
+      environnement && environnement[0]
+        ? Object.values(environnement[0].values)
+        : [];
     const co2EmissionAverage =
       co2EmissionValue.reduce((sum, value) => {
         if (typeof value === 'number') {
@@ -17,7 +20,10 @@ function PieChart({ category }: { category: CountryCategories }) {
         return sum;
       }, 0) / co2EmissionValue.length;
 
-    const energyValues = Object.values(environnement[1].values);
+    const energyValues =
+      environnement && environnement[1]
+        ? Object.values(environnement[1].values)
+        : [];
     const energyAverage =
       energyValues.reduce((sum, value) => {
         if (typeof value === 'number') {
@@ -26,7 +32,10 @@ function PieChart({ category }: { category: CountryCategories }) {
         return sum;
       }, 0) / energyValues.length;
 
-    const protectedValues = Object.values(environnement[2].values);
+    const protectedValues =
+      environnement && environnement[2]
+        ? Object.values(environnement[2].values)
+        : [];
     const protectedAverage =
       protectedValues.reduce((sum, value) => {
         if (typeof value === 'number') {
@@ -35,7 +44,10 @@ function PieChart({ category }: { category: CountryCategories }) {
         return sum;
       }, 0) / protectedValues.length;
 
-    const pm25Values = Object.values(environnement[3].values);
+    const pm25Values =
+      environnement && environnement[3]
+        ? Object.values(environnement[3].values)
+        : [];
     const pm25Average =
       pm25Values.reduce((sum, value) => {
         if (typeof value === 'number') {

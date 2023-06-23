@@ -25,14 +25,14 @@ interface LineChartProps {
 
 function LineChart({ category }: LineChartProps) {
   if (category && category.population) {
-    const population = category.population[0].values;
+    const population = category.population?.[0]?.values;
 
     const data = {
-      labels: Object.keys(population),
+      labels: Object.keys(population || {}),
       datasets: [
         {
           label: 'Population total',
-          data: Object.values(population),
+          data: Object.values(population || {}),
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1,

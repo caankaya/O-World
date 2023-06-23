@@ -9,14 +9,14 @@ interface BarChartProps {
 
 function BarChart({ category }: BarChartProps) {
   if (category && category.job) {
-    const population = category.population[1].values;
+    const population = category.population?.[1]?.values;
 
     const data = {
-      labels: Object.keys(population),
+      labels: Object.keys(population || {}),
       datasets: [
         {
           label: 'Life expectancy at birth, total (years)',
-          data: Object.values(population),
+          data: Object.values(population || {}),
           borderColor: [
             'rgb(255, 99, 132)',
             'rgb(255, 159, 64)',
