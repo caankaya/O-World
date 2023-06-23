@@ -3,21 +3,21 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
-import EarthInfos from '../EarthInfos';
+import { fetchUranusData } from '../../GlobalRedux/store/reducers/planet';
 
+import UranusInfos from '../UranusInfos';
 import SimpleLoader from '../SimpleLoader';
 
-export default function Earth() {
+export default function Uranus() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
   const loading = useAppSelector((state) => state.planet.loading);
-  const earthData = useAppSelector((state) => state.planet.earthData);
+  const uranusData = useAppSelector((state) => state.planet.uranusData);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
-    dispatch(fetchEarthData());
+    dispatch(fetchUranusData());
   }, [dispatch]);
 
   return loading ? (
@@ -35,16 +35,16 @@ export default function Earth() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Earth
+          Uranus
         </h1>
       </div>
-      <p className="px-4 md:px-16 mb-4 text-justify">
-        Earth is the third planet from the Sun and the only known planet to
-        harbor life. Its atmosphere is composed of nitrogen, oxygen, and other
-        trace gases. Earth has diverse ecosystems, landforms, and climates, and
-        it has one natural satellite, the Moon.
+      <p className="px-4 md:px-16 text-justify">
+        Uranus is the seventh planet from the Sun and is known as an "ice
+        giant". It has a bluish color due to the presence of methane in its
+        atmosphere. Unlike other planets, Uranus has an extreme axial tilt,
+        causing it to rotate on its side.
       </p>
-      <EarthInfos earthData={earthData} />
+      <UranusInfos uranusData={uranusData} />
     </div>
   );
 }

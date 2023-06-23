@@ -5,6 +5,26 @@ export interface Moon {
   orbitalPeriod: string;
 }
 
+export interface Mercury {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
+export interface Venus {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
 export interface Earth {
   atmosphereComposition: { [key: string]: string };
   averageTemperature: string;
@@ -18,5 +38,55 @@ export interface Earth {
   name: string;
   orbitalPeriod: string;
   population: string;
+  rotationPeriod: string;
+}
+
+export interface Mars {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
+export interface Jupiter {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
+export interface Saturn {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
+export interface Uranus {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
+  rotationPeriod: string;
+}
+
+export interface Neptune {
+  averageTemperature: string;
+  diameter: string;
+  mass: string;
+  moons: Moon[];
+  name: string;
+  orbitalPeriod: string;
   rotationPeriod: string;
 }
