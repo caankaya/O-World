@@ -3,21 +3,21 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
-import EarthInfos from '../EarthInfos';
+import { fetchJupiterData } from '../../GlobalRedux/store/reducers/planet';
 
+import JupiterInfos from '../JupiterInfos';
 import SimpleLoader from '../SimpleLoader';
 
-export default function Earth() {
+export default function Jupiter() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
   const loading = useAppSelector((state) => state.planet.loading);
-  const earthData = useAppSelector((state) => state.planet.earthData);
+  const jupiterData = useAppSelector((state) => state.planet.jupiterData);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
-    dispatch(fetchEarthData());
+    dispatch(fetchJupiterData());
   }, [dispatch]);
 
   return loading ? (
@@ -35,16 +35,16 @@ export default function Earth() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Earth
+          Jupiter
         </h1>
       </div>
-      <p className="px-4 md:px-16 mb-4 text-justify">
-        Earth is the third planet from the Sun and the only known planet to
-        harbor life. Its atmosphere is composed of nitrogen, oxygen, and other
-        trace gases. Earth has diverse ecosystems, landforms, and climates, and
-        it has one natural satellite, the Moon.
+      <p className="px-4 md:px-16 text-justify">
+        Jupiter is the fifth planet from the Sun and the largest in the Solar
+        System. It is a gas giant, primarily composed of hydrogen and helium. It
+        has a strong magnetic field and dozens of moons, including the four
+        large Galilean moons: Io, Europa, Ganymede, and Callisto.
       </p>
-      <EarthInfos earthData={earthData} />
+      <JupiterInfos jupiterData={jupiterData} />
     </div>
   );
 }

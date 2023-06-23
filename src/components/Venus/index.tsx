@@ -3,9 +3,9 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
-import EarthInfos from '../EarthInfos';
+import { fetchVenusData } from '../../GlobalRedux/store/reducers/planet';
 
+import VenusInfos from '../VenusInfos';
 import SimpleLoader from '../SimpleLoader';
 
 export default function Earth() {
@@ -13,11 +13,11 @@ export default function Earth() {
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
   const loading = useAppSelector((state) => state.planet.loading);
-  const earthData = useAppSelector((state) => state.planet.earthData);
+  const venusData = useAppSelector((state) => state.planet.venusData);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
-    dispatch(fetchEarthData());
+    dispatch(fetchVenusData());
   }, [dispatch]);
 
   return loading ? (
@@ -35,16 +35,16 @@ export default function Earth() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Earth
+          Venus
         </h1>
       </div>
-      <p className="px-4 md:px-16 mb-4 text-justify">
-        Earth is the third planet from the Sun and the only known planet to
-        harbor life. Its atmosphere is composed of nitrogen, oxygen, and other
-        trace gases. Earth has diverse ecosystems, landforms, and climates, and
-        it has one natural satellite, the Moon.
+      <p className="px-4 md:px-16 text-justify">
+        Venus is the second planet from the Sun and is similar in size and
+        composition to Earth. It has a thick, toxic atmosphere mainly composed
+        of carbon dioxide with clouds of sulfuric acid. The surface pressure is
+        extremely high, and the temperature is hot enough to melt lead.
       </p>
-      <EarthInfos earthData={earthData} />
+      <VenusInfos venusData={venusData} />
     </div>
   );
 }

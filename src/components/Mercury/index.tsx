@@ -3,21 +3,21 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
-import EarthInfos from '../EarthInfos';
+import { fetchMercuryData } from '../../GlobalRedux/store/reducers/planet';
 
+import MercuryInfos from '../MercuryInfos';
 import SimpleLoader from '../SimpleLoader';
 
-export default function Earth() {
+export default function Mercury() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
   const loading = useAppSelector((state) => state.planet.loading);
-  const earthData = useAppSelector((state) => state.planet.earthData);
+  const mercuryData = useAppSelector((state) => state.planet.mercuryData);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
-    dispatch(fetchEarthData());
+    dispatch(fetchMercuryData());
   }, [dispatch]);
 
   return loading ? (
@@ -35,16 +35,16 @@ export default function Earth() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Earth
+          Mercury
         </h1>
       </div>
-      <p className="px-4 md:px-16 mb-4 text-justify">
-        Earth is the third planet from the Sun and the only known planet to
-        harbor life. Its atmosphere is composed of nitrogen, oxygen, and other
-        trace gases. Earth has diverse ecosystems, landforms, and climates, and
-        it has one natural satellite, the Moon.
+      <p className="px-4 md:px-16 text-justify">
+        Mercury is the closest planet to the Sun and the smallest planet in the
+        Solar System. Due to its proximity to the Sun, it has no atmosphere to
+        retain heat, causing drastic temperature variations between day and
+        night. Its surface is heavily cratered and resembles the Moon.
       </p>
-      <EarthInfos earthData={earthData} />
+      <MercuryInfos mercuryData={mercuryData} />
     </div>
   );
 }

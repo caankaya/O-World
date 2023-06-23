@@ -3,21 +3,21 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchEarthData } from '../../GlobalRedux/store/reducers/planet';
-import EarthInfos from '../EarthInfos';
+import { fetchNeptuneData } from '../../GlobalRedux/store/reducers/planet';
 
+import NeptuneInfos from '../NeptuneInfos';
 import SimpleLoader from '../SimpleLoader';
 
-export default function Earth() {
+export default function Neptune() {
   const dispatch = useAppDispatch();
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
   const planetWidth = useAppSelector((state) => state.home.currentWidth);
   const loading = useAppSelector((state) => state.planet.loading);
-  const earthData = useAppSelector((state) => state.planet.earthData);
+  const neptuneData = useAppSelector((state) => state.planet.neptuneData);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
 
   useEffect(() => {
-    dispatch(fetchEarthData());
+    dispatch(fetchNeptuneData());
   }, [dispatch]);
 
   return loading ? (
@@ -35,16 +35,17 @@ export default function Earth() {
     >
       <div className="xl:max-w-4xl mx-auto text-center">
         <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Earth
+          Neptune
         </h1>
       </div>
-      <p className="px-4 md:px-16 mb-4 text-justify">
-        Earth is the third planet from the Sun and the only known planet to
-        harbor life. Its atmosphere is composed of nitrogen, oxygen, and other
-        trace gases. Earth has diverse ecosystems, landforms, and climates, and
-        it has one natural satellite, the Moon.
+      <p className="px-4 md:px-16 text-justify">
+        Neptune is the eighth and farthest planet from the Sun in the Solar
+        System. Like Uranus, it is classified as an ice giant and has a deep
+        blue color due to the methane in its atmosphere. Neptune has a dynamic
+        atmosphere with large storms and high-speed winds. It has several moons,
+        with Triton being the largest.
       </p>
-      <EarthInfos earthData={earthData} />
+      <NeptuneInfos neptuneData={neptuneData} />
     </div>
   );
 }
