@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../GlobalRedux/hooks';
@@ -8,15 +9,39 @@ import SimpleLoader from './SimpleLoader';
 import WorldLineChart from './WorldLineChart';
 
 function EarthInfos({ earthData }: { earthData: Earth }) {
+  const [estimatedPopulation, setEstimatedPopulation] = useState(7900000000);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.planet.infiniteLoading
   );
+
+  // calculer la population estimée
+  useEffect(() => {
+    const currentYear = 2023;
+    const currentPopulation = 7900000000;
+    const finalYear = 2064;
+    const finalPopulation = 9700000000;
+    const increasePerYear =
+      ((finalPopulation - currentPopulation) / (finalYear - currentYear)) * 2; // Multiplier par 2 ici
+
+    const interval = setInterval(() => {
+      const currentYearEstimate = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+      const increment =
+        increasePerYear *
+        (currentYearEstimate - currentYear + currentMonth / 12);
+      setEstimatedPopulation(currentPopulation + increment);
+    }, 1000);
+
+    // Nettoyer l'intervalle lors du démontage du composant
+    return () => clearInterval(interval);
+  }, []);
 
   if (infiniteLoadingInfos || Object.keys(earthData).length === 0) {
     return <SimpleLoader />;
   }
 
   const parseValue = (valueString: string) => {
+    // years
     let match = valueString.match(/([\d.]+) years/);
     if (match && match[1]) {
       return parseFloat(match[1]);
@@ -49,7 +74,6 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
     return 0;
   };
 
-  const populationNumber = parseValue(earthData.population);
   const orbitalPeriod = parseValue(earthData.orbitalPeriod);
   const rotationPeriod = parseValue(earthData.rotationPeriod);
   const averageTemperature = parseValue(earthData.averageTemperature);
@@ -58,8 +82,9 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
     { title: 'Mass', value: earthData.mass },
     { title: 'Diameter', value: earthData.diameter },
     {
-      title: 'Population',
-      value: populationNumber,
+      title: 'Estimated Population',
+      value: parseInt(estimatedPopulation.toFixed(0)),
+      unit: 'Humans',
     },
     {
       title: 'Orbital Period',

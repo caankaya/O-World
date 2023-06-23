@@ -134,7 +134,7 @@ function AdminTable({ stats, flags }: AdminTableProps) {
             {/* crée un tableau de la taille de totalPages */}
             {/* change la page actuelle en utilisant la fonction handlePageChange avec l'index en cours (i + 1) en tant que paramètre */}
             {[...Array(totalPages)].map((e, i) => (
-              <li key={+1}>
+              <li key={i}>
                 <button
                   className={`px-3 py-1 mx-1 rounded border ${
                     currentPage === i + 1

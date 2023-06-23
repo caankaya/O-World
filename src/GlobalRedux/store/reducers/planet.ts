@@ -87,7 +87,6 @@ export const fetchMarsData = createAsyncThunk(
   async () => {
     try {
       const response = await axiosInstance.get('/oworld');
-      console.log(response.data);
       return response.data.Mars;
     } catch (error: string | any) {
       throw new Error(error.response.data.message as string);

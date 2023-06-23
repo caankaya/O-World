@@ -24,10 +24,10 @@ function Footer() {
       }
     >
       <div className="items-start grid-flow-col cursor-pointer gap-5">
-        <Link to="/legal" className="orbitron-font text-[16px] hover:underline">
+        <Link to="/about" className="orbitron-font text-[16px] hover:underline">
           About
         </Link>
-        <Link to="/about" className="orbitron-font text-[16px] hover:underline">
+        <Link to="/legal" className="orbitron-font text-[16px] hover:underline">
           Legal
         </Link>
       </div>
