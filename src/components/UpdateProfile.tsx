@@ -24,6 +24,7 @@ function UpdateProfile() {
     event.preventDefault();
 
     const newFormData = new FormData(event.currentTarget);
+    console.log(newFormData);
 
     // Check that the password entered by the user and the password confirmation are identical
     const newPassword = newFormData.get('password') as string;
@@ -56,14 +57,16 @@ function UpdateProfile() {
     newFormData.delete('confirm-password');
 
     // Delete empty fields from FormData
+    const cleanedFormData = new FormData();
     for (let pair of newFormData.entries()) {
-      const [, value] = pair;
-      if (!value) {
-        newFormData.delete(pair[0]);
+      const [key, value] = pair;
+      if (value || value.trim() !== '') {
+        cleanedFormData.append(key, value);
       }
     }
+    console.log(cleanedFormData);
 
-    dispatch(accountUpdate(newFormData));
+    dispatch(accountUpdate(cleanedFormData));
 
     // Reset form after submission
     if (newformRef.current) {
@@ -81,6 +84,10 @@ function UpdateProfile() {
 
     dispatch(accountDeletion(newDeleteFormData));
     // setIsDeleteModalOpen(!isDeleteModalOpen);
+    // Reset form after submission
+    // if (newformRef.current) {
+    //   newformRef.current.reset();
+    // }
   };
 
   return (
@@ -107,7 +114,7 @@ function UpdateProfile() {
         </h1>
 
         <div className="grid grid-cols-2 gap-16">
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col flex-start gap-8">
             <div>
               <label
                 htmlFor="text"
@@ -179,7 +186,7 @@ function UpdateProfile() {
               htmlFor="password"
               className="block mb-2 text-sm font-medium text-white"
             >
-              Confirm your account update with your old password
+              Confirm your account update with your current password
             </label>
             <input
               type="password"
@@ -248,7 +255,7 @@ function UpdateProfile() {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-white"
                 >
-                  Confirm with your password
+                  Confirm with your current password
                 </label>
                 <input
                   type="password"

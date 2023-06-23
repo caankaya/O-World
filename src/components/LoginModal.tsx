@@ -22,13 +22,6 @@ function LoginModal() {
 
   const dispatch = useAppDispatch();
 
-  function toggleRegisterModal() {
-    dispatch(togglerRegisterModal(isRegisterModalOpen));
-  }
-  function toggleLoginModal() {
-    dispatch(togglerLoginModal(isLoginModalOpen));
-  }
-
   // Set up a useRef to target and reset the form
   const formRef = useRef<HTMLFormElement | null>(null);
 
@@ -38,11 +31,12 @@ function LoginModal() {
     const formElement = event.currentTarget;
     const formData = new FormData(formElement);
     dispatch(login(formData));
+    dispatch(togglerLoginModal(!isLoginModalOpen));
   };
 
   // Reset form when closing modal before submission
   const handleCloseModal = () => {
-    toggleLoginModal();
+    dispatch(togglerLoginModal(!isLoginModalOpen));
     if (formRef.current) {
       formRef.current.reset();
     }

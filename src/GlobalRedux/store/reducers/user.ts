@@ -79,6 +79,7 @@ export const accountUpdate = createAsyncThunk(
   'user/account-update',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
+    console.log(obj);
     try {
       const response = await axiosInstance.put(
         `/user/${localStorage.id}`,
@@ -89,6 +90,7 @@ export const accountUpdate = createAsyncThunk(
           },
         }
       );
+
       console.log(response);
 
       return response.data;
@@ -102,6 +104,7 @@ export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
+    console.log(obj);
     try {
       const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
         headers: {
@@ -327,11 +330,12 @@ const userReducer = createReducer(initialState, (builder) => {
       state.sessionId = null;
       state.username = null;
       state.roles = [];
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('id');
-      localStorage.removeItem('username');
-      localStorage.removeItem('roles');
+      // localStorage.removeItem('accessToken');
+      // localStorage.removeItem('refreshToken');
+      // localStorage.removeItem('id');
+      // localStorage.removeItem('username');
+      // localStorage.removeItem('roles');
+      localStorage.clear();
       state.alert = {
         type: 'success',
         message: `Your account has been deleted.`,
