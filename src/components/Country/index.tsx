@@ -47,25 +47,25 @@ export default function Country() {
     }
   }, [dispatch, isLogged, countryId]);
 
-  if (countryId === 'ATA') {
-    return (
-      <div
-        className="p-8 flex flex-col items-center justify-center w-full gap-5"
-        style={
-          isSideBarOpen
-            ? isLargeScreen
-              ? { width: Width, float: 'right' }
-              : { width: '100%', float: 'none' }
-            : {}
-        }
-      >
-        <img
-          src="https://media.tenor.com/PFQXvlb1MicAAAAd/walking-emperor-penguin-migration.gif"
-          alt="pingouins"
-        />
-      </div>
-    );
-  }
+  // if (countryId === 'ATA') {
+  //   return (
+  //     <div
+  //       className="p-8 flex flex-col items-center justify-center w-full gap-5"
+  //       style={
+  //         isSideBarOpen
+  //           ? isLargeScreen
+  //             ? { width: Width, float: 'right' }
+  //             : { width: '100%', float: 'none' }
+  //           : {}
+  //       }
+  //     >
+  //       <img
+  //         src="https://media.tenor.com/PFQXvlb1MicAAAAd/walking-emperor-penguin-migration.gif"
+  //         alt="pingouins"
+  //       />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div

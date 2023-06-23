@@ -113,18 +113,18 @@ function RestCountriesInfos({
           )}
           <div className="stat-title">Name</div>
           <div className="stat-value text-primary">
-            {countryData.name.common}
+            {countryData.name?.common ?? 'Data not available'}
           </div>
           <div className="stat-desc text-green-300">
-            {countryData.name.official}
+            {countryData.name?.official ?? 'Data not available'}
           </div>
         </div>
         <div className="stat">
           <div className="stat-title">Flag</div>
           <div className="relative h-32">
             <img
-              src={countryData.flags.svg}
-              alt={countryData.flags.alt}
+              src={countryData.flags?.svg ?? 'Data not available'}
+              alt={countryData.flags?.alt ?? 'Data not available'}
               className="absolute w-full h-full object-contain"
             />
           </div>
@@ -133,8 +133,8 @@ function RestCountriesInfos({
           <div className="stat-title">Coat Of Arms</div>
           <div className="relative h-32">
             <img
-              src={countryData.coatOfArms.png}
-              alt={countryData.name.common}
+              src={countryData.coatOfArms?.png ?? 'Data not available'}
+              alt={countryData.name?.common ?? 'Data not available'}
               className="absolute w-full h-full object-contain"
             />
           </div>
@@ -150,7 +150,7 @@ function RestCountriesInfos({
           <div className="stat-value">
             <CountUp
               start={0}
-              end={countryData.area}
+              end={countryData?.area ?? 'Data not available'}
               duration={5}
               separator=","
             />{' '}
@@ -159,12 +159,14 @@ function RestCountriesInfos({
         </div>
         <div className="stat">
           <div className="stat-title">Region</div>
-          <div className="stat-value text-primary">{countryData.region}</div>
+          <div className="stat-value text-primary">
+            {countryData?.region ?? 'Data not available'}
+          </div>
         </div>
         <div className="stat">
           <div className="stat-title">Capital</div>
           <div className="stat-value text-secondary">
-            {countryData.capital[0]}
+            {countryData.capital?.[0] ?? 'Data not available'}
           </div>
         </div>
       </motion.div>
@@ -178,7 +180,7 @@ function RestCountriesInfos({
           <div className="stat-value">
             <CountUp
               start={0}
-              end={countryData.population}
+              end={countryData?.population ?? 'Data not available'}
               duration={5}
               separator=","
             />
@@ -187,22 +189,28 @@ function RestCountriesInfos({
         <div className="stat">
           <div className="stat-title">Languages</div>
           <div className="stat-value">
-            {Object.values(countryData.languages)[0]}
+            {Object.values(countryData.languages)?.[0] ?? 'Data not available'}
           </div>
         </div>
         <div className="stat">
           <div className="stat-title">Currencies</div>
           <div className="stat-value">
-            {Object.values(countryData.currencies)[0].symbol}
+            {Object.values(countryData.currencies)?.[0]?.symbol ??
+              'Data not available'}
           </div>
           <div className="stat-desc">
-            {Object.values(countryData.currencies)[0].name}
+            {Object.values(countryData.currencies)?.[0]?.name ??
+              'Data not available'}
           </div>
         </div>
         <div className="stat">
           <div className="stat-title">Side</div>
-          <div className="stat-value">{countryData.car.side}</div>
-          <div className="stat-desc">Car sign: {countryData.car.signs}</div>
+          <div className="stat-value">
+            {countryData.car?.side ?? 'Data not available'}
+          </div>
+          <div className="stat-desc">
+            Car sign: {countryData.car?.signs ?? 'Data not available'}
+          </div>
         </div>
       </motion.div>
     </motion.div>
