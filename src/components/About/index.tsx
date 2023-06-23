@@ -37,7 +37,7 @@ export default function About() {
       activeImgUrl:
         'https://ca.slack-edge.com/T04F6TNDUEL-U04H9P6RYQN-425f0318824d-512',
       title: 'Léo',
-      role: 'Git master / Référent technique',
+      role: 'Technical Lead / Git master',
       gitUrl: 'https://github.com/leo-turco',
     },
     {
