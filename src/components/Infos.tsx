@@ -41,7 +41,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
     (state) => state.infos.infiniteLoading
   );
 
-  if (infiniteLoadingInfos) {
+  if (infiniteLoadingInfos || (!radio && !insolite && !celebrity)) {
     return <SimpleLoader />;
   }
 
@@ -97,31 +97,35 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
           <div className="stat">
             <div className="stat-title">Radio</div>
             <div className="stat-value mb-4 whitespace-normal break-words">
-              {radio?.name}
+              {radio?.name !== '' ? radio?.name : 'Radio not available'}
             </div>
             {radio?.url_resolved ? (
-              <audio controls>
-                <source
-                  src={radio?.url_resolved}
-                  type={determineAudioType(radio?.url_resolved)}
-                />
-                Your browser doesn&apos;t support audio.
-              </audio>
+              <>
+                <audio controls>
+                  <source
+                    src={radio?.url_resolved}
+                    type={determineAudioType(radio?.url_resolved)}
+                  />
+                  Your browser doesn&apos;t support audio.
+                </audio>
+                <div className="stat-actions">
+                  <a
+                    href={radio?.homepage}
+                    target="_blank"
+                    className="btn btn-sm"
+                    rel="noreferrer"
+                  >
+                    Website
+                  </a>
+                </div>
+              </>
             ) : (
-              <div className="text-white font-bold">
-                No radio URL available for this Country.
+              <div className="stat-actions">
+                <a className="btn btn-sm">
+                  No radio URL available for this Country
+                </a>
               </div>
             )}
-            <div className="stat-actions">
-              <a
-                href={radio?.homepage}
-                target="_blank"
-                className="btn btn-sm"
-                rel="noreferrer"
-              >
-                Website
-              </a>
-            </div>
           </div>
         </motion.div>
 
@@ -132,11 +136,9 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
           <div className="stat">
             <div className="stat-title">Anecdote</div>
             <div className="stat-value text-3xl whitespace-normal break-words">
-              {insolite || (
-                <div className="text-white font-bold">
-                  No anecdote available for this Country.
-                </div>
-              )}
+              {insolite !== ''
+                ? insolite
+                : 'No anecdote available for this Country'}
             </div>
           </div>
         </motion.div>
@@ -148,7 +150,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
           <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
             Celebrities
           </h2>
-          <div className="mt-[50px] flex lg:flex-row flex-col min-h-[70vh] gap-5">
+          <div className="mt-[50px] flex lg:flex-row flex-col justify-center gap-3 justifygap-5">
             {shuffledCelebrities.length > 0 ? (
               shuffledCelebrities.map((celebrities, index) => (
                 <CardCelebrity
@@ -160,9 +162,20 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
                 />
               ))
             ) : (
-              <div className="text-white font-bold">
-                No celebrities available for this Country.
-              </div>
+              <CardCelebrity
+                key={'Not available'}
+                name={'Not available'}
+                net_worth={0}
+                gender={'Not available'}
+                nationality={'Not available'}
+                occupation={['Not available']}
+                birthday={'Not available'}
+                age={0}
+                is_alive={false}
+                index={0}
+                active={active}
+                handleClick={setActive}
+              />
             )}
           </div>
         </div>
