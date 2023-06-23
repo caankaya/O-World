@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { motion } from 'framer-motion';
 import { useAppSelector } from '../GlobalRedux/hooks';
@@ -8,24 +9,42 @@ import SimpleLoader from './SimpleLoader';
 import WorldLineChart from './WorldLineChart';
 
 function EarthInfos({ earthData }: { earthData: Earth }) {
+  const [estimatedPopulation, setEstimatedPopulation] = useState(7900000000);
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.planet.infiniteLoading
   );
+
+  // calculer la population estimée
+  useEffect(() => {
+    const currentYear = 2023;
+    const currentPopulation = 7900000000;
+    const finalYear = 2064;
+    const finalPopulation = 9700000000;
+    const increasePerYear =
+      ((finalPopulation - currentPopulation) / (finalYear - currentYear)) * 2; // Multiplier par 2 ici
+
+    const interval = setInterval(() => {
+      const currentYearEstimate = new Date().getFullYear();
+      const currentMonth = new Date().getMonth();
+      const increment =
+        increasePerYear *
+        (currentYearEstimate - currentYear + currentMonth / 12);
+      setEstimatedPopulation(currentPopulation + increment);
+    }, 1000);
+
+    // Nettoyer l'intervalle lors du démontage du composant
+    return () => clearInterval(interval);
+  }, []);
 
   if (infiniteLoadingInfos || Object.keys(earthData).length === 0) {
     return <SimpleLoader />;
   }
 
   const parseValue = (valueString: string) => {
+    // years
     let match = valueString.match(/([\d.]+) years/);
     if (match && match[1]) {
       return parseFloat(match[1]);
-    }
-
-    // billions
-    match = valueString.match(/([\d.]+) billion/);
-    if (match && match[1]) {
-      return parseFloat(match[1]) * 1e9;
     }
 
     // days
@@ -46,20 +65,27 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
       return parseFloat(match[1]);
     }
 
+    // Diameter
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
-  const populationNumber = parseValue(earthData.population);
   const orbitalPeriod = parseValue(earthData.orbitalPeriod);
   const rotationPeriod = parseValue(earthData.rotationPeriod);
   const averageTemperature = parseValue(earthData.averageTemperature);
+  const diameter = parseValue(earthData.diameter);
 
   const infoEarth = [
     { title: 'Mass', value: earthData.mass },
-    { title: 'Diameter', value: earthData.diameter },
+    { title: 'Diameter', value: diameter, unit: 'km' },
     {
-      title: 'Population',
-      value: populationNumber,
+      title: 'Estimated Population',
+      value: parseInt(estimatedPopulation.toFixed(0)),
+      unit: 'Humans',
     },
     {
       title: 'Orbital Period',
@@ -95,27 +121,43 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
   const atmosphereComposition = [
     {
       title: 'nitrogen',
-      value: parseInt(earthData.atmosphereComposition.nitrogen),
+      value: parseFloat(
+        earthData.atmosphereComposition.nitrogen
+          .replace(',', '.')
+          .replace('%', '')
+      ),
       unit: '%',
     },
     {
       title: 'oxygen',
-      value: parseInt(earthData.atmosphereComposition.oxygen),
+      value: parseFloat(
+        earthData.atmosphereComposition.oxygen
+          .replace(',', '.')
+          .replace('%', '')
+      ),
       unit: '%',
     },
     {
       title: 'argon',
-      value: parseInt(earthData.atmosphereComposition.argon),
+      value: parseFloat(
+        earthData.atmosphereComposition.argon.replace(',', '.').replace('%', '')
+      ),
       unit: '%',
     },
     {
       title: 'carbonDioxide',
-      value: parseInt(earthData.atmosphereComposition.carbonDioxide),
+      value: parseFloat(
+        earthData.atmosphereComposition.carbonDioxide
+          .replace(',', '.')
+          .replace('%', '')
+      ),
       unit: '%',
     },
     {
       title: 'other',
-      value: parseInt(earthData.atmosphereComposition.other),
+      value: parseFloat(
+        earthData.atmosphereComposition.other.replace(',', '.').replace('%', '')
+      ),
       unit: '%',
     },
   ];
@@ -161,7 +203,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
                     start={0}
                     end={item.value}
                     duration={10}
-                    separator=","
+                    separator="."
                   />
                 ) : (
                   item.value
@@ -187,7 +229,13 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
           <div className="stat-title text-base-content">{item.title}</div>
           <div className="stat-value text-primary">
             {item.unit ? (
-              <CountUp start={0} end={item.value} duration={10} separator="," />
+              <CountUp
+                start={0}
+                end={item.value}
+                duration={10}
+                decimals={2}
+                decimal="."
+              />
             ) : (
               item.value
             )}
