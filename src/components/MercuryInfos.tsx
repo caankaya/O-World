@@ -36,16 +36,26 @@ function MercuryInfos({ mercuryData }: { mercuryData: Mercury }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(mercuryData.orbitalPeriod);
   const rotationPeriod = parseValue(mercuryData.rotationPeriod);
   const averageTemperature = parseValue(mercuryData.averageTemperature);
+  const diameter = parseValue(mercuryData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: mercuryData.mass },
-    { title: 'Diameter', value: mercuryData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function MercuryInfos({ mercuryData }: { mercuryData: Mercury }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

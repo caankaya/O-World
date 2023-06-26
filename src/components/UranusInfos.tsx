@@ -36,16 +36,26 @@ function UranusInfos({ uranusData }: { uranusData: Uranus }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(uranusData.orbitalPeriod);
   const rotationPeriod = parseValue(uranusData.rotationPeriod);
   const averageTemperature = parseValue(uranusData.averageTemperature);
+  const diameter = parseValue(uranusData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: uranusData.mass },
-    { title: 'Diameter', value: uranusData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function UranusInfos({ uranusData }: { uranusData: Uranus }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

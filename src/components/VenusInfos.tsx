@@ -36,16 +36,26 @@ function VenusInfos({ venusData }: { venusData: Venus }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(venusData.orbitalPeriod);
   const rotationPeriod = parseValue(venusData.rotationPeriod);
   const averageTemperature = parseValue(venusData.averageTemperature);
+  const diameter = parseValue(venusData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: venusData.mass },
-    { title: 'Diameter', value: venusData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function VenusInfos({ venusData }: { venusData: Venus }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

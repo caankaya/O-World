@@ -36,16 +36,26 @@ function NeptuneInfos({ neptuneData }: { neptuneData: Neptune }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(neptuneData.orbitalPeriod);
   const rotationPeriod = parseValue(neptuneData.rotationPeriod);
   const averageTemperature = parseValue(neptuneData.averageTemperature);
+  const diameter = parseValue(neptuneData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: neptuneData.mass },
-    { title: 'Diameter', value: neptuneData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function NeptuneInfos({ neptuneData }: { neptuneData: Neptune }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

@@ -36,16 +36,26 @@ function MarsInfos({ marsData }: { marsData: Mars }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(marsData.orbitalPeriod);
   const rotationPeriod = parseValue(marsData.rotationPeriod);
   const averageTemperature = parseValue(marsData.averageTemperature);
+  const diameter = parseValue(marsData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: marsData.mass },
-    { title: 'Diameter', value: marsData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function MarsInfos({ marsData }: { marsData: Mars }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

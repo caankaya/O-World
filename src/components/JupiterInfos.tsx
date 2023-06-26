@@ -40,16 +40,27 @@ function JupiterInfos({ jupiterData }: { jupiterData: Jupiter }) {
       return parseFloat(match[1]);
     }
 
+    // Diameter
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(jupiterData.orbitalPeriod);
   const rotationPeriod = parseValue(jupiterData.rotationPeriod);
   const averageTemperature = parseValue(jupiterData.averageTemperature);
+  const diameter = parseValue(jupiterData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: jupiterData.mass },
-    { title: 'Diameter', value: jupiterData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -99,7 +110,7 @@ function JupiterInfos({ jupiterData }: { jupiterData: Jupiter }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (

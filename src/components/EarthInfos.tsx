@@ -81,7 +81,11 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
 
   const infoEarth = [
     { title: 'Mass', value: earthData.mass },
-    { title: 'Diameter', value: diameter, unit: 'km' },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Estimated Population',
       value: parseInt(estimatedPopulation.toFixed(0)),
@@ -202,7 +206,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
                   <CountUp
                     start={0}
                     end={item.value}
-                    duration={10}
+                    duration={8}
                     separator="."
                   />
                 ) : (
