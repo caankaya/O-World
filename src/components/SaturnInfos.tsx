@@ -36,16 +36,26 @@ function SaturnInfos({ saturnData }: { saturnData: Saturn }) {
       return parseFloat(match[1]);
     }
 
+    match = valueString.match(/(-?[\d,]+) km/);
+    if (match && match[1]) {
+      return parseFloat(match[1].replace(',', ''));
+    }
+
     return 0;
   };
 
   const orbitalPeriod = parseValue(saturnData.orbitalPeriod);
   const rotationPeriod = parseValue(saturnData.rotationPeriod);
   const averageTemperature = parseValue(saturnData.averageTemperature);
+  const diameter = parseValue(saturnData.diameter);
 
   const infoItems = [
     { title: 'Mass', value: saturnData.mass },
-    { title: 'Diameter', value: saturnData.diameter },
+    {
+      title: 'Diameter',
+      value: diameter,
+      unit: 'km',
+    },
     {
       title: 'Orbital Period',
       value: orbitalPeriod,
@@ -95,7 +105,7 @@ function SaturnInfos({ saturnData }: { saturnData: Saturn }) {
                 <CountUp
                   start={0}
                   end={item.value}
-                  duration={10}
+                  duration={8}
                   separator=","
                 />
               ) : (
