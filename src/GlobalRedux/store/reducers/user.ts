@@ -8,6 +8,7 @@ import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
 import { IToken } from '../../../@types/accessToken';
+import { log } from 'console';
 
 interface UserState {
   username: string | null;
@@ -57,6 +58,30 @@ export const login = createAsyncThunk(
       const response = await axiosInstance.post('/log/in', obj);
       return response.data.data;
     } catch (error: string | any) {
+      throw new Error(error.response.data.message as string);
+    }
+  }
+);
+
+export const refreshAccessToken = createAsyncThunk(
+  'user/refreshAccessToken',
+  async () => {
+    try {
+      const response = await axiosInstance.post(
+        '/log/refresh-token',
+        { refreshToken: localStorage.refreshToken },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (error: string | any) {
+      console.log(error);
+
       throw new Error(error.response.data.message as string);
     }
   }
@@ -240,6 +265,51 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
+
+    .addCase(refreshAccessToken.pending, (state, action) => {
+      // Set the loading state to true while refreshing the token
+      state.loading = true;
+    })
+    .addCase(refreshAccessToken.fulfilled, (state, action) => {
+      // Update the access token and decode it
+      console.log(action.payload);
+      console.log(action.payload.data);
+
+      const accessToken: IToken = jwt_decode(action.payload.data.accessToken);
+      const { id } = accessToken.data;
+      const { username } = accessToken.data;
+      const { roles } = accessToken.data;
+
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('id');
+      localStorage.removeItem('username');
+      localStorage.removeItem('roles');
+
+      localStorage.setItem('accessToken', action.payload.data.accessToken);
+      localStorage.setItem('refreshToken', action.payload.data.refreshToken);
+      localStorage.setItem('id', id);
+      localStorage.setItem('username', username);
+      localStorage.setItem('roles', roles as string);
+
+      state.username = username;
+      state.roles = roles as string[];
+
+      state.loading = false;
+      state.alert = {
+        type: 'success',
+        message: 'RefreshToken OK',
+      }; // Set the loading state back to false
+    })
+    .addCase(refreshAccessToken.rejected, (state, action) => {
+      // Handle the error while refreshing the token
+      state.loading = false; // Set the loading state back to false
+      state.alert = {
+        type: 'error',
+        message: action.error.message ?? 'Unknown error occurred.',
+      };
+    })
+
     .addCase(logout, (state) => {
       state.loading = false;
       state.isLogged = false;
