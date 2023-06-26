@@ -177,6 +177,8 @@ export const fetchFavoritesCountries = createAsyncThunk(
         return transformedData;
       }
     } catch (error: string | any) {
+      console.log(error.response.data);
+
       throw new Error(error.response.data.message as string);
     }
   }
@@ -427,6 +429,8 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(fetchFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
       state.infiniteLoading = true;
+      console.log(action);
+
       state.alert = {
         type: 'error',
         message: action.error.message ?? 'Unknown error occurred.',

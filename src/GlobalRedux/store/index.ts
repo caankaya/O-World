@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import jwtExpiredMiddleware from '../middlewares/jwtExpiredMiddleware ';
 
 import countryReducer from './reducers/country';
 import statsReducer from './reducers/stats';
@@ -23,7 +24,7 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, // Désactive la vérification de sérialisation par défaut
-    }),
+    }).concat(jwtExpiredMiddleware),
 });
 
 export default store;
