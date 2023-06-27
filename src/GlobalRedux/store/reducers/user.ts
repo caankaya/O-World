@@ -63,29 +63,29 @@ export const login = createAsyncThunk(
   }
 );
 
-export const refreshAccessToken = createAsyncThunk(
-  'user/refreshAccessToken',
-  async () => {
-    try {
-      const response = await axiosInstance.post(
-        '/log/refresh-token',
-        { refreshToken: localStorage.refreshToken },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
-        }
-      );
-      console.log(response);
+// export const refreshAccessToken = createAsyncThunk(
+//   'user/refreshAccessToken',
+//   async () => {
+//     try {
+//       const response = await axiosInstance.post(
+//         '/log/refresh-token',
+//         { refreshToken: localStorage.refreshToken },
+//         {
+//           headers: {
+//             Authorization: `Bearer ${localStorage.accessToken}`,
+//           },
+//         }
+//       );
+//       console.log(response);
 
-      return response.data;
-    } catch (error: string | any) {
-      console.log(error);
+//       return response.data;
+//     } catch (error: string | any) {
+//       console.log(error);
 
-      throw new Error(error.response.data.message as string);
-    }
-  }
-);
+//       throw new Error(error.response.data.message as string);
+//     }
+//   }
+// );
 
 export const register = createAsyncThunk(
   'user/register',
@@ -106,15 +106,7 @@ export const accountUpdate = createAsyncThunk(
     const obj = Object.fromEntries(formInput);
     console.log(obj);
     try {
-      const response = await axiosInstance.put(
-        `/user/${localStorage.id}`,
-        obj,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
-        }
-      );
+      const response = await axiosInstance.put(`/user/${localStorage.id}`, obj);
 
       console.log(response);
 
@@ -132,9 +124,6 @@ export const accountDeletion = createAsyncThunk(
     console.log(obj);
     try {
       const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
         data: obj,
       });
       console.log(response);
@@ -150,11 +139,7 @@ export const fetchFavoritesCountries = createAsyncThunk(
   'user/favorites-countries',
   async () => {
     try {
-      const response = await axiosInstance.get(`/user/${localStorage.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
-      });
+      const response = await axiosInstance.get(`/user/${localStorage.id}`);
       if (
         response.data[0].favorite_countries.length > 0 &&
         response.data[0].favorite_countries.some((country: (string | null)[]) =>
@@ -190,12 +175,7 @@ export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
     try {
       const response = await axiosInstance.post(
         `/user/${localStorage.id}/${countryId}`,
-        {}, // Passer un objet vide en tant que corps de la requête
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
-        }
+        {} // Passer un objet vide en tant que corps de la requête
       );
       return response.data;
     } catch (error: string | any) {
@@ -210,12 +190,7 @@ export const removeFavoriteCountry = createAsyncThunk<
 >('user/remove-favorite-country', async ({ countryId }) => {
   try {
     const response = await axiosInstance.delete(
-      `/user/${localStorage.id}/${countryId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
-      }
+      `/user/${localStorage.id}/${countryId}`
     );
     return response.data;
   } catch (error: string | any) {
@@ -268,49 +243,49 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    .addCase(refreshAccessToken.pending, (state, action) => {
-      // Set the loading state to true while refreshing the token
-      state.loading = true;
-    })
-    .addCase(refreshAccessToken.fulfilled, (state, action) => {
-      // Update the access token and decode it
-      console.log(action.payload);
-      console.log(action.payload.data);
+    // .addCase(refreshAccessToken.pending, (state, action) => {
+    //   // Set the loading state to true while refreshing the token
+    //   state.loading = true;
+    // })
+    // .addCase(refreshAccessToken.fulfilled, (state, action) => {
+    //   // Update the access token and decode it
+    //   console.log(action.payload);
+    //   console.log(action.payload.data);
 
-      const accessToken: IToken = jwt_decode(action.payload.data.accessToken);
-      const { id } = accessToken.data;
-      const { username } = accessToken.data;
-      const { roles } = accessToken.data;
+    //   const accessToken: IToken = jwt_decode(action.payload.data.accessToken);
+    //   const { id } = accessToken.data;
+    //   const { username } = accessToken.data;
+    //   const { roles } = accessToken.data;
 
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('id');
-      localStorage.removeItem('username');
-      localStorage.removeItem('roles');
+    //   localStorage.removeItem('accessToken');
+    //   localStorage.removeItem('refreshToken');
+    //   localStorage.removeItem('id');
+    //   localStorage.removeItem('username');
+    //   localStorage.removeItem('roles');
 
-      localStorage.setItem('accessToken', action.payload.data.accessToken);
-      localStorage.setItem('refreshToken', action.payload.data.refreshToken);
-      localStorage.setItem('id', id);
-      localStorage.setItem('username', username);
-      localStorage.setItem('roles', roles as string);
+    //   localStorage.setItem('accessToken', action.payload.data.accessToken);
+    //   localStorage.setItem('refreshToken', action.payload.data.refreshToken);
+    //   localStorage.setItem('id', id);
+    //   localStorage.setItem('username', username);
+    //   localStorage.setItem('roles', roles as string);
 
-      state.username = username;
-      state.roles = roles as string[];
+    //   state.username = username;
+    //   state.roles = roles as string[];
 
-      state.loading = false;
-      state.alert = {
-        type: 'success',
-        message: 'RefreshToken OK',
-      }; // Set the loading state back to false
-    })
-    .addCase(refreshAccessToken.rejected, (state, action) => {
-      // Handle the error while refreshing the token
-      state.loading = false; // Set the loading state back to false
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
-    })
+    //   state.loading = false;
+    //   state.alert = {
+    //     type: 'success',
+    //     message: 'RefreshToken OK',
+    //   }; // Set the loading state back to false
+    // })
+    // .addCase(refreshAccessToken.rejected, (state, action) => {
+    //   // Handle the error while refreshing the token
+    //   state.loading = false; // Set the loading state back to false
+    //   state.alert = {
+    //     type: 'error',
+    //     message: action.error.message ?? 'Unknown error occurred.',
+    //   };
+    // })
 
     .addCase(logout, (state) => {
       state.loading = false;
