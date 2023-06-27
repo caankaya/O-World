@@ -206,7 +206,7 @@ function logoutAction(state: UserState) {
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(login.pending, (state, action) => {
+    .addCase(login.pending, (state) => {
       state.loading = true;
       state.alert = null;
       state.isLogged = false;
@@ -246,11 +246,11 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    .addCase(register.pending, (state, action) => {
+    .addCase(register.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(register.fulfilled, (state, action) => {
+    .addCase(register.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
@@ -265,7 +265,7 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    .addCase(accountUpdate.pending, (state, action) => {
+    .addCase(accountUpdate.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
@@ -310,11 +310,11 @@ const userReducer = createReducer(initialState, (builder) => {
       }
     })
 
-    .addCase(accountDeletion.pending, (state, action) => {
+    .addCase(accountDeletion.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(accountDeletion.fulfilled, (state, action) => {
+    .addCase(accountDeletion.fulfilled, (state) => {
       state.loading = false;
       state.isLogged = false;
       state.sessionId = null;
@@ -345,7 +345,7 @@ const userReducer = createReducer(initialState, (builder) => {
       }
     })
 
-    .addCase(fetchFavoritesCountries.pending, (state, action) => {
+    .addCase(fetchFavoritesCountries.pending, (state) => {
       state.loading = true;
       state.infiniteLoading = true;
       state.alert = null;
@@ -375,11 +375,11 @@ const userReducer = createReducer(initialState, (builder) => {
       }
     })
 
-    .addCase(addFavoriteCountry.pending, (state, action) => {
+    .addCase(addFavoriteCountry.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(addFavoriteCountry.fulfilled, (state, action) => {
+    .addCase(addFavoriteCountry.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
@@ -406,11 +406,11 @@ const userReducer = createReducer(initialState, (builder) => {
       }
     })
 
-    .addCase(removeFavoriteCountry.pending, (state, action) => {
+    .addCase(removeFavoriteCountry.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(removeFavoriteCountry.fulfilled, (state, action) => {
+    .addCase(removeFavoriteCountry.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
