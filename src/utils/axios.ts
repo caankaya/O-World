@@ -37,21 +37,15 @@ axiosInstance.interceptors.response.use(
       error.response.data.message === 'jwt expired' &&
       !originalRequest._retry
     ) {
-      console.log('jai passé le if');
       originalRequest._retry = true;
 
       try {
-        console.log('je suis dans le try');
-
         // const refreshToken = localStorage.getItem('refreshToken');
         const refreshToken = '';
-        console.log('jai recuperé le refreshToken', refreshToken);
 
         const response = await axiosInstance.post('/log/refresh-token', {
           refreshToken: refreshToken,
         });
-
-        console.log(response);
 
         if (response.status === 200) {
           const newAccessToken = response.data.data.accessToken;
@@ -65,13 +59,9 @@ axiosInstance.interceptors.response.use(
           const retryResponse = await axiosInstance(originalRequest);
           return retryResponse;
         } else {
-          console.log('je suis dands le else');
           throw new Error('Erreur lors du rafraîchissement du token');
         }
       } catch (error: string | any) {
-        console.log('je suis dans le catch error');
-        console.log(error.response.data.error);
-
         throw error;
       }
     }
