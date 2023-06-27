@@ -55,7 +55,7 @@ function TextLetter({ children }: TextLetterProps) {
       initial={{ opacity: 0 }}
       animate={controls}
       className="alien-font text-center tracking-normal shadow-neon mx-2"
-      style={{ letterSpacing: '0.2em' }}
+      style={{ letterSpacing: '0.4em' }}
     >
       {/* Using motion.span component to wrap each letter. */}
       {displayLetter === ' ' ? '\u00A0' : displayLetter}
