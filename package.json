@@ -10,8 +10,7 @@
     "lint": "tsc --noEmit && eslint src/**/*.{js,jsx,ts,tsx} --cache --max-warnings=0",
     "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --fix",
     "generate-docs": "typedoc --out docs --entryPointStrategy expand ./src",
-    "test": "jest"
-    "generate-docs": "typedoc --out docs --entryPointStrategy expand ./src"
+    "test": "jest",
     "start": "serve dist -s -n -L -p $PORT"
   },
   "dependencies": {
