@@ -53,18 +53,16 @@ export default function Legal() {
               active === 0 ? 'text-primary' : 'text-white'
             }`}
           >
-            Déclaration de confidentialité
+            Privacy statement
           </div>
           <div className="collapse-content pr-10">
             <p>
-              Cette déclaration de confidentialité décrit comment nous
-              collectons, utilisons, stockons et protégeons les informations
-              personnelles, y compris les adresses e-mail, que vous nous
-              fournissez lorsque vous utilisez notre site. Nous nous engageons à
-              respecter votre vie privée et à protéger vos informations
-              personnelles conformément aux lois et réglementations applicables,
-              y compris le Règlement général sur la protection des données
-              (RGPD).
+              This privacy statement describes how we collect, use, store and
+              protect the personal information information, including e-mail
+              addresses, that you provide to us when you use our site. We are
+              committed to respect your privacy and protect your personal
+              information in accordance with applicable laws and regulations,
+              including the General Data Protection Regulation (RGPD).
             </p>
           </div>
         </div>
@@ -84,16 +82,16 @@ export default function Legal() {
               active === 1 ? 'text-primary' : 'text-white'
             }`}
           >
-            Collecte et utilisation des informations
+            Collecting and using information
           </div>
           <div className="collapse-content pr-10">
             <p>
-              Lorsque vous utilisez notre site, nous collectons et stockons les
-              adresses e-mail que vous nous fournissez volontairement. Ces
-              informations sont collectées dans le but spécifique de vous
-              fournir un service personnalisé. Nous ne revendrons pas, ne
-              louerons pas et ne partagerons pas vos adresses e-mail avec des
-              tiers sans votre consentement explicite.
+              When you use our site, we collect and store the e-mail addresses
+              e-mail addresses that you voluntarily provide to us. This
+              information is collected for the specific purpose of providing
+              provide you with a personalized service. We will not resell rent
+              or share your e-mail addresses with any third party without your
+              explicit consent.
             </p>
           </div>
         </div>
@@ -113,16 +111,16 @@ export default function Legal() {
               active === 2 ? 'text-primary' : 'text-white'
             }`}
           >
-            Sécurité des données
+            Data security
           </div>
           <div className="collapse-content">
             <p>
-              Nous prenons des mesures appropriées pour protéger les
-              informations personnelles que vous nous fournissez contre la
-              perte, l'accès non autorisé, la divulgation, l'altération ou la
-              destruction. Nous mettons en œuvre des mesures de sécurité
-              techniques, administratives et physiques pour assurer la sécurité
-              et la confidentialité de vos informations personnelles.
+              We take appropriate measures to protect the personal personal
+              information you provide against loss, unauthorized unauthorized
+              access, disclosure, alteration or destruction. destruction. We
+              implement technical, administrative and physical and physical
+              security measures to ensure the security and confidentiality of
+              your personal information.
             </p>
           </div>
         </div>
@@ -142,19 +140,19 @@ export default function Legal() {
               active === 3 ? 'text-primary' : 'text-white'
             }`}
           >
-            Responsabilité des données erronées
+            Liability for incorrect data
           </div>
           <div className="collapse-content">
             <p>
-              Nous nous efforçons de fournir des informations précises et à jour
-              sur notre site. Cependant, nous déclinons toute responsabilité en
-              cas de données erronées, incomplètes ou obsolètes sur le site. Les
-              informations fournies sur notre site sont fournies à titre
-              indicatif et ne doivent pas être considérées comme des conseils
-              professionnels ou des décisions définitives. Nous vous
-              encourageons à vérifier les informations auprès de sources
-              officielles ou à contacter les organismes concernés pour obtenir
-              des informations précises et à jour.
+              We make every effort to provide accurate and up-to-date
+              information information on our site. However, we accept no
+              liability for for incorrect, incomplete or out-of-date information
+              on the site. The information provided on our site is for
+              information purposes and should not be construed as professional
+              advice or definitive or definitive decisions. We encourage you
+              encourage you to verify the information with official sources
+              sources or contact the relevant organizations to obtain accurate
+              accurate and up-to-date information.
             </p>
           </div>
         </div>
@@ -196,16 +194,16 @@ export default function Legal() {
               active === 5 ? 'text-primary' : 'text-white'
             }`}
           >
-            Liens vers des tiers
+            Links to third parties
           </div>
           <div className="collapse-content">
             <p>
-              Notre site peut contenir des liens vers des sites web de tiers qui
-              ont leurs propres politiques de confidentialité. Nous ne sommes
-              pas responsables des pratiques de confidentialité ou du contenu de
-              ces sites web. Nous vous encourageons à lire attentivement les
-              politiques de confidentialité de ces sites tiers avant de fournir
-              vos informations personnelles.
+              Our site may contain links to third-party websites that have their
+              own have their own privacy policies. We are not responsible for
+              the privacy practices or the content of such websites. of these
+              websites. We encourage you to read the privacy policies the
+              privacy policies of these third-party sites before providing your
+              personal information.
             </p>
           </div>
         </div>
@@ -225,17 +223,16 @@ export default function Legal() {
               active === 6 ? 'text-primary' : 'text-white'
             }`}
           >
-            Vos droits en matière de protection des données
+            Your data protection rights
           </div>
           <div className="collapse-content">
             <p>
-              Vous avez le droit d'accéder, de corriger, de supprimer ou de
-              limiter l'utilisation de vos informations personnelles. Vous
-              pouvez également vous opposer au traitement de vos informations
-              personnelles ou demander la portabilité de ces informations. Pour
-              exercer vos droits ou poser des questions concernant notre
-              politique de confidentialité, veuillez nous contacter aux
-              coordonnées fournies ci-dessous.
+              You have the right to access, correct, delete or restrict limit
+              the use of your personal information. You may also object to the
+              processing of your personal information or request the portability
+              of this information. To exercise your rights or ask questions
+              about our privacy policy, please contact us using the contact
+              details contact details provided below.
             </p>
           </div>
         </div>
@@ -255,14 +252,13 @@ export default function Legal() {
               active === 7 ? 'text-primary' : 'text-white'
             }`}
           >
-            Coordonnées{' '}
+            Contact
           </div>
           <div className="collapse-content">
             <p>
-              Si vous avez des questions, des préoccupations ou des demandes
-              concernant notre politique de confidentialité ou nos pratiques en
-              matière de protection des données, veuillez nous contacter à
-              l'adresse suivante :oworld@oworld.com
+              If you have any questions, concerns or requests about our privacy
+              policy or data protection practices, please please contact us at
+              the following address :oworld.entreprise@gmail.com
             </p>
           </div>
         </div>

@@ -150,7 +150,7 @@ function Infos({ radio, insolite, celebrity }: InfosProps) {
           <h2 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
             Celebrities
           </h2>
-          <div className="mt-[50px] flex lg:flex-row flex-col justify-center gap-3 justifygap-5">
+          <div className="mt-[50px] flex lg:flex-row flex-col justify-center min-h-[70vh] gap-5">
             {shuffledCelebrities.length > 0 ? (
               shuffledCelebrities.map((celebrities, index) => (
                 <CardCelebrity
