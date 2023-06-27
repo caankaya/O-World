@@ -6,9 +6,8 @@ import {
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { ApiResponse, Celebrity, Radio } from '../../../@types/infos';
-import { countReset } from 'console';
 
-// Définir l'interface pour l'état
+// Define the interface for the state
 interface InfosState {
   radio: Radio;
   insolite: string;
@@ -18,7 +17,7 @@ interface InfosState {
   alert: AlertType | null;
 }
 
-// Définir l'état initial
+// Define the initial state
 const initialState: InfosState = {
   loading: false,
   infiniteLoading: false,
@@ -28,8 +27,14 @@ const initialState: InfosState = {
   celebrity: [],
 };
 
+/**
+ * Action to clear the infos alert.
+ */
 export const clearInfosAlert = createAction('infos/clearAlert');
 
+/**
+ * Async thunk to fetch radio data.
+ */
 export const fetchRadio = createAsyncThunk(
   'country/fetchRadio',
   async (countryId: string) => {
@@ -42,7 +47,9 @@ export const fetchRadio = createAsyncThunk(
   }
 );
 
-// Modifier le reducer pour manipuler les données de la réponse
+/**
+ * Reducer for the infos state.
+ */
 const infosReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchRadio.pending, (state) => {
@@ -65,7 +72,6 @@ const infosReducer = createReducer(initialState, (builder) => {
         message: action.error.message || 'Unknown error occurred.',
       };
     })
-
     .addCase(clearInfosAlert, (state) => {
       state.alert = null;
     });

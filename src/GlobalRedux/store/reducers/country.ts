@@ -8,6 +8,9 @@ import axiosInstance from '../../../utils/axios';
 
 import { AlertType } from '../../../@types/alert';
 
+/**
+ * Interface representing the state of the country.
+ */
 interface CountryState {
   data: CountriesDataProps | null;
   loading: boolean;
@@ -15,6 +18,9 @@ interface CountryState {
   alert: AlertType | null;
 }
 
+/**
+ * Initial state of the country.
+ */
 const initialState: CountryState = {
   data: null,
   loading: false,
@@ -22,8 +28,14 @@ const initialState: CountryState = {
   alert: null,
 };
 
+/**
+ * Action to clear the country alert.
+ */
 export const clearCountryAlert = createAction('stats/clearAlert');
 
+/**
+ * Asynchronous action to retrieve country data.
+ */
 export const fetchRestCountries = createAsyncThunk(
   'country/fetchRestCountries',
   async (countryId: string) => {
@@ -36,8 +48,14 @@ export const fetchRestCountries = createAsyncThunk(
   }
 );
 
+/**
+ * Action to reset country data.
+ */
 export const resetCountryData = createAction('country/reset-data');
 
+/**
+ * Country reducer.
+ */
 const countryReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchRestCountries.pending, (state) => {

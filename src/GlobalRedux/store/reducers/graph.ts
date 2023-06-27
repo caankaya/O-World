@@ -21,8 +21,14 @@ const initialState: CountryState = {
   alert: null,
 };
 
+/**
+ * Action to clear the alert for the graph.
+ */
 export const clearGraphAlert = createAction('planet/clearAlert');
 
+/**
+ * Async action to fetch graph data.
+ */
 export const fetchGraph = createAsyncThunk(
   'country/fetchGraph',
   async (countryId: string) => {
@@ -35,6 +41,9 @@ export const fetchGraph = createAsyncThunk(
   }
 );
 
+/**
+ * Reducer for the graph.
+ */
 const graphReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchGraph.pending, (state) => {
@@ -55,7 +64,6 @@ const graphReducer = createReducer(initialState, (builder) => {
         message: action.error.message || 'Unknown error occurred.',
       };
     })
-
     .addCase(clearGraphAlert, (state) => {
       state.alert = null;
     });

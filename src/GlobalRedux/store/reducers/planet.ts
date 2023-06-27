@@ -46,6 +46,9 @@ const initialState: PlanetState = {
 
 export const clearPlanetAlert = createAction('planet/clearAlert');
 
+/**
+ * Async thunk to fetch Mercury data.
+ */
 export const fetchMercuryData = createAsyncThunk(
   'mercury/fetchMercuryData',
   async () => {
@@ -58,6 +61,9 @@ export const fetchMercuryData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Venus data.
+ */
 export const fetchVenusData = createAsyncThunk(
   'venus/fetchVenusData',
   async () => {
@@ -70,6 +76,9 @@ export const fetchVenusData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Earth data.
+ */
 export const fetchEarthData = createAsyncThunk(
   'earth/fetchEarthData',
   async () => {
@@ -82,6 +91,9 @@ export const fetchEarthData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Mars data.
+ */
 export const fetchMarsData = createAsyncThunk(
   'mars/fetchMarsData',
   async () => {
@@ -94,6 +106,9 @@ export const fetchMarsData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Jupiter data.
+ */
 export const fetchJupiterData = createAsyncThunk(
   'jupiter/fetchJupiterData',
   async () => {
@@ -106,6 +121,9 @@ export const fetchJupiterData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Saturn data.
+ */
 export const fetchSaturnData = createAsyncThunk(
   'saturn/fetchSaturnData',
   async () => {
@@ -118,6 +136,9 @@ export const fetchSaturnData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Uranus data.
+ */
 export const fetchUranusData = createAsyncThunk(
   'uranus/fetchUranusData',
   async () => {
@@ -130,6 +151,9 @@ export const fetchUranusData = createAsyncThunk(
   }
 );
 
+/**
+ * Async thunk to fetch Neptune data.
+ */
 export const fetchNeptuneData = createAsyncThunk(
   'neptune/fetchNeptuneData',
   async () => {
@@ -142,6 +166,11 @@ export const fetchNeptuneData = createAsyncThunk(
   }
 );
 
+// ... Create async thunks and actions for other planets
+
+/**
+ * Reducer for the planet state.
+ */
 const planetReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchMercuryData.pending, (state) => {
