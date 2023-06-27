@@ -1,5 +1,6 @@
 /* eslint-disable no-await-in-loop */
-import { motion, useAnimation } from 'framer-motion'; // npm i framer-motion
+
+import { motion, useAnimation } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 type TextLetterProps = {
@@ -10,14 +11,20 @@ type AnimatedTextProps = {
   text: string;
 };
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'; // Nous créons une chaîne de caractères qui contient tous les caractères que nous voulons utiliser pour animer le texte.
+// We create a string containing all the characters that we want to use for animating the text.
+const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
+/**
+ * TextLetter Component for animating individual letters.
+ * @param {TextLetterProps} props - The properties passed to this component.
+ */
 function TextLetter({ children }: TextLetterProps) {
   const controls = useAnimation();
   const [displayLetter, setDisplayLetter] = useState(children);
 
   useEffect(() => {
-    // useEffect est un Hook qui permet d'exécuter du code à chaque fois que le composant est rendu. Ici, nous utilisons useEffect pour animer chaque lettre du texte.
+    // useEffect is a Hook that allows executing code every time the component is rendered.
+    // Here, we use useEffect to animate each letter of the text.
     let isMounted = true;
     const animate = async () => {
       let counter = 0;
@@ -26,9 +33,10 @@ function TextLetter({ children }: TextLetterProps) {
           opacity: 1,
           transition: { duration: Math.random() + 0.5 },
         });
+        // Using a random number to select a random character from the characters string.
         setDisplayLetter(
           characters[Math.floor(Math.random() * characters.length)]
-        ); // Nous utilisons ce nombre pour sélectionner un caractère aléatoire de la chaîne characters.
+        );
         await controls.start({
           transition: { duration: Math.random() + 0.5 },
         });
@@ -37,10 +45,10 @@ function TextLetter({ children }: TextLetterProps) {
     };
     animate();
     return () => {
-      // Quand le composant se démonte, on change la valeur de isMounted
+      // When the component unmounts, change the value of isMounted.
       isMounted = false;
     };
-  }, [controls]); // useEffect est exécuté à chaque fois que controls change.
+  }, [controls]); // useEffect runs every time controls changes.
 
   return (
     <motion.span
@@ -49,26 +57,35 @@ function TextLetter({ children }: TextLetterProps) {
       className="alien-font text-center tracking-normal shadow-neon mx-2"
       style={{ letterSpacing: '0.2em' }}
     >
-      {' '}
-      {/* Nous utilisons le composant motion.span pour envelopper chaque lettre. */}
+      {/* Using motion.span component to wrap each letter. */}
       {displayLetter === ' ' ? '\u00A0' : displayLetter}
     </motion.span>
   );
 }
 
+/**
+ * AnimatedText Component for creating animated text strings.
+ * @param {AnimatedTextProps} props - The properties passed to this component.
+ */
 function AnimatedText({ text }: AnimatedTextProps) {
   return (
-    <div className="">
+    <div>
+      {/* Using map method to create an array of TextLetter components. */}
       {Array.from(text).map((letter, i) => (
         <TextLetter key={i}>{letter === ' ' ? '\u00A0' : letter}</TextLetter>
-      ))}{' '}
-      {/* Nous utilisons la méthode map pour créer un tableau de composants TextLetter. */}
+      ))}
     </div>
   );
 }
 
 export default AnimatedText;
 
+/**
+ * Function to set stagger animation effect.
+ * @param {number} staggerChildren - The stagger effect between children.
+ * @param {number} delayChildren - The delay effect between children.
+ * @return {Object} Configuration object for stagger animation.
+ */
 export const staggerContainer = (
   staggerChildren: number,
   delayChildren: number
@@ -82,7 +99,14 @@ export const staggerContainer = (
   },
 });
 
-// Effet d'animation d'afffichage fondu :
+/**
+ * Function to set fade-in animation effect.
+ * @param {'left' | 'right' | 'up' | 'down'} direction - Direction of the fade-in effect.
+ * @param {string} type - Type of animation.
+ * @param {number} delay - Delay in animation.
+ * @param {number} duration - Duration of animation.
+ * @return {Object} Configuration object for fade-in animation.
+ */
 export const fadeIn = (
   direction: 'left' | 'right' | 'up' | 'down',
   type: string,

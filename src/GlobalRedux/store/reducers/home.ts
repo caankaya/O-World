@@ -20,15 +20,36 @@ const initialState: HomeState = {
   spinner: true,
 };
 
-// Actions
+/**
+ * Action to toggle the sidebar.
+ */
 export const togglerSideBar = createAction<boolean>('SideBar/toggle');
+
+/**
+ * Action to toggle the dropdown in the profile.
+ */
 export const togglerDropDown = createAction<boolean>('Profil/dropDown');
+
+/**
+ * Action to toggle the login modal.
+ */
 export const togglerLoginModal = createAction<boolean>('LoginModal/toggle');
+
+/**
+ * Action to toggle the register modal.
+ */
 export const togglerRegisterModal = createAction<boolean>(
   'RegisterModal/toggle'
 );
+
+/**
+ * Action to set the loading spinner state.
+ */
 export const setLoading = createAction<boolean>('Loading/spinner');
 
+/**
+ * Reducer for the home state.
+ */
 const homeReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(togglerSideBar, (state) => {
