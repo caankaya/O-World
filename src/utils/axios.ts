@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 /**
  * Create an axios instance with a predefined base URL.
  * This instance can be used for making HTTP requests to
@@ -34,7 +33,8 @@ axiosInstance.interceptors.response.use(
 
     if (
       error.response &&
-      error.response.status === 401 &&
+      error.response.data.httpCode === 401 &&
+      error.response.data.message === 'jwt expired' &&
       !originalRequest._retry
     ) {
       console.log('jai passé le if');
@@ -43,16 +43,15 @@ axiosInstance.interceptors.response.use(
       try {
         console.log('je suis dans le try');
 
-        const refreshToken = localStorage.getItem('refreshToken');
-        // const refreshToken =
-        //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlkIjo2MzJ9LCJpYXQiOjE2ODc4NzM3MTAsImV4cCI6MTY4ODQ3ODUxMH0.ExohUQTyjOWwjjCFxrVYEcYPQRDnNADthGSp3p-SoL4';
-        console.log('jai recuperé le refreshToken bidoullié', refreshToken);
+        // const refreshToken = localStorage.getItem('refreshToken');
+        const refreshToken = '';
+        console.log('jai recuperé le refreshToken', refreshToken);
 
         const response = await axiosInstance.post('/log/refresh-token', {
           refreshToken: refreshToken,
         });
 
-        console.log('reponsedata', response.data);
+        console.log(response);
 
         if (response.status === 200) {
           const newAccessToken = response.data.data.accessToken;
@@ -66,20 +65,16 @@ axiosInstance.interceptors.response.use(
           const retryResponse = await axiosInstance(originalRequest);
           return retryResponse;
         } else {
-          console.log(response.data);
           console.log('je suis dands le else');
-
-          console.log('Erreur lors du rafraîchissement du token');
           throw new Error('Erreur lors du rafraîchissement du token');
         }
       } catch (error: string | any) {
-        console.log(error.response.data);
+        console.log('je suis dans le catch error');
+        console.log(error.response.data.error);
 
-        throw new Error(error.response.data.message as string);
+        throw error;
       }
     }
-
-    console.log('toto');
 
     return Promise.reject(error);
   }

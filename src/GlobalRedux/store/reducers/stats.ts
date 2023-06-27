@@ -31,9 +31,6 @@ export const fetchAdminStatsData = createAsyncThunk(
         `/admin/${localStorage.id}/stat`,
         {
           params: { useView: true },
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
         }
       );
       return response.data;
