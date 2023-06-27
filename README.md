@@ -1,6 +1,6 @@
 ### 🌍 oWorld - The Earth Encyclopedia by Extraterrestrials 👽
 
-oWorld is a web application in the form of a dashboard that presents a fascinating overview of each country on Earth, as seen by extraterrestrials!
+oWorld is a web application in the form of a dashboard that presents a fascinating overview of each country on Earth.
 
 oWorld Screenshot
 
@@ -8,7 +8,7 @@ oWorld Screenshot
 
 oWorld is designed to be a one-stop shop for learning more about each country on our planet. The application allows you to quickly visualize various information such as population, GDP, language, currency, and much more. We started with basic information and plan to evolve the application to display more detailed information such as important historical dates, cultural anecdotes, health data, etc.
 
-What sets our application apart is its extraterrestrial theme. Imagine that extraterrestrials are studying Earth and sharing this information with us! We use special fonts and animations to give the impression that the information is being translated from an extraterrestrial language. The user interface employs the glassmorphism design style, which gives the impression of an extraterrestrial spaceship display.
+What sets our application apart is its extraterrestrial theme. Imagine that extraterrestrials are studying Earth and sharing this information with us! We use special fonts and animations to give the impression that the information is being translated from an extraterrestrial language.
 
 ### 🤔 Why did we create oWorld?
 
@@ -30,18 +30,6 @@ oWorld is intended for anyone curious to learn more about the world. It is parti
 
 ### ⚙️ Installation and Execution
 
-Clone this repository:
-
-```
-git clone https://github.com/[nom-utilisateur]/oWorld.git
-```
-
-Navigate to the project directory:
-
-```
-cd oWorld
-```
-
 Install dependencies:
 
 ```
@@ -56,7 +44,7 @@ npm run dev
 
 ### 🌐 Deployment
 
-oWorld is deployed on Railway, Vercel, and Hostinger and can be accessed via the following URL: https://oworld.space/.
+oWorld is deployed on Railway, Vercel, and Hostinger and can be accessed for the last one via the following URL: https://oworld.space/.
 
 ### 👽 Enjoy your journey through space
 
