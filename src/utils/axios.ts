@@ -40,8 +40,9 @@ axiosInstance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // const refreshToken = localStorage.getItem('refreshToken');
-        const refreshToken = '';
+        const refreshToken = localStorage.getItem('refreshToken');
+        // const refreshToken = '';
+        // const refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImlsIjo2MzJ9LCJpYXQiOjE2ODc4NzM3MTAsImV4cCI6MTY4ODQ3ODUxMH0.ExohUQTyjOWwjjCFxrVYEcYPQRDnNADthGSp3p-SoL4';
 
         const response = await axiosInstance.post('/log/refresh-token', {
           refreshToken: refreshToken,
