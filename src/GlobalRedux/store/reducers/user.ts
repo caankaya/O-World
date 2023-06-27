@@ -8,8 +8,6 @@ import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
 import { IToken } from '../../../@types/accessToken';
-import { log } from 'console';
-import { useAppDispatch } from '../../hooks';
 
 interface UserState {
   username: string | null;
@@ -64,30 +62,6 @@ export const login = createAsyncThunk(
   }
 );
 
-// export const refreshAccessToken = createAsyncThunk(
-//   'user/refreshAccessToken',
-//   async () => {
-//     try {
-//       const response = await axiosInstance.post(
-//         '/log/refresh-token',
-//         { refreshToken: localStorage.refreshToken },
-//         {
-//           headers: {
-//             Authorization: `Bearer ${localStorage.accessToken}`,
-//           },
-//         }
-//       );
-//       console.log(response);
-
-//       return response.data;
-//     } catch (error: string | any) {
-//       console.log(error);
-
-//       throw new Error(error.response.data.message as string);
-//     }
-//   }
-// );
-
 export const register = createAsyncThunk(
   'user/register',
   async (formInput: FormData) => {
@@ -105,19 +79,14 @@ export const accountUpdate = createAsyncThunk(
   'user/account-update',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    console.log(obj);
     try {
       const response = await axiosInstance.put(`/user/${localStorage.id}`, obj);
 
-      console.log(response);
-
       return response.data;
     } catch (error: string | any) {
-      console.log(error.response.data);
       if (error.response.data.message) {
         throw new Error(error.response.data.message as string);
       } else {
-        console.log(error.response.data);
         throw new Error(error.response.data.error as string);
       }
     }
@@ -128,20 +97,16 @@ export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    console.log(obj);
+
     try {
       const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
         data: obj,
       });
-      console.log(response);
-
       return response;
     } catch (error: string | any) {
-      console.log(error.response.data);
       if (error.response.data.message) {
         throw new Error(error.response.data.message as string);
       } else {
-        console.log(error.response.data);
         throw new Error(error.response.data.error as string);
       }
     }
@@ -175,11 +140,9 @@ export const fetchFavoritesCountries = createAsyncThunk(
         return transformedData;
       }
     } catch (error: string | any) {
-      console.log(error.response.data);
       if (error.response.data.message) {
         throw new Error(error.response.data.message as string);
       } else {
-        console.log(error.response.data);
         throw new Error(error.response.data.error as string);
       }
     }
@@ -196,11 +159,9 @@ export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
       );
       return response.data;
     } catch (error: string | any) {
-      console.log(error.response.data);
       if (error.response.data.message) {
         throw new Error(error.response.data.message as string);
       } else {
-        console.log(error.response.data);
         throw new Error(error.response.data.error as string);
       }
     }
@@ -217,11 +178,9 @@ export const removeFavoriteCountry = createAsyncThunk<
     );
     return response.data;
   } catch (error: string | any) {
-    console.log(error.response.data);
     if (error.response.data.message) {
       throw new Error(error.response.data.message as string);
     } else {
-      console.log(error.response.data);
       throw new Error(error.response.data.error as string);
     }
   }
@@ -231,6 +190,19 @@ export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
 export const setRememberMe = createAction<boolean>('user/setRememberMe');
+
+function logoutAction(state: UserState) {
+  state.loading = false;
+  state.isLogged = false;
+  state.sessionId = null;
+  state.username = null;
+  state.roles = [];
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('id');
+  localStorage.removeItem('username');
+  localStorage.removeItem('roles');
+}
 
 const userReducer = createReducer(initialState, (builder) => {
   builder
@@ -242,21 +214,15 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       state.loading = false;
       state.isLogged = true;
-
       const accessToken: IToken = jwt_decode(action.payload.accessToken);
-      const { id } = accessToken.data;
-      const { username } = accessToken.data;
-      const { roles } = accessToken.data;
-
+      const { id, username, roles } = accessToken.data;
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
       localStorage.setItem('id', id);
       localStorage.setItem('username', username);
       localStorage.setItem('roles', roles as string);
-
       state.username = username;
       state.roles = roles as string[];
-
       state.alert = {
         type: 'success',
         message: `Welcome ${username}`,
@@ -272,62 +238,8 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    // .addCase(refreshAccessToken.pending, (state, action) => {
-    //   // Set the loading state to true while refreshing the token
-    //   state.loading = true;
-    // })
-    // .addCase(refreshAccessToken.fulfilled, (state, action) => {
-    //   // Update the access token and decode it
-    //   console.log(action.payload);
-    //   console.log(action.payload.data);
-
-    //   const accessToken: IToken = jwt_decode(action.payload.data.accessToken);
-    //   const { id } = accessToken.data;
-    //   const { username } = accessToken.data;
-    //   const { roles } = accessToken.data;
-
-    //   localStorage.removeItem('accessToken');
-    //   localStorage.removeItem('refreshToken');
-    //   localStorage.removeItem('id');
-    //   localStorage.removeItem('username');
-    //   localStorage.removeItem('roles');
-
-    //   localStorage.setItem('accessToken', action.payload.data.accessToken);
-    //   localStorage.setItem('refreshToken', action.payload.data.refreshToken);
-    //   localStorage.setItem('id', id);
-    //   localStorage.setItem('username', username);
-    //   localStorage.setItem('roles', roles as string);
-
-    //   state.username = username;
-    //   state.roles = roles as string[];
-
-    //   state.loading = false;
-    //   state.alert = {
-    //     type: 'success',
-    //     message: 'RefreshToken OK',
-    //   }; // Set the loading state back to false
-    // })
-    // .addCase(refreshAccessToken.rejected, (state, action) => {
-    //   // Handle the error while refreshing the token
-    //   state.loading = false; // Set the loading state back to false
-    //   state.alert = {
-    //     type: 'error',
-    //     message: action.error.message ?? 'Unknown error occurred.',
-    //   };
-    // })
-
     .addCase(logout, (state) => {
-      state.loading = false;
-      state.isLogged = false;
-      state.sessionId = null;
-      state.username = null;
-      state.roles = [];
-      // localStorage.clear();
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('id');
-      localStorage.removeItem('username');
-      localStorage.removeItem('roles');
+      logoutAction(state);
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
@@ -358,31 +270,22 @@ const userReducer = createReducer(initialState, (builder) => {
       state.alert = null;
     })
     .addCase(accountUpdate.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       state.loading = false;
       state.isLogged = true;
-
       const accessToken: IToken = jwt_decode(action.payload.tokens.accessToken);
-      const { id } = accessToken.data;
-      const { username } = accessToken.data;
-      const { roles } = accessToken.data;
-
+      const { id, username, roles } = accessToken.data;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('id');
       localStorage.removeItem('username');
       localStorage.removeItem('roles');
-
       localStorage.setItem('accessToken', action.payload.tokens.accessToken);
       localStorage.setItem('refreshToken', action.payload.tokens.refreshToken);
       localStorage.setItem('id', id);
       localStorage.setItem('username', username);
       localStorage.setItem('roles', roles as string);
-
       state.username = username;
       state.roles = roles as string[];
-
       state.alert = {
         type: 'success',
         message: `Good news ${username}! Your account has been updated.`,
@@ -394,17 +297,7 @@ const userReducer = createReducer(initialState, (builder) => {
         action.error.message === 'token invalid' ||
         'No refresh token found'
       ) {
-        state.loading = false;
-        state.isLogged = false;
-        state.sessionId = null;
-        state.username = null;
-        state.roles = [];
-        // localStorage.clear();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('roles');
+        logoutAction(state);
         state.alert = {
           type: 'error',
           message: 'Session expired. Please log in again.',
@@ -439,17 +332,7 @@ const userReducer = createReducer(initialState, (builder) => {
         action.error.message === 'token invalid' ||
         'No refresh token found'
       ) {
-        state.loading = false;
-        state.isLogged = false;
-        state.sessionId = null;
-        state.username = null;
-        state.roles = [];
-        // localStorage.clear();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('roles');
+        logoutAction(state);
         state.alert = {
           type: 'error',
           message: 'Session expired. Please log in again.',
@@ -475,23 +358,11 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(fetchFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
       state.infiniteLoading = true;
-      console.log(action);
-
       if (
         action.error.message === 'token invalid' ||
         'No refresh token found'
       ) {
-        state.loading = false;
-        state.isLogged = false;
-        state.sessionId = null;
-        state.username = null;
-        state.roles = [];
-        // localStorage.clear();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('roles');
+        logoutAction(state);
         state.alert = {
           type: 'error',
           message: 'Session expired. Please log in again.',
@@ -517,23 +388,12 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(addFavoriteCountry.rejected, (state, action) => {
       state.loading = false;
-      console.log(action);
 
       if (
         action.error.message === 'token invalid' ||
         'No refresh token found'
       ) {
-        state.loading = false;
-        state.isLogged = false;
-        state.sessionId = null;
-        state.username = null;
-        state.roles = [];
-        // localStorage.clear();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('roles');
+        logoutAction(state);
         state.alert = {
           type: 'error',
           message: 'Session expired. Please log in again.',
@@ -563,17 +423,7 @@ const userReducer = createReducer(initialState, (builder) => {
         action.error.message === 'token invalid' ||
         'No refresh token found'
       ) {
-        state.loading = false;
-        state.isLogged = false;
-        state.sessionId = null;
-        state.username = null;
-        state.roles = [];
-        // localStorage.clear();
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        localStorage.removeItem('roles');
+        logoutAction(state);
         state.alert = {
           type: 'error',
           message: 'Session expired. Please log in again.',
