@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import countryReducer from './reducers/country';
-import statsReducer from './reducers/stats';
+
 import homeReducer from './reducers/home';
 import userReducer from './reducers/user';
 import planetReducer from './reducers/planet';
@@ -12,7 +12,7 @@ import infosReducer from './reducers/infos';
 const store = configureStore({
   reducer: {
     planet: planetReducer,
-    stats: statsReducer,
+
     country: countryReducer,
     home: homeReducer,
     user: userReducer,

@@ -4,7 +4,6 @@ import Alert from './Alert';
 
 function Toast() {
   const alertUser = useAppSelector((state) => state.user.alert);
-  const alertStats = useAppSelector((state) => state.stats.alert);
   const alertFlags = useAppSelector((state) => state.flags.alert);
   const alertPlanet = useAppSelector((state) => state.planet.alert);
   const alertCountry = useAppSelector((state) => state.country.alert);
@@ -14,9 +13,7 @@ function Toast() {
   return (
     <>
       {alertUser && <Alert type={alertUser.type} message={alertUser.message} />}
-      {alertStats && (
-        <Alert type={alertStats.type} message={alertStats.message} />
-      )}
+
       {alertPlanet && (
         <Alert type={alertPlanet.type} message={alertPlanet.message} />
       )}

@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
+import { Stats } from '../../../@types/statsAdmin';
 import { IToken } from '../../../@types/accessToken';
 
 interface UserState {
@@ -21,6 +22,7 @@ interface UserState {
   rememberMe: boolean;
   infiniteLoading: boolean;
   favoritesCountries: CountryFavorites[];
+  stats: Stats[];
 }
 
 const initialState: UserState = {
@@ -47,6 +49,7 @@ const initialState: UserState = {
   sessionId: null,
   rememberMe: false,
   favoritesCountries: [],
+  stats: [],
 };
 
 export const login = createAsyncThunk(
@@ -185,6 +188,27 @@ export const removeFavoriteCountry = createAsyncThunk<
     }
   }
 });
+
+export const fetchAdminStatsData = createAsyncThunk(
+  'stats/fetchAdminStatsData',
+  async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/admin/${localStorage.id}/stat`,
+        {
+          params: { useView: true },
+        }
+      );
+      return response.data;
+    } catch (error: string | any) {
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
+    }
+  }
+);
 
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
@@ -428,6 +452,36 @@ const userReducer = createReducer(initialState, (builder) => {
           type: 'error',
           message: 'Session expired. Please log in again.',
         };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
+    })
+
+    .addCase(fetchAdminStatsData.pending, (state) => {
+      state.loading = true;
+      state.infiniteLoading = true;
+      state.alert = null;
+    })
+    .addCase(fetchAdminStatsData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = false;
+      state.stats = action.payload;
+    })
+    .addCase(fetchAdminStatsData.rejected, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = true;
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+        logoutAction(state);
       } else {
         state.alert = {
           type: 'error',
