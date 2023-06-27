@@ -19,8 +19,14 @@ const initialState: FlagsState = {
   alert: null,
 };
 
+/**
+ * Action to clear the alert for flags.
+ */
 export const clearFlagsAlert = createAction('stats/clearAlert');
 
+/**
+ * Async action to fetch flags data.
+ */
 export const fetchFlagsData = createAsyncThunk(
   'stats/fetchFlagsData',
   async () => {
@@ -33,6 +39,9 @@ export const fetchFlagsData = createAsyncThunk(
   }
 );
 
+/**
+ * Reducer for flags.
+ */
 const flagsReducer = createReducer(initialState, (builder) => {
   builder
     .addCase(fetchFlagsData.pending, (state) => {
@@ -49,7 +58,6 @@ const flagsReducer = createReducer(initialState, (builder) => {
         message: action.error.message || 'Unknown error occurred.',
       };
     })
-
     .addCase(clearFlagsAlert, (state) => {
       state.alert = null;
     });

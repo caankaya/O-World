@@ -51,15 +51,6 @@ export default function Profil() {
           : {}
       }
     >
-      <div className="xl:max-w-4xl mx-auto text-center">
-        <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
-          Profile
-        </h1>
-        <p className="text-lg md:text-xl text-white font-medium">
-          Your informations
-        </p>
-      </div>
-      <UpdateProfile />
       {loadingFavorites || loadingFlags ? (
         <SimpleLoader />
       ) : (
@@ -78,6 +69,15 @@ export default function Profil() {
           />
         </>
       )}
+      <div className="xl:max-w-4xl mx-auto text-center">
+        <h1 className="text-3xl md:text-7xl gradient-text font-bold tracking-widest leading-tight">
+          Profile
+        </h1>
+        <p className="text-lg md:text-xl text-white font-medium">
+          Your informations
+        </p>
+      </div>
+      <UpdateProfile />
     </div>
   );
 }

@@ -16,6 +16,13 @@ interface UserFavoritesProps {
   flags: Flags[];
 }
 
+/**
+ * Component that displays the user's favorite countries.
+ *
+ * @param favoritesCountries The list of favorite countries.
+ * @param flags The list of flag data.
+ * @returns The component that renders the user's favorite countries.
+ */
 function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
   const dispatch = useAppDispatch();
   const [displayedCountries, setDisplayedCountries] = useState<number>(5);
@@ -28,6 +35,11 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     return <SimpleLoader />;
   }
 
+  /**
+   * Handles the click event to view more or less countries.
+   *
+   * @param event The click event.
+   */
   const handleViewCountries = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setIsViewAll(!isViewAll);
@@ -38,11 +50,23 @@ function UserFavorites({ favoritesCountries, flags }: UserFavoritesProps) {
     setDisplayedCountries(5);
   };
 
+  /**
+   * Finds the URL of the flag image for a given country.
+   *
+   * @param flagsList The list of flag data.
+   * @param cca3 The cca3 code of the country.
+   * @returns The URL of the flag image.
+   */
   const findFlagUrl = (flagsList: Flags[], cca3: string) => {
     const flagData = flagsList.find((flag) => flag.cca3 === cca3);
     return flagData ? flagData.flags.png : '';
   };
 
+  /**
+   * Handles the removal of a country from favorites.
+   *
+   * @param countryId The ID of the country to be removed.
+   */
   const handleRemoveFavorite = async (countryId: string) => {
     await dispatch(removeFavoriteCountry({ countryId }));
     await dispatch(fetchFavoritesCountries());

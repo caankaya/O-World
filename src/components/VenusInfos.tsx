@@ -6,6 +6,12 @@ import { fadeIn } from '../utils/motion';
 
 import SimpleLoader from './SimpleLoader';
 
+/**
+ * Function component that displays information about Venus.
+ *
+ * @param venusData The data about Venus to be displayed.
+ * @returns The component renders information about Venus or a loading component if the data is not yet available.
+ */
 function VenusInfos({ venusData }: { venusData: Venus }) {
   const infiniteLoadingInfos = useAppSelector(
     (state) => state.planet.infiniteLoading

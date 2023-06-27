@@ -23,3 +23,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Tests
+/coverage
+*.lcov
+
+# Documentation
+/docs
+
+# Rebuild railway

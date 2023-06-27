@@ -25,6 +25,12 @@ interface PopulationsProps {
   };
 }
 
+/**
+ * This function component renders a bar chart with the given population data.
+ *
+ * @param population The population data to be plotted.
+ * @returns A bar chart or null if there's no population data.
+ */
 function WorldLineChart({ population }: PopulationsProps) {
   if (population) {
     const years = Object.keys(population);
