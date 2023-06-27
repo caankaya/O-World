@@ -17,13 +17,17 @@
     "jsx": "react-jsx",
     "types": ["@babel/core"]
   },
-  "include": [
-    "vite.config.ts",
-    ".eslintrc.cjs",
-    "src",
-    "src/**/*",
-    "tests"
-  ],
+"typedocOptions": {
+    "plugin": ["typedoc-plugin-missing-exports", "typedoc-plugin-rename-defaults"],
+},
+"include": [
+  "vite.config.ts",
+  ".eslintrc.cjs",
+  "src/**/*.ts",
+  "src/**/*.tsx",
+  "tests/**/*.ts",
+  "tests/**/*.tsx"
+],
   "references": [
     { "path": "./tsconfig.node.json" }
   ]
