@@ -20,7 +20,6 @@ import Country from '../Country';
 import Profil from '../Profile';
 import Administrator from '../Administrator';
 import Legal from '../Legal';
-import Documentation from '../Documentation';
 
 function App() {
   // Récupération de l'ID du pays depuis l'URL
@@ -44,8 +43,6 @@ function App() {
           <Route path="/neptune" element={<Neptune />} />
           <Route path="/country/:id" element={<Country />} />
         </Route>
-        {/* Documentation Front */}
-        <Route path="/docs" element={<Documentation />} />
         {/* 404 Page without Layout */}
         <Route path="/*" element={<Error404 />} />
       </Routes>
