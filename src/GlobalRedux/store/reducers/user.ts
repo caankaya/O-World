@@ -7,6 +7,7 @@ import jwt_decode from 'jwt-decode';
 import axiosInstance from '../../../utils/axios';
 import { AlertType } from '../../../@types/alert';
 import { CountryFavorites } from '../../../@types/countryFavorites';
+import { Stats } from '../../../@types/statsAdmin';
 import { IToken } from '../../../@types/accessToken';
 
 interface UserState {
@@ -21,6 +22,7 @@ interface UserState {
   rememberMe: boolean;
   infiniteLoading: boolean;
   favoritesCountries: CountryFavorites[];
+  stats: Stats[];
 }
 
 const initialState: UserState = {
@@ -47,6 +49,7 @@ const initialState: UserState = {
   sessionId: null,
   rememberMe: false,
   favoritesCountries: [],
+  stats: [],
 };
 
 export const login = createAsyncThunk(
@@ -79,23 +82,16 @@ export const accountUpdate = createAsyncThunk(
   'user/account-update',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    console.log(obj);
     try {
-      const response = await axiosInstance.put(
-        `/user/${localStorage.id}`,
-        obj,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
-        }
-      );
-
-      console.log(response);
+      const response = await axiosInstance.put(`/user/${localStorage.id}`, obj);
 
       return response.data;
     } catch (error: string | any) {
-      throw new Error(error.response.data.message as string);
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
     }
   }
 );
@@ -104,19 +100,18 @@ export const accountDeletion = createAsyncThunk(
   'user/account-deletion',
   async (formInput: FormData) => {
     const obj = Object.fromEntries(formInput);
-    console.log(obj);
+
     try {
       const response = await axiosInstance.delete(`/user/${localStorage.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
         data: obj,
       });
-      console.log(response);
-
       return response;
     } catch (error: string | any) {
-      throw new Error(error.response.data.message as string);
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
     }
   }
 );
@@ -125,11 +120,7 @@ export const fetchFavoritesCountries = createAsyncThunk(
   'user/favorites-countries',
   async () => {
     try {
-      const response = await axiosInstance.get(`/user/${localStorage.id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
-      });
+      const response = await axiosInstance.get(`/user/${localStorage.id}`);
       if (
         response.data[0].favorite_countries.length > 0 &&
         response.data[0].favorite_countries.some((country: (string | null)[]) =>
@@ -152,7 +143,11 @@ export const fetchFavoritesCountries = createAsyncThunk(
         return transformedData;
       }
     } catch (error: string | any) {
-      throw new Error(error.response.data.message as string);
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
     }
   }
 );
@@ -163,16 +158,15 @@ export const addFavoriteCountry = createAsyncThunk<any, { countryId: string }>(
     try {
       const response = await axiosInstance.post(
         `/user/${localStorage.id}/${countryId}`,
-        {}, // Passer un objet vide en tant que corps de la requête
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.accessToken}`,
-          },
-        }
+        {} // Passer un objet vide en tant que corps de la requête
       );
       return response.data;
     } catch (error: string | any) {
-      throw new Error(error.response.data.message as string);
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
     }
   }
 );
@@ -183,27 +177,60 @@ export const removeFavoriteCountry = createAsyncThunk<
 >('user/remove-favorite-country', async ({ countryId }) => {
   try {
     const response = await axiosInstance.delete(
-      `/user/${localStorage.id}/${countryId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.accessToken}`,
-        },
-      }
+      `/user/${localStorage.id}/${countryId}`
     );
     return response.data;
   } catch (error: string | any) {
-    throw new Error(error.response.data.message as string);
+    if (error.response.data.message) {
+      throw new Error(error.response.data.message as string);
+    } else {
+      throw new Error(error.response.data.error as string);
+    }
   }
 });
+
+export const fetchAdminStatsData = createAsyncThunk(
+  'stats/fetchAdminStatsData',
+  async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/admin/${localStorage.id}/stat`,
+        {
+          params: { useView: true },
+        }
+      );
+      return response.data;
+    } catch (error: string | any) {
+      if (error.response.data.message) {
+        throw new Error(error.response.data.message as string);
+      } else {
+        throw new Error(error.response.data.error as string);
+      }
+    }
+  }
+);
 
 export const logout = createAction('user/logout');
 export const clearUserAlert = createAction('user/clearAlert');
 export const handleError = createAction<string>('user/handleError');
 export const setRememberMe = createAction<boolean>('user/setRememberMe');
 
+function logoutAction(state: UserState) {
+  state.loading = false;
+  state.isLogged = false;
+  state.sessionId = null;
+  state.username = null;
+  state.roles = [];
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('id');
+  localStorage.removeItem('username');
+  localStorage.removeItem('roles');
+}
+
 const userReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(login.pending, (state, action) => {
+    .addCase(login.pending, (state) => {
       state.loading = true;
       state.alert = null;
       state.isLogged = false;
@@ -211,21 +238,15 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(login.fulfilled, (state, action) => {
       state.loading = false;
       state.isLogged = true;
-
       const accessToken: IToken = jwt_decode(action.payload.accessToken);
-      const { id } = accessToken.data;
-      const { username } = accessToken.data;
-      const { roles } = accessToken.data;
-
+      const { id, username, roles } = accessToken.data;
       localStorage.setItem('accessToken', action.payload.accessToken);
       localStorage.setItem('refreshToken', action.payload.refreshToken);
       localStorage.setItem('id', id);
       localStorage.setItem('username', username);
       localStorage.setItem('roles', roles as string);
-
       state.username = username;
       state.roles = roles as string[];
-
       state.alert = {
         type: 'success',
         message: `Welcome ${username}`,
@@ -240,29 +261,20 @@ const userReducer = createReducer(initialState, (builder) => {
         message: action.error.message ?? 'Unknown error occurred.',
       };
     })
+
     .addCase(logout, (state) => {
-      state.loading = false;
-      state.isLogged = false;
-      state.sessionId = null;
-      state.username = null;
-      state.roles = [];
-      // localStorage.clear();
-      localStorage.removeItem('accessToken');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('id');
-      localStorage.removeItem('username');
-      localStorage.removeItem('roles');
+      logoutAction(state);
       state.alert = {
         type: 'success',
         message: 'You are disconnected',
       };
     })
 
-    .addCase(register.pending, (state, action) => {
+    .addCase(register.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(register.fulfilled, (state, action) => {
+    .addCase(register.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
@@ -277,36 +289,27 @@ const userReducer = createReducer(initialState, (builder) => {
       };
     })
 
-    .addCase(accountUpdate.pending, (state, action) => {
+    .addCase(accountUpdate.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
     .addCase(accountUpdate.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       state.loading = false;
       state.isLogged = true;
-
       const accessToken: IToken = jwt_decode(action.payload.tokens.accessToken);
-      const { id } = accessToken.data;
-      const { username } = accessToken.data;
-      const { roles } = accessToken.data;
-
+      const { id, username, roles } = accessToken.data;
       localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
       localStorage.removeItem('id');
       localStorage.removeItem('username');
       localStorage.removeItem('roles');
-
       localStorage.setItem('accessToken', action.payload.tokens.accessToken);
       localStorage.setItem('refreshToken', action.payload.tokens.refreshToken);
       localStorage.setItem('id', id);
       localStorage.setItem('username', username);
       localStorage.setItem('roles', roles as string);
-
       state.username = username;
       state.roles = roles as string[];
-
       state.alert = {
         type: 'success',
         message: `Good news ${username}! Your account has been updated.`,
@@ -314,17 +317,28 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(accountUpdate.rejected, (state, action) => {
       state.loading = false;
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        logoutAction(state);
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
     })
 
-    .addCase(accountDeletion.pending, (state, action) => {
+    .addCase(accountDeletion.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(accountDeletion.fulfilled, (state, action) => {
+    .addCase(accountDeletion.fulfilled, (state) => {
       state.loading = false;
       state.isLogged = false;
       state.sessionId = null;
@@ -338,13 +352,24 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(accountDeletion.rejected, (state, action) => {
       state.loading = false;
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        logoutAction(state);
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
     })
 
-    .addCase(fetchFavoritesCountries.pending, (state, action) => {
+    .addCase(fetchFavoritesCountries.pending, (state) => {
       state.loading = true;
       state.infiniteLoading = true;
       state.alert = null;
@@ -357,17 +382,28 @@ const userReducer = createReducer(initialState, (builder) => {
     .addCase(fetchFavoritesCountries.rejected, (state, action) => {
       state.loading = false;
       state.infiniteLoading = true;
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        logoutAction(state);
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
     })
 
-    .addCase(addFavoriteCountry.pending, (state, action) => {
+    .addCase(addFavoriteCountry.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(addFavoriteCountry.fulfilled, (state, action) => {
+    .addCase(addFavoriteCountry.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
@@ -376,17 +412,29 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(addFavoriteCountry.rejected, (state, action) => {
       state.loading = false;
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
+
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        logoutAction(state);
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
     })
 
-    .addCase(removeFavoriteCountry.pending, (state, action) => {
+    .addCase(removeFavoriteCountry.pending, (state) => {
       state.loading = true;
       state.alert = null;
     })
-    .addCase(removeFavoriteCountry.fulfilled, (state, action) => {
+    .addCase(removeFavoriteCountry.fulfilled, (state) => {
       state.loading = false;
       state.alert = {
         type: 'success',
@@ -395,10 +443,51 @@ const userReducer = createReducer(initialState, (builder) => {
     })
     .addCase(removeFavoriteCountry.rejected, (state, action) => {
       state.loading = false;
-      state.alert = {
-        type: 'error',
-        message: action.error.message ?? 'Unknown error occurred.',
-      };
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        logoutAction(state);
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
+    })
+
+    .addCase(fetchAdminStatsData.pending, (state) => {
+      state.loading = true;
+      state.infiniteLoading = true;
+      state.alert = null;
+    })
+    .addCase(fetchAdminStatsData.fulfilled, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = false;
+      state.stats = action.payload;
+    })
+    .addCase(fetchAdminStatsData.rejected, (state, action) => {
+      state.loading = false;
+      state.infiniteLoading = true;
+      if (
+        action.error.message === 'token invalid' ||
+        'No refresh token found'
+      ) {
+        state.alert = {
+          type: 'error',
+          message: 'Session expired. Please log in again.',
+        };
+        logoutAction(state);
+      } else {
+        state.alert = {
+          type: 'error',
+          message: action.error.message ?? 'Unknown error occurred.',
+        };
+      }
     })
 
     .addCase(handleError, (state, action) => {

@@ -3,7 +3,7 @@
 import { useMediaQuery } from 'react-responsive';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../GlobalRedux/hooks';
-import { fetchAdminStatsData } from '../../GlobalRedux/store/reducers/stats';
+import { fetchAdminStatsData } from '../../GlobalRedux/store/reducers/user';
 import { fetchFlagsData } from '../../GlobalRedux/store/reducers/flags';
 
 import AdminTable from '../AdminTable';
@@ -13,9 +13,9 @@ export default function Administrator() {
   const dispatch = useAppDispatch();
   const AdminWidth = useAppSelector((state) => state.home.currentWidth);
   const isSideBarOpen = useAppSelector((state) => state.home.sideBar);
-  const stats = useAppSelector((state) => state.stats.stats);
+  const stats = useAppSelector((state) => state.user.stats);
   const flags = useAppSelector((state) => state.flags.flags);
-  const loadingStats = useAppSelector((state) => state.stats.loading);
+  const loadingStats = useAppSelector((state) => state.user.loading);
   const loadingFlags = useAppSelector((state) => state.flags.loading);
   const isLargeScreen = useMediaQuery({ minWidth: 1024 });
   const isLogged = useAppSelector((state) => state.user.isLogged);

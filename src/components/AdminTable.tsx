@@ -16,7 +16,7 @@ function AdminTable({ stats, flags }: AdminTableProps) {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 10;
   const infiniteLoadingInfos = useAppSelector(
-    (state) => state.stats.infiniteLoading
+    (state) => state.user.infiniteLoading
   );
 
   if (infiniteLoadingInfos) {

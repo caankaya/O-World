@@ -4,7 +4,6 @@ import { clearCountryAlert } from '../GlobalRedux/store/reducers/country';
 import { clearFlagsAlert } from '../GlobalRedux/store/reducers/flags';
 import { clearGraphAlert } from '../GlobalRedux/store/reducers/graph';
 import { clearPlanetAlert } from '../GlobalRedux/store/reducers/planet';
-import { clearStatsAlert } from '../GlobalRedux/store/reducers/stats';
 import { clearUserAlert } from '../GlobalRedux/store/reducers/user';
 import { useEffect, useState } from 'react';
 
@@ -15,7 +14,6 @@ function Alert({ type, message }: AlertType) {
   const handleClickCloseAlert = () => {
     setVisible(false);
     dispatch(clearUserAlert());
-    dispatch(clearStatsAlert());
     dispatch(clearPlanetAlert());
     dispatch(clearGraphAlert());
     dispatch(clearFlagsAlert());
@@ -27,7 +25,6 @@ function Alert({ type, message }: AlertType) {
     const timer = setTimeout(() => {
       setVisible(false);
       dispatch(clearUserAlert());
-      dispatch(clearStatsAlert());
       dispatch(clearPlanetAlert());
       dispatch(clearGraphAlert());
       dispatch(clearFlagsAlert());
