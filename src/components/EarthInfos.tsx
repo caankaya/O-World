@@ -220,7 +220,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
       </motion.div>
 
       {/* Continents */}
-      <div className="stat">
+      <div className="stat overflow-auto">
         <div className="stat-title">Continents</div>
         <div className="stat-value text-secondary flex flex-col">
           {earthData.continents.join(', ')}
