@@ -1,8 +1,8 @@
-### 🌍 oWorld - The Earth Encyclopedia by Extraterrestrials 👽
+### 🌍 O'World - The Earth Encyclopedia by Extraterrestrials 👽
 
-oWorld is a web application in the form of a dashboard that presents a fascinating overview of each country on Earth.
+O'World is a web application in the form of a dashboard that presents a fascinating overview of each country on Earth.
 
-oWorld Screenshot
+![O'World Screenshot](./public/Presentation.gif)
 
 ### 🚀 Project Introduction
 

@@ -12,7 +12,6 @@ import infosReducer from './reducers/infos';
 const store = configureStore({
   reducer: {
     planet: planetReducer,
-
     country: countryReducer,
     home: homeReducer,
     user: userReducer,

@@ -10,13 +10,14 @@ const axiosInstance = axios.create({
   baseURL: 'https://projet-05-o-world-back-production.up.railway.app/api',
 });
 
+console.log('axiosInstance :', axiosInstance);
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       config.headers['Authorization'] = `Bearer ${accessToken}`;
     }
-
     return config;
   },
   (error) => {
@@ -30,7 +31,7 @@ axiosInstance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-
+    console.log('originalRequest :', originalRequest);
     if (
       error.response &&
       error.response.data.httpCode === 401 &&
