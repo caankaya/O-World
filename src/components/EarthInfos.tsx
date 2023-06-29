@@ -89,7 +89,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
     {
       title: 'Estimated Population',
       value: parseInt(estimatedPopulation.toFixed(0)),
-      unit: 'Humans',
+      unit: '',
     },
     {
       title: 'Orbital Period',
@@ -222,7 +222,7 @@ function EarthInfos({ earthData }: { earthData: Earth }) {
       {/* Continents */}
       <div className="stat">
         <div className="stat-title">Continents</div>
-        <div className="stat-value text-secondary flex flex-col">
+        <div className="stat-value text-secondary flex flex-col overflow-auto">
           {earthData.continents.join(', ')}
         </div>
       </div>
