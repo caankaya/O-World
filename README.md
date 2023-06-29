@@ -44,7 +44,7 @@ npm run dev
 
 ### 🌐 Deployment
 
-oWorld is deployed on Railway, Vercel, and Hostinger and can be accessed for the last one via the following URL: https://oworld.space/.
+oWorld is deployed on Railway, Vercel, and Hostinger and can be accessed for the last one via the following URL: https://oworld.up.railway.app/
 
 ### 👽 Enjoy your journey through space
 
